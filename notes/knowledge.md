@@ -24,7 +24,7 @@ There is more about how to configuring g++ on my youtube folder *other cs videos
 
 To compile and run cpp program, run ```gcc hello.cpp -o hello```, then run ```./hello```
 
-The difference between gcc compiler and g++ compiler (they are actually not compiler, but ask for GNU compiler), is that for .cpp file, both gcc and g++ view it as cpp file, while fot .c file,  gcc view it as c file but g++ view it as cpp file. They also include different #indef, search more detail. 
+The difference between gcc compiler and g++ compiler (they are actually not compiler, but ask for GNU compiler), is that for .cpp file, both gcc and g++ view it as cpp file, while for .c file,  gcc view it as c file but g++ view it as cpp file. They also include different #indef, search for more details. 
 
 
 
@@ -33,8 +33,6 @@ The difference between gcc compiler and g++ compiler (they are actually not comp
 Remember to change python path
 
 Based on my knowledge, there are three running environment for python - **conda environment, virtual environment, and global environment.** conda is for running Anaconda. Under global environment, all the dependencies you installed are globally, while under virtual environment they are kind of locally and will not affect global environment. 
-
-Wait what is dependencies?
 
 
 

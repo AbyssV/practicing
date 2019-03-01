@@ -6,6 +6,3 @@
 - vim
 - c++
 
-today 
-- what is python dependency
-- what's the relationship between maven and java?

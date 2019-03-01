@@ -88,13 +88,34 @@ Recall that the JVM is responsible for disposing of unused memory, and that garb
 
 Beyond memory, the execution engine manages resources for file system access and network I/O. Since the JVM is interoperable across operating systems, this is no mean task. In addition to each application's resource needs, the execution engine must be responsive to each OS environment. That is how the JVM is able to handle in-the-wild demands.
 
-### more resources
+### wikipedia
 
-https://en.wikipedia.org/wiki/Java_virtual_machine
+Having a specification ensures interoperability of Java programs across different implementations so that program authors using the Java Development Kit (JDK) need not worry about idiosyncrasies of the underlying hardware platform.
 
-https://www.geeksforgeeks.org/jvm-works-jvm-architecture/
+#### Class loader
 
-https://www.geeksforgeeks.org/differences-jdk-jre-jvm/
+The class loader performs three basic activities in this strict order:
+
+1. Loading: finds and imports the binary data for a type
+2. Linking: performs verification, preparation, and (optionally) resolution
+   - Verification: ensures the correctness of the imported type
+   - Preparation: allocates memory for class variables and initializing the memory to default values
+   - Resolution: transforms symbolic references from the type into direct references.
+3. Initialization: invokes Java code that initializes class variables to their proper starting values.
+
+In general, there are two types of class loader: bootstrap class loader and user defined class loader.
+
+Every Java virtual machine implementation must have a bootstrap class loader, capable of loading trusted classes. The Java virtual machine specification doesn't specify how a class loader should locate classes.
+
+#### JVM languages
+
+A JVM language is any language with functionality that can be expressed in terms of a valid class file which can be hosted by the Java Virtual Machine. A class file contains Java Virtual Machine instructions (Java byte code) and a symbol table, as well as other ancillary information. The class file format is the hardware- and operating system-independent binary format used to represent compiled classes and interfaces.
+
+There are several JVM languages, both old languages ported to JVM and completely new languages. JRuby and Jython are perhaps the most well-known ports of existing languages, i.e. Ruby and Python respectively. Of the new languages that have been created from scratch to compile to Java bytecode, Clojure, Apache Groovy, Scala and Kotlin may be the most popular ones. A notable feature with the JVM languages is that they are compatible with each other, so that, for example, Scala libraries can be used with Java programs and vice versa.
+
+Java 7 JVM implements JSR 292: Supporting Dynamically Typed Languages on the Java Platform, a new feature which supports dynamically typed languages in the JVM. This feature is developed within the Da Vinci Machine project whose mission is to extend the JVM so that it supports languages other than Java.
+
+**More details check [How JVM Works – JVM Architecture?](https://www.geeksforgeeks.org/jvm-works-jvm-architecture/), [Differences between JDK, JRE and JVM](https://www.geeksforgeeks.org/differences-jdk-jre-jvm/)**
 
 ## Maven
 
