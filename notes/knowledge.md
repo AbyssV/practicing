@@ -6,12 +6,18 @@
 
 **VS Live Share** collaborate with others remotely on any languages and OS; edit and debug together, with shared terminals; great for pair programming and code reviews
 
+**IntelliSense**
+
+
+
 - I downloaded Anaconda VScode extension but I don't know how to use it
 - you can split windows, terminals in vscode
 - when debugging, you can edit expressions in **watch** window, you can also enter that expression in debug console. **add configuration** to edit debugging configuration
 - you can configure your own task (works like shortcuts)
 - vscode supports unit test, you need to configure it and import unit test library
 - vscode has integration with Emmet, so if you type ```!```(exclamation mark) and press ```Enter``` that will generate an HTML boilerplate for you including all the tags you need for it to render correctly on mobile device
+
+check [VS Code documentation](https://code.visualstudio.com/docs/setup/mac)
 
 ## c/c++
 
@@ -40,6 +46,10 @@ To compile and run cpp program, run ```gcc hello.cpp -o hello```, then run ```./
 The difference between gcc compiler and g++ compiler (they are actually not compiler, but ask for GNU compiler), is that for .cpp file, both gcc and g++ view it as cpp file, while for .c file,  gcc view it as c file but g++ view it as cpp file. They also include different #indef, search for more details. 
 
 
+
+make sure to check [documentation about the tasks.json format](https://go.microsoft.com/fwlink/?LinkId=733558)
+
+[more attributes in launch.json](https://go.microsoft.com/fwlink/?linkid=830387)
 
 ## python
 
