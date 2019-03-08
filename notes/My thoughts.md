@@ -6,3 +6,8 @@
 - vim
 - c++
 
+
+
+#### quesions
+
+- what is **django**, **jinja**

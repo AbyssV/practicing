@@ -1,6 +1,19 @@
-### vs code
+# vs code
 
-#### c/c++
+**Visual Studio IntelliCode** auto-complete suggestions based on machine learning models, Microsoft Python Language Server privodes faster startup and completion performance
+
+**docker** container supports multiple languages. Check for more info
+
+**VS Live Share** collaborate with others remotely on any languages and OS; edit and debug together, with shared terminals; great for pair programming and code reviews
+
+- I downloaded Anaconda VScode extension but I don't know how to use it
+- you can split windows, terminals in vscode
+- when debugging, you can edit expressions in **watch** window, you can also enter that expression in debug console. **add configuration** to edit debugging configuration
+- you can configure your own task (works like shortcuts)
+- vscode supports unit test, you need to configure it and import unit test library
+- vscode has integration with Emmet, so if you type ```!```(exclamation mark) and press ```Enter``` that will generate an HTML boilerplate for you including all the tags you need for it to render correctly on mobile device
+
+## c/c++
 
 ```
 // the following code block is about how to configure cygwin terminal, for me i'm using git bash instead, so the path is for git bash
@@ -28,15 +41,34 @@ The difference between gcc compiler and g++ compiler (they are actually not comp
 
 
 
- #### python
+## python
 
 Remember to change python path
 
 Based on my knowledge, there are three running environment for python - **conda environment, virtual environment, and global environment.** conda is for running Anaconda. Under global environment, all the dependencies you installed are globally, while under virtual environment they are kind of locally and will not affect global environment. 
 
+### shortcuts
+
+- ```.code``` to run vscode under current directory (need to install extension)
+-  ```cmd+Shift+p``` for command palette (```cmd+p``` for **help**?)
+- ```Tab``` to shift all your code one tab, ```Tab+Shift``` to back shift your code one tab
+-  to run selected code
+- ```cmd+Shift+o``` to check all your methods(symbols) 
+- if you want to create a python file ```main.py``` under folder **app**, you can create a folder ```app/main.py``` to create the folder and python file
+
+### notes
+
+- you can modify your own ```.pylintrc``` file to customize messages
+- you can create a virtual environment, conda environment and corresponding terminal shell using vscode (check how to create virtual environments, download requirements)
+- 
+- 
+- 
 
 
-#### Java
+
+
+
+## Java
 
 
 

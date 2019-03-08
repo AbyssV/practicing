@@ -1,0 +1,1 @@
+what is the relationship between gcc, cygwin, mingw, cmake, clang?
