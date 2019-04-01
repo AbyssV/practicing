@@ -1,38 +1,87 @@
+### Everything Is a File 
+
+To Linux, a file is just a stream of bits and bytes. Linux doesn't care what those bits and bytes form; instead, the programs running on Linux care. To Linux, a text document and a network connection are both files; it's your text editor that knows how to work with the text document, and your Internet applications that recognize the network connection.
+
+- Linux (and Unix) filenames can be up to 255 characters in length. Unlike Windows and Mac OS machines, Linux boxes are case-sensitive when it comes to filenames.Case-sensitivity also means that commands and filenames **must be entered exactly to match their real command names or filenames**.
+- **```/``` is never an option because that particular character is used to separate directories and files**. You could use a dash, forming books-to-buy.txt, but I find that underscores work nicely as word separators while remaining more unobtrusive than dashes. **If you do use a dash, though, do not place it at the beginning of a filename**. For ```\ [] {} * ? ' ''``` must be escaped by placing a ```\``` in front of the characters, which tells the shell that it should ignore their special usage and treat them as simple characters. A simpler method that's a bit less onerous is to surround the filename with ```""```, which function similarly to the ```\```
+
+
+
 ### File System
 
-1. `ls`
+1. ```ls -R ~/iso``` The -R option traverses the iso directory recursively, showing you the contents of the main iso directory and every subdirectory as well. Each folder is introduced with its path relative to the directory in which you started followed by a colon, and then the items in that folder are listed.
 
-   `ls -1`
+   `ls -1 (or ls --format=single-column)`/```ls -m or --format=commas```
 
-   `ls -1 | grep m`
+   ```ls -r``` reverse the default output of the command and options you're inputting
 
-2. `cd ~`
+   ```ls -X``` sort alphabetically by the file extension
 
-   `cd /`回到根目录
+   ```ls -t (or ls --sort=time)``` sort a directory's contents by date and time
 
-   `cd ..`回到上一级目录
+   ```ls -S (or ls --sort=size)``` sort by size
 
-3. `echo 'Hello World'`
+   ```ls -a``` displays both hidden and unhidden items
 
-   `echo $USER
-    echo ​$HOME`
-   ` echo ~`
-   ` echo 'Hello World' > foo.txt`
-   ` echo 'Hey How' >> foo.txt`
+   ```ls -h``` transform file size to kilobytes(K), megabytes(M) and gigabytes(G), a rounding is taken place
 
-`touch`创建空文件
+   ```ls -F```: ```*``` Executable ```/```Directory ```@```Symbolic link ```|```FIFO ```=```Socket
 
-`cp file1 file2 dir1`将文件file1、file2复制到目录dir1
+   ```ls -l```: ```-```  Regular file ```-```  Executable ```d``` Directory ```l``` Symbolic link ```s``` Socket ```b``` Block device ```c``` Character device ```p``` Named pipe
 
-`cp -r dir1 dirl2`将dir1下的所有文件(`-r`)及子目录复制到dir2
+   In each case, ```r``` means "yes, read is allowed"; ```w``` means "yes, write is allowed" (with "write" meaning both changing and deleting); and ```x``` means "yes, execute is allowed." A ```-```means "no, do not allow this action." If that ```-``` is located where an ```r``` would otherwise show itself, that means "no, read is not allowed." The same holds true for both ```w``` and ```x```. (Normally ```rwx```means the file's owner, the file's group, and all the other users on the system can read, write or execute this file)
 
-`mv file1 file3`将当前目录下文件file1更名为file3
+   In the case of a directory, ```r``` means that the user can list the contents of the directory with the ```ls```command. A ```w``` indicates that users can add more files into the directory, rename files that are already there, or delete files that are no longer needed. That brings us to ```x```, which corresponds to the capability to access a directory in order to run commands that access and use files in that directory, or to access subdirectories inside that directory.
 
-`mv file2 dir2`将文件file2移动到目录dir2下
+   `ls -1 | grep m`/
 
-`rm file3`删除文件file3 (rmdir 命令只能删除空的文件夹)
+2. ```cd ~``` ```~``` is like an alias meaning your home directory
 
-`rm -r dir1`删除目录dir1(`-r`连同子目录删除。`-f`强制删除， 即忽略不存在的文件)
+   ```cd /```回到根目录
+
+   ```cd ..```回到上一级目录
+
+   ```cd -``` takes you back to your previous directory 
+
+3. ```echo 'Hello World'```
+
+   ```echo $USER```
+   ```echo $HOME```
+   ```echo ~```
+   ``` echo 'Hello World' > foo.txt```
+   ``` echo 'Hey How' >> foo.txt```
+
+4. ```touch```创建空文件
+
+   ```touch``` can simultaneously update both the access and modification times for a file (or folder). You can be more specific, if you'd like. If you want to change just the access time, use the ```-a``` option (or ```--time=access```); to alter the modification time only, use``` -m``` (or ```--time=modify```).
+
+   You can only use the ```touch``` command on a file and change the times if you have write permission for that file. Otherwise, ```touch``` fails. 
+
+   ```touch -t``` Instead, you can pick whatever date and time you'd like, as long as you use this option and pattern: ```-t [[CC]YY]MMDDhhmm[.ss]```. It's very important that you include the zeroes if the number you want to use isn't normally two digits or your pattern won't work. (check the book for more details)
+
+5. ```cp file1 file2``` copy ```file1``` named ```file2```to the same directory 
+
+   ```cp dir1/file1 dir2/file2``` copy ```file1``` in ```dir1``` named ```file2``` to ```dir2```
+
+   ```cp dir1/file1 .``` copy ```file1``` in ```dir1``` to current directory
+
+   ```cp -v ~/pix/on_floor_0[1-3].jpg .``` copy ```on_floor_01```, ```copy on_floor_02```, ```copy on_floor_03``` to the current directory and show the steps
+
+   ```cp -i ~/pix/on_floor_0[1-3].jpg .``` If you tried once again to copy the same files but used the ```-i``` option this time, you'd get ```cp: overwrite './on_floor_01.jpg'?``` many times
+
+   ```cp -R dir1 dirl2``` the directory, as well as its contents, are copied. 
+
+   ```cp -a``` copy files as perfect backups in another directory. ```-a``` ensures that ```cp``` doesn't follow symbolic links (which could grossly balloon your copy), preserves key file attributes such as owner and timestamp, and recursively follows subdirectories.
+
+6. ```mv file1 file3```将当前目录下文件file1更名为file3
+
+   ```mv file2 dir2```将文件file2移动到目录dir2下
+
+7. ```rm file3```删除文件file3 (rmdir 命令只能删除空的文件夹)
+
+   ```rm -r dir1```删除目录dir1(`-r`连同子目录删除。`-f`强制删除， 即忽略不存在的文件)
+
+```mkdir -pv``` tells you what ```mkdir``` is doing every step of the way, so you don't need to actually check to make sure ```mkdir``` has done its job.
 
 `cat`显示文件内容 (`space`显示下一行`enter`显示下一页)
 
