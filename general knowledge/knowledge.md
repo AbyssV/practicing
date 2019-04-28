@@ -1,3 +1,5 @@
+[TOC]
+
 # vs code
 
 **Visual Studio IntelliCode** auto-complete suggestions based on machine learning models, Microsoft Python Language Server privodes faster startup and completion performance
@@ -42,6 +44,8 @@ I like Cygwin cz it provides unix-style command line.
 There is more about how to configuring g++ on my youtube folder *other cs videos*, remember to change debug path, include path, you can also change **argvs** and **group**
 
 To compile and run cpp program, run ```gcc hello.cpp -o hello```, then run ```./hello```
+
+You could also ```g++ -Wall -std=c++11 your_file.cpp -o your_program```
 
 The difference between gcc compiler and g++ compiler (they are actually not compiler, but ask for GNU compiler), is that for .cpp file, both gcc and g++ view it as cpp file, while for .c file,  gcc view it as c file but g++ view it as cpp file. They also include different #indef, search for more details. 
 

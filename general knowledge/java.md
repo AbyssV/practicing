@@ -1,4 +1,8 @@
-## To run Java program using command line on windows
+[TOC]
+
+
+
+# To run Java program using command line on windows
 
 ```C:\Desktop> set path=%path%;C:\Program Files\Java\jdk1.5.0_09\bin```
 
@@ -20,7 +24,7 @@ In case your Java class is in some package. Suppose your Java class named ABC.ja
 
 Java is case-sensitive!
 
-### Creation of an executable *.jar file
+## Creation of an executable *.jar file
 
 You've got two options here 
 
@@ -35,7 +39,7 @@ To run the Jar File: ```java -jar TheJavaFile.jar```
 
 
 
-## what is JVM(Java Virtual Machine)?
+# what is JVM(Java Virtual Machine)?
 
 The JVM has two primary functions: to allow Java programs to run on any device or operating system (known as the "Write once, run anywhere" principle), and to manage and optimize program memory. When Java was released in 1995, all computer programs were written to a specific operating system, and program memory was managed by the software developer. So the JVM was a revelation.
 
@@ -49,11 +53,11 @@ Let's break those down:
 > **The JVM as a virtual machine**
 > The JVM is a virtual machine that runs Java class files in a portable way. Being a virtual machine means the JVM is an abstraction of an underlying, actual machine--such as the server that your program is running on. Regardless of what operating system or hardware is actually present, the JVM creates a predictable environment for programs to run within. Unlike a true virtual machine, however, *the JVM doesn't create a virtual operating system*. It would be more accurate to describe the JVM as a *managed runtime environment*, or a process virtual machine.
 
-### Memory management in the JVM
+## Memory management in the JVM
 
 The most common interaction with a running JVM is to check the memory usage in the **heap** and **stack**. The most common adjustment is tuning the JVM's memory settings.
 
-#### Garbage collection
+### Garbage collection
 
 Before Java, all program memory was managed by the programmer. In Java, program memory is managed by the JVM. The JVM manages memory through a process called garbage collection, which continuously identifies and eliminates unused memory in Java programs. Garbage collection happens inside a running JVM.
 
@@ -62,11 +66,11 @@ In the early days, Java came under a lot of criticism for not being as "close to
 > **What does 'close to the metal' mean?**
 > When programmers say a programming language or platform is "close to the metal," we mean the developer is able to programmatically (by writing code) manage an operating system's memory. In theory, programmers can wring more performance out of our programs by stipulating how much is used and when to discard it. In most cases, delegating memory management to a highly refined process like the JVM yields better performance and fewer errors than doing it yourself.
 
-### Loading and executing class files in the JVM
+## Loading and executing class files in the JVM
 
 We've talked about the JVM's role in running Java applications, but how does it perform its function? In order to run Java applications, the JVM depends on the **Java class loader** and a **Java execution engine**.
 
-#### The Java class loader in the JVM
+### The Java class loader in the JVM
 
 **Everything in Java is a class, and all Java applications are built from classes.** An application could consist of one class or thousands. In order to run a Java application, a JVM must load compiled .class files into a context, such as a server, where they can be accessed. A JVM depends on its class loader to perform this function.
 
@@ -74,7 +78,7 @@ The Java class loader is the part of the JVM that loads classes into memory and 
 
 Every Java virtual machine includes a class loader. The JVM spec describes standard methods for querying and manipulating the class loader at runtime, but JVM implementations are responsible for fulfilling these capabilities. From the developer's perspective, the underlying class loader mechanisms are typically a black box.
 
-#### The execution engine in the JVM
+### The execution engine in the JVM
 
 Once the class loader has done its work of loading classes, the JVM begins executing the code in each class. The execution engine is the JVM component that handles this function. The execution engine is essential to the running JVM. In fact, for all practical purposes, it is the JVM instance.
 
@@ -88,11 +92,11 @@ Recall that the JVM is responsible for disposing of unused memory, and that garb
 
 Beyond memory, the execution engine manages resources for file system access and network I/O. Since the JVM is interoperable across operating systems, this is no mean task. In addition to each application's resource needs, the execution engine must be responsive to each OS environment. That is how the JVM is able to handle in-the-wild demands.
 
-### wikipedia
+### Wikipedia
 
 Having a specification ensures interoperability of Java programs across different implementations so that program authors using the Java Development Kit (JDK) need not worry about idiosyncrasies of the underlying hardware platform.
 
-#### Class loader
+### Class loader
 
 The class loader performs three basic activities in this strict order:
 
@@ -107,7 +111,7 @@ In general, there are two types of class loader: bootstrap class loader and user
 
 Every Java virtual machine implementation must have a bootstrap class loader, capable of loading trusted classes. The Java virtual machine specification doesn't specify how a class loader should locate classes.
 
-#### JVM languages
+### JVM languages
 
 A JVM language is any language with functionality that can be expressed in terms of a valid class file which can be hosted by the Java Virtual Machine. A class file contains Java Virtual Machine instructions (Java byte code) and a symbol table, as well as other ancillary information. The class file format is the hardware- and operating system-independent binary format used to represent compiled classes and interfaces.
 
@@ -117,17 +121,17 @@ Java 7 JVM implements JSR 292: Supporting Dynamically Typed Languages on the Jav
 
 **More details check [How JVM Works – JVM Architecture?](https://www.geeksforgeeks.org/jvm-works-jvm-architecture/), [Differences between JDK, JRE and JVM](https://www.geeksforgeeks.org/differences-jdk-jre-jvm/)**
 
-## Maven
+# Maven
 
-### From Google
+## From Google
 
-#### What it does
+### What it does
 
 Maven is a "build management tool", it is for defining how your ```.java``` files get compiled to ```.class```, packaged into ```.jar``` (or ```.war``` or ```.ear```) files, (pre/post)processed with tools, managing your **CLASSPATH**, and all others sorts of tasks that are required to build your project. It is similar to *Apache Ant* or *Gradle* or *Makefiles* in C/C++, but it attempts to be completely self-contained in it that you shouldn't need any additional tools or scripts by incorporating other common tasks like downloading & installing necessary libraries etc.
 
 It is also designed around the "build portability" theme, so that you don't get issues as having the same code with the same buildscript working on one computer but not on another one (this is a known issue, we have VMs of Windows 98 machines since we couldn't get some of our Delphi applications compiling anywhere else). *Because of this, it is also the best way to work on a project between people who use different IDEs* since IDE-generated Ant scripts are hard to import into other IDEs, but all IDEs nowadays understand and support Maven (IntelliJ, Eclipse, and NetBeans). Even if you don't end up liking Maven, it ends up being the point of reference for all other modern builds tools.
 
-#### Why you should use it
+### Why you should use it
 
 There are three things about Maven that are very nice.
 
@@ -139,13 +143,13 @@ There are three things about Maven that are very nice.
 
 The initial learning curve is steep, but (nearly) every professional Java developer uses Maven or wishes they did. You should use Maven on every project although don't be surprised if it takes you a while to get used to it and that sometimes you wish you could just do things manually, since learning something new sometimes hurts. However, once you truly get used to Maven you will find that build management takes almost no time at all.
 
-#### How to Start
+### How to Start
 
 The best place to start is [Maven in 5 Minutes](http://maven.apache.org/guides/getting-started/maven-in-five-minutes.html). It will get you start with a project ready for you to code in with all the necessary files and folders set-up (yes, I recommend using the quickstart archetype, at least at first).
 
 After you get started you'll want a better understanding over how the tool is intended to be used. For that [Better Builds with Maven](https://web.archive.org/web/20130903151814/http://www.maestrodev.com/wp-content/uploads/2012/03/betterbuildswithmaven-2008.pdf) is the most thorough place to understand the guts of how it works, however, [Maven: The Complete Reference](https://www.sonatype.com/ebooks) is more up-to-date. Read the first one for understanding, but then use the second one for reference.
 
-### 来自百度
+## 来自百度
 
 c/c++软件自动编译有makefile,
 程序源码管理有cvs,subverion,

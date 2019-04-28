@@ -1,4 +1,4 @@
-#### mostly on local repo
+# mostly on local repo
 
 ```
 cd /c/Users/"Yating Liu"/Desktop/Inf43Hw3
@@ -125,7 +125,7 @@ one more git log option to know about is --skip=N, where N is a non-negative int
 
 
 
-#### mostly on remote repo
+# mostly on remote repo
 
 `git remote add origin (url of the server)`
 `git push -u origin your branch name (same as git push git@github.com:git/git.git )`

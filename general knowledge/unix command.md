@@ -1,4 +1,4 @@
-### Everything Is a File 
+# Everything Is a File
 
 To Linux, a file is just a stream of bits and bytes. Linux doesn't care what those bits and bytes form; instead, the programs running on Linux care. To Linux, a text document and a network connection are both files; it's your text editor that knows how to work with the text document, and your Internet applications that recognize the network connection.
 
@@ -7,7 +7,7 @@ To Linux, a file is just a stream of bits and bytes. Linux doesn't care what tho
 
 
 
-### File System
+# File System
 
 1. ```ls -R ~/iso``` The -R option traverses the iso directory recursively, showing you the contents of the main iso directory and every subdirectory as well. Each folder is introduced with its path relative to the directory in which you started followed by a colon, and then the items in that folder are listed.
 
@@ -101,7 +101,7 @@ To Linux, a file is just a stream of bits and bytes. Linux doesn't care what tho
 
 `grep -n name *.[chS]`用于查找文件中符合字符串的哪行。
 
-### vim 
+# vim
 
 `:wq`保存并退出`q!`不保存文件并退出vi
 
@@ -127,7 +127,7 @@ To Linux, a file is just a stream of bits and bytes. Linux doesn't care what tho
 
 `x`删除字符 `dd`删除整行到行首 `d$`删除整行到行尾
 
-### attention
+# attention
 
 1. unless you specify `-i` (negate case lock), all files, folders and directories named with an upper case will not be shown
 
