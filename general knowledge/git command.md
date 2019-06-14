@@ -26,9 +26,26 @@ git status (branch master)
 git add file1.txt
 ```
 
-when you `add` a file you are telling Git to keep track of it.`add` also tells Git to stage the file, which means put it in the stage of being ready to be committed
+when you `add` a file you are telling Git to keep track of it.`add` also tells Git to **stage** the file, which means put it in the stage of being ready to be committed
+
+```git add .``` vs ```git add -A```
+
+The difference is that ```git add -A``` also stages files in higher directories that still belong to the same git repository. ```git add .``` only affects the current directory and subdirectories. 
 
 you use the `git add` command to stage a new or modified file. *However, to stage the deletion of a file, you need to use the **git rm*** So run the commands `git add file1.txt` and `git rm file2.txt` to set the stage
+
+```git rm --cached filename.extension``` It will not remove the file from the staging area only, but entirely from tracking. If you just want to remove a file from staging please use ```git reset filename.extension```.
+
+
+
+And better than ```git add .``` is ```git add -p``` because it will interactively ask what to stage, this will show you all the changes again and will show you comment / logging that you forgot to remove as well. Also commit often, as large changes tend to be hard to review / oversee.
+
+```touch .gitignore```
+create a file named **.gitignore**. You can use text editor to open this file, write down the files for directories that you want to ignore in repo. The ignored files will not be shown during execution. 
+
+So use this command when you don't want to upload some files.
+
+
 
 ```
 git commit -m "Committing a new file with my name"
@@ -127,6 +144,10 @@ one more git log option to know about is --skip=N, where N is a non-negative int
 
 # mostly on remote repo
 
+```git remote``` 
+
+the list of remote repos connected to your local project
+
 `git remote add origin (url of the server)`
 `git push -u origin your branch name (same as git push git@github.com:git/git.git )`
 `git pull origin your branch name`
@@ -138,7 +159,12 @@ clone the repository
 create a new branch with name
 `git branch `
 see all the branch, the current branch is green
-`git checkout your branch name`
+
+```git branch your_branch_name```
+
+create a new branch
+
+`git checkout your_branch_name`
 switch to another branch
 `git branch -d`
 delete branch
