@@ -55,6 +55,28 @@ also a sequence of characters
 
 may use iterators to traverse
 
+## boolean 
+
+precedence rules
+
+1. ! ++ -- (unary) + -
+
+2. \* / %
+
+3. \+ -
+
+4. < <= > >=
+
+5. == !=
+
+6. &&
+
+7. ||
+
+8. = += -= \*= /= %=
+
+   
+
 # const
 
 **constants may not be assigned, compiler will give a warning message**
@@ -112,4 +134,111 @@ from highest to lowest
 - typically for handling errors and boundary conditions
 - exceptions are thrown and must be caught
 - exceptions are sent to appropriate catch by type matching
-- 
+
+
+
+# class
+
+```c++
+#include <iostream>
+using namespace std;
+
+
+// you can also use .h file with scope qualifier
+class Complex{
+public:
+    float re, im;
+    // define a constructor
+    // a constructor must build and initialize our objects
+    Complex(float newRe = 0.0, float newIm = 0.0):re(newRe), im(newIm){}
+
+
+    // member functions
+    // members of "this" are directly visible
+    // they may access private and public class members
+    Complex add(Complex c){
+        return Complex(this->re+c.re, im+c.im);
+
+    }
+
+    void print(ostream &out){
+        out << "(" << re << "+" << im << "i)";
+
+    }
+
+
+
+    ~Complex(){} // it is called just before deallocation of this object
+
+};
+
+// c++ allows us to define a << operator for our new type
+// operator << can not be a member function
+ostream & operator << (ostream&out, Complex c){
+    c.print(out);
+    return out;
+
+}
+
+```
+
+
+
+# statement
+
+## switch statement
+
+```c++
+int main(){
+    int i = getIntegerFromUser(); 
+    switch(i){
+        case 1:
+        case 3:
+        case 5:
+        case 7:    
+        case 9:
+            cout << i << "is odd\n";
+            break;
+        case 0:
+        case 2:
+        case 4:
+        case 6:
+        case 8:
+            cout << i << "is even\n";
+            break;
+        default:
+            cout << i << "isn't in range 0 to 9\n";
+            break;
+    }
+```
+
+## do while statement
+
+while: natural for testing before doing an action that involves repetition
+
+do while: natural for doing an action then testing for completion before repetition
+
+**loop control variable is only in scope over loop body**
+
+**some errors may cause an infinite loop**
+
+
+
+# Array
+
+## simple arrays
+
+a fixed size, single-dimensional array of elements of the same type
+
+## character arrays
+
+- also known as character strings
+- character strings are arrays of characters terminated by '\0'
+- tricky thing is you need an extra element for the terminator
+
+```c++
+char s1[4] = {'a', 'b', 'c','\0'};
+char s2[4] = "abc";
+char s3[] = "abc";
+```
+
