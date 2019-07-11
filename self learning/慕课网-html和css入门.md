@@ -111,4 +111,61 @@ HTML标签不区分大小写，```<h1>```和```<H1>```是一样的，但建议�
   3. title：提供在图像可见时对图像的描述(鼠标滑过图片时显示的文本)；
   4. 图像可以是GIF，PNG，JPEG格式的图像文件。
 
-  
+- ```form```标签：用HTML表单(form)。表单是可以把浏览者输入的数据传送到服务器端，这样服务器端程序就可以处理表单传过来的数据。
+
+  ```html
+  <form    method="post"   action="save.php">
+          <label for="username">用户名:</label>
+          <input type="text" name="username" />
+          <label for="pass">密码:</label>
+          <input type="password" name="pass" />
+  </form>
+  ```
+
+  1. ```<form>``` ：```<form>```标签是成对出现的，以```<form>```开始，以```</form>```结束。
+
+  2. ```action``` ：浏览者输入的数据被传送到的地方,比如一个PHP页面(save.php)。
+
+  3. ```method``` ： 数据传送的方式（**get/post**）。
+
+  **所有表单控件（文本框、文本域、按钮、单选框、复选框等）都必须放在 ```<form></form>``` 标签之间（否则用户输入的信息可提交不到服务器上哦！）。**
+
+  文本/密码输入框
+
+  ```html
+  <form>
+    姓名：
+    <input type="text" name="myName">
+    <br/>
+    密码：
+    <input type="password" name="pass">
+  </form>
+  ```
+
+  1. ```type```：
+     当type="text"时，输入框为文本输入框;
+     当type="password"时, 输入框为密码输入框。
+
+  2. ```name```：为文本框命名，以备后台程序**ASP** 、**PHP**使用。
+
+  3. ```value```：为文本输入框设置默认值。(一般起到提示作用)
+
+- ```<textarea>```：文本域：当用户需要在表单中输入大段文字时，需要用到文本输入域。
+
+  ```html
+  <form  method="post" action="save.php">
+          <label>联系我们</label>
+          <textarea cols="50" rows="10" >在这里输入内容...</textarea>
+  </form>
+  ```
+
+  1. ```<textarea>```标签是成对出现的，以```<textarea>```开始，以```</textarea>```结束。
+
+  2. cols ：多行输入域的列数。
+
+  3. rows ：多行输入域的行数。
+
+  4. 在```<textarea></textarea>```标签之间可以输入默认值。
+
+
+
