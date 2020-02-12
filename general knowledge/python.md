@@ -68,6 +68,12 @@ source <DIR>/bin/activate
 
 ## Use pip for Installing
 
+To upgrade pip: ```python -m pip install --upgrade pip```
+
+To check packages: ```pip list```
+
+Because of the conflicts between Anaconda3 and Python 3.6, I rename the ```python.exe``` under Python3.6 file to ```python3.exe```, every time I use pip, I have to type ```python3 -m pip list```
+
 pip is the recommended installer. The most common usage of pip is to install from the Python Package Index using a requirement specifier. Generally speaking, a requirement specifier is composed of a project name followed by an optional version specifier. PEP 440 contains a full specification of the currently supported specifiers. Below are some examples.
 
 To install the latest version of “SomeProject”: ```pip install "SomeProject"```
@@ -84,8 +90,146 @@ To install a version that’s “compatible” with a certain version: ```pip in
 
 Upgrade an already installed SomeProject to the latest from PyPI: ```pip install --upgrade SomeProject```
 
+To uninstall: ```pip uninstall [options] <package> ...```
+
+
 ## Requirements files
 
 Install a list of requirements specified in a Requirements File: ```pip install -r requirements.txt```
 
+To uninstall: ```pip uninstall [options] -r <requirements file> ...```
+
 For more information, check [python documentation](https://packaging.python.org/tutorials/installing-packages/#installing-packages)
+
+
+
+# p example
+
+## xlwt
+
+```python
+# -*- coding: utf-8 -*-
+#导入xlwt模块
+import xlwt
+# 创建一个Workbook对象，这就相当于创建了一个Excel文件
+book = xlwt.Workbook(encoding='utf-8', style_compression=0)
+'''
+Workbook类初始化时有encoding和style_compression参数
+encoding:设置字符编码，一般要这样设置：w = Workbook(encoding='utf-8')，就可以在excel中输出中文了。
+默认是ascii。当然要记得在文件头部添加：
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+style_compression:表示是否压缩，不常用。
+'''
+#创建一个sheet对象，一个sheet对象对应Excel文件中的一张表格。
+# 在电脑桌面右键新建一个Excel文件，其中就包含sheet1，sheet2，sheet3三张表
+sheet = book.add_sheet('test', cell_overwrite_ok=True)
+# 其中的test是这张表的名字,cell_overwrite_ok，表示是否可以覆盖单元格，其实是Worksheet实例化的一个参数，默认值是False
+# 向表test中添加数据
+sheet.write(0, 0, 'EnglishName')  # 其中的'0-行, 0-列'指定表中的单元，'EnglishName'是向该单元写入的内容
+sheet.write(1, 0, 'Marcovaldo')
+txt1 = '中文名字'
+sheet.write(0, 1, txt1.decode('utf-8'))  # 此处需要将中文字符串解码成unicode码，否则会报错
+txt2 = '马可瓦多'
+sheet.write(1, 1, txt2.decode('utf-8'))
+ 
+# 最后，将以上操作保存到指定的Excel文件中
+book.save(r'e:\test1.xls')  # 在字符串前加r，声明为raw字符串，这样就不会处理其中的转义了。否则，可能会报错
+# 这个真的很有用
+```
+
+
+
+
+
+
+
+# Some techniques
+
+### 爬虫相关
+
+很多网站都有反爬虫的措施，对于没有headers头信息的请求一律认为是爬虫，禁止该请求的访问。因此在每次爬取网页时都需要加上headers头信息。
+
+对于访问过于频繁的请求，客户端的IP会被禁止访问，因此设置代理可以将请求伪装成来自不同的IP，前提是要保证代理的IP地址是有效的。
+
+[bs4库的入门介绍-博客](https://www.cnblogs.com/yuanchenqi/articles/7617280.html)
+
+[简单教学](https://www.cnblogs.com/airnew/p/9981599.html)
+
+### 正则表达式
+
+### 一些注意点
+
+#### Python文件操作中的```a```，```a+```,```w```，```w+```几种方式的区别
+
+r 打开只读文件，该文件必须存在。
+r+ 打开可读写的文件，该文件必须存在。
+w 打开只写文件，若文件存在则文件长度清为0，即该文件内容会消失。若文件不存在则建立该文件。
+w+ 打开可读写文件，若文件存在则文件长度清为零，即该文件内容会消失。若文件不存在则建立该文件。
+a 以附加的方式打开只写文件。若文件不存在，则会建立该文件，如果文件存在，写入的数据会被加到文件尾，即文件原先的内容会被保留。
+a+ 以附加方式打开可读写的文件。若文件不存在，则会建立该文件，如果文件存在，写入的数据会被加到文件尾后，即文件原先的内容会被保留。
+
+b二进制读，wb二进制写，rb+ wb+ ab+二进制读写 
+
+#### 函数：read()，readline()，readlines()，write()，writelines() 
+1、read() 读取整个文件到字符串变量中 
+2、readline() 读取文件中的一行，然后返回整行，包括行结束符到字符串变量中 
+3、readlines() 读取整个文件，返回一个字符串list，列表中的每个元素都是一个字符串，代表一行
+
+#### raw字符串（原始字符串）
+
+如果一个字符串包含很多需要转义的字符，对每一个字符都进行转义会很麻烦。为了避免这种情况，
+
+我们可以在字符串前面加个前缀`r，表示这是一个 raw 字符串，里面的字符就不需要转义了。例如：
+
+`r'\(^_^)/ \(~_~)/'
+
+raw字符串表示原始字符串，我对于原始的理解就是：你看到这个字符串是什么就显示什么，去掉
+
+所有字符都不进行转义，该显示啥就是啥。
+
+#### 多行显示
+
+Python中除了可以使用单引号' '、双引号" "表示一个字符串，还可以使用三引号来表示一个字符串
+
+''' '''。单引号和双引号不能用来表示多行显示，而三引号可以，例如：
+
+```python
+a = '''line1
+line2
+line3'''
+
+print a
+```
+
+还可以将raw字符串和多行字符串结合起来使用：
+
+```python
+a = r'''\(^_^)/
+\(~_
+~)/'''
+ 
+print a
+```
+
+#### 字符串类型
+
+Python中的字符串有两种类型：str类型和unicode类型
+
+str类型采用的ASCII编码，也就是说它无法表示中文。unicode类型采用unicode编码，能够表示任意的字符，
+
+包括中文、日文、韩文等。
+
+在python中字符串默认采用的ASCII编码，如果要显示声明为unicode类型的话，需要在字符串前面加上'u'或者'U'。
+
+```print u'字符串'`
+
+`print '字符串'
+
+注意：如果中文字符串在Python环境下遇到 UnicodeDecodeError，这是因为.py文件保存的格式有问题。可以在
+
+第一行添加注释：` # -*- coding: utf-8 -*-
+
+目的是告诉Python解释器，用UTF-8编码读取源代码。然后用Notepad++ 另存为... 并选择UTF-8格式保存。
+
+ 

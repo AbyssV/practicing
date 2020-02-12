@@ -6,12 +6,16 @@ cd /c/Users/"Yating Liu"/Desktop/Inf43Hw3
 
 to change the current folder/directory
 
+在windows和mac上，backslash(/\)和forward slash(/)是不一样的，在文件名有空格时，使用引号("")
+
 ```
 git config --global user.name "Peter Anteater"
 git config --global user.email "panteat@uci.edu"
 ```
 
-To look at all your configuration information: `git config --global -l`
+To look at all your configuration information: ```git config --global -l```
+
+```--global```表示该电脑下的所有仓库都会使用这个配置
 
 ```
 git init

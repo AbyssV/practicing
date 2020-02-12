@@ -11,3 +11,6 @@
 #### quesions
 
 - what is **django**, **jinja**
+- what is the difference between ASCII, Unicode
+- when we use ```del```
+- 
