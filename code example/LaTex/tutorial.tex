@@ -1,0 +1,104 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+
+\begin{document}
+\title{LaTex Tutorial}
+\author{Yating Liu}
+\date{2018/10/6}
+\maketitle
+\textbf{This is a note from LaTex tutorial}\\
+
+% put math in dollar signs: $$
+Here is some math $x^2$ and $y_k$. This is some more advanced subscripts and superscripts $x^{123}$ and $y_{ijk}$. Let's mix and match $x^2_y$ and $z^{123}_{abc}$.\\
+
+% align for equation numbering
+% align* for no equation numbering
+% & means ``line up here''
+% \\ means ``line break''
+Solve the equation $0 = 3x^3+3x^2-6x$.
+\begin{align}
+0 &= 3x^3+3x^2-6x  \\
+  &= 3(x^3+x^2-2x) \label{three} \\
+  &= 3x(x^2+x-2)   \label{x} \\
+  &= 3x(x+2)(x-1)  \label{factorpoly} \\
+  & \therefore     \nonumber \\
+x &= 0, -2, 1
+\end{align}\\
+
+In step (\ref{three}) I factored out a three. In step(\ref{x}) I factored out an $x$, and in step(\ref{factorpoly}) I factored the polynomial.\\
+
+Here are some different matrices.\\
+bmatrix
+$
+\begin{bmatrix}
+1 & 2 & 3 \\
+a & b & c \\
+\end{bmatrix}
+$\\
+pmatrix
+$
+\begin{pmatrix}
+1 & 2 & 3 & 4 & 5 \\
+a & b & c & e & f\\
+\end{pmatrix}
+$\\
+
+% \frac{}{}   fractions
+% \sqrt{}     square root
+% \int_{}^{}  definite integral
+% you can mix and match
+Here is a fraction $\dfrac{x^2}{x^3} = \dfrac{1}{x}$.
+Here is a square root $\sqrt{16}=4$.
+Here is an integral $\int_{a}^{b}f(x)dx$.\\
+This is a mix and match $x=\dfrac{-b \pm \sqrt{b^2-4ac}}{2a}$\\
+
+% $x^2$ in-line, single dollar sign
+% $$x^2$$ centered, double dollar sign
+% align or aligh* no dollar needed
+Im' going to type some math. Here is an equation $x^2+\sqrt{y}=3$. Here is another equation, it is very important $$\int_{a}^{b}f(x)dx$$ that is an integral.
+\begin{align}
+x^2+y^2 &= z^2\\
+        &= \sin(x) + y \\
+        &= x + y + q\\
+        &=\sqrt{\frac{a}{b}}
+\end{align}\\
+
+% tabular environment creates tables
+Let's take the function $f(x) = \sqrt{x^2+1}$ and make a table of values.
+\begin{center}
+\begin{tabular}{r|c|c|c|c}
+
+$x$ & -1 & 0 & 1 & 2\\
+\hline
+$f(x)$ &$\sqrt{2}$ & 1 & $\sqrt{2}$ & $\sqrt{5}$
+
+\end{tabular}
+\end{center}
+
+% use .PNG image format whenever passible. tends to work the best
+% save the image in same folder as .tex file
+% Here is a graph of the function
+% $f(x,y)=\sin(\sqrt{x^2+y^2})$
+% \begin{center}
+% \includegraphics[scale=0.75]{graph.png}
+% \end{center}
+
+\begin{enumerate}
+\item Section One
+    \begin{enumerate}
+      \item List One
+      \item List Two
+	   \end{enumerate}
+\item Section Two
+\item Section Three
+
+\end{enumerate}
+
+% Not closing dollor signs in math mode
+% spelling a \command improperly
+
+
+\end{document}

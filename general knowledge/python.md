@@ -72,6 +72,8 @@ To upgrade pip: ```python -m pip install --upgrade pip```
 
 To check packages: ```pip list```
 
+To check outdated packages: ```pip list --outdated```
+
 Because of the conflicts between Anaconda3 and Python 3.6, I rename the ```python.exe``` under Python3.6 file to ```python3.exe```, every time I use pip, I have to type ```python3 -m pip list```
 
 pip is the recommended installer. The most common usage of pip is to install from the Python Package Index using a requirement specifier. Generally speaking, a requirement specifier is composed of a project name followed by an optional version specifier. PEP 440 contains a full specification of the currently supported specifiers. Below are some examples.
@@ -228,7 +230,7 @@ str类型采用的ASCII编码，也就是说它无法表示中文。unicode类�
 
 注意：如果中文字符串在Python环境下遇到 UnicodeDecodeError，这是因为.py文件保存的格式有问题。可以在
 
-第一行添加注释：` # -*- coding: utf-8 -*-
+第一行添加注释：\` # -*- coding: utf-8 -*-
 
 目的是告诉Python解释器，用UTF-8编码读取源代码。然后用Notepad++ 另存为... 并选择UTF-8格式保存。
 

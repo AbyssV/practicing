@@ -1,0 +1,157 @@
+\documentclass[12pt]{article}
+
+\title{CS177 Homework 6: Markov Chains}
+\author{Yating Liu 10588498}
+\date{2018/12/5}
+
+\setlength{\topmargin}{0.0in}
+\setlength{\headheight}{0.0in}
+\setlength{\headsep}{0.0in}
+\setlength{\textheight}{9.0in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\textwidth}{6.5in}
+
+\usepackage{graphicx}
+\usepackage{enumerate}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{physics}
+     
+\begin{document}
+
+\maketitle
+
+\noindent
+
+\subsubsection*{Question 1:} 
+\begin{enumerate}[a)]
+  \item 
+  The Markov matrix for one battle is 
+  $
+  \begin{bmatrix}
+    & Fighting & Psychic & Dark\\
+  Fighting & \dfrac{2}{3} & \dfrac{1}{3} & 0\\
+  Psychic & 0 & \dfrac{2}{3} & \dfrac{1}{3}\\
+  Dark & \dfrac{1}{3} & 0 & \dfrac{2}{3}\\
+  \end{bmatrix}
+  $\\
+  If Kecleon starts as the Fighting type, after two battles, the probability it stays as Fighting is $\dfrac{2}{3}\cdot\dfrac{2}{3}=\dfrac{4}{9}$, the probability it becomes Psychic is $\dfrac{2}{3}\cdot\dfrac{1}{3}+\dfrac{1}{3}\cdot\dfrac{2}{3}=\dfrac{4}{9}$, the probability it becomes Dark is $\dfrac{1}{3}\cdot\dfrac{1}{3}=\dfrac{1}{9}$. 
+  
+  \item 
+  The Markov chain is aperiodic and irreducible, therefore, it can reach a steady state. Solving the equation
+  \begin{equation}
+  \dfrac{2}{3}\pi_F+\dfrac{1}{3}\pi_D=\pi_F
+  \end{equation}  
+  \begin{equation}
+  \dfrac{1}{3}\pi_F+\dfrac{2}{3}\pi_P=\pi_P
+  \end{equation}  
+  \begin{equation}
+  \dfrac{1}{3}\pi_P+\dfrac{2}{3}\pi_D=\pi_D
+  \end{equation} 
+  \begin{equation}
+  \pi_F+\pi_P+\pi_D=1
+  \end{equation} 
+  we get $\pi_F=\pi_P=\pi_D=\dfrac{1}{3}$. Kecleon spends an equal fraction of time on each of the three types after many battles.
+  
+  \item
+  After ghost type invades the population, the Markov matrix becomes\\ 
+   $
+  \begin{bmatrix}
+    & Fighting & Psychic & Dark & Ghost\\
+  Fighting & \dfrac{1}{2} & \dfrac{1}{4} & 0 & \dfrac{1}{4}\\
+  Psychic & 0 & \dfrac{1}{2} & \dfrac{1}{4} & \dfrac{1}{4}\\
+  Dark & \dfrac{1}{4} & 0 & \dfrac{3}{4} & 0\\
+  Ghost & 0 & 0 & \dfrac{1}{4} & \dfrac{3}{4}\\
+  \end{bmatrix}
+  $\\
+  If Kecleon starts as the Fighting type when the Ghost arrive, the probability that it will be each of the four types after two battles is $P_1^2=[\frac{1}{4}, \frac{1}{4},\frac{1}{8},\frac{3}{8}]$. The probability it stays as Fighting is $\dfrac{1}{4}$, the probability it becomes Psychic is $\dfrac{1}{4}$, the probability it becomes Dark is $\dfrac{1}{8}$, the probability it becomes Ghost is $\dfrac{3}{8}$.
+    
+  \item
+  The Markov chain is aperiodic and irreducible, therefore, it can reach a steady state. Solving the equation
+  \begin{equation}
+  \dfrac{1}{2}\pi_F+\dfrac{1}{4}\pi_D=\pi_F
+  \end{equation}  
+  \begin{equation}
+  \dfrac{1}{4}\pi_F+\dfrac{1}{2}\pi_P=\pi_P
+  \end{equation}  
+  \begin{equation}
+  \dfrac{1}{4}\pi_P+\dfrac{3}{4}\pi_D+\dfrac{1}{4}\pi_G=\pi_D
+  \end{equation} 
+  \begin{equation}
+  \dfrac{1}{4}\pi_F+\dfrac{1}{4}\pi_P+\dfrac{3}{4}\pi_G=\pi_G
+  \end{equation}
+  \begin{equation}
+  \pi_F+\pi_P+\pi_D+\pi_G=1
+  \end{equation} 
+  we get $[\frac{2}{10},\frac{1}{10},\frac{4}{10},\frac{3}{10}]$. Kecleon spends $\frac{2}{10}$ of its time as a Fighting type, $\frac{1}{10}$ of its time as a Pyschic type, $\frac{4}{10}$ of its time as a Dark type, $\frac{3}{10}$ of its time as a Ghost type.
+
+\end{enumerate}
+
+
+\subsubsection*{Question 2:} 
+\begin{enumerate}[a)]
+  \item 
+  If the chess piece is a king, then the Markov chain is irreducible and aperiodic.\\
+  It is irreducible because all of its legal moves are in adjacent squares, which means you will always have an alternative way to get to the same location.\\
+  It is also aperiodic because the number of legal moves needed to get to the same location is not fixed. For example, if you want to make to the right square, you could move directly to your right, which takes 1 step, and you can also move to top right, then move down, which takes 2 step, and you can also move to top, then right, then move down, which takes 3 steps. 
+  
+  \item 
+  If the chess piece is a bishop, then the Markov chain is not irreducible but aperiodic. \\
+  It is not irreducible because if the chess piece starts on a white square, then it can't move to any black square, and if it starts on a black square, then it can't move to any white square. Therefore, it has two recurrent class. \\
+  It is aperiodic because the number of legal moves needed to get to the same location is not fixed. As far as the direction is diagonal, you can take any number of moves.
+    
+  \item
+  If the chess piece is a knight, then the Markov chain is irreducible but not aperiodic. \\
+  It is irreducible because for any starting point, it is possible for the chess piece to visit all the other squares. \\
+  It is not aperiodic because the chess piece's moves always follow an "L" pattern, which means it always takes even number of moves for the chess piece to return to the starting point. Therefore, the Markov chain has period 2.
+ 
+
+\end{enumerate}
+
+
+\subsubsection*{Question 3:} 
+\begin{enumerate}[a)]
+  \item 
+  The state transition matrix T for the network of figure 1 is\\
+  $
+  \begin{bmatrix}
+    & 1 & 2 & 3 & 4\\
+  1 & 0 & \dfrac{1}{3} & \dfrac{1}{3} & \dfrac{1}{3}\\
+  2 & 0 & 0 & \dfrac{1}{2} & \dfrac{1}{2}\\
+  3 & 1 & 0 & 0 & 0\\
+  4 & \dfrac{1}{2} & 0 & \dfrac{1}{2} & 0\\
+  \end{bmatrix}
+  $\\
+  Solving the equation
+  \begin{equation}
+  \pi_3+\dfrac{1}{2}\pi_4=\pi_1
+  \end{equation}  
+  \begin{equation}
+  \dfrac{1}{3}\pi_1=\pi_2
+  \end{equation}  
+  \begin{equation}
+  \dfrac{1}{3}\pi_1+\dfrac{1}{2}\pi_2+\dfrac{1}{2}\pi_4=\pi_3
+  \end{equation} 
+  \begin{equation}
+  \dfrac{1}{3}\pi_1+\dfrac{1}{2}\pi_2=\pi_4
+  \end{equation}
+  \begin{equation}
+  \pi_1+\pi_2+\pi_3+\pi_4=1
+  \end{equation} 
+  we get equilbrium distribution $[\frac{12}{31},\frac{4}{31},\frac{9}{31},\frac{6}{31}]$, and webpage 1 has the highest pagerank.
+  
+  \item 
+  For both T and G, the sum of each row is equal to 1.
+  
+  \item 
+  By the graph, $\pi_t$ appears to converge to a limit. The top 25 webpages and the steady-state probability are reported in the last pages. 
+
+  \item 
+  For the reversed pagerank algorithm, the top 25 webpages and the steady-state probability are reported in the last pages. \\
+  There is a large difference from part(c). In part(c) most of the top ranked webpages has a large number of incoming links, while in part(d) the top ranked webpages has more outgoing links(however, the number of outgoing links does not follow any pattern with the rank). The ranking in part(c) is more sensible because for a highly ranked webpage, there must be many other webpages link to it. In contrast, the webpages in part(d) can make them highly ranked just by adding many hyperlinks to other webpages. 
+
+\end{enumerate}
+
+  
+  
+\end{document}

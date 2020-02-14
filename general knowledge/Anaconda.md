@@ -1,4 +1,4 @@
-```
+```bash
 ##################################
 # 更新Anaconda
 conda update conda

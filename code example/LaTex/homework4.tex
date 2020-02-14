@@ -1,0 +1,147 @@
+\documentclass[12pt]{article}
+
+\title{CS177 Homework 4: Continuous Variables \& Conditionings}
+\author{Yating Liu 10588498}
+\date{2018/11/7}
+
+\setlength{\topmargin}{0.0in}
+\setlength{\headheight}{0.0in}
+\setlength{\headsep}{0.0in}
+\setlength{\textheight}{9.0in}
+\setlength{\oddsidemargin}{0in}
+\setlength{\textwidth}{6.5in}
+
+\usepackage{graphicx}
+\usepackage{enumerate}
+\usepackage{amsmath}
+\usepackage{amssymb}
+     
+\begin{document}
+
+\maketitle
+
+\noindent
+
+\subsubsection*{Question 1:} 
+\begin{enumerate}[a)]
+  \item 
+  $P(X>18) = 1-P(X \leq 18) = 1 - F(X=18) = 0.0062$
+
+  \item 
+  $P(10 \leq X \leq 16) = F(X=16) - F(X=10) = 0.866$
+
+  \item
+  \begin{align*}
+  \int_{-\infty}^{13} xf(x) &= 0.99 \\
+  \int_{-\infty}^{\frac{13-\mu}{\sigma}} zf(z) &= 0.99 \\
+  \end{align*}
+  using \emph{norm.ppf}, we get $\dfrac{13-\mu}{\sigma}=2.326$, therefore, the average runtime should be 8.348.
+  
+
+ 
+\end{enumerate}
+
+\subsubsection*{Question 2:} 
+\begin{enumerate}[a)]
+  \item 
+  we would like to predict $Y=1$ only when
+  \begin{equation*}
+  \dfrac{f_{x \mid y}(X \mid 1)}{f_{x \mid y}(X \mid 0)} \geq \dfrac{P(Y=0)}{P(Y=1)}
+  \end{equation*}
+  because $P(Y=0)=P(Y=1)$, we then have
+  \begin{equation*}
+  f_{x \mid y}(X \mid 1) \geq f_{x \mid y}(X \mid 0)
+  \end{equation*}
+  assume when $Y=0$, mean is $\mu_{0}$, when $Y=1$, mean is $\mu_{1}$
+  \begin{align*}
+  \theta_{1}e^{-\theta_{1}x} &\geq \theta_{0}e^{-\theta_{0}x}\\
+  \frac{1}{50}e^{-\frac{1}{50}x} &\geq e^{-x}\\
+  \frac{e^{-x}}{e^{-\frac{1}{50}x}} &\leq \frac{1}{50}\\
+  \ln{(e^{-x})}-\ln{(e^{-\frac{1}{50}x)}} &\leq \ln{\left(\frac{1}{50}\right)}\\
+  -\dfrac{49}{50}x &\leq -3.912\\
+  x &\geq 3.992\\
+  \end{align*}
+  % make sure no empty line when using aligh  
+  Therefore, when $x \geq 3.992$, we would like to predict $Y=1$, and when $x<3.992$ we would like to predict $y=0$.
+  
+  \item 
+  Using the same formula in part(a) with $P(Y=0)=0.99$ and $P(Y=1)=0.01$.
+  \begin{align*}
+  \dfrac{f_{x \mid y}(X \mid 1)}{f_{x \mid y}(X \mid 0)} &\geq \dfrac{P(Y=0)}{P(Y=1)}\\
+  \dfrac{f_{x \mid y}(X \mid 1)}{f_{x \mid y}(X \mid 0)} &\geq \dfrac{0.99}{0.01}\\
+  \theta_{1}e^{-\theta_{1}x} &\geq 99\theta_{0}e^{-\theta_{0}x}\\
+  \frac{1}{50}e^{-\frac{1}{50}x} &\geq 99e^{-x}\\
+  \frac{e^{-x}}{e^{-\frac{1}{50}x}} &\leq \frac{1}{50 \cdot 99}\\
+  \ln{(e^{-x})}-\ln{(e^{-\frac{1}{50}x)}} &\leq \ln{\left(\frac{1}{50 \cdot 99}\right)}\\
+  -\dfrac{49}{50}x &\leq -8.507\\
+  x &\geq 8.6806\\
+  \end{align*}
+  Therefore, when $x \geq 8.6806$, we would like to predict $Y=1$, and when $x<8.6806$ we would like to predict $y=0$.
+  
+  \item 
+  Using the formula in lecture slide, we have
+  \begin{align*}
+  \dfrac{f_{x \mid y}(X \mid 1)}{f_{x \mid y}(X \mid 0)} &\geq \dfrac{P(Y=0)}{P(Y=1)} \cdot \left(\dfrac{\lambda_{01}}{\lambda_{10}}\right)\\
+  \dfrac{f_{x \mid y}(X \mid 1)}{f_{x \mid y}(X \mid 0)} &\geq \dfrac{0.99}{0.01} \cdot \dfrac{1}{500}\\
+  \theta_{1}e^{-\theta_{1}x} &\geq \dfrac{99}{500}\theta_{0}e^{-\theta_{0}x}\\
+  \frac{1}{50}e^{-\frac{1}{50}x} &\geq \dfrac{99}{500}e^{-x}\\
+  \frac{e^{-x}}{e^{-\frac{1}{50}x}} &\leq 0.101\\
+  \ln{(e^{-x})}-\ln{(e^{-\frac{1}{50}x)}} &\leq \ln{(0.101)}\\
+  -\dfrac{49}{50}x &\leq -2.293\\
+  x &\geq 2.340\\
+  \end{align*}  Therefore, when $x \geq 2.340$, we would like to predict $Y=1$, and when $x<2.340$ we would like to predict $y=0$.
+
+
+
+\end{enumerate}
+
+
+\subsubsection*{Question 3:} 
+\begin{enumerate}[a)]
+  \item 
+  The expected total waiting time is $\dfrac{1}{\alpha}+\dfrac{1}{\beta}$
+  
+  \item 
+  The variance of the waiting time of the first queue is $\dfrac{1}{\alpha^2}$, of the second queue is $\dfrac{1}{\beta^2}$. Because the waiting time is independent between two queues, the standard deviation of the total waiting time is $\sqrt{\dfrac{1}{\alpha^2}+\dfrac{1}{\beta^2}}$.
+  
+     
+  \item 
+  Assume we use \emph{t} to denote the time taken by the first queue, \emph{s} to denote the total time
+  \begin{equation*}
+  f(s) = \int_{0}^{s}\alpha e^{-\alpha t}\beta e^{-\beta (s-t)} = \int_{0}^{s}\alpha \beta e^{-\alpha t -\beta s + \beta t} = \alpha \beta e^{-\beta s}\int_{0}^{s}e^{(\beta -\alpha) t} = \dfrac{\alpha \beta}{\beta -\alpha}\left(e^{-\alpha s}-e^{-\beta s}\right)
+  \end{equation*}
+  The plot I drawn is in the last part. 
+
+
+\end{enumerate}
+
+\subsubsection*{Question 4:} 
+\begin{enumerate}[a)]
+  \item 
+  \begin{equation*}
+  \ln{f{_{x\mid y}(x_i\mid y_i=1)}} = \sum\limits_{j=1}^{M}-\dfrac{1}{2}ln{(2\pi \sigma_{1j}^2)} - \dfrac{(x_{ij}-\mu_{1j})^2}{2\sigma_{1j}^2}
+  \end{equation*}
+  \begin{equation*}
+  \ln{f{_{x\mid y}(x_i\mid y_i=0)}} = \sum\limits_{j=1}^{M}-\dfrac{1}{2}ln{(2\pi \sigma_{0j}^2)} - \dfrac{(x_{ij}-\mu_{0j})^2}{2\sigma_{0j}^2}
+  \end{equation*}
+     
+  \item 
+  Because $p_Y(0)=p_Y(1)=\frac{1}{2}$, we will predict $Y_i=1$ only when
+  \begin{equation*}
+  \ln{f{_{x\mid y}(x_i\mid y_i=1)}} > \ln{f{_{x\mid y}(x_i\mid y_i=0)}}
+  \end{equation*}
+  The classification accuracy is 0.5833, the number of false alarms is 267, the number of missed detections is 3. 
+  \item 
+  The classification accuracy is 0.7392, the number of false alarms is 167, the number of missed detections is 2. 
+  
+  \item 
+  The classification accuracy is 0.75, the number of false alarms is 158, the number of missed detections is 4. 
+  
+
+
+
+\end{enumerate}
+  
+  
+
+\end{document}
