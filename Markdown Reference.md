@@ -129,6 +129,12 @@ $$
 
 You can find more details [here](http://support.typora.io/Math/).
 
+here are some useful blogs
+
+[LaTex常用公式](https://www.cnblogs.com/echo-coding/p/8663676.html)
+
+[LaTex常用数学公式](https://jingyan.baidu.com/article/4b52d702df537efc5c774bc9.html)
+
 ### Tables
 
 Input `| First Header  | Second Header |` and press the `return` key. This will create a table with two columns.

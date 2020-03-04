@@ -1,12 +1,9 @@
 ```bash
-##################################
 # 更新Anaconda
 conda update conda
 
 # 更新所有包
 conda update --all
-
-##################################
 
 # 添加清华源
 # 执行以下命令
@@ -18,8 +15,7 @@ conda config --set show_channel_urls yes
 # Ubuntu Anaconda 使用改文件的方式添加清华源
 https://mirrors.tuna.tsinghua.edu.cn/help/ubuntu/
 
-##################################
-
+# remove some packages
 conda remove beautifulsoup4
 ```
 
