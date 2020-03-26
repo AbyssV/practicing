@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>认识table表标签</title>
+	<style type="text/css">
+		table tr td th
+		{
+    		border:1px solid #000;
+		}
+	</style>
+</head>
+
+<body>
+	<form action="save.php" method="post" >
+    	<label>爱好:</label>
+    	<select multiple="multiple">
+      		<option value="看书">看书</option>
+      		<option value="旅游">旅游</option>
+      		<option value="运动">运动</option>
+      		<option value="购物">购物</option>
+    	</select>
+
+	</form>
+	<br />
+
+	<form action="save.php" method="post">
+		姓名：
+		<input type="text" value = "张三" name="the_name">
+		密码：
+		<input type="password" value="1234" name="the_password">
+	</form>
+	<br />
+
+	<form>
+	   	<label for="male">男</label>
+	  		<input type="radio" name="gender" id="male" />
+	  		<br />
+	  	<label for="female">女</label>
+	  		<input type="radio" name="gender" id="female" />
+	  		<br />
+	  	<label for="email">输入你的邮箱地址</label>
+	  		<input type="email" id="email" placeholder="Enter email">
+	  
+	</form>
+	<br />
+
+	<table summary="本表格记录2012年到2013年库存记录，记录包括U盘和耳机库存量">
+  		<caption>2012年到2013年库存记录</caption>    
+  
+  		<tr>
+    		<th>产品名称 </th>
+    		<th>品牌 </th>
+    		<th>库存量（个） </th>
+    		<th>入库时间 </th>
+  		</tr>
+  
+  		<tr>
+    		<td>耳机 </td>
+    		<td>联想 </td>
+    		<td>500</td>
+    		<td>2013-1-2</td>
+  		</tr>
+  
+  		<tr>
+    		<td>U盘 </td>
+    		<td>金士顿 </td>
+    		<td>120</td>
+    		<td>2013-8-10</td>
+  		</tr>
+  
+  		<tr>
+    		<td>U盘 </td>
+    		<td>爱国者 </td>
+    		<td>133</td>
+    		<td>2013-3-25</td>
+  		</tr>
+	</table>
+</body>
+</html>
