@@ -1,10 +1,6 @@
-Ensuring that any one transaction (when run all by itself) preserves consistency is the programmers job!
+Ensuring that any one transaction (when run all by itself) preserves consistency is the programmer's job!
 
 Key Idea: If any action of a transaction T~i~ (e.g., writing record X) impacts T~j~ (e.g., reading record X), one of them will lock X first and the other will have to wait until the first one is done ? which orders the transactions!
-
-
-
-
 
 ### Query language
 
@@ -20,7 +16,11 @@ Key Idea: If any action of a transaction T~i~ (e.g., writing record X) impacts T
 
   - Both used in SQL (but try to avoid positional stuff!)
 
-[relation algebra](https://blog.csdn.net/zsi386/article/details/79091307): cross product($\times$) usually results in more results than natural joins($\bowtie$). conditional joins(also called theta join) is like a selection of the result of cross product
+
+
+### Relation Algebra
+
+Ref: [relation algebra](https://blog.csdn.net/zsi386/article/details/79091307)
 
 **projection($\pi_{name,age}(Student)$)**:No duplicates in result!
 
@@ -37,6 +37,8 @@ Key Idea: If any action of a transaction T~i~ (e.g., writing record X) impacts T
 - $(\pi_{sid->sid1, sname, rating, age}(S1))\times R1$
 
 #### join
+
+cross product($\times$) usually results in more results than natural joins($\bowtie$). conditional joins(also called theta join) is like a selection of the result of cross product
 
 Equi-Join: A special case of condition join where the condition c contains only equalities. Result schema similar to cross-product, but only one copy of fields for which equality is specified
 
@@ -173,12 +175,10 @@ candidate key < super key
 [superkey, candidate key, prime key](https://blog.csdn.net/suguoliang/article/details/82844328)
 
 If X is part of a (candidate) key, we will say that X is a prime attribute.
+
 If X (an attribute set) contains a candidate key, we will say that X is a superkey.
+
 X -> Y can be pronounced as “X determines Y”, or “Y is functionally dependent on X”.
-Some types of dependencies (on a key):
-**Trivial**: XY -> X
-**Partial**: XY is a key, X -> Z
-**Transitive**: X -> Y, Y -> Z, Y is non-prime, X -> Z
 
 [MySQL 表的一对一、一对多、多对多问题](https://www.cnblogs.com/Camiluo/p/10615065.html)
 
@@ -223,6 +223,14 @@ Depending upon the normal form a relation is in, it has different level of redun
 
 Checking for which normal form a relation is in will help us decide whether to decompose the relation
 
+Some types of dependencies (on a key):
+
+**Trivial**: XY -> X
+
+**Partial**: XY is a key, X -> Z
+
+**Transitive**: X -> Y, Y -> Z, Y is non-prime, X -> Z
+
 ##### 1NF
 
 Rel’n R is in 1NF if all of its attributes are atomic.(No set-valued attributes! (1NF = “flat”)
@@ -244,6 +252,7 @@ Rel’n R with FDs F is in 3NF if, for all X -> A in F+
 - A is part of some key for R (i.e., it’s a prime attribute).
 
 If R is in BCNF, clearly it is also in 3NF.
+
 If R is in 3NF, some redundancy is possible. 3NF is a compromise to use when BCNF isn’t achievable (e.g., no “good” decomp, or performance considerations).
 
 ##### Boyce-Codd Normal Form(BCNF)
@@ -359,8 +368,6 @@ GROUP BY R.category, R.state
 - Transfer rate is < 1 msec per 4KB page
 - Key to lowering I/O cost: Reduce seek/rotation delays -> Bottom line: Random vs. sequential I/O
 
-
-
 An index on a file speeds up selections on the search key fields for the index.
 
 - Any subset of the fields of a relation can serve as the search key for an index on the relation.
@@ -372,8 +379,6 @@ An index contains a collection of data entries, and it supports efficient retrie
 
 >can have multiple unclustered indexes
 
-B+ Tree: Notice that data entries at leaf level are sorted
-
 #### Index Classification
 
 - Primary vs. secondary: If search key contains the primary key, then called the primary index.
@@ -381,10 +386,9 @@ B+ Tree: Notice that data entries at leaf level are sorted
 
 - Clustered vs. unclustered: If order of data records is the same as, or `close to’, the order of stored
   data records, then called a clustered index.
-
-  - **A table can be clustered on at most one search key** (see RID ordering in example a few slides ago).
-
-  - **Cost of retrieving data records via an index varies greatly based on whether index is clustered or not!**
+- **A table can be clustered on at most one search key** (see RID ordering in example a few slides ago).
+  
+- **Cost of retrieving data records via an index varies greatly based on whether index is clustered or not!**
 
 #### Tree-Structured Indexes: Overview
 
@@ -396,7 +400,65 @@ B+ Tree: Notice that data entries at leaf level are sorted
 - Tree-structured indexing techniques support both **range searche**s and **equality searches**.
 - ISAM: static structure; B+ tree: dynamic, adjusts gracefully under inserts and deletes.
 - all "pointers" here are page IDs
-- 
+
+#### Inserting a Data Entry into a B+ Tree
+
+- Notice that data entries at leaf level are sorted
+
+- Find correct leaf L (by searching for the new k).
+
+- Put new data entry (k*, a.k.a. (k, I(k)) in leaf L.
+  - If L has enough space, done! (Most likely case!)
+  - Else, must split L (into L and a new node L2)
+    - Redistribute entries evenly and copy up middle key.
+    - Insert new index entry pointing to L2 into parent of L.
+
+- This can happen recursively.
+  - To split an index node, redistribute entries evenly but push up the middle key. (Contrast with leaf splits!)
+
+- Splits “grow” tree; root split increases its height.
+  - Tree growth: gets wider or one level taller at top.
+
+#### Deleting a Data Entry from a B+ Tree
+
+- Start at root, find leaf L where entry belongs.
+
+- Remove the entry.
+  - If L is still at least half-full, done!
+  - If L has only d-1 entries,
+    - Try to redistribute, borrowing from sibling (adjacent node with same parent as L).
+    - If re-distribution fails, merge L and sibling.
+
+- If merge occurred, must delete search-guiding entry (pointing to L or sibling) from parent of L.
+
+- Merge could propagate to root, decreasing height
+
+#### Bulk Loading of a B+ Tree
+
+- If we have a large collection of records, and we want to create a B+ tree on some field, doing so by repeatedly inserting records is very slow.
+- Bulk Loading can be done much more efficiently!
+- Initialization: Sort all data entries, insert pointer to first (leaf) page in a new (root) page.
+- Index entries for leaf pages always entered into rightmost index page just above leaf level. When this fills up, it splits. (A split may go up the right-most path to the root.)
+- Much faster than repeated inserts!
+
+#### Hash-Based Indexes
+
+- Hash-based indexes are fast for equality selections. Cannot support range searches.
+- Static and dynamic hashing techniques exist; trade-offs similar to ISAM vs. B+ trees.
+
+#### Static Hashed Indexes
+
+- primary pages fixed, allocated sequentially, never de-allocated; overflow pages if needed.
+- h(k) mod N = bucket (page) to which data entry with key k belongs. (N = # of buckets)
+- Buckets contain data entries (like for ISAM or B+ trees) – very similar to what we just looked at.
+- Hash function works on search key field of record r. Must distribute values over range 0 ... M-1.
+  - h(key) = (a * key + b) usually works fairly well.
+  - a and b are constants; lots known about how to tune h.
+
+- Long overflow chains can develop and degrade performance.
+  - Extendible and Linear Hashing: Dynamic techniques tofix this problem.
+
+
 
 ### SQL Access Control
 
@@ -558,11 +620,7 @@ SQRT() -- 返回一个数的平方根
 TAN() -- 返回一个角度的正切
 ```
 
-
-
-
-
-##### GROUP
+#### GROUP
 
 - ***The cross-product of relation-list is computed***, tuples that fail the qualification are discarded, `unnecessary’ fields are deleted, and the remaining tuples are partitioned into groups by the value of attributes in grouping-list.
 
@@ -593,7 +651,7 @@ WHERE S.rating=S2.rating)
 /*HAVING和WHERE的差别 这里有另一种理解方法，WHERE在数据分组前进行过滤，HAVING在数据分组后进行过滤。这是一个重要的区别，WHERE排除的行不包括在分组中。这可能会改变计算值，从而影响HAVING子句中基于这些值过滤掉的分组。*/
 ```
 
-##### CRUD(Create, Retrieve, Update, Delete)
+#### CRUD(Create, Retrieve, Update, Delete)
 
 ```sql
 INSERT INTO Students (sid, name, login, age, gpa)
@@ -630,10 +688,6 @@ VALUES (NEW.sid, NEW.sname, NEW.age, NEW.rating);
 END IF;
 END;
 ```
-
-
-
-
 
 #### Stored Procedure
 
