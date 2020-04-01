@@ -4,7 +4,7 @@
 2. not null, default, check等其他细节建表的时候要想好，not null之后on delete set null就不能用了
 3. identity不要太好用。比如我想记录某个stu_id在某个course_id上的分数，stu_id和course_id都是不可以重复的。这时用identity就很方便
 4. if...else...中需要嵌套
-5. 只能return一个int，这个int可以是状态值
+5. stored procedure 只能return一个int，这个int可以是状态值
 6. docs很全，查docs
 问题
 1. link server是什么
@@ -41,8 +41,8 @@ when the subquery is used as an expression.*/
 --select @name =  stu_name from Student --Brown(last value)
 --set @name = (select stu_name from Student where stu_id=1000) --空行
 --select @name = (select stu_name from Student where stu_id=1000) --空行
---select @name = stu_name from Student where stu_id=1000 --Amy
-select @name,123
+select @name = stu_name from Student where stu_id=1000 --Amy
+print @name+'123'
 go
 
 --transaction练习
@@ -50,7 +50,7 @@ if exists (select * from sysobjects where name = 'Bank') drop table Bank
 create table Bank(
 customer_id int identity(1,1) primary key,
 customer_name varchar(50) unique,
-balance decimal(10,2)
+balance decimal(10,2) check (balance > 0)
 )
 insert into Bank values ('a', 10.8)
 insert into Bank values ('b', 40000)
@@ -68,9 +68,11 @@ if (@error_sum) <> 0
 	rollback transaction
 else
 	commit transaction
+print @error_sum
 select * from bank
 
 --stored procedure练习
+exec sp_help Student
 --查询参与某门课程考试的男女人数和各自的平均分
 /*
  _  _ _
@@ -91,7 +93,6 @@ exec usp_GradeBySex @cid=6
 
 --导出某位老师教导的某门课程的学生总数和平均分
 --可以同时给两个变量赋值，即使他们使用的是同一张表
-exec sp_help Student
 if exists (select * from sysobjects where name ='usp_GradeByTeacher')
 drop proc usp_GradeByTeacher
 go
@@ -102,6 +103,7 @@ create proc usp_GradeByTeacher
 @tid int = 1,
 @cid int=1
 as
+--而select支持一次为多个变量赋值
 select @stu_num = count(*), @avg=avg(score) from (select * from Teacher where t_id=@tid) as temp_teacher join 
 (select * from Course where c_id=@cid) as temp_course
 on temp_teacher.t_id=temp_course.t_id join Grade 
@@ -149,7 +151,7 @@ insert into Student values ('Kevin','男',30,'1980-2-1')
 --聚集索引可以建在表的主键上,也可以建在其他键上;
 --一个表可以建多个索引,但只能有一个聚集索引,其他的索引必须是非聚集索引;
 --关于第1条需要说明的是,默认情况下,当创建主键时,如果没有明确指定主键为非聚集选项,并且表中不存在聚集索引,那么系统会为主键创建聚集索引.
-if exists (select * from sysindexes where name = 'IX_student_name')
+if exists (select * from sysindexes where name = 'IX_student_name') --sysindexes
 drop index Student.IX_student_name
 go
 create unique index  IX_student_name on Student(stu_name) --不能加cluster
@@ -169,9 +171,12 @@ select * from #newtemp
 select *, 类型='sb' from Student
 
 --一些全局变量
-select @@SERVICENAME,  @@FETCH_STATUS, @@SERVERNAME
+select @@SERVICENAME 'Service Name',  @@FETCH_STATUS 'Fetch Status', @@SERVERNAME 'Server Name'
 select * from Student
-select @@ROWCOUNT
+print '影响了' + cast(@@ROWCOUNT as varchar(20)) + '行'
+
+--一些系统proc
+exec sp_tables
 
 --if语句判断
 if (select count(*) from Student where stu_id=4)>0
@@ -181,7 +186,8 @@ select * from Student
 select * from Grade where score in (select score from Grade group by score having (1<count(*)))
 
 --从10往下数11
-select top 10 * from Teacher where t_id not in (select top 9 t_id from Teacher) --搞懂了，因为top是最后执行的
+--因为top是最后执行的，已经选好了结果集，随后选择结果集的前10个结果
+select top 10 * from Teacher where t_id not in (select top 9 t_id from Teacher order by t_id asc) order by t_id asc 
 select top 10 * from (select top 19 * from Teacher order by t_id asc) T order by t_id desc 
 --注意：如果使用生成行号的结果集做为子查询，那么必须为结果集命别名，同时为行号添加名称
 select * from (select ROW_NUMBER() over(order by t_id) id, * from Teacher) temp where id between 10 and 19
@@ -233,7 +239,7 @@ select iif(len(stu_name)>2, left(stu_name, 2)+'...', stu_name) from Student
 --使返回的结果中不包含有关受 Transact-SQL 语句影响的行数的信息。如果存储过程中包含的一些语句并不返回许多实际的数据，则该设置由于大量减少了网络流量，因此可显著提高性能。SET NOCOUNT 设置是在执行或运行时设置，而不是在分析时设置。  
 --SET NOCOUNT 为 ON 时，不返回计数（表示受 Transact-SQL 语句影响的行数）。  
 --SET NOCOUNT 为 OFF 时，返回计数  
-set nocount on 
+set nocount off
 
 /*没用过，不知道好不好用
 --查询用户创建的所有数据库  
