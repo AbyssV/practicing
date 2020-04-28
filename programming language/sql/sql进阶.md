@@ -275,7 +275,19 @@ delete from vw_getStudentBySex where  Studentno=3
 
 #### 全局变量
 
-@@ERROR：最后一个T-SQL错误的错误号
+@@CONNECTIONS：记录自最后一次自服务器启动以来，所有针对这台服务器进行的连接数目，包括没有连接成功的尝试。使用@@CONNECTIONS可以让系统管理员很容易地得到今天所有试图连接本服务器的连接数目。
+
+@@CURSOR_ROWS：返回在本次服务器连接中，打开游标取出数据行的数目。
+
+@@FETCH_STATUS：返回上一次使用游标FETCH操作所返回的状态值，且返回值为整型
+
+-  0：FETCH语句成功
+- -1：FETCH语句失败或此行不在结果集中
+- -2：被提取的行不存在
+
+
+
+**@@ERROR：最后一个T-SQL错误的错误号，由于@ERROR在每一条语句执行后都清除并且重置，应在语句验证后立即检查它，或将其保存到一个局部变量中以备事后查看**
 
 @@IDENTITY：最后一次插入的标识值
 
@@ -283,7 +295,7 @@ delete from vw_getStudentBySex where  Studentno=3
 
 @@MAX_CONNECTIONS：可以创建的同时连接的最大数目
 
-@@ROWCOUNT：受上一个SQL语句影响的行数
+**@@ROWCOUNT：受上一个SQL语句影响的行数**
 
 @@SERVERNAME：本地服务器的名称
 
@@ -291,7 +303,7 @@ delete from vw_getStudentBySex where  Studentno=3
 
 @@VERSION：SQL Server的版本信息
 
-@@PROCID
+@@PROCID：返回当前存储过程的ID标识
 
 - ERROR_MESSAGE()- 返回错误的实际信息。
 - ERROR_LINE()- 返回错误所在行的行号。
@@ -320,7 +332,7 @@ declare @time datetime
 select @time=(select borndate from Student where StudentName='刘健')
 set @time=(select borndate from Student where StudentName='刘健')
 --两种赋值方式的区别：
---1.set一次只能为一个变量赋值，而select支持一次为多个变量赋值
+--1.set一次只能为一个变量赋值，而select支持一次为多个变量赋值。不过由于SET功能更强且更严密，因此，推荐使用SET命令来给变量赋值
 go
 declare @name nvarchar(10),@age int=20 
 --set @name='aa',@age=30 --报错
@@ -444,6 +456,29 @@ while(1=1)
 		else
 			break --跳出循环
 	end
+```
+
+
+
+### Return
+
+```RETURN```语句用于从查询或过程中无条件退出。```RETURN```语句可在任何时候用于从过程、批处理或语句块中退出。位于```RETURN```之后的语句不会被执行。在括号内可指定一个返回值。如果没有指定返回值，SQL Server系统会根据执行程序的结果返回一个内定值。
+
+
+
+### GOTO
+
+```GOTO```命令用来改变程序执行的流程，使程序跳到标识符指定的程序行再继续往下执行。
+
+```GOTO 标识符```标识符需要在其名称后加上一个冒号```:```
+
+```
+DECLARE @ X INT
+SELECT @X=1
+loving:
+  PRINT @X
+  SELECT @X=@X+1
+WHILE @X<=3 GOTO loving
 ```
 
 
@@ -857,6 +892,46 @@ insert into grade select cname from ##temp
 
 
 
+### 游标
+
+声明一个游标```Cur_Employee```，并使用```sp_cursor_list```报告该游标的属性
+
+```sql
+USE db_2012
+GO
+DECLARE Cur_Employee CURSOR FOR
+SELECT Name
+FROM Employee
+WHERE Name LIKE '王%'
+OPEN Cur_Employee
+DECLARE @Report CURSOR
+EXEC master.dbo.sp_cusor_list @cursor_return = @Report OUTPUT, @cursor_scope = 2
+--1：报告所有本地游标
+--2：报告所有全局游标
+--3：报告本地游标和全局游标
+FETCH NEXT from @Report
+WHILE(@@FETCH_STATUS<>-1)
+  FETCH NEXT from @Report  --into @max
+CLOSE @Report
+DEALLOCATE @Report
+GO
+CLOSE Cur_Employee 
+DEALLOCATE Cur_Employee 
+GO
+```
+
+@@FETCH_STATUS
+
+0：FETCH语句成功
+
+-1：FETCH语句失败或此行不在结果集中
+
+-2：被提取的行不存在
+
+
+
+
+
 ### Try/Catch
 
 因此正常情况下，catch中记录完异常之后，要“抛出”异常，当异常发生的时候，明确地告诉调用方发生了什么问题。
@@ -910,7 +985,71 @@ throw
 
 
 
+### CTE
+
+```WITH```子句用于指定临时命名的结果集，这些结果集称为公用表表达式。该表达式源自简单查询，并且在单条SELECT, INSERT, UPATE或DELETE语句的执行范围内定义
+
+关于CTE的用法可以看[这条博客](https://www.cnblogs.com/Niko12230/p/5945133.html)
+
+在使用CTE时应注意如下几点：
+
+1. CTE后面必须直接跟使用CTE的SQL语句（如select、insert、update等），否则，CTE将失效。
+2. CTE后面也可以跟其他的CTE，但只能使用一个with，多个CTE中间用逗号```,```分隔
+3. 如果CTE的表达式名称与某个数据表或视图重名，则紧跟在该CTE后面的SQL语句使用的仍然是CTE，当然，后面的SQL语句使用的就是数据表或视图了
+4. CTE 可以引用自身，也可以引用在同一WITH 子句中预先定义的CTE。不允许前向引用。
+5. 不能在CTE_query_definition 中使用以下子句：
+   - COMPUTE 或COMPUTE BY
+   - ORDER BY（除非指定了TOP 子句）
+   - INTO
+   - 带有查询提示的OPTION 子句
+   - FOR XML
+   - FOR BROWS
+6. 如果将CTE 用在属于批处理的一部分的语句中，那么在它之前的语句必须以分号结尾
+
+#### 关于CTE的递归用法
+
+
+
+### 其他常用命令
+
+#### ```DBCC```
+
+```DBCC CHECKALLOC('db_2012')```：检查指定数据库的磁盘空间分配结构的一致性
+
+```sql
+DECLARE @id int, @indid int
+SET @id = OBJECT_ID('tb_Course')
+SELECT @indid = index_id
+FROM sys.indexes
+WHERE object_id = @id AND name = 'PK_tb_Course'
+DBCC SHOWCONTIG(@id, @indid)
+```
+
+显示指定表的数据和索引的碎片信息
+
+
+
+#### ```CHECKPOINT```
+
+```CHECKPOINT```命令用于检查当前工作的数据库中被更改过的数据页或日志页，并将这些数据从数据缓冲器中强制写入硬盘
+
+
+
 ### QA
+
+#### ```EXISTS```和```IN```
+
+```EXISTS```：如果子查询包含任何行，则值为TRUE
+
+```IN```：如果操作数与一个表达式列表中的某个相等的话，则值为TRUE
+
+```SOME```：如果一个比较集中的某些为TRUE的话，则值为TRUE
+
+
+
+#### ```n```占位符
+
+
 
 #### T-SQL中的方括号是什么
 
@@ -971,3 +1110,6 @@ OBJECT_ID:此方法返回数据库对象标识号。类型为int，表示该对�
 OBJECT_NAME:根据对象ID得到对象名
 
 OBJECT_DEFINITION:返回对象的源文件.
+
+
+
