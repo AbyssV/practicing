@@ -194,8 +194,9 @@ SMALLDATETIME - 格式: YYYY-MM-DD HH:MM:SS
 TIMESTAMP - 格式: 唯一的数字
 */
 --其他
-concat()
-isnull()
+EOMONTH()
+CONCAT()
+ISNULL()
 ```
 
 日期函数补充
@@ -210,6 +211,14 @@ isnull()
   - 统计学生的生日年份个数：
     ```select DatePart(year,sBirthday),count(*) from student group by DatePart(year, sBirthday)```
   - 1990年出生的人的个数？ ```Select count(*) from P where year(birthday)=1990```
+
+一些函数补充
+
+LEAD()
+
+LEAD(expression, offset, default). 将后续行的数据提到前面显示。offset为隔多少行的数据提上去，default为不指定offset时的取值。与之对应的是lag(). 参考这篇博文[MSSQL中LEAD函数的用法](https://www.cnblogs.com/kkun/p/3934801.html)
+
+PARTITION BY
 
 
 
