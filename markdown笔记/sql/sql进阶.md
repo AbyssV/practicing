@@ -833,6 +833,10 @@ on student(studentname)
 
 CREATE UNIQUE INDEX index_name ON table_name (column_name) --在表上创建一个唯一的索引。唯一的索引意味着两个行不能拥有相同的索引值。
 CREATE INDEX PersonIndex ON Person (LastName DESC) 
+
+--索引选项
+PAD_INDEX --对于非叶级索引页需要使用PAD_INDEX选项设置其预留空间的大小。PAD_INDEX选项只有在指定了FILLFACTOR选项时才有用，因为PAD_INDEX是由FILLFACTOR所指定的百分比决定。
+FILLFACTOR --设置创建索引期间每个索引页的页级别中可用空间的百分比。数据库系统在存储数据库文件文件时，有时会将用到的数据页隔断，在使用数据索引的同时会产生一定程度的碎片。为了尽量减少页拆分，在创建索引时，可以选择FILLFACTOR选项，此选项用来指定各索引页的填满程度，即指定索引页上所留出的额外的间隙和保留一定的百分比空间，从而扩充数据的存储容量和减少页拆分。
 ```
 
 
