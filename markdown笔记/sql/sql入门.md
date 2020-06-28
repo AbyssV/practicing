@@ -115,6 +115,8 @@ go
 
 [sql server数据类型](https://www.w3school.com.cn/sql/sql_datatypes.asp)
 
+![数据类型](/Users/liuyating/Desktop/practicing/图片笔记/sql/数据类型.jpg)
+
 ```sql
 --尝试使用SQLServer的帮助。选中关键字，按F1查看文档
 Go：--将T-SQL语句分批发送到数据库实例执行。
