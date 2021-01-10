@@ -29,14 +29,13 @@ git init
 
 create a local git repo
 
-initialize empty Git repository in 
-
 ```
 git status (branch master)
 git add file1.txt/git stage file1.txt
+git add *.txt
 ```
 
-when you `add` a file you are telling Git to keep track of it.`add` also tells Git to **stage** the file, which means put it in the stage of being ready to be committed
+when you `add` a file you are telling git to keep track of it.`add` also tells Git to **stage** the file, which means put it in the stage of being ready to be committed
 
 ```git stage```is really just another name for ```git add```.
 
@@ -48,7 +47,7 @@ when you `add` a file you are telling Git to keep track of it.`add` also tells G
 >
 >And better than ```git add .``` is ```git add -p``` because it will interactively ask what to stage, this will show you all the changes again and will show you comment / logging that you forgot to remove as well. Also commit often, as large changes tend to be hard to review / oversee.
 
-when you `commit`, you in effect copy all staged files to the repository. The `-m` is a flag (that's what the hyphen indicates) which tells Git that the following string is a message to record with the commit.
+when you `commit`, you in effect copy all staged files to the repository. The `-m` is a flag (that's what the hyphen indicates) which tells git that the following string is a message to record with the commit.
 
 ```
 git commit -m "Committing a new file with my name"
@@ -71,6 +70,8 @@ git commit --amend -m "Added favorite restaurant and movie"
 ### ```git reset```, ```git revert``` and ```git checkout```
 
 ```
+git reset filename.extension //从暂存区删除指定文件
+git rm --cached filename.extension//从暂存区删除该文件，并将其设置为未跟踪
 git reset --hard xxxx
 git reset --hard HEAD       //(going back to HEAD)
 git reset --hard HEAD^      //(going back to the commit before HEAD)
@@ -253,8 +254,9 @@ ssh -T git@github.com
 
 ```
 git remote add origin git@github.com:tylerdemo/demo4.git //url of the server
-git pull origin master --allow-related-histories //master或其他branch
+git pull origin master --allow-related-histories //master或其他branch。如果你和别人用一样的代码库，这个命令可以让从远程存储库提取最新版本，更新你的本地版本，这样你就能在同伴工作的基础上继续写代码了
 git push -u origin master //-u代表本地的master, master或其他branch
+git push //在你执行完初始推送后把代码放到github上
 ```
 
 如果是clone，默认仓库是绑定上去的，所以```git clone```的repo，通过```git push```就可以了
