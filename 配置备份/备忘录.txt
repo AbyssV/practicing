@@ -1,0 +1,80 @@
+修改日志
+电子书：
+Python 3网络爬虫开发实战
+Django企业开发实战 高效Python Web框架指南
+已修改
+学习资料
+practicing
+official
+入学
+D盘：
+--------------------------------------------------------------------------
+Java11: C:\Program Files\Java
+Git: C:\extension\Git
+VS Code: C:\Users\admin\AppData\Local\Programs\Microsoft VS Code
+VSC的设置目录：C:\Users\admin\AppData\Roaming\Code\User\settings.json
+MinGW: C:\extension\MinGW
+
+python根目录：
+C:\Users\admin\AppData\Local\Programs\Python\Python36\Scripts\
+C:\Users\admin\AppData\Local\Programs\Python\Python36\
+第三方包安装路径：
+C:\Users\admin\AppData\Local\Programs\Python\Python36\Lib\site-packages
+更换源：速度超快
+C:\Users\admin\pip\pip.ini
+Anaconda目录：
+C:\software\Anaconda3
+C:\software\Anaconda3\Scripts
+Anaconda源文件，已更换清华源
+C:\Users\admin\.condarc
+
+--------------------------------------------------------------------------
+JetBrains
+账号 trasppdoc@yahoo.com
+密码 f54awe54c5wa4e*Q
+--------------------------------------------------------------------------
+CTExcel暂时密码：Vb4~Ym3&
+
+--------------------------------------------------------------------------
+操作系统名称	Microsoft Windows 10 专业版
+版本	10.0.19042 内部版本 19042
+其他操作系统描述 	没有资料
+操作系统制造商	Microsoft Corporation
+系统名称	ZZMF-20190903EB
+系统制造商	Alienware
+系统型号	Alienware 15 R3
+系统类型	基于 x64 的电脑
+系统 SKU	0774
+处理器	Intel(R) Core(TM) i7-7820HK CPU @ 2.90GHz，2901 Mhz，4 个内核，8 个逻辑处理器
+BIOS 版本/日期	Alienware 1.5.0, 2018/9/10
+SMBIOS 版本	3.0
+嵌入式控制器版本	255.255
+BIOS 模式	UEFI
+主板制造商	Alienware
+主板产品	Alienware 15 R3
+主板版本	A00
+平台角色	移动
+安全启动状态	启用
+PCR7 配置	需要提升才能查看
+Windows 目录	C:\WINDOWS
+系统目录	C:\WINDOWS\system32
+启动设备	\Device\HarddiskVolume3
+区域设置	中国
+硬件抽象层	版本 = "10.0.19041.844"
+用户名	ZZMF-20190903EB\admin
+时区	中国标准时间
+已安装的物理内存(RAM)	16.0 GB
+总的物理内存	15.9 GB
+可用物理内存	8.47 GB
+总的虚拟内存	23.6 GB
+可用虚拟内存	12.3 GB
+页面文件空间	7.75 GB
+页面文件	C:\pagefile.sys
+内核 DMA 保护	关闭
+基于虚拟化的安全性	未启用
+设备加密支持	需要提升才能查看
+Hyper-V - 虚拟机监视模式扩展	是
+Hyper-V - 第二级地址转换扩展	是
+Hyper-V - 固件中启用的虚拟化	是
+Hyper-V - 数据扩展保护	是
+

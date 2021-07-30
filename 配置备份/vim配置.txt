@@ -1,0 +1,60 @@
+" 去掉讨厌的有关vi一致性模式，避免以前版本的一些bug和局限
+set nocompatible
+
+" 显示行号
+set number
+
+" 高亮显示匹配的括号 
+set showmatch 
+
+" 制表符为4 
+set tabstop=4 
+
+" 侦测文件类型 
+filetype on 
+" 为特定文件类型载入相关缩进文件 
+filetype indent on 
+" 载入文件类型插件
+filetype plugin on
+
+" 下面两行在进行编写代码时，在格式对起上很有用；
+" 第一行，vim使用自动对起，也就是把当前行的对起格式应用到下一行；
+" 第二行，依据上面的对起格式，智能的选择对起方式，对于类似C语言编
+" 写上很有用
+set autoindent
+set smartindent
+
+" 在处理未保存或只读文件的时候，弹出确认 
+set confirm 
+
+" 与windows共享剪贴板 
+set clipboard+=unnamed 
+
+
+" 智能补全
+set completeopt=longest,menu
+
+" 语法高亮 
+syntax enable
+syntax on 
+
+" 不要生成swap文件，当buffer被丢弃的时候隐藏它 
+setlocal noswapfile 
+set bufhidden=hide 
+
+" 在状态行上显示光标所在位置的行号和列号 
+set ruler 
+set rulerformat=%20(%2*%<%f%=\ %m%r\ %3l\ %c\ %p%%%) 
+
+" 高亮显示当前行
+set cursorline
+hi cursorline guibg=#00ff00
+hi CursorColumn guibg=#00ff00
+
+" 搜索逐字符高亮
+set hlsearch
+set incsearch
+
+" 输入的命令显示出来，看的清楚
+set showcmd
+

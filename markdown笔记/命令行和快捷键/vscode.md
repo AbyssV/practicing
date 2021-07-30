@@ -1,18 +1,20 @@
 # VS Code
 
-[TOC]
-
 ## configuration file
 
 Inside ```.vscode``` file, change ```tasks.json``` to run tasks, change ```launch.json``` to run the debugger
 
-Change ```settings.json``` to overwrite user settings.
+Change ```settings.json```(workspace settings) to overwrite user settings.
 
 Change ```keybindings.json``` to customize keyboard shortcuts.
 
 ### ```.eslintrc.json```
 
-Install the **ESLint extension**. Configure your linter however you'd like. Consult the [ESLint specification](https://eslint.org/docs/user-guide/configuring) for details on its linting rules and options.
+Install the [ESLint extension](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint). Configure your linter however you'd like. Consult the [ESLint specification](https://eslint.org/docs/user-guide/configuring) for details on its linting rules and options.
+
+关于eslint的简介[Eslint 超简单入门教程](https://www.jianshu.com/p/ad1e46faaea2)。这是一个编码规范的工具，需要npm和node环境。
+
+For python,you can modify your own ```.pylintrc``` file to customize messages
 
 ### ```package.json```
 
@@ -24,25 +26,59 @@ some of my settings
 
 ```json
 {
-    "editor.fontSize": 14,
-    //"terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\cmd.exe",
-    "terminal.integrated.shell.windows": "C:\\extension\\Git\\bin\\bash.exe",
-    "terminal.external.windowsExec": "C:\\extension\\Git\\bin\\bash.exe",
-    
-
+    "editor.fontSize": 16,
+    "terminal.integrated.fontSize": 16,
+    "terminal.integrated.fontFamily": "Lucida Console",
     "workbench.colorTheme": "Solarized Light",
-    "[markdown]": {
-        "editor.wordWrap": "on",
-        "editor.quickSuggestions": true
-    },
-    "git.path": "C:\\extension\\Git\\bin.exe",
-    "editor.suggestSelection": "first",
+
+    "terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\cmd.exe",
+    //"terminal.integrated.shell.windows": "C:\\extension\\cygwin64\\bin\\bash.exe",
+    //"terminal.integrated.shell.windows": "C:\\extension\\Git\\bin.exe",
+    //"terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+    "terminal.external.windowsExec": "C:\\extension\\Git\\bin\\bash.exe",
+    "terminal.integrated.shellArgs.windows": ["/K chcp 65001 >nul"], //执行 chcp 65001 就可以把cmd的编码设置成uft-8了
+    //"terminal.integrated.inheritEnv": false, //I don't want to use terminal for Anaconda
+
+    "editor.suggestSelection": "first", //default is recentlyUsed
     "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
-    "python.jediEnabled": false,
-    "terminal.integrated.inheritEnv": false, //I don't want to use terminal for Anaconda
+    "editor.tabCompletion": "on",//这个属性是表示在出现推荐值时，按下Tab键是否自动填入最佳推荐值
     "diffEditor.renderSideBySide": false,// version control for diffs is not side by side but a inline view
-    "python.pythonPath": "C:\\software\\Anaconda3\\python.exe", 
+
+    "[markdown]": {
+        "editor.wordWrap": "on", //自动换行
+        "editor.quickSuggestions": true //智能提示
+    },
+
+    "git.path": "C:\\extension\\Git\\bin\\bash.exe",
+    
+    "python.jediEnabled": false, //使用Jedi作为IntelliSense引擎（true）还是Microsoft Python语言服务器（false）
+    "python.pythonPath": "C:\\software\\Anaconda3\\python.exe",    
+    "python.languageServer": "Pylance",
+    "[python]": {
+        "editor.wordBasedSuggestions": false
+    },
+    "jupyter.alwaysTrustNotebooks": true,
 }
+
+{
+    "editor.rulers": [20, 40, 60], //竖线
+}
+
+
+/*
+//c++，没测试
+// cygwin 的安装目录
+// 使得 cygwin 切换到当前工作目录
+"terminal.integrated.env.windows": {
+"CHERE_INVOKING": "1"
+},
+// 使 cygwin 能够在 vscode 中正常使用 Shell 命令
+"terminal.integrated.shellArgs.windows": [
+"-l"
+],
+*/
+
+
 ```
 
 check for more [customizations](https://code.visualstudio.com/docs/getstarted/settings) here
@@ -50,8 +86,17 @@ check for more [customizations](https://code.visualstudio.com/docs/getstarted/se
 For the settings, which you only want for specific languages, you can scope the settings by the language identifier. You can find a list of commonly used language ids in the [Language Identifiers](https://code.visualstudio.com/docs/languages/identifiers) reference.
 
 ```json
-"[languageid]": {
-
+{
+  "[typescript]": {
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true
+  },
+  "[markdown]": {
+    "editor.formatOnSave": true,
+    "editor.wordWrap": "on",
+    "editor.renderWhitespace": "all",
+    "editor.acceptSuggestionOnEnter": "off"
+  }
 }
 ```
 
@@ -63,30 +108,9 @@ For the settings, which you only want for specific languages, you can scope the 
 
 Open the **Welcome** page to get started with the basics of VS Code. **Help > Welcome**.
 
-
-
 ### Open multiple files from Quick Open
 
-You can open multiple files from **Quick Open** by pressing the Right arrow key. This will open the currently selected file in the background and you can continue selecting files from **Quick Open**. (在同一个文件夹内)
-
-
-
-### Change language mode
-
-If you want to persist the new language mode for that file type, you can use the **Configure File Association for** command to associate the current file extension with an installed language.
-
-
-
-### File associations
-Create language associations for files that aren't detected correctly. For example, many configuration files with custom file extensions are actually JSON.
-
-```json
-"files.associations": {
-    ".database": "json"
-}
-```
-
-
+You can open multiple files from **Quick Open**)(```ctrl+p```) by pressing the Right arrow key. This will open the currently selected file in the background and you can continue selecting files from **Quick Open**. (在同一个文件夹内)
 
 ### Preventing dirty writes
 VS Code will show you an error message when you try to save a file that cannot be saved because it has changed on disk. VS Code blocks saving the file to prevent overwriting changes that have been made outside of the editor.
@@ -96,19 +120,6 @@ In order to resolve the save conflict, click the **Compare** action in the error
 Use the actions in the editor toolbar to resolve the save conflict. You can either **Accept** your changes and thereby overwriting any changes on disk, or **Revert** to the version on disk. Reverting means that your changes will be lost.
 
 **Note**: The file will remain dirty and cannot be saved until you pick one of the two actions to resolve the conflict.
-
-
-
-### Keymaps
-Are you used to keyboard shortcuts from another editor? You can install a Keymap extension that brings the keyboard shortcuts from your favorite editor to VS Code. Go to **Preferences > Keymap Extensions** to see the current list on the Marketplace. 
-
-
-
-###  Portable mode
-
-VS Code has a Portable mode which lets you keep settings and data in the same location as your installation, for example, on a USB drive.
-
-
 
 ### Customize your keyboard shortcuts
 
@@ -126,31 +137,44 @@ You can search for shortcuts and add your own keybindings to the ```keybindings.
 
 See more in Key Bindings for [Visual Studio Code](https://code.visualstudio.com/docs/getstarted/keybindings).
 
-
-
 ### Multi cursor selection
 
 To add cursors at arbitrary positions, select a position with your mouse and use ```Alt+Click``` (```Option+click``` on macOS).
 
 To set cursors above or below the current position use ```Ctrl+Alt+Up``` or ```Ctrl+Alt+Down```
 
-You can add additional cursors to all occurrences of the current selection with ```Ctrl+Shift+L.```
+```Ctrl+U```: undo last cursor operation - 很有用，不光在这里
+
+```Alt+Shift+I```: 选中一堆文本后，按下可在每一行的末尾都创建一个光标，包括空行
 
 >Note: You can also change the modifier to ```Ctrl/Cmd``` for applying multiple cursors with the ```editor.multiCursorModifier``` setting 
 
 If you do not want to add all occurrences of the current selection, you can use ```Ctrl+D``` instead. This only selects the next occurrence after the one you selected so you can add selections one by one.
 
-
-
 ### Column (box) selection
-You can select blocks of text by holding ```Shift+Alt``` (```Shift+Option``` on macOS) while you drag your mouse. A separate cursor will be added to the end of each selected line.
+You can select blocks of text by holding ```Shift+Alt``` (```Shift+Option``` on macOS) while you drag your mouse. A separate cursor will be added to the end of each selected line. 不包括空行
+
+### Transform text commands
+
+You can change selected text to uppercase, lowercase, and title case with the **transform** commands from the Command Palette.
+
+### Search and modify
+
+Besides searching and replacing expressions, you can also search and reuse parts of what was matched, using regular expressions with capturing groups. Enable regular expressions in the search box by clicking the **Use Regular Expression**``` .*``` button (```alt+R```) and then write a regular expression and use parenthesis to define groups. You can then reuse the content matched in each group by using ```$1```, ```$2```, etc. in the Replace field.
+
+### Create custom snippets
+
+**File** > **Preferences** > **User Snippets** (**Code** > **Preferences** > **User Snippets** on macOS), select the language, and create a snippet. See more details in [Creating your own Snippets](https://code.visualstudio.com/docs/editor/userdefinedsnippets).
+
+应该是编码习惯自定义，这个vim也有
+
+### 在新建文件夹的时候，如果直接输入 ```aa/bb/cc```，那么，就可以创建多层子文件夹
+
+### Emmet in VS Code
 
 
 
-
-### Git integration
-
-Keyboard Shortcut: ```Ctrl+Shift+G```
+### Git integration ```Ctrl+Shift+G```
 
 #### Diffs
 
@@ -162,7 +186,7 @@ Toggle inline view by clicking the **More Actions** (...) button in the top righ
 
 #### Review pane
 
-Navigate through diffs with ```F7``` and ```Shift+F7```. This will present them in a unified patch format. Lines can be navigated with arrow keys and pressing ```Enter``` will jump back in the diff editor and the selected line.
+Navigate through diffs with ```F7```(顺序看) and ```Shift+F7```(倒序看). This will present them in a unified patch format. Lines can be navigated with arrow keys and pressing ```Enter``` will jump back in the diff editor and the selected line.
 
 #### Edit pending changes
 
@@ -191,13 +215,21 @@ Use the **Toggle Output** command (```Ctrl+Shift+U```) and select **Git** in the
 #### Resolve merge conflicts
 During a merge, go to the **Source Control** view (```Ctrl+Shift+G```) and make changes in the diff view.
 
+You can resolve merge conflicts with the inline CodeLens which lets you **Accept Current Change**, **Accept Incoming Change**, **Accept Both Changes**, and **Compare Changes**.
+
 #### Set VS Code as default merge tool
 
 ```
-git config --global merge.tool code
+git config --global merge.tool vscode
+git config --global mergetool.vscode.cmd 'code --wait $MERGED'
 ```
 
+#### Set VS Code as default diff tool
 
+```
+git config --global diff.tool vscode
+git config --global difftool.vscode.cmd 'code --wait --diff $LOCAL $REMOTE'
+```
 
 ### Debugging
 
@@ -205,12 +237,18 @@ git config --global merge.tool code
 Open the **Command Palette** (```Ctrl+Shift+P```) and select **Debug**: Open ```launch.json```, which will prompt you to select the environment that matches your project (Node.js, Python, C++, etc). This will generate a ```launch.json``` file. Node.js support is built-in and other environments require installing the appropriate language extensions. See the debugging [documentation](https://code.visualstudio.com/docs/editor/debugging) for more details.
 
 #### Data inspection
-Inspect variables in the **Debug** panels and in the console. (注意在dubug console输入变量名，类似在浏览器里dubug js)
+Inspect variables in the **Debug** panels and in the console. 
 
 #### Inline values
 You can set ```"debug.inlineValues": true``` to see variable values inline in the debugger. This feature can be expensive and may slow down stepping, so it is disabled by default
 
+#### Logpoints
 
+Logpoints act much like breakpoints but instead of halting the debugger when they are hit, they log a message to the console. Logpoints are especially useful for injecting logging while debugging production servers that cannot be modified or paused.
+
+Add a logpoint with the **Add Logpoint** command in the left editor gutter and it will be displayed as a "diamond" shaped icon. Log messages are plain text but can include expressions to be evaluated within curly braces ('{}').
+
+非阻塞，挺好用的
 
 ### Task runner
 
@@ -237,9 +275,9 @@ For example, to bind  ```Ctrl+H``` to the ```Run tests``` task, add the followin
 
 #### Run npm scripts as tasks from the explorer
 
-With the setting ```npm.enableScriptExplorer```, you can enable an explorer that shows the scripts defined in your workspace.
+From the explorer you can open a script in the editor, run it as a task, and launch it with the node debugger (when the script defines a debug option like `--inspect-brk`). The default action on click is to open the script. To run a script on a single click, set `npm.scriptExplorerAction` to "run". Use the setting `npm.exclude` to exclude scripts in `package.json` files contained in particular folders.
 
-我不知道npm是什么。。。
+With the setting `npm.enableRunFromFolder`, you can enable to run npm scripts from the File Explorer's context menu for a folder. The setting enables the command **Run NPM Script in Folder...** when a folder is selected. The command shows a Quick Pick list of the npm scripts contained in this folder and you can select the script to be executed as a task.
 
 
 
@@ -253,7 +291,7 @@ You can open as many editors as you like side by side vertically and horizontall
 - **Open to the Side** (```Ctrl+Enter```) from the Explorer context menu on a file.
 - Click the **Split** Editor button in the upper right of an editor.
 - Drag and drop a file to any side of the editor region.
-- ```ctrl+Ente```r (macOS: ```cmd+Enter```) in the **Quick Open** (```Ctrl+P```) file list.
+- ```ctrl+Enter``` (macOS: ```cmd+Enter```) in the **Quick Open** (```Ctrl+P```) file list.
 
 Whenever you open another file, the editor that is active will display the content of that file. So if you have two editors side by side and you want to open file 'foo.cs' into the right-hand editor, make sure that editor is active (by clicking inside it) before opening file 'foo.cs'.
 
@@ -263,21 +301,25 @@ When you have more than one editor open you can switch between them quickly by h
 
 > Tip: You can resize editors and reorder them. Drag and drop the editor title area to reposition or resize the editor.
 
+There are a predefined set of editor layouts in the new **View** > **Editor Layout** menu
+
+Editors that open to the side (for example by clicking the editor toolbar **Split Editor** action) will by default open to the right-hand side of the active editor. If you prefer to open editors below the active one, configure the new setting `workbench.editor.openSideBySideDirection: down`.
+
+There are many keyboard commands for adjusting the editor layout with the keyboard alone, but if you prefer to use the mouse, drag and drop is a fast way to split the editor into any direction
+
+> Pro Tip: If you press and hold the Alt key while hovering over the **toolbar action** to split an editor, it will offer to split to the other orientation. This is a fast way to split either to the right or to the bottom(按住```alt```的同时点右上角的标识)
+
 ### Minimap
 
 You can click or drag the shaded area to quickly jump to different sections of your file. You can move the minimap to the left hand side or disable it completely by respectively setting ```"editor.minimap.side": "left"``` or ```"editor.minimap.enabled": false``` in your user or workspace settings.
-
-### Indent Guides
-
-The image above also shows indentation guides (vertical lines) which help you quickly see matching indent levels. If you would like to disable indent guides, you can set ```"editor.renderIndentGuides": false``` in your user or workspace [settings](https://code.visualstudio.com/docs/getstarted/settings).
 
 ### Breadcrumbs
 
 The editor has a navigation bar above its contents called Breadcrumbs. It shows the current location and allows you to quickly navigate between folders, files, and symbols.
 
-Breadcrumbs always show the file path and if the current file type has language support for symbols, the symbol path up to the cursor position. You can disable breadcrumbs with the **View > Show Breadcrumbs** toggle command. For more information about the breadcrumbs feature, such as how to customize their appearance, see the Breadcrumbs section of the [Code Navigation](https://code.visualstudio.com/docs/editor/editingevolved) article.
+Breadcrumbs always show the file path and if the current file type has language support for symbols, the symbol path up to the cursor position. You can disable breadcrumbs with the **View > Show Breadcrumbs** toggle command. For more information about the breadcrumbs feature, such as how to customize their appearance, see the [Breadcrumbs](https://code.visualstudio.com/docs/editor/editingevolved#_breadcrumbs) section of the [Code Navigation](https://code.visualstudio.com/docs/editor/editingevolved) article.
 
-在tab和代码之间，似乎还挺有参考性的
+在tab和代码之间的那一小行，似乎还挺有参考性的
 
 ### Explorer
 
@@ -289,23 +331,81 @@ You can also navigate to the location of a file or folder in the native Explorer
 
 > Tip: Type ```Ctrl+P``` (**Quick Open**) to quickly search and open a file by its name.
 
-By default, VS Code excludes some folders from the Explorer (for example. ```.git```). Use the ```files.exclude``` setting to configure rules for hiding files and folders from the Explorer.
+By default, VS Code excludes some folders from the Explorer (for example. ```.git```). Use the ```files.exclude``` [setting](https://code.visualstudio.com/docs/getstarted/settings) to configure rules for hiding files and folders from the Explorer.
 
 > Tip: This is really useful to hide derived resources files, like ```\*.meta``` in Unity, or ```\*.js``` in a TypeScript project. For Unity to exclude the ```\*.cs.meta``` files, the pattern to choose would be: ```"**/*.cs.meta": true```. For TypeScript, you can exclude generated JavaScript for TypeScript files with: ```"**/*.js": {"when": "$(basename).ts"}```.
 
-### Multi-selection
-You can select multiple files in the **File Explorer** and **OPEN EDITORS** view to run actions (Delete, Drag and Drop, Open to the Side) on multiple items. Use the ```ctrl/cmd``` key with ```click``` to select individual files and ```shift``` + ```click``` to select a range. If you select two items, you can now use the context menu **Compare Selected** command to quickly diff two files.
-
-Note: In earlier VS Code releases, clicking with the ```ctrl/cmd``` key pressed would open a file in a new Editor Group to the side. If you would still like this behavior, you can use the ```workbench.list.multiSelectModifier``` setting to change multi-selection to use the Alt key.
-
-```json
-"workbench.list.multiSelectModifier": "alt"
-```
-
 ### Filtering the document tree
-You can type to filter the currently visible files in the **File Explorer**. With the focus on the **File Explorer** start to type part of the file name you want to match. You will see a filter box in the top-right of the **File Explorer** showing what you have typed so far and matching file names will be highlighted. When you press the cursor keys to move up and down the file list, it will jump between matching files or folders.
+The Outline view is a separate section in the bottom of the File Explorer. When expanded, it will show the symbol tree of the currently active editor.
 
-Hovering over the filter box and selecting **Enable Filter on Type** will show only matching files/folders. Use the 'X' **Clear** button to clear the filter.
+The Outline view has different **Sort By** modes, optional cursor tracking, and supports the usual open gestures. It also includes an input box which finds or filters symbols as you type. Errors and warnings are also shown in the Outline view, letting you see at a glance a problem's location.
+
+For symbols, the view relies on information computed by your installed extensions for different file types. For example, the built-in Markdown support returns the Markdown header hierarchy for a Markdown file's symbols.
+
+There are several Outline view [settings](https://code.visualstudio.com/docs/getstarted/settings) which allow you to enable/disable icons and control the errors and warnings display (all enabled by default):
+
+- `outline.icons` - Toggle rendering outline elements with icons.
+- `outline.problems.enabled` - Show errors and warnings on outline elements.
+- `outline.problems.badges` - Toggle using badges for errors and warnings.
+- `outline.problems.colors` - Toggle using colors for errors and warnings.
+
+### Window management
+
+The `window.restoreWindows` setting tells VS Code how to restore the opened windows of your previous session. By default, VS Code will restore all windows you worked on during your previous session (setting: `all`). Change this setting to `none` to never reopen any windows and always start with an empty VS Code instance. Change it to `one` to reopen the last opened window you worked on or `folders` to only restore windows that had folders opened.
+
+
+
+## User and Workspace Settings
+
+VS Code provides two different scopes for settings:
+
+- **User Settings** - Settings that apply globally to any instance of VS Code you open.
+- **Workspace Settings** - Settings stored inside your workspace and only apply when the workspace is opened.
+
+Workspace settings override user settings. Workspace settings are specific to a project and can be shared across developers on a project.
+
+> **Note**: A VS Code "workspace" is usually just your project root folder. Workspace settings as well as [debugging](https://code.visualstudio.com/docs/editor/debugging) and [task](https://code.visualstudio.com/docs/editor/tasks) configurations are stored at the root in a `.vscode` folder. You can also have more than one root folder in a VS Code workspace through a feature called [Multi-root workspaces](https://code.visualstudio.com/docs/editor/multi-root-workspaces).
+
+**Note**: VS Code extensions can also add their own custom settings and they will be visible under an **Extensions** section.
+
+### Settings file location
+
+By default VS Code shows the Settings editor, but you can still edit the underlying `settings.json` file by using the **Open Settings (JSON)** command or by changing your default settings editor with the `workbench.settings.editor` setting.
+
+Depending on your platform, the user settings file is located here:
+
+- **Windows** `%APPDATA%\Code\User\settings.json`
+- **macOS** `$HOME/Library/Application Support/Code/User/settings.json`
+- **Linux** `$HOME/.config/Code/User/settings.json`
+
+The workspace settings file is located under the `.vscode` folder in your root folder.
+
+> **Note:** In case of a [Multi-root Workspace](https://code.visualstudio.com/docs/editor/multi-root-workspaces#_settings), workspace settings are located inside the workspace configuration file.
+
+### Language-specific editor settings
+
+To customize your editor by language, run the global command **Preferences: Configure Language Specific Settings** (command id: `workbench.action.configureLanguageBasedSettings`) from the **Command Palette** (```Ctrl+Shift+P```) which opens the language picker. Select the language you want, which then opens your user `settings.json` with the language entry where you can add applicable settings.
+
+If you have a file open and you want to customize the editor for this file type, click on the Language Mode in the Status Bar to the bottom-right of the VS Code window. This opens the Language Mode picker with an option **Configure 'language_name' language based settings**. Selecting this opens your user `settings.json` with the language entry where you can add applicable settings.
+
+**Language-specific editor settings in your user settings override workspace settings.**
+
+You can scope language-specific settings to the workspace by placing them in the workspace settings just like other settings. If you have settings defined for a language in both user and workspace scopes, then they are merged by giving precedence to the ones defined in the workspace.
+
+You can use IntelliSense in `settings.json` to help you find allowed language-based settings. All editor settings and some non-editor settings are supported. Some languages have default language-specific settings already set, which you can review in `defaultSettings.json` opened with the **Preferences: Open Default Settings** command.
+
+### Settings and security
+
+Some settings allow you to specify an executable that VS Code will run to perform certain operations. For example, you can choose which shell the Integrated Terminal should use. For enhanced security, such settings can only be defined in user settings and not at workspace scope.
+
+Here is the list of settings not supported in workspace settings:
+
+- `git.path`
+- `terminal.external.windowsExec`
+- `terminal.external.osxExec`
+- `terminal.external.linuxExec`
+
+The first time you open a workspace that defines any of these settings, VS Code will warn you and subsequently always ignore the values after that.
 
 
 
@@ -313,7 +413,9 @@ Hovering over the filter box and selecting **Enable Filter on Type** will show o
 
 ### interface
 
-```ctrl+shift+p```/```cmd+shift+p```: Command Palette. Type ```?``` to view help suggestions.
+```ctrl+shift+p```/```F1```: Command Palette. Type ```?```  into the input field to get a list of available commands you can execute from here.
+
+```Ctrl+K S```: save all
 
 ```alt```: Pressing the ```alt``` key enables fast scrolling in the editor and Explorers. By default, fast scrolling uses a 5X speed multiplier but you can control the multiplier with the **Editor: Fast Scroll Sensitivity** (```editor.fastScrollSensitivity```) setting.
 
@@ -321,7 +423,15 @@ Hovering over the filter box and selecting **Enable Filter on Type** will show o
 
 ```ctrl+` ```: integrated terminal 
 
-**```ctrl+B```**: toggle sidebar ```ctrl+K Z```: zen mode. Press ```Esc``` twice to exit Zen Mode.
+```Ctrl+Shift+` ```create new terminal
+
+```Ctrl+Shift+C```:external terminal
+
+```Ctrl+Pagedown/Pageup```: 在已经打开的多个文件之间进行切换
+
+```Ctrl+B```: 显示/隐藏侧边栏
+
+```ctrl+K Z```: zen mode. Press ```Esc``` twice to exit Zen Mode. Zen mode can be toggled using View menu, Command Palette 
 
 ```ctrl+\```: side by side editing. You can also drag and drop editors to create new editor groups and move editors between groups.  Switch between editors: ```Ctrl+1```, ```Ctrl+2```, ```Ctrl+3```
 
@@ -331,51 +441,90 @@ Hovering over the filter box and selecting **Enable Filter on Type** will show o
 
 ```ctrl+Tab```: Navigate entire history. Navigate back: ```Alt+Left```; Navigate forward: ```Alt+Right```
 
-```ctrl+click/cmd+click```: You can quickly open a file or image or create a new file by moving the cursor to the file link. (打开一个文件，多用于js，因为有<script src="">), alternatively, you can select a symbol then type ```F12```(go to definition)
+```ctrl+click/cmd+click```: You can quickly open a file or image or create a new file by moving the cursor to the file link, alternatively, you can select a symbol then type ```F12```(go to definition). Alternatively, you can use the context menu.
 
-***Alternatively, you can use the context menu.***
+- You can go back to your previous location with the **Go > Back** command or ```Alt+Left```.
+- You can also see the type definition if you press ```Ctrl``` (```Cmd``` on macOS) when you are hovering over the type.
 
-Select a symbol then type ```alt+F12```: peek(我认为是看其他文件中所有使用这个symbol的地方)
+```Ctrl+K F12```:open definition to the side
 
-Select a symbol then type ```shift+F12```: go to reference
+以下看不懂
 
-Select a symbol then type ```shift+alt+F12``` to open the References view showing all your file's symbols in a dedicated view.
+***
 
-You can go back to your previous location with the **Go > Back** command or ```Alt+Left```.
+Select a symbol then type ```alt+F12```: peek(我认为是看查源码定义)
 
-You can also see the type definition if you press ```Ctrl``` (```Cmd``` on macOS) when you are hovering over the type.
+Select a symbol then type ```shift+F12```: 函数在那些地方被调用了，包括了源码的定义。在新的窗口显示
 
-Select a symbol then type ```F2```: rename a symbol
+Select a symbol then type ```shift+alt+F12``` to open the References view showing all your file's symbols in a dedicated view.在新的更大的窗口显示
 
-#### Search and modify
-Besides searching and replacing expressions, you can also search and reuse parts of what was matched, using regular expressions with capturing groups. Enable regular expressions in the search box by clicking the **Use Regular Expression**``` .*``` button (```alt+R```) and then write a regular expression and use parenthesis to define groups. You can then reuse the content matched in each group by using ```$1```, ```$2```, etc. in the Replace field.
+Select a symbol then type ```F2```: 这个函数（或变量名）出现的地方都会被修改。Alternatively, you can use the context menu.
 
 ### coding
 
-```Shift+Alt+Up``` or ```Shift+Alt+Down```: Copy line up / down
-
-> The commands **Copy Line Up/Down** are unbound on **Linux** because the VS Code default keybindings would conflict with Ubuntu keybindings, see Issue #509. You can still set the commands ```editor.action.copyLinesUpAction``` and``` editor.action.copyLinesDownAction``` to your own preferred keyboard shortcuts.
+```Ctrl+left/right```:在单词之间移动光标
 
 ```Alt+Up``` or ```Alt+Down```: Move line up and down(把这行代码上移或下移)
 
-```Shift+Alt+Left``` or ```Shift+Alt+Right```: Shrink / expand selection(从最外围```{}```的到最内的```{}```)
+```Shift+Alt+Up``` or ```Shift+Alt+Down```: Copy line up / down
 
-```Ctrl+Shift+[``` and ```Ctrl+Shift+]```: Code folding(打开或是关闭里```{}```的代码)
+```Ctrl+]\[```: indent/outdent line
 
-```Ctrl+K Ctrl+F```: Code formatting. Whole document format: ```Shift+Alt+F```(自动对齐)
+```Ctrl+/```: toggle line comment
+
+```Shift+Alt+A```:toggle block comment
+
+```Ctrl+Shift+\```: jump to matching bracket
+
+```Ctrl+Shift+[``` and ```Ctrl+Shift+]```: Code folding(打开或是关闭里```{}```的代码，光标停留在一个大括号外即可)
+
+```Ctrl+K Ctrl+0``` and ```Ctrl+K Ctrl+J```: fold/unfold all regions in the editor
+
+```Ctrl+K Ctrl+/```: fold all block comments
+
+```Shift+Alt+F```:format document(自动对齐)
+
+```Ctrl+K Ctrl+F```: format selection
 
 ```Ctrl+K Ctrl+X```: Trim trailing whitespace(去掉多余的空格)
 
-```Ctrl+U```: Undo cursor position
-
 ```Ctrl+L```: Select current line
 
-```Ctrl+G```: Navigate to a specific line
+在当前行的位置，鼠标三击，可以选中当前行；用鼠标单机文件的行号，可以选中当前行；在某个行号的位置，上下移动鼠标，可以选中多行
+
+```Ctrl+Shift+L```:select all occurences of current selection
 
 ```Ctrl+Home``` and ```Ctrl+End```: Navigate to beginning and end of file
 
-```Ctrl+Shift+O```: Go to Symbol in File. You can group the symbols by kind by adding a colon, ```@:```.
+```Ctrl+Shift+O```: go to symbol(methods) in file. You can group the symbols by kind by adding a colon, ```@:```(React, TextField)
 
-```Ctrl+T```: Go to Symbol in Workspace
+```Ctrl+T```: go to symbol in workspace
 
-```Ctrl+Space```:  trigger the Suggestions widget by IntelliSense. 
+```Ctrl+G```: Navigate to a specific line
+
+```F8```:go to next error or warning
+
+```Shift+F8```:go to previous error or warning
+
+```Ctrl+Space```: trigger the Suggestions widget by IntelliSense. 
+
+```Ctrl+Shift+Space```: trigger parameter hints
+
+### Search and Replace
+
+```Ctrl+Shift+F```: 全局搜索
+
+```Ctrl+H```: replace
+
+```Alt+Enter```: select all occurencecs of find match
+
+
+
+## Color Themes
+
+### Selecting the Color Theme
+
+1. In VS Code, open the Color Theme picker with **File** > **Preferences** > **Color Theme**. (**Code** > **Preferences** > **Color Theme** on macOS).
+2. You can also use the keyboard shortcut ```Ctrl+K Ctrl+T``` to display the picker.
+3. Use the cursor keys to preview the colors of the theme.
+4. Select the theme you want and press Enter.

@@ -1,0 +1,71 @@
+VSC的设置目录在C:\Users\admin\AppData\Roaming\Code\User\settings.json
+
+{
+    "editor.fontSize": 16,
+    "terminal.integrated.fontSize": 16,
+
+    "terminal.integrated.shell.windows": "C:\\extension\\Git\\bin\\bash.exe",
+    //"terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+    "terminal.external.windowsExec": "C:\\extension\\Git\\bin\\bash.exe",
+    //"terminal.integrated.shellArgs.windows": ["/K chcp 65001 >nul"], 执行 chcp 65001 就可以把cmd的编码设置成uft-8了
+    //"terminal.integrated.inheritEnv": false, //I don't want to use terminal for Anaconda
+
+    "editor.suggestSelection": "first", //default is recentlyUsed
+    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+    "editor.tabCompletion": "on",//这个属性是表示在出现推荐值时，按下Tab键是否自动填入最佳推荐值
+    "diffEditor.renderSideBySide": false,// version control for diffs is not side by side but a inline view
+
+    "[markdown]": {
+        "editor.wordWrap": "on", //自动换行
+        "editor.quickSuggestions": true //智能提示
+    },
+
+    "git.path": "C:\\extension\\Git\\bin\\bash.exe",
+    
+    "python.jediEnabled": false, //使用Jedi作为IntelliSense引擎（true）还是Microsoft Python语言服务器（false）
+    "python.pythonPath": "C:\\software\\Anaconda3\\python.exe",    
+    "python.languageServer": "Pylance",
+    "[python]": {
+        "editor.wordBasedSuggestions": false
+    },
+    "jupyter.alwaysTrustNotebooks": true,
+    "workbench.iconTheme": "vscode-icons",
+    "sync.gist": "245869444a2fbb533a0d86a8a909966c",
+    "gitlens.advanced.messages": {
+        "suppressGitVersionWarning": true
+    },
+    // make red hat support jdk11
+    "java.configuration.runtimes": [
+
+        {
+          "name": "JavaSE-11",
+          "path": "C:\\Program Files\\Java\\jdk-11.0.10",
+        },
+    ],
+    "java.configuration.checkProjectSettingsExclusions": false,
+    "terminal.integrated.fontFamily": "Source Code Pro",
+    "workbench.colorTheme": "Monokai",
+    "workbench.editorAssociations": [
+        {
+            "viewType": "jupyter.notebook.ipynb",
+            "filenamePattern": "*.ipynb"
+        }
+    ],
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    //"[javascript]": {"editor.defaultFormatter": "esbenp.prettier-vscode",}
+    "[html]": {
+        "editor.defaultFormatter": "vscode.html-language-features",
+    },
+    "mssql.connections": [
+        {
+            "server": "{{put-server-name-here}}",
+            "database": "{{put-database-name-here}}",
+            "user": "{{put-username-here}}",
+            "password": "{{put-password-here}}"
+        }
+    ],
+    "settingsSync.ignoredExtensions": [
+    
+    ]
+
+}
