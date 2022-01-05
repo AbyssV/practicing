@@ -13,13 +13,14 @@
 
 system vimrc file: ```VIM/vimrc```/user vimrc file: ```$HOME/.vimrc```/2nd user vimrc file: ```~/.vim/vimrc```
 
-```''```：注释
+```''```/```"```：注释
 
-Ubuntu配置vim的配置文件及其重要参数介绍
+**Ubuntu配置vim的配置文件及其重要参数介绍(我的ubuntu虚拟机上就是这个位置)**
 
-全局路径：`/etc/vimrc`
+- 全局路径：`/etc/vimrc`
 
-用户个人路径：`$HOME/.vimrc`
+- 用户个人路径：`$HOME/.vimrc`
+
 
 建议：放在用户个人路径`$HOME/.vimrc`下
 

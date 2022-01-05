@@ -1,3 +1,5 @@
+[TOC]
+
 # Python基础
 
 ## 标识符
@@ -376,7 +378,7 @@ print(int_str_list + int_list) # [1, 2, 'a', 'b', 3, 4]
 # 3. 元组 
 t1 = (1, 2)
 t2 = (10, 20)
-print(t1 + t2)  # (10, 20, 100, 200)
+print(t1 + t2)  # (1, 2, 10, 20)
 
 # *
 # 1. 字符串
@@ -602,7 +604,7 @@ print(b) # [('a', 1), ('b', 2), ('c', 3), ('d', 4)]
 
 print('-------------------------------------------------------------------------------------------------------------------------')
 # 复制
-name_li2 = name_list.copy()
+name_li2 = name_list.copy() # works like copy.copy()
 ```
 
 ### tuple
@@ -891,7 +893,7 @@ g(a = 1, b = 2, c = 3, d = 4) # () {'d': 4, 'c': 3, 'a' : 1, 'b' : 2}
 ### 函数的说明文档
 
 ```python
-    # 实例
+# 实例
 def sum_num(a, b):
     """ 求和函数 """
     return a + b
@@ -999,15 +1001,19 @@ print(list(l)) # [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
 - 返回一个```zip```对象。
 
 ```python
+# 虽然在参数传递也通过*args，这里的*更像是zip()独有的用法
+
 raw_data = ('abcde', (1, 2, 3), ['1st', '2nd', '3rd', '4th'])
-print(*raw_data) # abcde (1, 2, 3) ['1st', '2nd', '3rd', '4th']
 z = zip(*raw_data) 
+# this is same as z = zip('abcde',(1, 2, 3),['1st', '2nd', '3rd', '4th'])
 print(z) # <zip object at 0x000001EC2B1328C8>
 # 元素个数与最短的列表一致
 l = list(z)
 print(l) # [('a', 1, '1st'), ('b', 2, '2nd'), ('c', 3, '3rd')]
-# *zip()函数是zip()函数的逆过程，将zip对象变成原先组合前的数据。
-print(*zip(*l)) # ('a', 'b', 'c') (1, 2, 3) ('1st', '2nd', '3rd')
+# 我们可以将其转换成原来的数组
+print(list(zip(*l))) # [('a', 'b', 'c'), (1, 2, 3), ('1st', '2nd', '3rd')]
+
+# 可以换成dict
 z2 = zip([1, 2, 3], ('a', 'b', 'c'))
 # 只能使用两个zip()参数，前者产生key，后者产生value。
 print(dict(z2)) # {1: 'a', 2: 'b', 3: 'c'}
@@ -1039,14 +1045,22 @@ def func_out(num1):
         num1 = 10
         # 内部函数使用了外部函数的变量(num1)
         result = num1 + num2
-        print("结果是:", result)
-    print(num1)
+        print("内部函数求和:", result)
+    print("外部函数1：", num1)
     func_inner(1)
-    print(num1)
+    print("外部函数2：", num1)
+    print()
     # 外部函数返回了内部函数，这里返回的内部函数就是闭包
     return func_inner
-f = func_out(1) # 1 结果是: 11 10
-f(2) # 结果是: 12
+f = func_out(1)
+f(2) # 仍然保留了外部函数的变量值
+"""
+外部函数1： 1
+内部函数求和: 11
+外部函数2： 10
+
+内部函数求和: 12
+"""
 ```
 
 ## 装饰器
@@ -1066,7 +1080,7 @@ f(2) # 结果是: 12
 # 装饰器的执行时机：当前模块加载完成后，装饰器会立即执行，对已有函数进行装饰
 # 如果闭包函数有且只有一个并且是函数类型，那么这个闭包函数称为装饰器
 def logging(fn): 
-    def inner(*args, **kwargs):
+    def inner(*args, **kwargs): # 应该是固定写法
         # 在内部函数里面对已有函数进行装饰
         # 使用装饰器装饰已有函数的时候，内部函数的类型和要装饰的已有函数的类型保持一致
         print("--正在努力计算--")
@@ -1202,6 +1216,7 @@ class Person(object):
     # 装饰器方式的property, 把age方法当做属性使用, 表示当获取属性时会执行下面修饰的方法
     @property
     def age(self):
+        print("正在获取属性")
         return self.__age
     # 把age方法当做属性使用, 表示当设置属性时会执行下面修饰的方法
     @age.setter
@@ -1227,6 +1242,7 @@ class Person(object):
         self.__age = 0
     def get_age(self):
         """当获取age属性的时候会执行该方法"""
+		print("正在获取属性")
         return self.__age
     def set_age(self, new_age):
         """当设置age属性的时候会执行该方法"""
@@ -1372,7 +1388,110 @@ xiaoqiu = Tusun()
 print(daqiu) # 配方是[独创煎饼果子配方]，钱是2000000
 daqiu.make_old_cake() # 运用[黑马煎饼果子配方]制作煎饼果子
 print(Tusun.__mro__) # (<class '__main__.Tusun'>, <class '__main__.Prentice'>, <class '__main__.School'>, <class '__main__.Master'>, <class 'object'>)
+```
 
+a more detailed example
+
+```python
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""
+__title__ = ''
+__author__ = 'admin'
+__mtime__ = '2021/11/14'
+"""
+
+import math
+import time
+import copy
+#*
+
+class Grandfather(object):
+    def __init__(self, age):
+        self.__identity = "grandfather"
+        self.gender = "male"
+        self.age = age
+
+    def showIdentity(self):
+        identity = f"I am {self.__identity} {self.age} yrs. old"
+        return identity
+
+class Father(Grandfather):
+    def __init__(self, age):
+        self.__identity = "father"
+        self.gender = "male"
+        self.age = age
+
+    def showIdentity(self):
+        identity = f"I am {self.__identity} {self.age} yrs. old"
+        return identity
+
+class Mother(object):
+    def __init__(self, age):
+        self.__identity = "mother"
+        self.gender = "female"
+        self.age = age
+
+    def showIdentity(self):
+        identity = f"I am {self.__identity} {self.age} yrs. old"
+        return identity
+
+class Child(Father, Mother):
+    def __init__(self, age):
+        self.__identity = "child"
+        self.gender = "male"
+        self.age = age
+
+    def __str__(self):
+        return f"ClassObject: Child; Condition: good!"
+
+    def __call__(self):
+        print("HAHA you find me!!")
+
+    def get_identity(self):
+        return self.__identity
+
+    def set_identity(self, new_idenitity):
+        self.__identity = new_idenitity
+
+
+    def showIdentity(self):
+        identity = f"I am {self.__identity} {self.age} yrs. old"
+        return identity
+
+    def showFatherIdentity(self):
+        # 当一个类有多个父类的时候，默认使用第一个父类的同名属性和方法
+        super().__init__(40) # super(Father, self).__init__(40)
+        identity = super().showIdentity() # super(Father, self).showIdentity()
+        return identity
+
+    def showMotherIdentity(self):
+        Mother.__init__(self, 40)
+        identity = Mother.showIdentity(self)
+        return identity
+
+grandfather = Grandfather(60)
+father = Father(30)
+mother = Mother(30)
+child = Child(10)
+
+print(father.showIdentity())
+print(mother.showIdentity())
+print(child.showIdentity())
+print(child.showFatherIdentity())
+print(child.showMotherIdentity())
+# child()
+child()
+print(Child.__mro__)
+"""
+I am father 30 yrs. old
+I am mother 30 yrs. old
+I am child 10 yrs. old
+I am father 40 yrs. old
+I am mother 40 yrs. old
+HAHA you find me!!
+(<class '__main__.Child'>, <class '__main__.Father'>, <class '__main__.Grandfather'>, <class '__main__.Mother'>, <class 'object'>)
+"""
 ```
 
 ### 多态
@@ -1436,8 +1555,12 @@ d1.age = 10
 print(d1.age) # 10
 print(d2.age) # 9
 print(Dog.age) # 9
+# print(d2.__genre) 不知道是不是私有反正无法访问
 
+# 静态方法和类方法能够通过实例对象和类对象去访问
 print(d2.get_genre())
+print(Dog.get_genre())
+
 print(d2.introduction())
 print(Dog.introduction())
 ```
@@ -2417,7 +2540,7 @@ if __name__ == '__main__':
 - 输入`main Enter`PyCharm会自动输入`if __name__ == __main__:`
 - 要快速查看插入符号处的文档，请按`Ctrl+Q`（查看|快速文档）。
 - 如果光标位于方法调用的括号之间，按下`Ctrl+P`将弹出一个有效参数列表。
-- `Ctrl+Shift+J`快捷键将两行合并为一行，并删除不必要的空格以符合您的代码样式。
+- (`Ctrl+Shift+J`快捷键将两行合并为一行，并删除不必要的空格以符合您的代码样式。)
 - `Ctrl+Shift+Backspace`（导航|上一个编辑位置）将您带回到您在代码中进行更改的最后一个地方。
 - 使用`Ctrl+Shift+F7`（Edit|Find|突出显示文件中的用法）快速突出显示当前文件中某些变量的用法。`F3`/`Shift+F3`向后或向前浏览。按`Esc`退出
 - 要查看您的本地文件更改历史记录，请调用本地历史记录|显示上下文菜单中的历史记录（Local History|Show History）。 您可以浏览不同的文件版本，查看差异并回滚到任何以前的版本。

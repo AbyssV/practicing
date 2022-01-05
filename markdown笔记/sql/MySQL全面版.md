@@ -1,3 +1,15 @@
+注意：我在存储过程，触发器中的分隔符写的不正确，`delimiter`前后都是需要加上空格的
+
+```sql
+delimiter //
+...
+delimiter ;
+```
+
+如果创建fk失败，注意refer的键必须是主键
+
+mysql中没有`check`，只能使用enum或trigger替换
+
 # 数据库的介绍
 
 数据库就是存储和管理数据的仓库，数据按照一定的格式进行存储，用户可以对数据库中的数据进行增加、修改、删除、查询等操作。
@@ -189,7 +201,7 @@ show profiles;
 ```mysql
 -- 创建联合索引
 alter table teacher add index (name,age); -- 索引名不指定，默认使用第一个字段名
-alter table drop index name;
+alter table teacher drop index name;
 ```
 
 ## MySQL中索引的优点和缺点和使用原则
@@ -443,7 +455,7 @@ SQL语言主要分为：
 - 外键`foreign key`: 对关系字段进行约束, 当为关系字段填写值时, 会到关联的表中查询此值是否存在, 如果存在则填写成功, 如果不存在则填写失败并抛出异常
 - 非空`not null`: 此字段不允许填写空值
 - 惟一`unique`: 此字段的值不允许重复
-- 默认default`: 当不填写字段对应的值会使用默认值，如果填写时以填写为准
+- 默认`default`: 当不填写字段对应的值会使用默认值，如果填写时以填写为准
 
 ## MySQL的安装
 
@@ -523,6 +535,12 @@ select database();
 ## 查看创库SQL语句
 show create database 数据库名;
 
+# 注释
+1. #
+2. --
+3. /* */
+4. /*! */
+
 ##部分来自我的create table代码 
 DROP DATABASE IF EXISTS self_practice;
 CREATE DATABASE IF NOT EXISTS self_practice DEFAULT CHARSET utf8 COLLATE utf8_general_ci;
@@ -554,12 +572,18 @@ create table students(
  gender ENUM('男','女','人妖','保密')
 );
 
+/*
+check: validate data when attribute value is entered
+*/
 ## 删除表
+# could invoke a foreign key integrity violation error
 drop table 表名;
 
 ## 删除所有行
 truncate table 表名;
 
+# changes in column's characteristics are permitted if changes do not alter the existing data type
+# do not include the NOT NULL clause for new column
 ## 修改表-添加字段
 alter table 表名 add 字段 类型 约束;
 alter table Students add Birthday datetime;
@@ -577,6 +601,9 @@ alter table Students modify Birthday date not null;
 alter table 表名 change 原字段名 新字段名 类型及约束;
 alter table Students change Birthday Birth datetime not null;
 
+alter table Students add primary key(id);
+alter table Students add foreign key(age) references Personal; 
+
 # 查看创表SQL语句
 show create table 表名;
 ```
@@ -586,6 +613,7 @@ show create table 表名;
 ```mysql
 ## 查询数据
 /*
+arithmetic operators: + - * / ^
 where语句支持的运算符:
     1. 比较运算符：=, >, >=, <, <=, !=/<>
     2. 逻辑运算符：and, or, not
@@ -594,7 +622,7 @@ where语句支持的运算符:
     	- '%'表示任意多个任意字符，类似通配符的*
     	- '_'表示一个任意字符，类似通配符的?
 		- [ ]可以匹配集合内的字符，例如[ab]将匹配字符a或者b，用脱字符^可以对其进行否定，也就是不匹配集合内的字符
-    4. 范围查询：between...and..., in, not in
+    4. 范围查询：between...and..., in, not in(checks whether attribute value matches any value within a value list), exists(checks if subquery returns any rows)
     5. 空判断：is null, is not null
     	- null 不等于 '' 空字符串
     	- 不能使用 where height = null 判断为空
@@ -622,6 +650,7 @@ insert into Students(name, height) values('刘备', 1.75),('曹操', 1.6);
 insert into good_cates(name) select cate_name from goods group by cate_name;
 
 ## 将一个表的内容插入到一个新表
+## but lose fk, pk
 create table new_table as select * from old_table;
 
 -- 创建数据表并且同时插入数据：create table ...select
@@ -671,10 +700,18 @@ select * from 表名 order by 字段1 asc|desc [,字段2 asc|desc,...]
 	- 先按照字段1进行排序，如果字段1的值相同时，则按照字段2排序，以此类推
 	- asc从小到大排列，即升序（默认）
 	- desc从大到小排序，即降序
+	- 对于null value，不同的RDBMS处理方式不同
 select * from 表名 limit start,count/select * from 表名 limit count offset start
     - limit是分页查询关键字
     - start表示开始行索引，默认是0
     - count表示查询条数
+    
+当limit后面跟两个参数的时候，第一个数表示要跳过的数量，后一位表示要取的数量,例如
+select* from article LIMIT 1,3 就是跳过1条数据,从第2条数据开始取，取3条数据，也就是取2,3,4三条数据
+当 limit后面跟一个参数的时候，该参数表示要取的数据的数量
+例如 select* from article LIMIT 3  表示直接取前三条数据，类似sqlserver里的top语法。
+当 limit和offset组合使用的时候，limit后面只能有一个参数，表示要取的的数量,offset表示要跳过的数量 。
+例如select * from article LIMIT 3 OFFSET 1 表示跳过1条数据,从第2条数据开始取，取3条数据，也就是取2,3,4三条数据
 */
 select * from Students order by age desc, height desc;
 -- 已知每页显示m条数据，求第n页显示的数据
@@ -705,6 +742,7 @@ select round(avg(ifnull(height,0)),2) from students where gender = 1;
 	- 除了汇总字段外，SELECT语句中的每一字段都必须在GROUP BY子句中给出
 	- NULL的行会单独分为一组
 	- 大多数SQL实现不支持GROUP BY列具有可变长度的数据类型
+    - GROUP BY can only be used in concert with an aggregate function
 分组查询基本的语法格式如下：
 GROUP BY 列名 [HAVING 条件表达式] [WITH ROLLUP]
     - 列名: 是指按照指定字段的值进行分组。对指定字段分组了，就只能查询指定字段。
@@ -716,6 +754,7 @@ SELECT gender, GROUP_CONCAT(stu_name) FROM Student GROUP BY gender WITH ROLLUP;
 
 ## 连接查询
 /*
+RDBMS creates Cartesian product of every table in the FROM clause
     - 内连接查询：查询两个表中符合条件的共有记录
     	select 字段 from 表1 inner join 表2 on 表1.字段1 = 表2.字段2
     - 左连接查询：以左表为主根据条件查询右表数据，如果根据条件查询右表数据不存在使用null值填充
@@ -728,7 +767,12 @@ SELECT gender, GROUP_CONCAT(stu_name) FROM Student GROUP BY gender WITH ROLLUP;
 		自连接就是一种特殊的连接方式，连接的表还是本身这张表
 	- 自然连接：是把同名列通过等值测试连接起来的，同名列可以有多个。
 		内连接和自然连接的区别：内连接提供连接的列，而自然连接自动连接所有同名列。
+	- mysql不支持outer join
 */
+# recursive join example
+SELECT S.id, S.name. M.name
+FROM Student S, Student M
+WHERE S.mentor = M.name
 ## 子查询
 /*
 在一个select语句中,嵌入了另外一个select语句, 那么被嵌入的select语句称之为子查询语句，外部那个select语句则称为主查询.
@@ -739,6 +783,24 @@ SELECT gender, GROUP_CONCAT(stu_name) FROM Student GROUP BY gender WITH ROLLUP;
 */
 -- 查询年龄最大并且身高最高的学生，子查询简写方式
 select * from students where (age, height) =  (select max(age), max(height) from students);
+-- from subquery example
+select distinct customer.cus_code, customer.cus_lname
+from customer,
+(select invoice.cus_code
+from invoice natural join line where p_code = '13-q2/p2') cp1, 
+(select invoice.cus_code
+from invoice natural join line where p_code = '23109-hb') cp2
+where customer.cus_code = cp1.cus_code and cp1.cus_code = cp2.cus_code;
+-- all/any和子查询的使用
+/* 
+ALL operator
+	- allows comparison of a single value with a list of values returned by the first subquery
+	- uses a comparison operator other than equals
+ANY operator
+	- allows comparsion of a single value to a list of values and selects only the rows for which the value is greater than 	  or less than any value in the list 
+*/
+SELECT P_CODE, P_QOH*P_PRICE FROM PRODUCT WHERE P_QOH*P_PRICE>ALL
+(SELECT P_QOH*P_PRICE FROM PRODUCT WHERE V_CODE IN (SELECT V_CODE FROM VENDOR WHERE V_STATE='FL'))
 -- 自然连接
 SELECT A.value, B.value FROM tablea AS A NATURAL JOIN tableb AS B;
 
@@ -748,6 +810,9 @@ SELECT A.value, B.value FROM tablea AS A NATURAL JOIN tableb AS B;
     - 每个查询必须包含相同的列、表达式和聚集函数。
     - 默认会去除相同行，如果需要保留相同行，使用UNION ALL
     - 只能包含一个ORDER BY子句，并且必须位于语句的最后
+    - union-compatible: number of attributes are the same and their corresponding data type are alike
+    - INTERSECT: combine rows from two queries, returning only the rows that appear in both sets
+    - EXCEPT(MINUS): combines rows from two queries and returns only the rows that appear in the first set
 */
 SELECT col FROM mytable WHERE col = 1 UNION ALL
 SELECT col FROM mytable WHERE col =2;
@@ -761,6 +826,12 @@ SELECT col FROM mytable WHERE col =2;
 对外键字段的值进行更新和插入时会和引用表中字段的数据进行验证，数据如果不合法则更新和插入会失败，保证数据的有效性
 
 ```mysql
+/*
+- RDBMS will automatically enforce referential integrity for foreign keys
+- ON DELETE CASCADE/SET NULL/SET DEFAULT
+ON UPDATE CASCADE and ON DELETE CASCADE - both affect [change] asecondary table (that has an FK), when a change is made in the primary table(with the corresponding PK). ON UPDATE will update the values in the secondary table when corresp. values in the primary table are changed; ON DELETE willdelete rows in the secondary table, when linked rows are deleted in the primary table.
+*/
+
 ## 对于已经存在的字段添加外键约束
 -- 为cls_id字段添加外键约束
 alter table students add constraint fk_school_teacher foreign key(cls_id) references classes(id);
@@ -774,10 +845,12 @@ create table school(
 
 -- 创建老师表
 create table teacher(
-    id int not null primary key auto_increment, 
+    id int not null, 
     name varchar(10), 
     s_id int not null, 
-    constraint fk_school_teacher foreign key(s_id) references school(id)
+    constraint fk_school_teacher foreign key(s_id) references school(id),
+    primary key(id),
+    foreign key(name) references some_table on update cascade
 );
 
 -- 需要先获取外键约束名称,该名称系统会自动生成,可以通过查看表创建语句来获取名称

@@ -37,6 +37,19 @@ System.out.println(i=j); //20. 把j的值赋值给了i，然后输出i的值
   - 基本类型：比较的是**数据值**是否相同
   - 引用类型：比较的是**地址值**是否相同
 
+#### bitwise operator
+
+| &    | and                                                          |
+| ---- | ------------------------------------------------------------ |
+| \|   | or                                                           |
+| ^    | xor                                                          |
+| ~    | not                                                          |
+| <<   | Left shift operator: shifts the bits of the number to the left and fills 0 on voids left as a result. Similar effect as of multiplying the number with some power of two |
+| >>   | Signed Right shift operator: shifts the bits of the number to the right and fills 0 on voids left as a result. The leftmost bit depends on the sign of initial number. Similar effect as of dividing the number with some power of two. |
+| >>>  | shifts the bits of the number to the right and fills 0 on voids left as a result. The leftmost bit is set to 0 |
+
+
+
 ### 字符的```+```操作
 
 拿字符在计算机底层对应的数值来进行计算的
@@ -97,8 +110,8 @@ System.out.println(i=j); //20. 把j的值赋值给了i，然后输出i的值
 - ```final```修饰符
 
   - 变量是基本类型：```final```修饰符指的是基本类型的数据值不能发生改变
-  - 变量是引用类型：```final```修饰符指的是引用类型的地址值不能发生改变，但是地址里面的内容是可以发生改变的
-  - 修饰类时表示最终类
+  - 变量是引用类型：```final```修饰符指的是**引用类型的地址值不能发生改变，但是地址里面的内容是可以发生改变的**
+  - **修饰类时表示最终类**
 - ```static```修饰符
 
   - 被类的所有对象共享
@@ -264,7 +277,7 @@ public static void main(String[] args){
 
   - 子类成员范围找
   - 父类成员范围找
-  - 如果都没有就报错（不考虑父亲的父亲）
+  - 如果都没有就报错（**不考虑父亲的父亲**）
 - 通过子类对象访问一个方法
 
   - 子类成员范围找
