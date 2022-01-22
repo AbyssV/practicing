@@ -2,15 +2,21 @@
 电子书：
 Python 3网络爬虫开发实战
 Django企业开发实战 高效Python Web框架指南
-已修改
+程序员的算法趣题
+labuladong的算法小抄官方完整版
+图解网络-小林coding-v2.0.pdf
+
+已修改的文件夹
 学习资料
 practicing
 official
-入学
+
 D盘：
+自学技能-CATTI全国翻译专业资格
 --------------------------------------------------------------------------
 Java11: C:\Program Files\Java
 Git: C:\extension\Git
+PostgreSQL: D:\postgresql, port 5432
 VS Code: C:\Users\admin\AppData\Local\Programs\Microsoft VS Code
 VSC的设置目录：C:\Users\admin\AppData\Roaming\Code\User\settings.json
 MinGW: C:\extension\MinGW
@@ -27,14 +33,32 @@ C:\software\Anaconda3
 C:\software\Anaconda3\Scripts
 Anaconda源文件，已更换清华源
 C:\Users\admin\.condarc
-
+virtualenv虚拟环境目录：C:\Users\admin\.virtualenvs
 --------------------------------------------------------------------------
 JetBrains
 账号 trasppdoc@yahoo.com
 密码 f54awe54c5wa4e*Q
+VMware Workstation 16 Pro激活码：GV100-84W16-M85JP-WXZ7E-ZP2R6 
 --------------------------------------------------------------------------
-CTExcel暂时密码：Vb4~Ym3&
+Typora激活码：JUE2NH-4ZM77T-U4SKUK-2KWDLY
+--------------------------------------------------------------------------
+tbmaboshiao
+tbmabo668u
+--------------------------------------------------------------------------
+订单1783430857081658823给您上菜啦：
+VMware 16 Pro许可证密钥/激活码 GV100-84W16-M85JP-WXZ7E-ZP2R6
 
+官网正品软件下载地址
+https://www.vmware.com/cn/products/workstation-pro/workstation-pro-evaluation.html
+
+网盘备份下载链接：https://pan.baidu.com/s/1sivNiY7mIq7uBkqeTAQo8A 
+提取码：2222
+----------------------------------------------------------、
+Beijing Institute of Biological Products Co., Ltd.
+Sinopharm [Vero Cell] - Inactivated, COVID-19 Vaccine
+
+Sinovac Life Sciences Co., Ltd.
+Sinovac COVID-19 Vaccine [Vero Cell], Inactivated
 --------------------------------------------------------------------------
 操作系统名称	Microsoft Windows 10 专业版
 版本	10.0.19042 内部版本 19042
@@ -77,4 +101,8 @@ Hyper-V - 虚拟机监视模式扩展	是
 Hyper-V - 第二级地址转换扩展	是
 Hyper-V - 固件中启用的虚拟化	是
 Hyper-V - 数据扩展保护	是
+
+
+
+
 

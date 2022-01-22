@@ -2,7 +2,7 @@
 
 
 
-#### online class
+#### online class recommendation
 
 https://www.coursera.org/specializations/biancheng-suanfa
 https://www.coursera.org/specializations/full-stack-mobile-app-development

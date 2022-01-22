@@ -375,6 +375,8 @@ By default VS Code shows the Settings editor, but you can still edit the underly
 Depending on your platform, the user settings file is located here:
 
 - **Windows** `%APPDATA%\Code\User\settings.json`
+  - `C:\Users\admin\AppData\Roaming\Code\User` in my case
+
 - **macOS** `$HOME/Library/Application Support/Code/User/settings.json`
 - **Linux** `$HOME/.config/Code/User/settings.json`
 
@@ -528,3 +530,10 @@ Select a symbol then type ```F2```: 这个函数（或变量名）出现的地�
 2. You can also use the keyboard shortcut ```Ctrl+K Ctrl+T``` to display the picker.
 3. Use the cursor keys to preview the colors of the theme.
 4. Select the theme you want and press Enter.
+
+$$
+f(x) = \int_{-\infty}^{\infty}\hat f(\xi)\,e^{2 \pi i \xi x} \,d\xi
+$$
+
+
+

@@ -42,9 +42,10 @@ or size (1,n) -- in other words, two-dimensional matrices:
 '''
 # A row vector can be created as:
 b = np.array( [[1,2,3,4,5,6,7]])
-
 # and a column vector as
 bT = np.array( [[1],[2],[3],[4],[5],[6],[7]] )
+
+
 
 # that's pretty inconvient, so we usually just use the "transpose" operator:
 bT = np.array( [[1,2,3,4,5,6,7]]).T

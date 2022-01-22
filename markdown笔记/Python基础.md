@@ -2116,6 +2116,216 @@ if __name__ == '__main__':
     # tcp_server_socket.close()
 ```
 
+#### HTTP协议和静态web服务器
+
+##### HTTP协议
+
+- HTTP协议的全称是(HyperText Transfer Protocol)，翻译过来就是超文本传输协议。
+- 超文本是超级文本的缩写，是指超越文本限制或者超链接，比如:图片、音乐、视频、超链接等等都属于超文本。
+- 传输HTTP协议格式的数据是基于TCP传输协议的，发送数据之前需要先建立连接。
+- 它规定了浏览器和Web服务器通信数据的格式，也就是说浏览器和web服务器通信需要使用http协议。
+
+##### HTTP请求报文
+
+浏览器发送给web服务器程序的数据
+
+一个HTTP请求报文可以由请求行、请求头、空行和请求体4个部分组成。
+
+请求行是由三部分组成:
+
+1. 请求方式
+
+2. 请求资源路径
+
+3. HTTP协议版本
+
+
+HTTP最常见的请求报文有两种:
+
+- `GET`方式的请求报文获取web服务器数据
+  - `GET`方式的请求报文没有请求体，只有请求行、请求头、空行组成。
+- `POST`方式的请求报文向web服务器提交数据（也可以获取数据，更安全）
+  - `POST`方式的请求报文可以有请求行、请求头、空行、请求体四部分组成，注意:`POST`方式可以允许没有请求体，但是这种格式很少见。
+
+`GET`请求原始报文说明:
+
+注意：http协议规定每项信息后都要有`/r/n`，分割每项信息
+
+```
+---- 请求行 ----
+GET / HTTP/1.1  # GET请求方式 请求资源路径（根路径index.html） HTTP协议版本
+---- 请求头 -----
+Host: www.itcast.cn  # 服务器的主机地址和端口号,默认是80
+Connection: keep-alive # 和服务端保持长连接，发送完数据后，服务端不断开连接。当客户端和服务端有一段时间(3-5min)没有进行通信，那么服务器程序会主动向客户端断开连接
+Upgrade-Insecure-Requests: 1 # 让浏览器升级不安全请求，使用https请求
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36  # 用户代理，也就是客户端的名称。可以根据是否有user-agent进行反爬机制
+Accept:text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8 # 告诉服务端程序可接受的数据类型
+Accept-Encoding: gzip, deflate # 告诉服务端程序可接受的压缩格式
+Accept-Language: zh-CN,zh;q=0.9 # 告诉服务端程序可接受的语言
+Cookie: pgv_pvi=1246921728; # 登录用户的身份标识 
+---- 空行 ----/r/n
+```
+
+POST请求报文说明:
+
+```
+---- 请求行 ----
+POST /xmweb?host=mail.itcast.cn&_t=1542884567319 HTTP/1.1 # POST请求方式 请求资源路径 HTTP协议版本
+---- 请求头 ----
+Host: mail.itcast.cn # 服务器的主机地址和端口号,默认是80
+Connection: keep-alive # 和服务端保持长连接
+Content-Type: application/x-www-form-urlencoded  # 告诉服务端请求的数据类型
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36 # 客户端的名称
+---- 空行 ----
+---- Form Data 请求体 ----
+username=hello&pass=hello # 请求参数
+```
+
+##### HTTP响应报文
+
+web服务器程序发送给浏览器的http协议的数据
+
+一个HTTP响应报文是由响应行、响应头、空行和响应体4个部分组成。
+
+响应行是由三部分组成：
+
+1. HTTP协议版本 
+2. 状态码 
+3. 状态描述，最常见的状态码是**200**
+
+响应报文说明:
+
+注意：http协议规定每项信息后都要有`/r/n`，分割每项信息
+
+```
+--- 响应行/状态行 ---
+HTTP/1.1 200 OK # HTTP协议版本 状态码 状态描述
+--- 响应头 ---
+Server: Tengine # 服务器名称
+Content-Type: text/html; charset=UTF-8 # 服务器发送给浏览器的内容类型及编码格式
+Transfer-Encoding: chunked # 服务器发送给客户端（浏览器）的数据不确定内容长度，数据发送完成的接收标识：0\r\n, Content-Length表示服务端确定发送给客户端的内容大小，但是二者只能用其一。
+Connection: keep-alive # 和客户端保持长连接
+Date: Fri, 23 Nov 2018 02:01:05 GMT # 服务端的响应时间
+--- 以下都是自定义响应头信息，字节定义响应头的名字和响应头的值，比如：is_login: True
+提示：对于请求头和响应头信息程序员都可以进行自定义，按照客户端和服务器约定好的方式来制定即可。
+--- 空行 ---
+--- 响应体 就是真正意义上给浏览器解析使用的数据 ---
+<!DOCTYPE html>
+<html lang=“en”>
+…
+</html> # 响应给客户端的数据
+```
+
+##### HTTP状态码介绍
+
+HTTP 状态码是用于表示web服务器响应状态的3位数字代码。
+
+| 状态码 | 说明                             |
+| :----- | :------------------------------- |
+| 200    | 请求成功                         |
+| 307    | 重定向                           |
+| 400    | 错误的请求，请求地址或者参数有误 |
+| 404    | 请求资源在服务器不存在           |
+| 500    | 服务器内部源代码出现错误         |
+
+##### URL
+
+URL的英文全拼是(Uniform Resoure Locator),表达的意思是统一资源定位符，通俗理解就是网络资源地址，也就是我们常说的网址。
+
+###### URL的组成部分
+
+https://news.163.com/hello.html?page=1&count=10
+
+- 协议部分: `https://`（加密，端口号443）、`http://`（端口号80）、`ftp://`
+- 域名部分: `news.163.com`
+  - 域名: 域名就是IP地址的别名，它是用点进行分割使用英文字母和数字组成的名字，使用域名目的就是方便的记住某台主机IP地址
+
+- 资源路径部分: `hello.html`
+- 查询参数部分: `?page=1&count=10`
+  - 参数说明: `?`后面的`page`表示第一个参数，后面的参数都使用`&`进行连接
+  - 第1页，显示10条记录
+
+##### 使用谷歌浏览器查看HTTP协议的通信过程
+
+开发者工具：网页右击选择检查。
+
+开发者工具的标签选项说明:
+
+- 元素（Elements）：用于查看或修改HTML标签
+- 控制台（Console）：执行js代码
+- 源代码（Sources）：查看静态资源文件，断点调试JS代码
+- 网络（Network）：查看http协议的通信过程
+  - 这里的每项记录都是请求+响应的一次过程
+  - General: 主要信息
+  - Request Headers: http的请求头信息
+  - Response Headers: http的响应头信息
+
+##### 静态web服务器
+
+使用命令行接受服务端端口号，多线程处理来自客户端的请求，封装http响应报文并返回给客户端，并将这个过程封装成类。
+
+```python
+import socket
+import threading
+import sys
+
+# http协议的web服务器类
+class HttpWebServer():
+    def __init__(self, server_bind_port):
+        self.tcp_server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.tcp_server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, True)
+        self.tcp_server_socket.bind(("", server_bind_port))
+        self.tcp_server_socket.listen(128)
+
+    def start(self):
+        while True:
+            new_socket, ip_port = self.tcp_server_socket.accept()
+            sub_thread = threading.Thread(target=self.handle_client_request, args=(new_socket,), daemon=True)
+            sub_thread.start()
+
+    @staticmethod
+    def handle_client_request(new_socket):
+        recv_data = new_socket.recv(4096).decode("utf-8")
+        request_path = recv_data.split(" ", maxsplit=2)[1].lstrip("/")  # 长度为3
+        # with open 关闭文件这步操作有系统帮我们完成。这里使用rb，兼容打开图片。favicon.ico是浏览器左上角的图标。可能因为我是
+        # PyCharm写的html代码，那个图标是PyCharm的图标
+        # ValueError: binary mode doesn't take an encoding argument
+        # with open(request_path, "rb", encoding = "utf-8") as file: 是错误的
+        try:
+            with open(request_path, "rb") as file:
+                file_data = file.read()
+                print(f"打开 {request_path} ...")
+        except Exception as e:  # 文件无法打开
+            print(f"{request_path}: 404 Not Found")
+        else:
+            # 响应行
+            response_line = "HTTP/1.1 200 OK \r\n"
+            # 响应头
+            response_header = "Server: PWS/1.0\r\n"
+            # 响应体
+            response_body = file_data
+            # 把数据封装成http响应报文格式的数据
+            response = (response_line +
+                        response_header +
+                        "\r\n").encode("utf-8") + response_body
+            new_socket.send(response)
+        finally:
+            new_socket.close()
+
+if __name__ == '__main__':
+    # 列表里的每项数据都是字符串类型
+    # yating@ZZMF-20190903EB:~$ python3 check_args.py canshu1 canshu2
+    # ['check_args.py', 'canshu1', 'canshu2'] <class 'list'>
+    server_bind_port = int(sys.args[1])
+
+    if not server_bind_port.isdigit():
+        print("请输入端口号")
+        sys.exit(0)
+
+    web_server = HttpWebServer(server_bind_port)
+    web_server.start()
+```
+
 ### pymysql
 
 #### 防止SQL注入
