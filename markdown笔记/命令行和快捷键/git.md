@@ -5,19 +5,37 @@ git --version
 git update-git-for-windows
 ```
 
+git中的选项解释
+
+```
+-d
+--delete：删除
+
+-D
+--delete --force的快捷键
+
+-f
+--force：强制
+
+-m
+--move：移动或重命名
+
+-M
+--move --force的快捷键
+
+-r
+--remote：远程
+
+-a
+--all：所有
+```
 
 
-### ```git config```
+
+### git config
 
 ```
 cd /c/Users/"Yating Liu"/Desktop/Inf43Hw3
-```
-
-to change the current folder/directory
-
-在windows和mac上，backslash(\\)和forward slash(/)是不一样的，在文件名有空格时，使用引号(```""```)
-
-```
 git config --global user.name "Peter Anteater"
 git config --global user.email "panteat@uci.edu"
 ```
@@ -26,25 +44,22 @@ To look at all your configuration information: ```git config --global -l```
 
 ```--global```表示该电脑下的所有仓库都会使用这个配置
 
-
+在windows和mac上，backslash(\\)和forward slash(/)是不一样的，在文件名有空格时，使用引号(```""```)
 
 ### set up new repo locally
 
 ```
-git init
+git init //create a local git repo
 ```
-
-create a local git repo
 
 ```
 git status (branch master)
-git add file1.txt/git stage file1.txt
+git add file1.txt/git stage file1.txt //git stageis really just another name for git add.
 git add *.txt
+git commit -a -m "Now has my major"/git commit -am "Now has my major" //usually i use this
 ```
 
 when you `add` a file you are telling git to keep track of it.`add` also tells Git to **stage** the file, which means put it in the stage of being ready to be committed
-
-```git stage```is really just another name for ```git add```.
 
 >```git add .``` vs. ```git add -A``` vs. ```git add -p```
 >
@@ -52,7 +67,7 @@ when you `add` a file you are telling git to keep track of it.`add` also tells G
 >
 >you use the `git add` command to stage a new or modified file. *However, to stage the deletion of a file, you need to use the **git rm*** So run the commands `git add file1.txt` and `git rm file2.txt` to set the stage
 >
->And better than ```git add .``` is ```git add -p``` because it will interactively ask what to stage, this will show you all the changes again and will show you comment / logging that you forgot to remove as well. Also commit often, as large changes tend to be hard to review / oversee.
+>And better than ```git add .``` is ```git add -p``` because it will interactively ask what to stage, this will show you all the changes again and will show you comment/logging that you forgot to remove as well. Also commit often, as large changes tend to be hard to review/oversee.
 
 when you `commit`, you in effect copy all staged files to the repository. The `-m` is a flag (that's what the hyphen indicates) which tells git that the following string is a message to record with the commit.
 
@@ -60,7 +75,7 @@ when you `commit`, you in effect copy all staged files to the repository. The `-
 git commit -m "Committing a new file with my name"
 ```
 
-the power of the `-a` flag is that it tells git to automatically stage all ***tracked***, ***modified*** files before the commit
+the power of the `-a` flag is that it tells git to automatically stage ==all== tracked, modified files before the commit
 
 ```
 git commit -a -m "Now has my major"/git commit -am "Now has my major"
@@ -207,37 +222,39 @@ one more git log option to know about is --skip=N, where N is a non-negative int
 
 
 
-### 标签管理
+### 版本管理
 
-用tag就能进行回滚
+tag可以用来回滚
 
-查看所有标签 ```git tag```
-
-创建标签 ```git tag tagname [commit ID]```
-
-指定提交信息 ```git tag -a name -m "comment"```
-
-删除标签 ```git tag -d name```
-
-标签发布 ```git push origin name```
+```
+git tag //查看所有标签 
+git tag tagname [commit ID] //创建标签
+git tag -a tagname -m "comment" //指定提交信息 
+git tag -d tagname //删除标签
+git tag -r //查看远程版本
+git push origin tagname //发布远程版本(本地版本push到远程)
+git push origin :refs/tags/[name] //删除远程版本
+```
 
 
 
 ### 分支管理
 
-create a new branch with name ```git checkout -b branch_name ```
-
-see all the branch, the current branch is green with asterisk ```git branch ```
-
-create a new branch ```git branch branch_name```
-
-switch to another branch ```git checkout branch_name```
-
-delete branch ```git branch -d branch_name```
-
-merge branch: ```git merge branch_name```
-
-view changes between two branches: `git dff <source_branch> <target_branch>`
+```
+git checkout -b branch_name //create a new branch with name and switch to it
+git branch branch_name //create a new branch
+git branch //see all the local branch, the current branch is green with asterisk 
+git branch -r //see remote branch
+git branch -a //see local and remote branch
+git checkout branch_name //switch to another branch 
+git branch -m old_name new_name //rename branch name
+git branch -d branch_name //delete local branch -d选项只能删除已经参与了合并的分支，对于未有合并的分支是无法删除的。如果想强制删除一个分支，可以使用-D选项
+it branch -d -r branch_name 
+git push origin:branch_name //delete remote branch and push to server
+git merge branch_name //merge branch
+git push origin branch_name //push local branch to server
+git dff <source_branch> <target_branch> //view changes between two branches
+```
 
 
 
@@ -263,8 +280,9 @@ ssh -T git@github.com
 
 ```
 git remote add origin git@github.com:tylerdemo/demo4.git //url of the server
-git remote //和你的项目关联的远程存储库列表
-git pull origin master --allow-related-histories //master或其他branch。如果你和别人用一样的代码库，这个命令可以让从远程存储库提取最新版本，更新你的本地版本，这样你就能在同伴工作的基础上继续写代码了
+git remote -v //查看远程仓库
+git remote rm name //删除远程仓库
+git pull origin branch_name --allow-related-histories //master或其他branch。如果你和别人用一样的代码库，这个命令可以让从远程存储库提取最新版本，更新你的本地版本，这样你就能在同伴工作的基础上继续写代码了
 git push -u origin master //-u代表本地的master, master或其他branch
 git push origin branch_name//push branch to remote repository
 ```
@@ -273,7 +291,7 @@ git push origin branch_name//push branch to remote repository
 
 ```
 git clone url
-git clone https://github.com/reddit/reddit.git
+git clone branch_name https://github.com/reddit/reddit.git
 ```
 
 You now have a local copy (on your computer) of the remote repository. It's important to understand that **this is not only a copy of the source code, but also a copy of the history of changes stored by git. **
@@ -284,11 +302,19 @@ You now have a local copy (on your computer) of the remote repository. It's impo
 - **```git clone ```creates a new git repository by copying an existing one located at the URI you specify.**
 - `git clone` contains more commands
 
-```
-git fetch
-```
+`git pull`和`git fetch`
 
-compared to git pull, git fetch will not do merge
+```
+git fetch <远程主机名> //这个命令将某个远程主机的更新全部取回本地
+git fetch <远程主机名> <分支名> //取回特定分支的更新，注意之间有空格
+git fetch origin master //取回origin主机的master分支
+git log -p FETCH_HEAD //取回更新后，会返回一个FETCH_HEAD，指的是某个branch在服务器上的最新状态，我们可以在本地通过它查看刚取回的更新信息
+
+git fetch origin master //从远程主机的master分支拉取最新内容 
+git merge FETCH_HEAD    //将拉取下来的最新内容合并到当前所在的分支中
+相当于 git pull <远程主机名> <远程分支名>:<本地分支名>
+git pull和git fetch的区别在于git fetch是将远程主机的最新内容拉到本地，用户在检查了以后决定是否合并到工作本机分支中。而git pull则是将远程主机的最新内容拉下来后直接合并，即git pull = git fetch + git merge，这样可能会产生冲突，需要手动解决
+```
 
 
 
@@ -306,3 +332,36 @@ touch .gitignore
 create a file named **.gitignore**. You can use text editor to open this file, write down the files for directories that you want to ignore in repo. The ignored files will not be shown during execution. 
 
 So use this command when you don't want to upload some files.
+
+
+
+
+
+# 示例
+
+本文是从master分支拉出的two，然后合并回master
+
+1. ~~切换到master分支：git checkout master~~
+2. 创建并切换到two分支：git checkout -b two
+3. ~~将two分支push到远程仓库（与本地仓库同步）：git push origin two~~
+4. 修改two分支上的内容并提交到本地仓库：git commit -a -m"修改子分支"
+5. 将two分支上的修改提交到远程仓库：git push origin two
+
+6. two分支上的修改ok后，切换到master分支：git checkout master（注意，只有checkout切换到当前分支后，pull代码，才能看见当前分支的代码，如果没有checkout到当前分支，pull了也在相应文件夹下也看不见当前分支的代码，而是上次checkout的代码）
+
+7. 将two分支合并到master分支：git merge --no-ff two，把two的修改merge到master。--no-ff 选项不使用fast-forward方式合并，保留分支的commit历史
+
+8. 将合并之后的代码push到远程仓库：git push origin master
+
+
+此例是父分支和自分支之间的merge操作，爷孙分支亦如此，旁系分支合并亦然
+
+
+
+将master分支内容合并到dev分支
+1、切换到你所在分支dev：git checkout dev
+
+2、git merge master
+
+3、将本地内容push到dev分支：git push
+

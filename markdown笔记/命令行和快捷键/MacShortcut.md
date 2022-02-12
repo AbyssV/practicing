@@ -1,21 +1,23 @@
 ## 剪切、拷贝、粘贴和其他常用快捷键
 
-```Command+Q```关闭程序
+**```Command+Q```关闭程序**
 
 ```Command-Shift-Z```反撤销
 
-```Command-Option-V```粘贴并删除原始文件
+**```Command-Option-V```粘贴并删除原始文件**
 
 ```Command-G```再次查找：查找之前所找到项目出现的下一个位置。要查找出现的上一个位置，请按 ```Shift-Command-G```
 
 ```Command-H```隐藏最前面的应用的窗口。要查看最前面的应用但隐藏所有其他应用，请按 ```Option-Command-H```
 
-```Command-M```将最前面的窗口最小化至“程序坞”。要最小化最前面的应用的所有窗口，请按 ```Option-Command-M```
+**```Command-M```将最前面的窗口最小化至“程序坞”。要最小化最前面的应用的所有窗口，请按 ```Option-Command-M```**
+
 ```Command-O```打开所选项，或打开一个对话框以选择要打开的文件
 
 ```Command-T```打开新标签页
 
-```Command-W```关闭最前面的窗口。要关闭应用的所有窗口，请按下 Option-Command-W
+```Command-W```关闭最前面的窗口。要关闭应用的所有窗口，请按下```Option-Command-W```
+
 ```Option-Command-Esc```强制退出应用
 
 ```Shift-Command-5```在 macOS Mojave 中，拍摄屏幕快照或录制屏幕。在更早的 macOS 版本中，请使用 ```Shift-Command-3``` 或 ```Shift-Command-4``` 来拍摄屏幕快照。```Command+Shift+4+空格键```截取特定应用窗口
@@ -62,13 +64,13 @@
 
 ```空格键```是往下翻页，```Shift+空格键```往上翻页
 
-```按住Command点击link```在新窗口打开
+```按住Command```点击```link```在新窗口打开
 
 ```Shift+Option+8```输入温度的符号°，例如：°C
 
 ```Shift+Option+9```输入英文姓名中的圆点•，例如：秀兰•邓波儿
 
-```Shift+Option+K```输入苹果符号
+```Shift+Option+K```输入苹果符号
 
 ```Option+V```输入符号√
 

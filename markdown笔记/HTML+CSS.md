@@ -369,6 +369,66 @@ html是用来开发网页的，它是开发网页的语言。
 </html>
 ```
 
+# HTML5
+
+HTML5定义了HTML标准的最新版本，是对HTML的第五次重大修改，号称下一代的HTML，定义了新的标签、特性和属性
+
+HTML5 拓展了哪些内容
+
+- 语义化标签，主要针对搜索引擎，可以使用一次或者多次，在IE9浏览器中，需要把语义化标签都转换为块级元素：`display:block;`
+  - `header`   ---  头部标签
+  - `nav`        ---  导航标签
+  - `article` ---   内容标签
+  - `section` ---   块级标签
+  - `aside`     ---   侧边栏标签
+  - `footer`   ---   尾部标签
+- 本地存储
+- 兼容特性
+- 2D、3D
+- 动画、过渡
+- CSS3特性
+- 性能与集成
+
+![html5-语义化标签](C:\Users\admin\Desktop\practicing\图片笔记\前端\html\html5-语义化标签.png)
+
+## 多媒体标签
+
+### `audio`音频标签
+
+注意不同浏览器支持的格式不同，有的浏览器禁用了某些功能。通常我们为音频准备多个格式
+
+![html5-audio标签](C:\Users\admin\Desktop\practicing\图片笔记\前端\html\html5-audio标签.png)
+
+```html
+<audio controls="controls">
+    <source src="media/snow.mp3" type="audio/mpeg">
+    <source src="media/snow.ogg" type="audio/ogg">
+</audio>
+```
+
+### `video`视频标签
+
+![html5-video标签](C:\Users\admin\Desktop\practicing\图片笔记\前端\html\html5-video标签.png)
+
+```html
+<!-- 谷歌浏览器禁用了自动播放功能，如果想自动播放，需要添加 muted 属性 -->
+<video controls autoplay>
+    <source src="../sort algo. video interpretation\quick sort.mp4" type="video/mp4">
+    <source src="../sort algo. video interpretation\quick sort.ogg" type="video/ogg">
+    您的浏览器不支持此格式
+</video>
+```
+
+## `input`表单属性
+
+### 新增`input`标签
+
+![html5-input标签](C:\Users\admin\Desktop\practicing\图片笔记\前端\html\html5-input标签.png)
+
+### 新增`input`属性
+
+![html5-input属性](C:\Users\admin\Desktop\practicing\图片笔记\前端\html\html5-input属性.png)
+
 # CSS
 
 css(Cascading Style Sheet)层叠样式表，它是用来美化页面的一种语言。
@@ -1243,6 +1303,189 @@ element.style{
 }
 ```
 
+# CSS3
+
+## 选择器
+
+### 属性选择器
+
+==类选择器，属性选择器，伪类选择器==权重为10
+
+![css3-属性选择器](C:\Users\admin\Desktop\practicing\图片笔记\前端\css\css3-属性选择器.png)
+
+```css
+button[disabled]{}
+input[type="search"]{}
+div[class^="icon"]{}
+```
+
+### 结构伪类选择器
+
+![css3-结构伪类选择器](C:\Users\admin\Desktop\practicing\图片笔记\前端\css\css3-结构伪类选择器.png)
+
+`nth-child`参数详解
+
+- 注意：本质上就是选中第几个子元素
+- `n`可以是数字、关键字、公式
+- `n`如果是数字，就是选中第几个
+- 常见的关键字有`even`偶数、`odd`奇数
+- 常见的公式如下(如果`n`是公式，则从`0`开始计算)
+- 但是第`0`个元素或者超出了元素的个数会被忽略
+
+![css3-nth-child参数详解](C:\Users\admin\Desktop\practicing\图片笔记\前端\css\css3-nth-child参数详解.png)
+
+```css
+/* 需要满足是span并且是div里的第一个子元素，所以不是span的标签不能选取出来 */
+div span:nth-child(1) {}
+/* 可以用这个 */
+div span:first-of-type {}
+```
+
+### 伪元素选择器
+
+![css3-伪元素选择器](C:\Users\admin\Desktop\practicing\图片笔记\前端\css\css3-伪元素选择器.png)
+
+伪类选择器注意事项
+
+- `before`和`after`必须有`content`属性
+- `before`在内容前面，`after`在内容后面
+- `before`和`after`创建的是一个元素，但是属于行内元素
+- 创建出来的元素在`Dom`中查找不到，所以称为伪元素
+- 伪元素和标签选择器一样，权重为 1
+
+>我用类选择器测试过了不行，这里用标签选择器
+>
+>可以理解为一个伪元素的盒子
+
+```html
+<style>
+header {
+    width: 100%;
+    height: 300px;
+    border: 1px solid lightcoral;
+}
+
+
+header::after,
+header::before {
+    width: 20px;
+    height: 50px;
+    text-align: center;
+    display: inline-block;
+}
+
+header::after {
+    content: '\ea50';
+    background-color: lightskyblue;
+}
+
+header::before {
+    content: '1';
+    background-color: mediumaquamarine;
+}
+</style>
+
+<header>2</header>    
+```
+
+## 2D转换
+
+### 移动`translate`
+
+- `2D`的移动主要是指水平、垂直方向上的移动
+- `translate`最大的优点就是不影响其他元素的位置
+- `translate`中的100%单位，是相对于盒子本身的宽度和高度来进行计算的
+- 行内标签没有效果
+
+```css
+/* x:x轴，y:y轴*/
+transform: translate(x, y)
+transform: translateX(n)
+transfrom: translateY(n)
+```
+
+### 转换中心点`transform-origin`
+
+- 注意参数`x`和`y`用空格隔开
+- `x y`默认旋转的中心点是元素的中心`(50% 50%)`，等价于`center center`
+- 还可以给`x y`设置像素或者方位名词(`top | bottom | left | right | center`
+
+```css
+div:nth-of-type(2) {
+    width: 200px;
+    height: 200px;
+    background-color: pink;
+    margin: 100px auto;
+    transition: all 1s;
+    transform-origin: left bottom;
+}
+
+div:nth-of-type(2):hover {
+    transform: scale(2, 1);
+    transform: rotate(360deg)
+}
+```
+
+### 转换`rotate`
+
+- `rotate`里面跟度数，单位是`deg`
+- 角度为正时，顺时针，角度为负时，逆时针
+- 默认旋转的中心点是元素的中心点
+
+> 这个rotate和translate每次相当于从原图转/移动，比如连续写两个rotate，每次都是从原图开始转而不是第二个是第一个的叠加
+
+### 缩放`scale`
+
+- `x`与`y`之间使用逗号进行分隔
+- `transform: scale(1, 1)`：宽高都放大一倍，相当于没有放大
+- `transform: scale(2, 1)`：宽度变为两倍，高度不变
+- `transform: scale(2)`：宽和高都放大了二倍，如果只写了一个参数，第二个参数就和第一个参数一致
+- `transform:scale(0.5, 0.5)`：缩小
+- `scale`最大的优势：可以设置转换中心点缩放，默认以中心点缩放，而且不影响其他盒子
+
+### `2D`转换综合写法以及顺序问题
+
+- 同时使用多个转换，其格式为`transform: translate() rotate() scale()`（同时进行）
+- 顺序会影响到转换的效果(先旋转会改变坐标轴方向)
+- 但我们同时有位置或者其他属性的时候，==要将位移放到最前面==
+
+## 动画
+
+动画是CSS3中最具颠覆性的特征之一，可通过设置多个节点来精确的控制一个或者一组动画，从而实现复杂的动画效果。相比较过渡，动画可以实现更多变化，更多控制，连续播放等效果
+
+动画的基本使用
+
+- 先定义动画：`@keyframes identifier {}`
+- 在调用定义好的动画： `animation-name | animation-duration`
+
+### 动画序列
+
+- `0%`/`from`是动画的开始，`100%`/`to`是动画的完成，里面的百分比是时间的划分，需要是整数
+- 在`@keyframs`中规定某项CSS样式，就由创建当前样式逐渐改为新样式的动画效果
+- 动画是使元素从一个样式逐渐变化为另一个样式的效果，可以改变任意多的样式任意多的次数
+
+### 常用动画属性
+
+![css3-常用动画属性](C:\Users\admin\Desktop\practicing\图片笔记\前端\css\css3-常用动画属性.png)
+
+### 动画属性简写
+
+- `animation-name`和`animation-duration`必须写
+- 简写属性里面不包含`animation-paly-state`，经常和鼠标悬浮等其他配合使用
+- 要想动画走回来，而不是直接调回来：`animation-direction: alternate`
+- 盒子动画结束后，停在结束位置：`animation-fill-mode: forwards` 
+
+```css
+/* animation: 动画名称 持续时间 运动曲线 何时开始 播放次数 是否反方向 起始与结束状态 */
+animation: name duration timing-function delay iteration-count direction fill-mode
+```
+
+### 速度曲线`timing-function`
+
+`animation-timing-function`规定动画的速度曲线，默认是`ease`，`transition`也有一样的函数
+
+![css3-速度曲线](C:\Users\admin\Desktop\practicing\图片笔记\前端\css\css3-速度曲线.png)
+
 # Emmet Abbreviation
 
 1. 直接输入`标签名+tab`
@@ -1279,302 +1522,5 @@ element.style{
 </ul>
 <!-- >> link:css -->
 <link rel="stylesheet" href="style.css">
-```
-
-# jQuery
-
-jQuery和JavaScript它们的作用一样，都是负责网页行为操作，增加网页和用户的交互效果的，只不过jQuery简化了JavaScript编程，实现交互效果更简单，兼容主流浏览器。
-
-## 入口函数
-
-下载`jquery-1.12.4.min.js`并在html页面中引入：`<script src="js/jquery-1.12.4.min.js"></script>`
-
-```html
-<script src="js/jquery-1.12.4.min.js"></script>
-<script>
-    window.onload = function(){
-        var oDiv = document.getElementById('div01');
-        alert('原生就是获取的div：' + oDiv);
-    };
-
-    /*
-    $(document).ready(function(){
-        var $div = $('#div01');
-        alert('jquery获取的div：' + $div);
-    });
-    */
-
-    // 上面ready的写法可以简写成下面的形式：
-    $(function(){
-        var $div = $('#div01');
-        alert('jquery获取的div：' + $div);
-    }); 
-</script>
-
-<div id="div01">这是一个div</div>
-```
-
-## 补充：DOM
-
-
-
-##  jQuery选择器
-
-1. 标签选择器
-   - `$('li')` //选择所有的li标签
-2. 类选择器
-   - `$('.myClass')` // 选择class为myClass的标签
-3. id选择器
-   - `$('#myId')` //选择id为myId的标签
-4. 层级选择器
-   - `$('#ul1 li span')` //选择id为ul1标签下的所有li标签下的span标签
-5. 属性选择器
-   - `$('input[name=first]') `// 选择name属性等于first的input标签
-
-### 选择集方法
-
-使用`length`属性来判断标签是否选择成功, 如果`length`大于0表示选择成功，否则选择失败：`$("div").length;`
-
-测试时一直有问题：因为没有等页面加载完成再执行函数
-
-#### 选择集过滤
-
-- `has(选择器名称)`：表示选取包含指定选择器的标签$div.css({"background":"yellow"});
-  - `var $div = $("div").has("#mytext");`
-- `eq(索引)`：表示选取指定索引的标签
-  - `var $div = $("div").eq(1);`索引从0开始
-
-#### 选择集转移
-
-- `$('#box').prev();` 表示选择id是box元素的上一个的同级元素
-- `$('#box').prevAll();` 表示选择id是box元素的上面所有的同级元素
-- `$('#box').next();` 表示选择id是box元素的下一个的同级元素
-- `$('#box').nextAll();` 表示选择id是box元素的下面所有的同级元素
-- `$('#box').parent();` 表示选择id是box元素的父元素
-- `$('#box').children();` 表示选择id是box元素的所有子元素
-- `$('#box').siblings();` 表示选择id是box元素的其它同级元素
-- `$('#box').find('.myClass');` 表示选择id是box元素的class等于myClass的元素
-- `$(this).index();` 获取发生事件标签的索引
-
-#### 获取和设置元素内容
-
-- `html()`：获取和设置标签的html内容
-  - `var result = $div.html();`
-  - `$div.html("<span style='color:red'>你好</span>");`
-- `append()`：给指定标签追加html内容
-  - `$div.append("<span style='color:red'>你好</span>");`
-
-#### 获取和设置样式属性
-
-- `css()`
-  - `var $px=$p.css('font-size');`
-  - `$div.siblings().css({'text-decoration':'underline','text-indent':'50px','font-size':'25px'})`
-
-#### 获取和设置元素属性
-
-- `prop()`除了样式属性的相关操作使用`css`方法，其他属性的操作都是`prop`方法
-  - `var $name=$text.prop('name');`
-    - 获取`value`属性可以使用`val`方法`var $name=$text.val();`
-  - `$text.prop({'value':'张三','class':'tname'});`
-    - 设置`value`属性可以使用`val`方法`$text.val('张三');`
-
-## jQuery事件
-
-- `click()` 鼠标单击
-- `blur()` 元素失去焦点
-- `focus()` 元素获得焦点
-- `mouseover()` 鼠标进入（进入子元素也触发）
-- `mouseout()` 鼠标离开（离开子元素也触发）
-- `ready()` DOM加载完成
-
-### 事件代理
-
-事件代理就是利用事件冒泡的原理(事件冒泡就是事件会向它的父级一级一级传递),把事件加到父级上，通过判断事件来源，执行相应的子元素的操作，**事件代理首先可以极大减少事件绑定次数，提高性能；其次可以让新加入的子元素也可以拥有相同的操作**。
-
-```html
-<head>
-    ...
-    <style type="text/css">
-        .bigbox{
-            border:2px solid green;
-            width:800px;
-            height: 800px;
-        }
-    </style>
-    <script src="js/jquery-1.12.4.js"></script>
-    <script>
-        // 表示使用JQuery本质就是函数，函数名是$
-        // 页面标签加载完成以后就实行ready事件，onload会等待资源数据加载完成。
-/*         $(document).ready(function(){
-            // 获取标签和css样式匹配标签的规则一样
-            var $div = $("#div1") // 使用JQuery，变量名都要以$符号开头
-            document.write($div)
-        }) */
-        // 这是简写方式
-        $(function(){
-            var $btn = $("#btn1");
-            var $div = $('div');
-            // 点击button时div也会弹出，这就是事件冒泡
-            $div.click(function(){
-                var $text = $("#txt1");
-                alert($text.val());
-                
-            });
-            $btn.click(function(){
-                // 原生js写法
-                // this.style.color = "red";
-                var $text = $("#txt1");
-                alert($text.val());
-            });
-            // 通过事件代理，让父控件代理子控件的事件，然后执行子控件的相关操作
-            // 可以代理不同子控件的事件
-            // $div1.delegate("#p2,#btn2","click",function(){});
-            var $ul = $("div ul");
-            $ul.delegate("li","click",function(){
-                $(this).css({"color":"red","font-size":"50px"});
-            });
-        });           
-    </script>
-</head>
-<body>
-    <div class="bigbox">
-        <input type="text" id="txt1" value="请输入值">
-        <input type="button" id="btn1" value="点点" style="width:80px;height:40px;background-color:grey;">
-        <ul>
-            <li>第一项</li>
-            <li>第二项</li>
-            <li>第三项</li>
-        </ul>
-    </div>
-</body>
-```
-
-# JSON
-
-json是 JavaScript Object Notation 的首字母缩写，翻译过来就是javascript对象表示法，这里说的json就是**类似于javascript对象的字符串**，它同时是一种**数据格式**，目前这种数据格式比较流行，逐渐替换掉了传统的xml数据格式，web开发的时候经常使用json数据格式
-
-json有两种格式：
-
-1. 对象格式：对象格式的json数据，使用一对大括号`{}`，大括号里面放入`key:value`形式的键值对，多个键值对使用逗号分隔。
-   - json中的(key)属性名称和字符串值需要用==**双引号**==引起来，用单引号或者不用引号会导致读取数据错误。
-2. 数组格式
-   - 数组格式的json数据，使用一对中括号`[]`，中括号里面的数据使用逗号分隔。
-
-```javascript
-// 对象格式的json数据:
-{
-    "name":"tom",
-    "age":18
-}
-// 数组格式的json数据:
-["tom",18,"programmer"]
-
-// json数据转换成JavaScript对象
-// json本质上是字符串，如果在js中操作json数据，可以将json字符串转化为JavaScript对象
-var sJson = '{"name":"tom","age":18}';
-var oPerson = JSON.parse(sJson);
-// 操作属性
-alert(oPerson.name);
-alert(oPerson.age)
-var sJson2 = '[{"name":"张三","age":20},{"name":"李四","age":21}]'
-var aArray = JSON.parse(sJson2);
-console.log(aArray);
-//通过下标获取js对象，然后通过js对象获取name属性
-var oPerson = aArray[1];
-document.write(oPerson.name);
-```
-
-# AJAX
-
-ajax 是 Asynchronous JavaScript and XML的简写，ajax是一个前后台配合的技术，它可以让 javascript 发送**异步的http请求（同时发送多个请求，不用等待）**，与后台通信进行数据的获取，ajax 最大的优点是**实现局部刷新**，ajax可以发送http请求，当获取到后台数据的时候更新页面显示数据实现局部刷新，在这里大家只需要记住，当前端页面想和后台服务器进行数据交互就可以使用ajax了。
-
-这里提示一下大家，**==在html页面使用ajax需要在web服务器环境下运行==, 一般向自己的web服务器发送ajax请求。**
-
-## AJAX的使用
-
-```html
-<script>
-    // 向服务器发送ajax请求，本质上是一个http协议的请求
-    $.ajax({
-        // 请求的资源地址，不指定ip地址和端口号表示请求的是自己的服务器资源数据
-        url:"data.json",
-        // 请求方式，默认是'GET'，常用的还有'POST'
-        type:"GET",
-        // 指定对服务器数据的解析格式，常用的是'json'格式
-        dataType:"JSON",
-        // data：表示发送给web服务器的数据, 没有数据不需要设置
-        // 设置请求成功后的执行的函数
-        success:function (response) {
-            console.log(response.name);    
-            // 数据请求回来以后可以绑定给html中的某个标签控件，实现局部刷新
-        },
-        // 设置请求失败后的执行的函数
-        error:function () {
-            alert("请求失败,请稍后再试!");
-        },
-        // async 设置是否异步，默认值是'true'，表示异步，一般不用写
-        async:true
-    });
-</script>
-```
-
-### ajax的简写方式
-
-`$.ajax`按照请求方式可以简写成`$.get`或者`$.post`方式
-
-`$.get`和`$.post`方法的参数说明:
-
-`$.get(url,data,success(data, status, xhr),dataType).error(func)`
-
-`$.post(url,data,success(data, status, xhr),dataType).error(func)`
-
-1. `url`请求地址
-2. `data`设置发送给服务器的数据，没有数据不需要设置
-3. `success`设置请求成功后的回调函数
-   - `data`请求的结果数据
-   - `status`请求的状态信息, 比如: `success`
-   - `xhr`底层发送http请求XMLHttpRequest对象
-4. `dataType`设置返回的数据格式
-   - `xml`
-   - `html`
-   - `text`
-   - `json`
-5. `error`表示错误异常处理
-   - `func`错误异常回调函数
-
-```html
- <script>
-    $(function(){
-        /*
-         1. url 请求地址
-         2. data 设置发送给服务器的数据, 没有参数不需要设置
-         3. success 设置请求成功后的回调函数
-         4. dataType 设置返回的数据格式，常用的是'json'格式, 默认智能判断数据格式
-        */ 
-       // 使用get方式发送请求，name=李四会以?name=李四&..&..的形式出现在地址栏后
-        $.get("data.json", {"name":"李四"}, function(dat,status){
-            console.log(dat.name);
-            console.log(status);
-        }).error(function(){
-            alert("网络异常");
-        });
-
-        /*
-         1. url 请求地址
-         2. data 设置发送给服务器的数据, 没有参数不需要设置
-         3. success 设置请求成功后的回调函数
-         4. dataType 设置返回的数据格式，常用的是'json'格式, 默认智能判断数据格式
-        */ 
-       // 使用post方式发送请求，name=李四会出现在请求体内
-       // 这里没有指定http协议头和ip地址和端口号，那么默认ajax请求会自动帮我们加上
-       // 如果请求的是自己的web服务器可以不要加上http协议地址，请求别人服务器的数据需要加上http协议地址
-        $.post("http://localhost:8000/data.json", {"name":"李四"}, function(data){
-            alert(data.name); 
-            console.log(data.time); 
-        }, "json").error(function(){
-            alert("网络异常");
-        }); 
-    });
-</script>
 ```
 
