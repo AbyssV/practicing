@@ -250,10 +250,10 @@ JavaScript 中的所有事物都是对象：字符串、数值、数组、函数
    - 构造函数中不需要`return`返回结果
    - 当我们创建对象的时候，必须用`new`来调用构造函数
    - `new`关键字的作用
-     - 在构造函数代码开始执行之前，创建一个空对象
+     - 在构造函数代码开始执行之前，在内存中创建一个新的空对象
      - 修改this的指向，把this指向创建出来的空对象
-     - 执行函数的代码
-     - 在函数完成之后，返回this---即创建出来的对象
+     - 执行构造函数里面的代码，给这个新对象添加属性和方法
+     - 返回这个新对象（所以构造函数里面不需要return）
 
 ```javascript
 // Object类创建对象的示例代码:
@@ -283,7 +283,7 @@ JavaScript 中的所有事物都是对象：字符串、数值、数组、函数
 	alert(oPerson2['age']);
     oPerson2.sayName();
 
-	// 使用构造函数创建对象
+	// JS在ES6之前没有类的概念，使用构造函数创建对象
 	function 构造函数名(形参1,形参2,形参3) {
          this.属性名1 = 参数1;
          this.属性名2 = 参数2;
@@ -291,21 +291,35 @@ JavaScript 中的所有事物都是对象：字符串、数值、数组、函数
          this.方法名 = 函数体;
 	}
 
-    function Student(name, age, grade){
+    function Student(name, age, grade) {
         this.name = name;
         this.age = age;
         this.grade = grade;
-        this.call = function(){console.log('i am '+ name);}
+        this.showGrade = function () {
+            console.log('i am ' + this.name + " and my scores are " + this.grade);
+        }
     }
 
     s1 = new Student('张三', 12, [100, 99, 102]);
-    // 调用
-	s1.call(); 	
-    // 遍历
-	for (k in s1){
+    // 调用对象
+    s1.showGrade();
+    // 遍历对象
+    for (k in s1) {
         console.log(k);
         console.log(s1[k]);
     }
+
+    // 1. 实例成员就是构造函数内部通过this添加的成员 如下列代码中name age grade showGrade 就是实例成员
+    // 实例成员只能通过实例化的对象来访问
+    document.write(s1.name);
+    document.write(s1.age);
+    document.write(s1.grade);
+    document.write(Student.grade); // undefined 不可以通过构造函数来访问示例成员
+
+    // 2. 静态成员是在构造函数本身上添加的成员。如下列代码中sex就是静态成员
+    Student.sex = "男";
+    console.log(Student.sex);
+    console.log(s1.sex); // undefined 静态成员只能通过构造函数来访问
 </script>
 ```
 
@@ -317,6 +331,35 @@ JavaScript 中的所有事物都是对象：字符串、数值、数组、函数
 for (变量 in 对象名字) {
     // 在此执行代码
 }
+```
+
+### ES5新增对象方法
+
+```javascript
+// Object.keys(对象) 获取到当前对象中的属性名，效果类似for..in，返回值是一个由属性名组成的数组
+s1 = new Student('张三', 12, [100, 99, 102]);
+console.log(Object.keys(s1)); // ['name', 'age', 'grade', 'showGrade']
+
+// Object.defineProperty(obj,prop, descriptor)定义或修改对象中的属性
+// obj: 必需，目标对象
+// prop：必需，需定义或修改的属性名字
+// descriptor：必需，目标属性所拥有的特性。对象形式
+// - value:修改或新增的属性的值,
+// - writable:true/false,//如果值为false 不允许修改这个属性值
+// - enumerable: false,//enumerable 如果值为false 则不允许遍历
+// - configurable: false  //configurable 如果为false 则不允许删除这个属性 属性是否可以被删除或是否可以再次修改特性，修改特性会报错
+s1 = new Student('张三', 12, [100, 99, 102]);
+Object.defineProperty(s1, 'id', {
+    value: 1,
+    writable: false,
+    enumerable: false, // 默认为false
+    configurable:false // 默认为false
+})
+s1.id = 10;
+console.log(s1); // id:1
+console.log(Object.keys(s1));
+delete s1.id; 
+console.log(s1); // 仍有id
 ```
 
 ## Array数组对象
@@ -358,9 +401,16 @@ Array.isArray(aList2) // true
 ```javascript
 var arr = [19, 21, 56, 73, 24, 66];
 // arr.sort();
-// arr.sort(function compareFn(a, b){return b-a;});
+// arr.sort(function compareFn(a, b){return b-a;});、
+// 若返回值<=-1，则表示a在排序后的序列中出现在b之前；若返回值>-1&&<1，则表示a和b具有相同的排列顺序；若返回值>=1，则表示a在排序后的序列中出现在b之后
 arr.sort((a, b) => b - a)
 console.log(arr.join());
+
+// arr1.concat(arr2, arr3)会创建一个新数组，不会改变原来的数组
+var arr1 = [1, 2, 3];
+var arr2 = ['a', 'b', 'c'];
+var arr3 = ['d', 'e', 'f'];
+console.log(arr1.concat(arr3, arr2)); // [1, 2, 3, 'd', 'e', 'f', 'a', 'b', 'c']
 ```
 
 `sort()`方法可以传参也可以传函数
@@ -381,13 +431,60 @@ console.log(arr.join());
 
 ![数组其他方法](C:\Users\admin\Desktop\practicing\图片笔记\前端\js\数组其他方法.png)
 
+`slice()`返回一个并不会修改数组，而是返回一个子数组。可使用负值从数组的尾部选取元素，如果`end`未被规定，那么`slice()`方法会选取从`start`到数组结尾的所有元素
+
+### *ES5新增数组方法
+
+```javascript
+// forEach遍历数组，相当于数组遍历的for循环 没有返回值
+// value:数组元素
+// index:数组元素的索引
+// array:当前的数组
+var arr = ['a', 'b', 'c', 'd'];
+arr.forEach(function (value, index, array) {
+    document.write('数组的值：' + value + '<br>');
+    document.write('数组的索引：' + index + '<br>');
+    document.write('数组本身：' + array + '<br>');
+})
+
+// filter过滤数组，返回值是一个新数组
+// value:数组元素
+// index:数组元素的索引
+// array:当前的数组
+var arr = [12, 66, 4, 88, 3, 7];
+var newArr = arr.filter(function(value, index, array) {
+    return value >= 20;
+});
+console.log(newArr);// [66,88] 
+
+// some查找数组中是否有满足条件的元素，返回值是布尔值。只要查找到满足条件的一个元素就立马终止循环。所以终止循环时必须执行return true，而在forEach里面return不会终止迭代
+// value:数组元素
+// index:数组元素的索引
+// array:当前的数组
+var arr = [10, 30, 4];
+var flag = arr.some(function(value) { // 不用可以不写
+    if (value===3){
+        console.log('find it');
+        return true; // return true表示已经找到了这个元素，终止循环
+        //return false; // 表示没有找到这个元素，会一直找所以元素
+    }
+    alert(1); //some会执行一次，而forEach每次遍历都会执行
+});
+console.log(flag); // false
+
+map();
+every();
+```
+
+
+
 # 运算符
 
 ## 算术运算符
 
 `+`，`-`， `*`， `/`（取模）， `%`，`++`（自增），`--`（自减），`+=`，`-=`，`*=`，`/=`，`%=`
 
-浮点数的精度问题：浮点数值的最高精度是17位小数，但在进行算术计算时其精确度远远不如整数，浮点数值的最高精度是 17 位小数，但在进行算术计算时其精确度远远不如整数，所以不要直接判断两个浮点数是否相等
+浮点数的精度问题：浮点数值的最高精度是17位小数，但在进行算术计算时其精确度远远不如整数，所以不要直接判断两个浮点数是否相等
 
 ## 比较运算符
 
@@ -506,14 +603,97 @@ console.log(123 || 456 || 789);  //  123
 function 函数名(形参1, 形参2 , 形参3...) { // 可以定义任意多的参数，用逗号分隔
   // 函数体
 }
-// 调用函数，调用的时候千万不要忘记添加小括号
-函数名(实参1, 实参2, 实参3...);  // 通过调用函数名来执行函数体代码
 
 // 匿名函数
 // 这是函数表达式写法，匿名函数后面跟分号结束
-var fn = function(){...}；
+var fn = function(){...};
 // 调用的方式，函数调用必须写到函数体下面
 fn();
+
+// new Function()定义函数
+/* Function 里面参数都必须是字符串格式
+第三种方式执行效率低，也不方便书写，因此较少使用
+所有函数都是 Function 的实例(对象)  
+函数也属于对象
+*/
+var f = new Function('参数1','参数2'..., '函数体');
+var f = new Function('a', 'b', 'console.log(a + b)');
+f(1, 2);
+console.dir(f);
+console.log(f instance Object); 
+                    
+// 调用函数，调用的时候千万不要忘记添加小括号
+函数名(实参1, 实参2, 实参3...);  // 通过调用函数名来执行函数体代码
+f();
+f.call();
+// 绑定事件函数
+btn.click = function() {}
+// 定时器函数
+setInterval(function(){}, 1000) // 每个1s调用一次
+// 立即执行函数，自动调用
+(function(){
+	alert(1);
+
+})()
+```
+
+## 函数内部的`this`指向
+
+![函数内部的this指向](C:\Users\admin\Desktop\practicing\图片笔记\前端\js\函数内部的this指向.png)
+
+## 改变函数内部`this`指向
+
+### `call()`方法
+
+`call()`方法调用一个对象。简单理解为调用函数的方式，但是它可以改变函数的`this`指向
+
+应用场景：经常做[继承](#子构造函数继承父构造函数中的属性)
+
+```js
+var o = {
+    name: 'andy'
+}
+function fn(a, b) {
+    console.log(this);
+    console.log(a+b)
+};
+// call()方法
+fn(1,2) // 此时的this指向的是window，运行结果为3
+fn.call(o,1,2) // 此时的this指向的是对象o，参数使用逗号隔开，运行结果为3
+// apply()方法
+fn() // 此时的this指向的是window，运行结果为3
+fn.apply(o,[1,2]) // 此时的this指向的是对象o，参数使用数组传递，运行结果为3
+var max = Math.max.apply(Math, [10, 11, 21]);
+// bind()方法
+var f = fn.bind(o, 1, 2); // 此处的f是bind返回的新函数
+f(); //调用新函数  this指向的是对象o，参数使用逗号隔开
+```
+
+### `apply()`方法
+
+`apply()`方法调用一个函数。简单理解为调用函数的方式，但是它可以改变函数的`this`指向。第一个参数是需要`this`指向的对象，第二个参数是数组。
+
+应用场景：经常跟数组有关系
+
+### `bind()`方法
+
+`bind()`方法不会调用函数，但是能改变函数内部`this`指向，返回由指定的`this`值和初始化参数改造的原函数拷贝
+
+如果只是想改变`this`指向，并且不想调用这个函数的时候，可以使用`bind`
+
+应用场景：如果有的函数我们不需要立即调用,但是又想改变这个函数内部的`this`指向此时用`bind`
+
+```javascript
+// 我们有一个按钮，当我们点击了之后就禁用这个按钮，3秒钟之后开启这个按钮
+var btns = document.querySelectorAll('button');
+    for (var i = 0; i < btns.length; i++) {
+        btns[i].onclick = function() {
+            this.disabled = true; // // 这个this 指向的是 btn 这个按钮
+            setTimeout(function() {
+                this.disabled = false; // 定时器函数里面的this本来指向的是window
+            }.bind(this), 2000); // 使定时器函数里面的this指向btn，注意写在外面
+        }
+    }
 ```
 
 ## `arguments`的使用
@@ -598,6 +778,173 @@ alert(num); // 100
 </form>
 ```
 
+## 闭包
+
+闭包（closure）指有权访问另一个函数作用域中变量的函数。简单理解就是 ，一个作用域可以访问另外一个函数内部的局部变量。 ==闭包可以延伸变量的作用范围==
+
+案例：利用闭包，1. 点击`li`时可以获得当前`li`的索引号 2. 计算打车价格
+
+```javascript
+<body>
+    <ul class="nav">
+        <li>榴莲</li>
+        <li>臭豆腐</li>
+        <li>鲱鱼罐头</li>
+        <li>大猪蹄子</li>
+    </ul>
+    <script>
+        // 闭包应用 - 点击li输出当前li的索引号
+        // 1. 我们可以利用动态添加属性的方式
+        var lis = document.querySelector('.nav').querySelectorAll('li');
+        for (var i = 0; i < lis.length; i++) {
+            lis[i].index = i;
+            lis[i].onclick = function() {
+                // console.log(i); for循环立即执行，但是onclick是一个点击事件（异步），所以点击任意一个li都会输出4
+                console.log(this.index);
+            }
+        }
+        // 2. 利用闭包的方式得到当前小li的索引号
+        for (var i = 0; i < lis.length; i++) {
+            // 利用for循环创建了4个立即执行函数
+            // 立即执行函数也成为小闭包因为立即执行函数里面的任何一个函数都可以使用它的i这变量
+            (function(i) {
+                // console.log(i);
+                lis[i].onclick = function() {
+                    console.log(i);
+
+                }
+            })(i);
+        }
+    </script>
+</body>
+
+// 闭包应用 - 计算打车价格 
+// 打车起步价13(3公里内)，之后每多一公里增加5块钱。用户输入公里数就可以计算打车价格
+// 如果有拥堵情况，总价格多收取10块钱拥堵费
+// function fn() {};
+// fn();
+var car = (function() {
+    var start = 13; // 起步价  局部变量
+    var total = 0; // 总价  局部变量
+    return {
+        // 正常的总价
+        price: function(n) {
+            if (n <= 3) {
+                total = start;
+            } else {
+                total = start + (n - 3) * 5
+            }
+            return total;
+        },
+        // 拥堵之后的费用
+        yd: function(flag) {
+            return flag ? total + 10 : total;
+        }
+    }
+})();
+console.log(car); // object:(f(n), f(flag))
+console.log(car.price(5)); // 23
+console.log(car.yd(true)); // 33
+
+console.log(car.price(1)); // 13
+console.log(car.yd(false)); // 13
+```
+
+思考题
+
+```javascript
+// 思考题1：没有闭包产生，因为没有局部变量
+var name = "The Window";
+/* 		var object = {
+						name: "My Object",
+						getNameFunc: function () {
+							return this.name;
+						}
+					};
+				console.log(object.getNameFunc()) // My Object */
+
+var object = {
+    name: "My Object",
+    getNameFunc: function () {
+        return function () {
+            return this.name;
+        };
+    }
+};
+// console.log(object.getNameFunc()) // f(){return this.name;}
+console.log(object.getNameFunc()()) // The Window;
+
+// 思考题2：有闭包因为使用了局部变量
+		var name = "The Window";
+		var object = {
+			name: "My Object",
+			getNameFunc: function () {
+				var that = this;
+				return function () {
+					return that.name;
+				};
+			}
+		};
+		console.log(object.getNameFunc()()) // My Object
+```
+
+## 高阶函数
+
+高阶函数是对其他函数进行操作的函数，它接收函数作为参数或将函数作为返回值输出。函数也是一种数据类型，同样可以作为参数，传递给另外一个参数使用。最典型的就是作为回调函数。同理函数也可以作为返回值传递回来
+
+```javascript
+function fn(a, b, callback) {
+    console.log(a + b);
+    callback && callback();
+}
+fn(1, 2, function() {
+    console.log('我是最后调用的');
+});
+// jQuery中大量使用了回调函数
+$("div").animate({
+    left: 500
+}, function() {
+    $("div").css("backgroundColor", "purple");
+})
+```
+
+## 递归
+
+如果一个函数在内部可以调用其本身，那么这个函数就是递归函数。递归函数的作用和循环效果一样，由于递归很容易发生“栈溢出错误”（stack overflow），所以必须要加退出条件return
+
+# 深拷贝和浅拷贝
+
+浅拷贝只是拷贝一层，更深层次对象级别的只拷贝引用。深拷贝拷贝多层，每一级别的数据都会拷贝。深拷贝拷贝多层，每一级别的数据都会拷贝
+
+```javascript
+var obj = {...};
+var o = {};
+
+// 浅拷贝
+for (var k in obj) {
+	o[k] = obj[k] // 这是浅拷贝
+}
+// 浅拷贝语法糖
+Object.assign(target, ...sources)
+Object.assign(o, obj);
+
+// 深拷贝
+function deepCopy(newobj, oldobj) {
+    for (var k in oldobj) {
+        var item = oldobj[k];
+        if (item instanceof Array) { // Array也属于Object，会覆盖
+            newobj[k] =  [];
+            deepCopy(newobj[k], item);
+        } else if (item instanceof Object) {
+            newobj[k] = {};
+            deepCopy(newobj[k], item);
+        } else {
+            newobj[k] = item;
+        }
+    }
+}
+```
+
 # JS内置对象
 
 JavaScript中的对象分为3种：自定义对象 、内置对象、 浏览器对象
@@ -610,15 +957,17 @@ JavaScript中的对象分为3种：自定义对象 、内置对象、 浏览器�
 
 Math对象不是构造函数，它具有数学常数和函数的属性和方法。跟数学相关的运算（求绝对值，取整、最大值等）可以使用Math中的成员
 
-| 属性、方法名            | 功能                                   |
-| ----------------------- | -------------------------------------- |
-| Math.PI                 | 圆周率                                 |
-| Math.floor()            | 向下取整                               |
-| Math.ceil()             | 向上取整                               |
-| Math.round()            | 四舍五入版 就近取整   注意-3.5结果是-3 |
-| Math.abs()              | 绝对值                                 |
-| Math.max() / Math.min() | 求最大和最小值                         |
-| Math.random()           | 获取范围在[0,1)内的随机值              |
+| 属性、方法名             | 功能                                                         |
+| ------------------------ | ------------------------------------------------------------ |
+| Math.PI                  | 圆周率                                                       |
+| Math.floor()/Math.ceil() | 向下取整/向上取整                                            |
+| Math.exp()/Math.log()    | e^x/ln(x)                                                    |
+| Math.round()             | 四舍五入版 就近取整   注意-3.5结果是-3. 两侧相等会向正方向舍入 |
+| Math.abs()               | 绝对值                                                       |
+| Math.max() / Math.min()  | 求最大和最小值                                               |
+| Math.random()            | 获取范围在[0,1)内的随机值                                    |
+| Math.pow(x,y)            | x^y                                                          |
+| Math.sqrt()              | x^(1/2)                                                      |
 
 ## Date对象
 
@@ -632,6 +981,18 @@ var d2 = new Date('2021/1/20'); // 指定日期
 console.log(d1.getDay());
 console.log(d1 instanceof Array); // false
 console.log(d1 instanceof Date); // true
+
+var t = new Date();
+document.write(t.getDate() + "</br>");
+document.write(t.getFullYear() + "</br>");
+document.write(t.getYear() + "</br>");
+document.write(t.getMonth() + "</br>");
+document.write(t.getDay() + "</br>");
+document.write(t.getTime() + "</br>");
+document.write(t.getHours() + "</br>");
+document.write(t.getMinutes() + "</br>");
+document.write(t.getSeconds() + "</br>");
+document.write(t.setMonth(12) + "</br>");
 ```
 
 ## String对象
@@ -681,17 +1042,37 @@ console.log(p.name);    // 4 张学友
 
 ### 字符串方法
 
-字符串通过基本包装类型可以调用部分方法来操作字符串，以下是返回指定字符的位置的方法（查找）
+**字符串通过基本包装类型可以调用部分方法来操作字符串，以下是返回指定字符的位置的方法（查找）**
 
 ![字符串方法根据字符返回位置](C:\Users\admin\Desktop\practicing\图片笔记\前端\js\字符串方法根据字符返回位置.png)
 
-以下是根据位置返回指定位置上的字符（索引）
+`indexOf(substring, startpos)`：
+
+1. 区分大小写
+2. 如果没有`startpos`参数则从string的开头开始查找
+3. 如果没有找到，返回`-1`
+
+**以下是根据位置返回指定位置上的字符（索引）**
 
 ![字符串根据位置返回字符](C:\Users\admin\Desktop\practicing\图片笔记\前端\js\字符串根据位置返回字符.png)
 
-字符串操作方法
+`charAt(index)`：
+
+1. 如果参数`index`不在`0`和`string.lentg-1`之间，该方法返回一个空字符串
+
+**字符串操作方法**
 
 ![字符串操作方法](C:\Users\admin\Desktop\practicing\图片笔记\前端\js\字符串操作方法.png)
+
+`substring(startPos,stopPos)`：
+
+1. 如果参数`startPos`与`stopPos`相等，那么该方法返回的就是一个空串
+2. 如果参数`startPos`比`stopPos`大，那么该方法在提取子串之前会先交换这两个参数
+
+`substr(startPos,length)`：
+
+1. 如果参数`startPos`是负数，从字符串的尾部开始算起的位置。也就是说，`-1`指字符串的最后一个字符，以此类推
+2. 如果`startPos`为负数且绝对值大于字符串长度`startPos`为`0`
 
 `replce()`和`split()`
 
@@ -701,5 +1082,416 @@ var newString = longString.replace('shaonian','laonian');
 
 writeP(newString);
 writeP(longString.split('a'));
+
+
+// es5中的新增方法
+// trim方法去除字符串两端的空格。不会影响原来的字符串，返回的是一个新字符串
+var str = '   hello   '
+console.log(str.trim()）  //hello去除两端空格
+var str1 = '   he l l o   '
+console.log(str1.trim()）  //he l l o去除两端空格
+
 ```
+
+# (ES5)构造函数+原型对象组合继承
+
+在ES6之前并没有并没有给我们提供`extends`继承。我们可以通过构造函数+原型对象模拟实现继承，被称为组合继承。
+
+## (ES5)构造函数原型prototype
+
+- 构造函数方法很好用，但是存在浪费内存的问题。我们希望所有的对象使用同一个函数，这样就比较节省内存
+- 构造函数通过原型分配的函数是所有对象所共享的。
+  - 对象都会有一个属性`__proto__`指向构造函数的`prototype`原型对象，之所以我们对象可以使用构造函数`prototype`原型对象的属性和方法，就是因为对象有`__proto__`原型的存在
+  - `__proto__`对象原型和原型对象`prototype`是等价的
+  - `__proto__`对象原型的意义就在于为对象的查找机制提供一个方向，或者说一条路线，但是它是一个非标准属性，因此实际开发中，不可以使用这个属性，它只是内部指向原型对象`prototype`
+- JavaScript 规定，每一个构造函数都有一个`prototype`属性，指向另一个对象。注意这个`prototype`就是一个对象，这个对象的所有属性和方法，都会被构造函数所拥有。我们可以把那些不变的方法，直接定义在`prototype`==对象==上，这样所有对象的实例就可以共享这些方法
+- 
+
+![prototype原型对象](C:\Users\admin\Desktop\practicing\图片笔记\前端\js\prototype原型对象.png)
+
+- 对象原型（ `__proto__`）和构造函数（`prototype`）原型对象里面都有一个`constructor`属性 ，我们称为构造函数，因为它指回构造函数本身。`constructor`主要用于记录该对象引用于哪个构造函数，它可以让原型对象重新指向原来的构造函数。一般情况下，对象的方法都在构造函数的原型对象中设置。**<u>如果有多个对象的方法，我们可以给原型对象采取对象形式赋值，但是这样就会覆盖构造函数原型对象原来的内容，这样修改后的原型对象`constructor`就不再指向当前构造函数了。此时，我们可以在修改后的原型对象中，添加一个 `constructor`指向原来的构造函数。</u>**
+
+```javascript
+Student.prototype.tell = function () {
+    document.write("im a bad student");
+}
+console.log(s1.__proto__ === Student.prototype); // true
+
+// 很多情况下,我们需要手动的利用constructor这个属性指回原来的构造函数
+// Student.prototype.bad = function () {
+// 	document.write("im a bad student<br>");
+// }
+
+// Student.prototype.good = function () {
+// 	document.write("im a good student<br>");
+// }
+// 可以写成，但是会把原先的prototype覆盖，以上是追加
+Student.prototype = {
+    // 如果我们修改了原来的原型对象，给原型对象赋值的是一个对象，则必须手动的利用constructor指回原来的构造函数
+    constructor: Student,
+    good: function () {
+        document.write("im a bad student<br>");
+    },
+    bad: function () {
+        document.write("im a good student<br>");
+    }
+}
+
+s1 = new Student('张三', 12, [100, 99, 102]);
+s2 = new Student('李四', 20, [10, 2, 5]);
+s1.good();
+s1.bad();
+console.log(Student.prototype);
+console.log(s1.__proto__);
+console.log(Student.prototype.constructor);
+console.log(s1.__proto__.constructor);
+
+
+```
+
+以上四条会在控制台输出
+
+![原型链-控制台](C:\Users\admin\Desktop\practicing\图片笔记\前端\js\原型链-控制台.png)
+
+### 原型链
+
+每一个实例对象又有一个`__proto__`属性，指向的构造函数的原型对象，构造函数的原型对象也是一个对象，也有`__proto__`属性，这样一层一层往上找就形成了原型链
+
+![原型链](C:\Users\admin\Desktop\practicing\图片笔记\前端\js\原型链.png)
+
+### 原型链和成员的查找机制
+
+1. 当访问一个对象的属性（包括方法）时，首先查找这个对象自身有没有该属性
+2. 如果没有就查找它的原型（也就是`__proto__`指向的`prototype`原型对象）
+3. 如果还没有就查找原型对象的原型（`Object`的原型对象）
+4. 依此类推一直找到`Object`为止（`null`）
+
+`__proto__`对象原型的意义就在于为对象成员查找机制提供一个方向，或者说一条路线
+
+例如，在`Object.prototype`对象里有一个方法`toString()`，但是在`Star.prototype`和`ldh.__proto__`中没有，我们仍然可以使用 
+
+### 原型对象中this指向
+
+```javascript
+var temp;
+function Student(name, age, grade) {
+    this.name = name;
+    this.age = age;
+    this.grade = grade;
+    this.showGrade = function () {
+        console.log('i am ' + this.name + " and my scores are " + this.grade);
+    }
+}
+
+Student.prototype.bad = function () {
+    document.write("im a bad student<br>");
+    temp = this;
+}
+
+Student.prototype.good = function () {
+    document.write("im a good student<br>");
+}
+s1 = new Student('张三', 12, [100, 99, 102]);
+s2 = new Student('李四', 20, [10, 2, 5]);
+// 1. 在构造函数中，里面this指向的是对象实例
+// 2. 原型对象函数里面的this指向的是实例对象
+s1.bad();
+console.log(temp === s1); // true
+```
+
+### 通过原型扩展内置方法
+
+```javascript
+// 通过原型对象，对原来的内置对象进行扩展自定义的方法。比如给数组增加自定义求偶数和的功能\
+console.log(Array.prototype); // 查看数组的原型对象
+Array.prototype.sum = function () {
+    sum = 0;
+    for (var i = 0; i < this.length; i++) {
+        sum += this[i];
+    }
+    return sum;
+}
+var arr = [1, 2, 3];
+console.log(arr.sum()); // 6
+```
+
+## 子构造函数继承父构造函数中的属性
+
+1. 先定义一个父构造函数
+2. 再定义一个子构造函数
+3. 子构造函数继承父构造函数的属性，使用`call(this指向，arg1, arg2...)`方法
+
+```javascript
+function fn(x, y) {
+    console.log(this);
+    console.log(x + y);
+}
+var o = {
+    name: 'andy'
+};
+fn.call(o, 1, 2); // fn里的this会由window变成o
+
+// 让子类继承父类并有自己的属性和方法
+// 1. 父构造函数
+function Father(uname, age) {
+    // this 指向父构造函数的对象实例
+    this.uname = uname;
+    this.age = age;
+}
+Father.prototype.talk = function () {
+    document.write("i'm a good father.<br>");
+};
+// 2 .子构造函数 
+function Son(uname, age, score) {
+    // this指向子构造函数的对象实例
+    Father.call(this, uname, age);
+    this.score = score;
+}
+// Son.prototype = Father.prototype;  这样直接赋值，如果修改了子原型对象，父原型对象也会跟着一起变化
+Son.prototype = new Father();
+// 如果利用对象的形式修改了原型对象别忘了利用constructor指回原来的构造函数
+Son.prototype.constructor = Son;
+// 这个是子构造函数专门的方法
+Son.prototype.talk = function () {
+    document.write("i'm a good son.<br>");
+
+}
+var father = new Father('大黄', 90);
+var son = new Son('二狗子', 18, 100);
+console.log(father);
+console.log(son);
+```
+
+
+
+
+
+
+
+# 类`class`
+
+面向对象和面向过程
+
+- 面向过程就是分析出解决问题所需要的步骤，然后用函数把这些步骤一步一步实现，使用的时候再一个一个的依次调用就可以了
+- 面向对象是把事务分解成为一个个对象，然后由对象之间分工与合作
+
+|      | 面向过程                                                     | 面向对象                                                     |
+| ---- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| 优点 | 性能比面向对象高，适合跟硬件联系很紧密的东西，例如单片机就采用的面向过程编程 | 易维护、易复用、易扩展，由于面向对象有封装、继承、多态性的特性，可以设计出低耦合的系统，使系统 更加灵活、更加易于维护 |
+| 缺点 | 不易维护、不易复用、不易扩展                                 | 性能比面向过程低                                             |
+
+## 创建类
+
+```javascript
+// 1. 创建类 class  创建一个类
+class Student {
+    // 类的共有属性放到constructor里面，constructor是构造器或者构造函数
+    constructor(sname, score, sex) {
+        this.sname = sname;
+        this.score = score;
+        this.sex = sex;
+    }//------------------------------------------->注意,方法与方法之间不需要添加逗号
+
+    showScore(subject) {
+        document.write(this.sname + " has taken " + subject + " exam and get " + this.score + " points.")
+    }
+}
+// 2. 利用类创建对象 new
+var s1 = new Student("张三", 20, "male");
+console.log(s1); // Student {sname: '张三', score: 20, sex: 'male'}
+s1.showScore("English");
+```
+
+**注意**
+
+1. 通过`class`关键字创建类，类名我们还是习惯性定义首字母大写
+2. 类里面有个`constructor`函数，可以接受传递过来的参数，同时返回实例对象
+3. `constructor`函数只要`new`生成实例时，就会自动调用这个函数，如果我们不写这个函数，类也会自动生成这个函数
+4. 在 ES6 中类没有变量提升，所以必须先定义类，才能通过类实例化对象
+5. 类里面的共有的属性和方法一定要加`this`使用，时刻注意`this`的指向问题
+   1. `constructor`中的`this`指向的是`new`出来的实例对象 
+   2. 自定义的方法的`this`指向这个方法的调用者（实例对象）
+   3. 绑定事件之后`this`指向的就是触发事件的事件源。可以用一个全局变量`a`存储`this`，再通过`a.属性`在事件函数内访问构造函数内的变量
+6. 多个函数方法之间不需要添加逗号分隔
+7. 生成实例`new`不能省略
+8. 语法规范，创建类，类名后面不要加小括号；生成实例，类名后面加小括号。构造函数不需要加`function`
+
+## 类的继承
+
+使用`super`关键字调用父类的构造函数和普通函数
+
+```javascript
+// 父类有加法方法
+class Father {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+    sum() {
+        console.log(this.x + this.y);
+    }
+}
+// 子类继承父类加法方法 同时扩展减法方法
+class Son extends Father {
+    constructor(x, y) {
+        // 利用super调用父类的构造函数 super必须在子类this之前调用,放到this之后会报错
+        super(x, y);
+        this.x = x;
+        this.y = y;
+
+    }
+    subtract() {
+        console.log(this.x - this.y);
+    }
+}
+var son = new Son(5, 3);
+son.subtract(); //2
+son.sum(); //8
+```
+
+**注意：**
+
+1. 继承中，如果实例化子类输出一个方法，先看子类有没有这个方法，如果有就先执行子类的。如果没有，就去查找父类有没有这个方法，如果有，就执行父类的这个方法。
+2. 如果子类想要继承父类的方法同时在自己内部扩展自己的方法，利用`super`调用父类的构造函数。**`super`必须在子类`this`之前调用**
+
+# (ES5)严格模式
+
+JavaScript除了提供正常模式外，还提供了严格模式（strict mode）。ES5 的严格模式是采用具有限制性JavaScript变体的一种方式，即在严格的条件下运行 JS 代码。
+
+严格模式在 IE10 以上版本的浏览器中才会被支持，旧版本浏览器中会被忽略。
+
+严格模式对正常的 JavaScript 语义做了一些更改： 
+
+1. 消除了 Javascript 语法的一些不合理、不严谨之处，减少了一些怪异行为
+
+2. 消除代码运行的一些不安全之处，保证代码运行的安全
+
+3. 提高编译器效率，增加运行速度
+
+4. 禁用了在 ECMAScript 的未来版本中可能会定义的一些语法，为未来新版本的 Javascript 做好铺垫。比如一些保留字如：`class`，`enum`，`export`， `extends`，`import`，`super`不能做变量名
+
+## 开启严格模式
+
+严格模式可以应用到整个脚本或个别函数中。因此在使用时，我们可以将严格模式分为为脚本开启严格模式和为函数开启严格模式两种情况
+
+### 为脚本开启严格模式
+
+有的 script 脚本是严格模式，有的 script 脚本是正常模式，这样不利于文件合并，所以可以将整个脚本文件放在一个立即执行的匿名函数之中。这样独立创建一个作用域而不影响其他 script 脚本文件
+
+```javascript
+// 当前script标签未开启严格模式
+<script>
+  			
+</script>
+
+// 方法1，在立即执行函数中开启严格模式
+(function (){
+  // 在当前的这个自调用函数中有开启严格模式，当前函数之外还是普通模式
+　　　　"use strict";
+       var num = 10;
+　　　　function fn() {}
+})();
+
+
+// 方法2，在当前script标签开启了严格模式
+<script>
+  　"use strict"; 
+</script>
+```
+
+### 为函数开启严格模式
+
+要给某个函数开启严格模式，需要把`'use strict';`声明放在函数体所有语句之前
+
+```javascript
+function fn(){
+　　"use strict";
+　　return "123";
+} 
+```
+
+## 严格模式中的变化
+
+```javascript
+更多严格模式要求参考'use strict'
+num = 10 
+console.log(num)//严格模式后使用未声明的变量
+--------------------------------------------------------------------------------
+var num2 = 1;
+delete num2;//严格模式不允许删除变量
+--------------------------------------------------------------------------------
+function fn() {
+ console.log(this); // 严格模式下全局作用域中函数中的 this 是 undefined
+}
+fn();  
+---------------------------------------------------------------------------------
+function Star() {
+	 this.sex = '男';
+}
+// Star();严格模式下,如果 构造函数不加new调用, this 指向的是undefined 如果给他赋值则 会报错.
+var ldh = new Star();
+console.log(ldh.sex);
+----------------------------------------------------------------------------------
+setTimeout(function() {
+  console.log(this); //严格模式下，定时器 this 还是指向 window
+}, 2000);  
+
+'use strict';
+// 1. 我们的变量名必须先声明再使用
+// num = 10;
+// console.log(num);
+var num = 10;
+console.log(num);
+
+// 2.我们不能随意删除已经声明好的变量，会报错
+// delete num;
+
+// 3. 严格模式下全局作用域中函数中的this是undefined，以前在全局作用域函数中的this指向window对象
+// function fn() {
+//     console.log(this); // undefined
+// }
+// fn();
+
+// 4. 严格模式下,如果构造函数不加new调用, this指向的是undefined 如果给他赋值则会报错
+// function Star() {
+//     this.sex = '男';
+// }
+// // Star(); 会报错，因为全局模式下this指向的是undefined
+var ldh = new Star();
+console.log(ldh.sex);
+
+// 5. 但是定时器里的this还是指向window，事件、对象还是指向调用者
+// setTimeout(function() {
+//     console.log(this);
+// }, 2000);
+
+// 6. 严格模式下函数里面的参数不允许有重名，会报错
+// function fn(a, a) {
+//     console.log(a + a);
+
+// };
+// fn(1, 2); // 结果是4，因为两个参数有重名产生了歧义
+function fn() {}
+
+// 7. 函数必须声明在顶层。新版本的javascript会引入块级作用域（es6中已引入）。为了与新版本接轨，不允许在新函数的代码块中声明函数
+// if (true){
+//     function f(){}
+//     f();
+// }
+
+// for (...) {
+//     function f2(){}
+// 	f2();
+// }
+
+function baz(){
+    function eit(){}
+}
+```
+
+[更多严格模式要求参考](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Strict_mode)
+
+# ES6
+
+
 

@@ -19,14 +19,14 @@ html是用来开发网页的，它是开发网页的语言。
 
 ## 排版标签总结
 
-| 标签名        | 定义       | 说明                                  |
-| ------------- | :--------- | :------------------------------------ |
-| <hx></hx>     | 标题标签   | 作为标题使用，并且依据重要性递减      |
-| <p></p>       | 段落标签   | 可以把 HTML 文档分割为若干段落        |
-| <hr />        | 水平线标签 | 没啥可说的，就是一条线                |
-| <br />        | 换行标签   |                                       |
-| <div></div>   | div标签    | 用来布局的，但是现在一行只能放一个div |
-| <span></span> | span标签   | 用来布局的，一行上可以放好多个span    |
+| 标签名          | 定义       | 说明                                  |
+| --------------- | :--------- | :------------------------------------ |
+| `<hx></hx>`     | 标题标签   | 作为标题使用，并且依据重要性递减      |
+| `<p></p>`       | 段落标签   | 可以把 HTML 文档分割为若干段落        |
+| `<hr />`        | 水平线标签 | 没啥可说的，就是一条线                |
+| `<br />`        | 换行标签   |                                       |
+| `<span></span>` | span标签   | 用来布局的，一行上可以放好多个span    |
+| `<div></div>`   | div标签    | 用来布局的，但是现在一行只能放一个div |
 
 ## 文本格式化标签
 
@@ -122,8 +122,8 @@ html是用来开发网页的，它是开发网页的语言。
 ## CSS书写规范
 
 1. 使用小写，少用通用选择器`*`，不使用id选择器
-2. 颜色值`rgb()`，`rgba()`，`hsl()`，`hsla()`，`rect()`中不需有空格，且取值不要带有不必要的 0（用`.5`不要用`0.5`）
-3. 不要为`0`指明单位，`margin: 0 10px;`而不是`margin: 0px 10px;`
+2. ==颜色值`rgb()`，`rgba()`，`hsl()`，`hsla()`，`rect()`中不需有空格，且取值不要带有不必要的 0（用`.5`不要用`0.5`）==
+3. ==不要为`0`指明单位，`margin: 0 10px;`而不是`margin: 0px 10px;`==
 4. css属性值需要用到引号时，统一使用单引号`font-family: 'Hiragino Sans GB';`
 5. 选择器与`{`之间必须包含空格，属性名与之后的`:`之间不允许包含空格，` : `与 属性值 之间必须包含空格，属性定义必须另起一行
 6. 并集选择器，每个选择器声明必须独占一行
@@ -453,7 +453,7 @@ css的作用：
 
 - 外部式css样式，写在单独的一个文件中
   - 把css代码写一个单独的外部文件中，这个css样式文件以`.css `为扩展名，在`<head>` 内。使用`<link> `标签将css样式文件链接到HTML文件内。
-  - 可以在VSC中输入`link:css`快速输入框架
+  - ==可以在VSC中输入`link:css`快速输入框架==
   - 优点：使得css样式与html页面分离，便于整个页面系统的规划和维护，可重用性高。 
   - 缺点：css代码由于分离到单独的css文件，容易出现css代码过于集中，若维护不当则极容易造成混乱。
   - 外链式在公司开发的阶段使用，可以对 css 样式和 html 页面分别进行开发。
@@ -489,20 +489,20 @@ css的作用：
 
 ## CSS选择器
 
-1. 标签选择器
+1. 标签选择器-权值为1
 
    - 根据标签来选择标签，仅以标签开头
    - `p{color:red;}`
    - 此种选择器影响范围大，一般用来做一些通用设置
    
-2. 类选择器（常用）
+2. 类选择器（常用）-权值为10
 
    - 以英文圆点` .`开头，类选择器可以任意起名。在标签内用`class="类选择器名称"`为标签应用一个类的样式
    - `.blue{color:blue}.box{width:100px;height:100px;background:gold}(...)<p class="blue box">...</p>`
      - 命名时不要使用空格，因为多个类是用空格隔开的
    - 一个类选择器可应用于多个标签上，一个标签上也可以使用多个类选择器，多个类选择器需要使用空格分割，应用灵活，可复用，是css中应用最多的一种选择器
    
-3. id选择器
+3. id选择器-权值为100
 
    - 以`#`开头。在标签内使用`id="id名称"`为标签应用一个id的样式。
    - `#box{color:red}(...)<p id="box">...</p>`
@@ -618,22 +618,22 @@ p{color:green;}
 - `font-family`：设置文字的字体
   - 各种字体之间必须使用英文状态下的逗号隔开
   - 中文字体需要加英文状态下的引号，英文字体一般不需要加引号。当需要设置英文字体时，英文字体名必须位于中文字体名之前
-  - 如果字体名中包含空格、#、$等符号，则该字体必须加英文状态下的单引号或双引号，例如`font-family: "Times New Roman";`
+  - <u>如果字体名中包含空格、#、$等符号，则该字体必须加英文状态下的单引号或双引号，例如`font-family: "Times New Roman";`</u>
   - `font-family:'微软雅黑';`。为了避免中文字不兼容，一般写成：`font-family:'Microsoft Yahei';`。字体不兼容时，解决方式有
     - 使用英文来替代。 比如` font-family:"Microsoft Yahei"`
     - 使用Unicode写中文字体名称，浏览器是可以正确的解析的。微软雅黑的Unicode编码是`font-family: "\5FAE\8F6F\96C5\9ED1"; `
 
-- `font-weight`：设置文字是否加粗，如：`font-weight:bold/normal;` 设置加粗/不加粗（默认）。可以设置为100-900，400 等同于normal，而700等同于bold
+- `font-weight`：设置文字是否加粗，如：`font-weight:bold/normal;` 设置加粗/不加粗（默认）。可以设置为100-900，<u>400 等同于normal，而700等同于bold</u>
 - `font-style`：字体风格。`normal`是默认的标准样式，`italic`是斜体
 
 ***
 
 - `line-height`：设置文字的行高（行间距），如：`line-height:24px;` 表示文字高度加上文字上下的间距是24px，也就是每一行占有的高度是24px。一般情况下，行距比字号大7.8像素左右就可以了
   - 我们可以利用行高=盒子高度使得文字在盒子中垂直居中显示。当文字的行高=盒子的高度时，因为上距离和下距离总是相等的，因此文字看上去是垂直居中的[^1]
-    - 如果行高>盒子高度，文字会偏下（想象行顶和盒子的顶部对齐，因为行高更大，文字就会偏下）
+    - 如果行高>盒子高度，文字会偏下（想象行顶和盒子的<u>顶部对齐</u>，因为行高更大，文字就会偏下）
     - 如果行高<盒子高度，文字会偏上
-  - 可以使用em
-  - 百分比%
+  - 可以使用`em`
+  - 百分比`%`
 - `text-decoration`： 设置文字的下划线，如：`text-decoration:none/underline/overline/line-through;` 将文字下划线去掉（默认）/下划线/文本上的线/穿过文本的线
 - `text-align`：设置文字水平对齐方式，如`text-align:center/left/right` 设置文字水平居中/左对齐/右对齐
   - 是让盒子里面的内容水平居中， 而不是让盒子居中对齐
@@ -653,7 +653,7 @@ p{color:green;}
     background-color: beige;
     font-weight: bold; /* font-weight: normal; */
     font-style: italic;
-    text-decoration: underline line-through overline;
+    text-decoration: underline | line-through | overline | ;
     line-height: 4em; /* 表示文字高度加上文字上下的间距是48px，也就是每一行占有的高度是48px */
     text-indent: 2em; /* 设置文字首行缩进24px */
     word-spacing: 0.5em; /* 设置英文单词之间的间距为6px */
@@ -689,7 +689,7 @@ p{color:green;}
   - `border-bottom`：设置底边边框，如：`border-bottom:10px solid pink;`
 - `border-style: none | solid | dashed | dotted`：设置边框样式为没有边框即忽略所有边框的宽度（默认值）| 单实线 | 虚线 | 点线
 - `padding`内边距：设置元素包含的**内容**和元素**边框**的距离，也叫内边距，如`padding:20px;`padding是同时设置4个边的，也可以像border一样拆分成分别设置`padding-left,padding-right, padding-top, padding-bottom`
-- 盒子的实际的大小 =   内容的大小 +  左右内边距   + 左右边框   
+- ==盒子的实际的大小 =   内容的大小(width+height) +  左右内边距   + 左右边框==
 - `margin`外边距：设置元素和外界的距离，例如盒子和盒子之间的距离，也叫外边距，如`margin:20px;`是同时设置4个边的，也可以像padding一样拆分成分别设置四个边。
   - 以下三种方法可以设置块级盒子水平居中，盒子必须指定宽度。盒子内的文字水平居中是`text-align:center`
     - `margin-left: auto;margin-right: auto;`
@@ -729,9 +729,9 @@ p{color:green;}
 2.  浮动的元素互相贴靠一起的，但是如果父级宽度装不下这些浮动的盒子， 多出的盒子会另起一行对齐
 3. 浮动只会影响当前的或者是后面的标准流盒子，不会影响前面的标准流
    1. 如果前一个兄弟盒子是浮动的，那么当前盒子会与前一个盒子的顶部对齐
-   2. 如果前一个兄弟盒子是普通流的，那么当前盒子会显示在前一个兄弟盒子的下方
+   2. ==如果前一个兄弟盒子是普通流的，那么当前盒子会显示在前一个兄弟盒子的下方==
    3. 建议：如果一个盒子里面有多个子盒子，如果其中一个盒子浮动了，其他兄弟也应该浮动。防止引起问题
-4. 子盒子的浮动参照父盒子对齐，不会与父盒子的边框（border）重叠，也不会超过父盒子的内边距（padding）
+4. ==子盒子的浮动参照父盒子对齐，不会与父盒子的边框（border）重叠，也不会超过父盒子的内边距（padding）==
 5. 加了浮动的盒子是浮起来的，漂浮在其他标准流盒子的上面
 6. 加了浮动的盒子是不占位置的，它原来的位置漏给了标准流的盒子
 7. 浮动元素会改变`display`属性， 类似转换为了行内块，但是元素之间没有空白缝隙
@@ -836,7 +836,7 @@ html中`<div>`、`<p>`、`<h1>~<h6>`、`<form>`、`<ul>` 和` <li>` 就是块级
 2. 元素的高度、宽度、行高以及顶和底边距都可设置。
 3. 元素宽度在不设置的情况下，是它本身父容器的100%（和父元素的宽度一致），除非设定一个
 宽度。
-4. 是一个容器及盒子，里面可以放行内或者块级元素。注意`<p>`、`<h1>~<h6>`文字块级标签里面不能放其他块级元素
+4. 是一个容器及盒子，里面可以放行内或者块级元素。==注意`<p>`、`<h1>~<h6>`文字块级标签里面不能放其他块级元素==
 
 ### 内联元素(inline-level)
 
@@ -848,19 +848,19 @@ html中， `<span>`、`<a>`、`<label>`、 `<strong><b>` 、`<em><i>`、`<del><s
 3. 元素的宽度就是它包含的文字或图片的宽度，不可改变
 3. 行内元素只能容纳文本或则其他行内元素。注意链接里面不能再放链接
 
-补充：我们知道浮动`float`会默认转化为行内块，而绝对定位和固定定位也和浮动类似，所以，==一个行内的盒子如果加了浮动、固定定位和绝对定位，不用转换，就可以给这个盒子直接设置宽度和高度等，并且不会触发外边距合并的问题==
-
 ### 内联块级元素（inline-block）
 
 `<img />`、`<input />`、`<td>`标签就是这种内联块状标签。内联块状元素（inline-block）就是同时具备内联元素、块状元素的特点，代码`display:inlineblock`就是将元素设置为内联块状元素。
 
 inline-block元素特点：
 
-1. 和其他元素都在一行上，但是之间会有空白缝隙（这是为什么我们会用`float`而不是`display`）
+1. 和其他元素都在一行上，==但是之间会有空白缝隙（这是为什么我们会用`float`而不是`display`）==
 
 2. 元素的高度、宽度、行高以及顶和底边距都可设置。
 
 3. 默认宽度就是它本身内容的宽度
+
+补充：我们知道浮动`float`会默认转化为行内块，而绝对定位和固定定位也和浮动类似，所以，一个行内的盒子如果加了浮动、固定定位和绝对定位，不用转换，就可以给这个盒子直接设置宽度和高度等，并且不会触发外边距合并的问题
 
 ### 三种模式总结区别
 
@@ -887,7 +887,7 @@ inline-block元素特点：
 原因：
 
 - margin会有外边距合并还有ie6下面margin加倍的bug所以最后使用
-- padding会影响盒子大小， 需要进行加减计算其次使用
+- padding会影响盒子大小，需要进行加减计算其次使用
 - width  没有问题我们经常使用宽度剩余法高度剩余法来做
 
 **盒子的真实尺寸**
@@ -905,7 +905,7 @@ inline-block元素特点：
 
 #### 相邻块元素垂直外边距的合并
 
-当上下相邻的两个块元素相遇时，如果上面的元素有下外边距margin-bottom，下面的元素有上外边距margin-top，则他们之间的垂直间距不是margin-bottom与margin-top之和，而是**取两个值中的较大者**。这种现象被称为相邻块元素垂直外边距的合并（也称外边距塌陷）。解决方案：尽量给只给一个盒子添加margin值
+当上下相邻的两个块元素相遇时，如果上面的元素有下外边距margin-bottom，下面的元素有上外边距margin-top，则他们之间的垂直间距不是margin-bottom与margin-top之和，而是**取两个值中的较大者**。这种现象被称为相邻块元素垂直外边距的合并（也称外边距塌陷）。<u>解决方案：尽量给只给一个盒子添加margin值</u>
 
 #### 嵌套块元素垂直外边距的合并（塌陷）
 
@@ -1103,6 +1103,13 @@ white-space: nowrap;
 overflow: hidden;
 /*3. 文字用省略号替代超出的部分*/
 text-overflow: ellipsis;
+/*设置背景图片大小。图片可以保有其原有的尺寸，或者拉伸到新的尺寸，或者在保持其原有比例的同时缩放到元素的可用空间的尺寸*/
+background-size:cover;
+/*用来设置如何处理元素中的white space*/
+white-space:pre-wrap;
+/*指定了怎样在单词内断行*/
+word-break
+transition：/*过渡可以为一个元素在不同状态之间切换的时候定义不同的过渡效果。比如在不同的伪元素之间切换，像是 :hover，:active 或者通过 JavaScript 实现的状态变化。*/
 ```
 
 ## CSS的简写方法
@@ -1263,7 +1270,7 @@ body{
 1. 布局定位属性：display / position / float / clear / visibility / overflow（建议 display 第一个写，毕竟关系到模式）
 2. 自身属性：width / height / margin / padding / border / background
 3. 文本属性：color / font / text-decoration / text-align / vertical-align / white- space / break-word
-4. 其他属性（CSS3）：content / cursor / border-radius / box-shadow / text-shadow / background:linear-gradient …
+4. 其他属性（CSS3）：content / cursor / border-radius / box-shadow / text-shadow / <u>background:linear-gradient</u>
 
 ```css
 .jdc {
@@ -1347,11 +1354,9 @@ div span:first-of-type {}
 
 伪类选择器注意事项
 
-- `before`和`after`必须有`content`属性
+- ==`before`和`after`必须有`content`属性==
 - `before`在内容前面，`after`在内容后面
-- `before`和`after`创建的是一个元素，但是属于行内元素
-- 创建出来的元素在`Dom`中查找不到，所以称为伪元素
-- 伪元素和标签选择器一样，权重为 1
+- `before`和`after`创建的是一个元素，但是属于行内元素。创建出来的元素在`Dom`中查找不到，所以称为伪元素。伪元素和标签选择器一样，权重为 1
 
 >我用类选择器测试过了不行，这里用标签选择器
 >
@@ -1388,23 +1393,42 @@ header::before {
 <header>2</header>    
 ```
 
-## 2D转换
+## 2D转换+3D转换
+
+### 三维坐标系
+
+- x 轴：水平向右，向右正值
+- y 轴：垂直向下，向下正值
+- z 轴：垂直屏幕，向屏幕外侧正值
 
 ### 移动`translate`
 
 - `2D`的移动主要是指水平、垂直方向上的移动
 - `translate`最大的优点就是不影响其他元素的位置
 - `translate`中的100%单位，是相对于盒子本身的宽度和高度来进行计算的
+- `tranlateZ`一般单位用px
 - 行内标签没有效果
 
 ```css
-/* x:x轴，y:y轴*/
+/* x:x轴，y:y轴 z:z轴*/
 transform: translate(x, y)
 transform: translateX(n)
 transfrom: translateY(n)
+
+transform:tranlateX(n) translateY(n) translateZ(n) /*等价于*/
+transform:translate3d(x,y,z)
+/* 注意：x, y, z对应的值不能省略，不需要填写用0进行填充*/
 ```
 
-### 转换中心点`transform-origin`
+### 3d透视`perspective`
+
+- 透视也称为视距，所谓的视距就是人的眼睛到屏幕的距离，距离视觉点越近的在电脑平面成像越大，越远成像越小。==z轴越大(正值)，我们看到的物体就越大==
+- 透视的单位是像素
+- 透视需要写在被视察元素的父盒子上面（不是直接的父级也可以）
+
+![css3-perspective](C:\Users\admin\Desktop\practicing\图片笔记\前端\css\css3-perspective.png)
+
+### 2d转换中心点`transform-origin`
 
 - 注意参数`x`和`y`用空格隔开
 - `x y`默认旋转的中心点是元素的中心`(50% 50%)`，等价于`center center`
@@ -1432,9 +1456,19 @@ div:nth-of-type(2):hover {
 - 角度为正时，顺时针，角度为负时，逆时针
 - 默认旋转的中心点是元素的中心点
 
-> 这个rotate和translate每次相当于从原图转/移动，比如连续写两个rotate，每次都是从原图开始转而不是第二个是第一个的叠加
+> 这个rotate和translate每次相当于从原图转/移动，比如连续写两个rotate，每次都是从原图开始转而不是第二个是第一个的叠加。可以写在一行上
 
-### 缩放`scale`
+**3D旋转语法**
+
+```css
+transform: rotateX(45deg) /*沿着x轴正方向顺时针旋转45度（从x轴正方向看顺时针旋转），负值方向相反*/
+transform: rotateY(45deg) /*沿着y轴正方向顺时针旋转45度（从y轴正方向看顺时针旋转），负值方向相反*/
+transform: rotateZ(45deg) /*沿着z轴正方向顺时针旋转45度（从z轴正方向看顺时针旋转），负值方向相反*/
+transform: rotate3d(x, y, z, 45deg) /*沿着自定义轴旋转 45 deg 为角度*/
+transform: rotate3d(1, 1, 0, 45deg) /*沿x轴正方向和y轴正方向矢量和旋转（从这个矢量箭头指出方向看）45度*/
+```
+
+### 2d缩放`scale`
 
 - `x`与`y`之间使用逗号进行分隔
 - `transform: scale(1, 1)`：宽高都放大一倍，相当于没有放大
@@ -1443,11 +1477,17 @@ div:nth-of-type(2):hover {
 - `transform:scale(0.5, 0.5)`：缩小
 - `scale`最大的优势：可以设置转换中心点缩放，默认以中心点缩放，而且不影响其他盒子
 
-### `2D`转换综合写法以及顺序问题
+### 2d转换综合写法以及顺序问题
 
 - 同时使用多个转换，其格式为`transform: translate() rotate() scale()`（同时进行）
 - 顺序会影响到转换的效果(先旋转会改变坐标轴方向)
-- 但我们同时有位置或者其他属性的时候，==要将位移放到最前面==
+- 但我们同时有位置或者其他属性的时候，==**要将位移放到最前面**==。用到了那个轴必须先移动后旋转
+
+### 3d呈现`transform-style`
+
+- `transform-style: flat`：代表子元素不开启`3D`立体空间，默认的
+- `transform-style: preserve-3d`子元素开启立体空间
+- 代码写给父级，但是影响的是子盒子
 
 ## 动画
 
@@ -1486,6 +1526,29 @@ animation: name duration timing-function delay iteration-count direction fill-mo
 
 ![css3-速度曲线](C:\Users\admin\Desktop\practicing\图片笔记\前端\css\css3-速度曲线.png)
 
+# 浏览器私有前缀
+
+浏览器私有前缀是为了兼容老版本的写法，比较新版本的浏览器无需添加
+
+`-moz`：代表firefox浏览器私有属性
+
+`-ms-`代表ie浏览器私有属性
+
+`-webkit`：代表safari、chrome私有属性
+
+`-o-`：代表Opera私有属性
+
+**推荐的兼容老版本浏览器的写法，先写私有前缀**
+
+```css
+-moz-border-radius: 10px;
+-webkit-border-radius:10px;
+-o-border-radius:10px;
+border-radius:10px;
+```
+
+
+
 # Emmet Abbreviation
 
 1. 直接输入`标签名+tab`
@@ -1522,5 +1585,17 @@ animation: name duration timing-function delay iteration-count direction fill-mo
 </ul>
 <!-- >> link:css -->
 <link rel="stylesheet" href="style.css">
+```
+
+# 笔记
+
+```css
+1. float和position:absolute会自动将元素转换为行内块元素，不用设置display:inline-block，会有宽度和高度
+2. 在使用line-height = height设置元素垂直居中对齐时，注意line-height要写在font下面，不然设置会被覆盖
+3. 关于padding和margin：padding和border撑大了盒子（指盒子实际的大小大于自己设置的width和height），对于内容的样式也会应用在padding上，但是margin不会撑大盒子
+4. 使用class时，注意继承的权重
+
+
+
 ```
 
