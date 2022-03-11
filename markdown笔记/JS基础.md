@@ -514,7 +514,7 @@ every();
 
 ### *ES6 Array的扩展运算符
 
-扩展运算符可以将数组或者对象转为用逗号分隔的参数序列
+扩展运算符可以将数组或者对象转为用逗号分隔的==参数序列==（`toString`是转换成`string`，在console是有逗号的）
 
 ```javascript
 let ary = ["a", "b", "c"];
@@ -1185,14 +1185,25 @@ console.log(p.name);    // 4 张学友
 1. 如果参数`startPos`是负数，从字符串的尾部开始算起的位置。也就是说，`-1`指字符串的最后一个字符，以此类推
 2. 如果`startPos`为负数且绝对值大于字符串长度`startPos`为`0`
 
-replace/split/trim/startsWith/endsWith/repeat
+#### replace/split/trim/startsWith/endsWith/repeat
 
 ```javascript
+// 转义字符
+\b backspace 
+\t tab 
+\f form feed 
+\' single quote 
+\n newline 
+\" double quote 
+\r carriage return 
+\\ backslash
+
 var longString = 'shaonianzhangsanfeng';
 var newString = longString.replace('shaonian','laonian');
 
 writeP(newString);
 writeP(longString.split('a'));
+console.log("ABC".toLowerCase());
 
 
 // es5中的新增方法
