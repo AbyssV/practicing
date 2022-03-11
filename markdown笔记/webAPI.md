@@ -187,7 +187,7 @@ test.onclick = function() {
 </body>
 ```
 
-## 操作节点
+## 节点
 
 ### 节点概述
 
@@ -206,6 +206,82 @@ HTML DOM 树中的所有节点均可通过JavaScrip 进行访问，所有HTML元
 ### 节点层级
 
 ![dom树](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\dom树.png)
+
+### 节点操作
+
+####  创建元素的三种方式及区别
+
+![创建元素的三种方式](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\创建元素的三种方式.png)
+
+```javascript
+// innerHTML字符串拼接方式（效率低）
+<script>
+    function fn() {
+        var d1 = +new Date();
+        var str = '';
+        for (var i = 0; i < 1000; i++) {
+            document.body.innerHTML += '<div style="width:100px; height:2px; border:1px solid blue;"></div>';
+        }
+        var d2 = +new Date();
+        console.log(d2 - d1);
+    }
+    fn();
+</script>
+
+// createElement方式（效率一般）
+<script>
+    function fn() {
+        var d1 = +new Date();
+
+        for (var i = 0; i < 1000; i++) {
+            var div = document.createElement('div');
+            div.style.width = '100px';
+            div.style.height = '2px';
+            div.style.border = '1px solid red';
+            document.body.appendChild(div);
+        }
+        var d2 = +new Date();
+        console.log(d2 - d1);
+    }
+    fn();
+</script>
+
+// innerHTML数组方式（效率高）
+<script>
+    function fn() {
+        var d1 = +new Date();
+        var array = [];
+        for (var i = 0; i < 1000; i++) {
+            array.push('<div style="width:100px; height:2px; border:1px solid blue;"></div>');
+        }
+        document.body.innerHTML = array.join('');
+        var d2 = +new Date();
+        console.log(d2 - d1);
+    }
+    fn();
+</script>
+```
+
+#### DOM操作总结
+
+| 创建           | 增           | 删          | 改                                    | 查                                                           | 属性操作        |
+| -------------- | ------------ | ----------- | ------------------------------------- | ------------------------------------------------------------ | --------------- |
+| document.write | appendChild  | removeChild | 修改元素属性：src/href/title          | getElementById/getElementsByTagName/getElementsByClassName/getElementsByName | getAttribute    |
+| innerHTML      | insertBefore |             | 修改普通元素内容：innerHTML/innerText | querySelector/querySelectorAll(推荐)                         | setAttribute    |
+| createElement  |              |             | 修改表单元素：value/type/disabled     | parentNode                                                   | removeAttribute |
+|                |              |             | 修改元素样式：style/className         | childNodes/children(推荐)                                    |                 |
+|                |              |             | replaceChild                          | firstChild/lastChild/firstElementChild(推荐)/lastElementChild(推荐) |                 |
+|                |              |             |                                       | previousSibling/nextSibling/previousElementSibling(推荐)/nextElementSibling(推荐) |                 |
+|                |              |             |                                       |                                                              |                 |
+|                |              |             |                                       |                                                              |                 |
+|                |              |             |                                       |                                                              |                 |
+|                |              |             |                                       |                                                              |                 |
+|                |              |             |                                       |                                                              |                 |
+|                |              |             |                                       |                                                              |                 |
+|                |              |             |                                       |                                                              |                 |
+|                |              |             |                                       |                                                              |                 |
+
+
 
 ```html
 <body>
@@ -288,21 +364,24 @@ HTML DOM 树中的所有节点均可通过JavaScrip 进行访问，所有HTML元
 
 // ----------------------------------------------------------------------------------------
 		// DOM操作
-		/* 		appendChild(newnode); // 将一个节点添加到指定父节点的子节点列表末尾。类似于css里面的after伪元素
-				insertBefore(newnode, node); // 将一个节点添加到父节点的指定子节点前面。类似于css里面的before伪元素
-				nodeObject.removeChild(node); // 从子节点列表中删除某个节点。如删除成功，此方法可返回被删除的节点，如失败，则返回NULL
-				node.replaceChild(newnode, oldnew); // 实现子节点(对象)的替换。返回被替换对象的引用。注意：1.当oldnode被替换时，所有与之相关的属性内容都将被移除 2. newnode必须先被建立
-				document.createElement(tagName); // 创建元素节点。此方法可返回一个Element对象。因为这个元素原先不存在，是根据我们的需求动态生成的，所以我们也称为动态创建元素节点
-				document.createTextNode(data); // 创建新的文本节点，返回新创建的Text节点 */
+		appendChild(newnode); // 将一个节点添加到指定父节点的子节点列表末尾。类似于css里面的after伪元素
+		insertBefore(newnode, node); // 将一个节点添加到父节点的指定子节点前面。类似于css里面的before伪元素
+		nodeObject.removeChild(node); // 从子节点列表中删除某个节点。如删除成功，此方法可返回被删除的节点，如失败，则返回NULL
+		node.replaceChild(newnode, oldnew); // 实现子节点(对象)的替换。返回被替换对象的引用。注意：1.当oldnode被替换时，所有与之相关的属性内容都将被移除 2. newnode必须先被建立
+		node.cloneNode(); // 返回调用该方法的节点的一个副本。也称为克隆节点/拷贝节点。 1. 如果括号参数为空或者false，则是浅拷贝，即只克隆复制节点本身，不克隆里面的子节点 2. 如果括号参数为true，则是深度拷贝，会复制节点本身以及里面所有的子节点
+        document.createElement(tagName); // 创建元素节点。此方法可返回一个Element对象。因为这个元素原先不存在，是根据我们的需求动态生成的，所以我们也称为动态创建元素节点
+		document.createTextNode(data); // 创建新的文本节点，返回新创建的Text节点 */
 		var newNode = document.createElement("p");
 		newNode.className = "text";
 		var textNode = document.createTextNode("Welcome to my page");
 		newNode.appendChild(textNode);
 		document.body.appendChild(newNode);
+        var li = document.createElement('li');
+        // 阻止链接跳转需要添加`javascript:void(0);`或者`javascript:;`
+        li.innerHTML = text.value + "<a href='javascript:;'>删除</a>";
 
-
+// ----------------------------------------------------------------------------------------
         // 一些没用过的
-
 		insertAdjacentHTML(); //appendChild不支持追加字符串的子元素,insertAdjacentHTML支持追加字符串的元素，这个方法可以代替creadElement+innerHTML
 		remove() // 可以直接删除指定的元素
 		node.index
@@ -312,16 +391,10 @@ HTML DOM 树中的所有节点均可通过JavaScrip 进行访问，所有HTML元
 
 		window.getSelection ? window.getSelection().removeAllRanges() : document.selection.empty(); // 禁止双击
 		input.select() // 让文本框里的文字处于选定状态
-        
-        addEventListener('click', function(){});
-
-
 
 	</script>
 </body>
 ```
-
-
 
 ## 事件
 
@@ -343,24 +416,520 @@ JavaScript使我们有能力创建动态页面，而事件是可以被JavaScript
 - 注册事件（绑定事件）
 - 添加事件处理程序（采取函数赋值形式）
 
-## 常见的事件
+### 注册事件（2种方式）
+
+![注册事件（两种方式）](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\注册事件（两种方式）.png)
+
+#### `addEventListener()`事件监听（IE9以后支持）
+
+![addEventListener](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\addEventListener.png)
+
+`eventTarget.addEventListener()`方法将指定的监听器注册到`eventTarget`（目标对象）上，当该对象触发指定的事件时，就会执行事件处理函数
+
+![addEventListener参数](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\addEventListener参数.png)
+
+#### `attacheEvent()`事件监听（IE678支持）
+
+![attachEvent](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\attachEvent.png)
+
+`eventTarget.attachEvent()`方法将指定的监听器注册到`eventTarget`（目标对象） 上，当该对象触发指定的事件时，指定的回调函数就会被执行
+
+![attachEvent参数](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\attachEvent参数.png)
 
 ```javascript
-// 事件响应
-onclick // 鼠标单击
-onmouseover // 鼠标经过
-onmouseout // 鼠标移开
+<button>传统注册事件</button>
+<button>方法监听注册事件</button>
+<button>ie9 attachEvent</button>
+<script>
+    var btns = document.querySelectorAll('button');
+    // 1. 传统方式注册事件，只会alert第二个function
+    btns[0].onclick = function() {
+        alert('hi');
+    }
+    btns[0].onclick = function() {
+        alert('hao a u');
+    }
+
+
+   // 2. 事件侦听注册事件 addEventListener 
+   // (1) 里面的事件类型是字符串。必定加引号，而且不带on
+   // (2) 同一个元素，同一个事件可以添加多个侦听器（事件处理程序）
+	// 以下两个都会执行
+    btns[1].addEventListener('click', function() {
+        alert(22);
+    })
+    btns[1].addEventListener('click', function() {
+            alert(33);
+    })
+    // 3. attachEvent ie9以前的版本支持（我的浏览器不支持）
+    btns[2].attachEvent('onclick', function() {
+        alert(11);
+    })
+</script>
+```
+
+#### 删除事件（解绑事件）
+
+![删除事件](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\删除事件.png)
+
+```javascript
+var btns = document.querySelectorAll('button');
+btns[0].onclick = function () {
+    alert('hao a u');
+    btns[0].onclick = null; // 删除事件，但是上一条会执行一次
+}
+var func1 = () => alert(22);
+var func2 = function () {
+    alert(33);
+    btns[1].removeEventListener('click', func2); // 事件会执行一次
+}
+
+btns[1].addEventListener('click', func1)
+btns[1].addEventListener('click', func2)
+btns[1].removeEventListener('click', func1); // 事件一次都不会执行
+
+btns[2].attachEvent('onclick', func3);
+function fn1() {
+    alert(33);
+    btns[2].detachEvent('onclick', func3);
+}
+```
+
+### DOM事件流
+
+事件流描述的是从页面中接收事件的顺序，事件发生时会在元素节点之间按照特定的顺序传播，这个传播过程即DOM事件流。比如：我们给页面中的一个`div`注册了单击事件，当你单击了`div`时，也就单击了`body`，单击了`html`，单击了`document`
+
+![dom事件流](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\dom事件流.png)
+
+![事件冒泡和事件捕获](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\事件冒泡和事件捕获.png)
+
+DOM 事件流会经历3个阶段： 
+
+1. 捕获阶段
+2. 当前目标阶段
+3. 冒泡阶段
+
+![dom事件流2](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\dom事件流2.png)
+
+![事件冒泡](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\事件冒泡.png)
+
+#### 事件冒泡
+
+```javascript
+// 4. 冒泡阶段 如果addEventListener第三个参数是false或者省略那么则处于冒泡阶段  son -> father ->body -> html -> document
+var son = document.querySelector('.son');
+son.addEventListener('click', function () {
+    alert('son');
+}, false);
+var father = document.querySelector('.father');
+father.addEventListener('click', function () {
+    alert('father');
+}, false);
+document.addEventListener('click', function () {
+    alert('document'); // 先alert son再alert father和document
+})
+```
+
+#### 事件捕获
+
+```javascript
+// dom事件流 三个阶段
+// 1. JS代码中只能执行捕获或者冒泡其中的一个阶段
+// 2. onclick和attachEvent（ie）只能得到冒泡阶段
+// 3. 捕获阶段。如果addEventListener第三个参数是true，那么则处于捕获阶段  document -> html -> body -> father -> son
+var son = document.querySelector('.son');
+son.addEventListener('click', function () {
+    alert('son');
+}, true);
+var father = document.querySelector('.father');
+father.addEventListener('click', function () {
+    alert('father');
+}, true); // 先alert father再alert son
+```
+
+### 事件对象
+
+事件发生后，跟事件相关的一系列信息数据的集合都放到这个对象里面，这个对象就是事件对象
+
+比如：  
+
+1. 谁绑定了这个事件
+
+2. 鼠标触发事件的话，会得到鼠标的相关信息，如鼠标位置
+
+3. 键盘触发事件的话，会得到键盘的相关信息，如按了哪个键
+
+#### 事件对象的使用
+
+事件触发发生时就会产生事件对象，并且系统会以实参的形式传给事件处理函数。
+
+所以，在事件处理函数中声明1个形参用来接收事件对象。
+
+![事件对象](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\事件对象.png)
+
+#### 事件对象的兼容性处理
+
+事件对象本身的获取存在兼容问题：
+
+1. 标准浏览器中是浏览器给方法传递的参数，只需要定义形参`e`就可以获取到
+2. 在 IE6~8 中，浏览器不会给方法传递参数，如果需要的话，需要到`window.event`中获取查找
+
+![事件对象的兼容性处理](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\事件对象的兼容性处理.png)
+
+```javascript
+<div>123</div>
+<script>
+    var div = document.querySelector('div');
+div.onclick = function(e) {
+    // 事件对象
+    // // 只要||前面为false, 不管||后面是true还是false，都返回||后面的值
+    // 只要||前面为true, 不管||后面是true还是false都返回 ||前面的值
+    e = e || window.event; 
+    console.log(e);
+}
+</script>
+```
+
+#### 事件对象的属性和方法
+
+![事件对象的属性和方法](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\事件对象的属性和方法.png)
+
+#### `e.target`和`this`的区别
+
+-  `this`是事件绑定的元素（绑定这个事件处理函数的元素） 
+
+-  `e.target`是事件触发的元素
+
+正常情况下`terget`和`this`是一致的，但有一种情况不同，那就是在事件冒泡时（父子元素有相同事件，单击子元素，父元素的事件处理函数也会被触发执行），这时候`this`指向的是父元素，因为它是绑定事件的元素对象，而`target`指向的是子元素，因为他是触发事件的那个具体元素对象
+
+```javascript
+<ul>
+    <li>abc</li>
+    <li>abc</li>
+    <li>abc</li>
+</ul>
+<script>
+    var ul = document.querySelector('ul');
+	ul.addEventListener('click', function (e) {
+    	console.log(this); // ul
+    	// e.target 触发了事件的对象 我们点击的是li e.target 指向的就是li
+    	console.log(e.target); // li
+});
+</script>
+```
+
+#### 阻止默认行为
+
+```javascript
+<a href="http://www.baidu.com">百度</a>
+<script>
+    // 2. 阻止默认行为 让链接不跳转 
+    var a = document.querySelector('a');
+	a.addEventListener('click', function(e) {
+    e.preventDefault(); //  dom 标准写法
+});
+	// 3. 传统的注册方式
+	a.onclick = function(e) {
+    // 普通浏览器 e.preventDefault();  方法
+    e.preventDefault();
+    // 低版本浏览器 ie678  returnValue  属性
+    e.returnValue = false;
+    // 我们可以利用return false 也能阻止默认行为 没有兼容性问题
+    return false;
+}
+</script>
+```
+
+#### 阻止事件冒泡
+
+![阻止事件冒泡](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\阻止事件冒泡.png)
+
+```javascript
+<div class="father">
+    <div class="son">son儿子</div>
+</div>
+<script>
+    var son = document.querySelector('.son');
+	// 给son注册单击事件
+	son.addEventListener('click', function (e) {
+    alert('son');
+    e.stopPropagation();
+    window.event.cancelBubble = true; // 非标准
+	}, false); // 只会alert son
+
+	var father = document.querySelector('.father');
+	// 给father注册单击事件
+	father.addEventListener('click', function () {
+    alert('father');
+	}, false);
+	// 给document注册单击事件
+	document.addEventListener('click', function () {
+    alert('document'); // 会alert father和document
+})
+</script>
+```
+
+![阻止事件冒泡的兼容性处理](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\阻止事件冒泡的兼容性处理.png)
+
+#### 事件委托
+
+事件冒泡本身的特性，会带来的坏处，也会带来的好处。事件委托也称为事件代理，在 jQuery 里面称为事件委派。说白了就是，不给子元素注册事件，给父元素注册事件，把处理代码在父元素的事件中执行。
+
+**事件委托的原理：**
+
+==给父元素注册事件，利用事件冒泡，当子元素的事件触发，会冒泡到父元素，然后去控制相应的子元素==
+
+**事件委托的作用：**
+
+- 我们只操作了一次 DOM ，提高了程序的性能。
+
+- 动态新创建的子元素，也拥有事件
+
+```javascript
+<ul>
+    <li>1</li>
+	<li>2</li>
+	<li>3</li>
+	<li>4</li>
+	<li>5</li>
+	<li>6</li>
+</ul>
+<script>
+    // 事件委托的核心原理：给父节点添加侦听器，利用事件冒泡影响每一个子节点
+    var ul = document.querySelector('ul');
+	ul.addEventListener('click', function (e) {
+    // e.target 这个可以得到我们点击的对象
+    	e.target.style.backgroundColor = 'pink';
+})
+</script>
+```
+
+
+
+
+
+## 常见的事件
+
+### 常见鼠标事件
+
+![常用鼠标事件](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\常用鼠标事件.png)
+
+### 鼠标事件对象
+
+![鼠标事件 对象](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\鼠标事件 对象.png)
+
+### 常用的键盘事件
+
+![键盘事件](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\键盘事件.png)
+
+![键盘事件注意事项](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\键盘事件注意事项.png)
+
+### 键盘事件对象
+
+![键盘事件对象](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\键盘事件对象.png)
+
+![键盘事件对象注意事项](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\键盘事件对象注意事项.png)
+
+# BOM
+
+BOM（Browser Object Model）即浏览器对象模型，它提供了独立于内容而与浏览器窗口进行交互的对象，其核心对象是window
+
+BOM由一系列相关的对象构成，并且每个对象都提供了很多方法与属性
+
+BOM缺乏标准，JavaScript语法的标准化组织是ECMA，DOM的标准化组织是W3C，BOM最初是Netscape浏览器标准的一部分
+
+![BOM](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\BOM.png)
+
+**BOM的构成**
+
+![BOM的构成](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\BOM的构成.png)
+
+## 顶级对象window
+
+![顶级对象window](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\顶级对象window.png)
+
+## window对象的常见事件
+
+### 加载页面（窗口）事件
+
+<u>方法一</u>：
+
+![window.onload](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\window.onload.png)
+
+`window.onload`是窗口 (页面）加载事件，==当文档内容完全加载完成==会触发该事件（包括图像、脚本文件、CSS 文件等），就调用的处理函数
+
+![window.onload注意事项](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\window.onload注意事项.png)
+
+<u>方法二：</u>
+
+![DOMContentLoaded](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\DOMContentLoaded.png)
+
+`DOMContentLoaded`事件触发时，仅当DOM加载完成，不包括样式表，图片，flash等等。IE9以上才支持。
+
+如果页面的图片很多的话，从用户访问到`onload`触发可能需要较长的时间，交互效果就不能实现，必然影响用户的体验，此时用`DOMContentLoaded`事件比较合适
+
+### 调整窗口大小事件
+
+![调整窗口大小事件](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\调整窗口大小事件.png)
+
+`window.onresize`是调整窗口大小加载事件,  当触发时就调用的处理函数
+
+注意：
+
+1. 只要窗口大小发生像素变化，就会触发这个事件
+
+2. 我们经常利用这个事件完成响应式布局。`window.innerWidth`当前屏幕的宽度
+
+### 一次性定时器`setTimeout()`
+
+![setTimeout](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\setTimeout.png)
+
+![setTimeout注意事项](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\setTimeout注意事项.png)
+
+>普通函数是按照代码顺序直接调用
+>
+>简单理解： 回调，就是回头调用的意思。上一件事干完，再回头再调用这个函数
+>
+>例如：定时器中的调用函数，事件处理函数，也是回调函数
+>
+>以前我们讲的`element.onclick = function(){}`或者`element.addEventListener(“click”, fn);`里面的函数也是回调函数。
+
+![clearTimeout](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\clearTimeout.png)
+
+![clearTimeout注意事项](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\clearTimeout注意事项.png)
+
+```javascript
+<button>点击停止定时器</button>
+<script>
+	var btn = document.querySelector('button');
+	// 开启定时器
+	var timer = setTimeout(function() {
+    	console.log('爆炸了');
+	}, 5000);
+	// 给按钮注册单击事件
+	btn.addEventListener('click', function() {
+    	// 停止定时器
+    	clearTimeout(timer);
+})
+</script>
+```
+
+### 间隔定时器`setInterval()`
+
+![setInterval](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\setInterval.png)
+
+![clearInterval](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\clearInterval.png)
+
+```javascript
+手机号码： <input type="number"> <button>发送</button>
+<script>
+    var btn = document.querySelector('button');
+	// 全局变量，定义剩下的秒数
+	var time = 3; 
+	// 注册单击事件
+	btn.addEventListener('click', function() {
+    	// 禁用按钮
+		btn.disabled = true;
+        // 开启定时器
+        var timer = setInterval(function() {
+        // 判断剩余秒数
+        	if (time == 0) {
+            	// 清除定时器和复原按钮
+            	clearInterval(timer);
+            	btn.disabled = false;
+            	btn.innerHTML = '发送';
+        	} else {
+            	btn.innerHTML = '还剩下' + time + '秒';
+            	time--;
+        	}
+    	}, 1000);
+	});
+</script>
+```
+
+### `this`指向问题
+
+`this`的指向在函数定义的时候是确定不了的，只有函数执行的时候才能确定`this`到底指向谁，一般情况下`this`的最终指向的是那个调用它的对象
+
+现阶段，我们先了解一下几个`this`指向
+
+1. 全局作用域或者普通函数中`this`指向全局对象`window`（注意定时器里面的`this`指向`window`）
+
+2. 方法调用中谁调用`this`指向谁
+3. 构造函数中`this`指向构造函数的实例
+
+```javascript
+<button>点击</button>
+	<script>
+		// this指向问题，一般情况下this的最终指向的是那个调用它的对象
+		// 1. 全局作用域或者普通函数中this指向全局对象window（ 注意定时器里面的this指向window）
+		console.log("全局作用域" + this); // Window
+		function fn() {
+			console.log("普通函数" + this);
+		}
+		window.fn(); // Window
+		window.setTimeout(function () {
+			console.log("定时器" + this);
+		}, 0);  //<--不随机，总是最后一个显示（可能是等页面加载完成才会调用的函数？）
+
+		// 2. 方法调用中谁调用this指向谁
+		var o = {
+			sayHi: function () {
+				console.log("o方法调用" + this); // this指向的是o这个对象
+			}
+		}
+		o.sayHi();
+		var btn = document.querySelector('button');
+		btn.addEventListener('click', function () {
+			console.log("事件处理函数" + this); // 事件处理函数中的this指向的是btn这个按钮对象
+		})
+		// 3. 构造函数中this指向构造函数的实例
+		function Fun() {
+			console.log("构造函数实例" + this); // this指向的是fun实例对象
+		}
+		var fun = new Fun();
+	</script>
+```
+
+## `location`对象
+
+![location对象](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\location对象.png)
+
+### url
+
+![url](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\url.png)
+
+![url组成](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\url组成.png)
+
+### `location`对象属性
+
+![location对象属性](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\location对象属性.png)
+
+### location对象的常见方法
+
+![location对象方法](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\location对象方法.png)
+
+## `nevigator`对象
+
+`navigator`对象包含有关浏览器的信息，它有很多属性，我们最常用的是`userAgent`，该属性可以返回由客户机发送服务器的`user-agent`头部的值
+
+下面前端代码可以判断用户那个终端打开页面，实现跳转
+
+## `history`对象
+
+window对象给我们提供了一个`history`对象，与浏览器历史记录进行交互。该对象包含用户（在浏览器窗口中）访问过的URL
+
+![history对象方法](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\history对象方法.png)
+
+# 其他事件对象
+
+```javascript
 onchange // 文本框内容改变
 onselect // 文本框内容被选中
-onfocus  // 获得鼠标焦点
-onblur // 失去鼠标焦点
-onmousemove // 鼠标移动
-onmouseup // 鼠标弹起
-onmousedown // 鼠标按下
-onload // 网页导入
+
 onunload // 关闭网页
 ondblclick // 双击事件
-onkeyup // 键盘按下事件 e.keyCode==13 如果用户按下回车键(ASCII码)
+
 
 // 浏览器对象方法
 alert() // 显示带有一段消息和一个确认按钮的警告框
@@ -377,10 +946,6 @@ resizeBy() // 按照指定的像素调整窗口的大小
 resizeTo() // 把窗口的大小调整到指定的宽度和高度
 scrollBy() // 按照指定的像素值来滚动内容
 scrollTo() // 把内容滚动到指定的坐标
-setInterval() // 每隔指定的时间执行代码
-clearInterval() // 取消setInterval()的设置
-setTimeout() // 在指定的延迟时间之后来执行代码
-clearTimeout() // 取消setTimeout()的设置
 
 // history对象（window可省略）
 window.history.length // 返回浏览器历史列表中的url数量
@@ -417,91 +982,4 @@ window.screen.height
 window.screen.width
 ```
 
-
-
-# 一些DOM方法
-
-```html
-<body>
-	<div class="box">
-		<ul type="square">
-			<li class="sbox-1">1</li>
-			<li class="sbox-2">2</li>
-			<li class="sbox-3">3</li>
-			<li>4</li>
-			<li>5</li>
-			<li>6</li>
-		</ul>
-	</div>
-
-	<script>
-		// 获取节点，注意必须是document.
-		/* 		document.getElementById();
-				document.getElementsByName();
-				document.getElementsByClassName(); */
-
-
-		// 节点属性
-		var box = document.getElementsByTagName("ul")[0];
-		// 节点的名称，是只读的。元素节点的nodeName与标签名相同，属性节点的nodeName是属性的名称，文本节点的nodeName是#text，文档节点的nodeName是#document
-		document.write("<p>" + box.nodeName + "</p>"); // UL
-		// 节点的类型，是只读的。1-元素；2-属性；3-文本；8-注释；9-文档
-		document.write("<p>" + box.nodeType + "</p>"); // 1
-		// 节点的值。元素节点的nodeValue是undefined或null，属性节点的nodeValue是属性的值，文本节点的nodeValue是文本自身
-		document.write("<p>" + box.nodeValue + "</p>"); // null
-		// 获取/修改元素节点的属性值
-		console.log(box.getAttribute("type")); // square
-		// 如果不存在具有指定名称的属性，该方法将创建一个新属性
-		box.setAttribute("type", "circle");
-
-		// 遍历节点树
-		// 访问选定元素节点下的所有子节点的列表，返回的值可以看作是一个数组，他具有length属性。节点之间的空白符，在firefox、chrome、opera、safari浏览器是文本节点
-		console.log(box.childNodes); // NodeList(13){#text(\n\t\t\t), (li+#text)*6}
-		// firstChild属性返回childNodes数组的第一个子节点。如果选定的节点没有子节点，则该属性返回NULL。与elementNode.childNodes[0]是同样的效果
-		console.log(box.firstChild); // #text "\n\t\t\t"
-		// lastChild属性返回childNodes数组的最后一个子节点。如果选定的节点没有子节点，则该属性返回NULL。与elementNode.childNodes[elementNode.childNodes.length-1]是同样的效果
-		console.log(box.lastChild); // #text "\n\t\t"
-		// 获取指定节点的父节点，父节点只能有一个
-		console.log(box.parentNode); // class="box"
-		// 获取前一个兄弟节点
-		console.log(box.nextSibling); // #text "\n\t"
-		// 获取后一个兄弟节点
-		console.log(box.previousSibling); // #text "\n\t\t"
-
-		// DOM操作
-		/* 		appendChild(newnode); // 在指定节点的最后一个子节点列表之后添加一个新的子节点
-				insertBefore(newnode, node); // 在已有的子节点前插入一个新的子节点
-				nodeObject.removeChild(node); // 从子节点列表中删除某个节点。如删除成功，此方法可返回被删除的节点，如失败，则返回NULL
-				node.replaceChild(newnode, oldnew); // 实现子节点(对象)的替换。返回被替换对象的引用。注意：1.当oldnode被替换时，所有与之相关的属性内容都将被移除 2. newnode必须先被建立
-				document.createElement(tagName); // 创建元素节点。此方法可返回一个Element对象
-				document.createTextNode(data); // 创建新的文本节点，返回新创建的Text节点 */
-		var newNode = document.createElement("p");
-		newNode.className = "text";
-		var textNode = document.createTextNode("Welcome to my page");
-		newNode.appendChild(textNode);
-		document.body.appendChild(newNode);
-
-
-        // 一些没用过的
-
-		insertAdjacentHTML(); //appendChild不支持追加字符串的子元素,insertAdjacentHTML支持追加字符串的元素，这个方法可以代替creadElement+innerHTML
-		remove() // 可以直接删除指定的元素
-		node.index
-		node.click() // 手动调用点击事件，不用手动触发
-		node && node.click() // callback，如果node存在再执行后续的点击操作
-
-
-		window.getSelection ? window.getSelection().removeAllRanges() : document.selection.empty(); // 禁止双击
-		input.select() // 让文本框里的文字处于选定状态
-        
-        addEventListener('click', function(){});
-
-
-
-	</script>
-</body>
-
-```
-
-
-
+# 

@@ -8,6 +8,42 @@
 2. 文档对象模型（Document Object Model，简称DOM）：是W3C组织推荐的处理可扩展标记语言的标准编程接口。通过DOM提供的接口可以对页面上的各种元素进行操作（大小、位置、颜色等）
 3. ECMAScript（Browser Object Model，简称BOM) ：是指浏览器对象模型，它提供了独立于内容的、可以与浏览器窗口进行互动的对象结构。通过BOM可以操作浏览器窗口，比如弹出框、控制浏览器跳转、获取分辨率等
 
+## JS执行机制
+
+### JS 是单线程
+
+![js是单线程](C:\Users\admin\Desktop\practicing\图片笔记\前端\js\js是单线程.png)
+
+单线程就意味着所有任务需要排队，前一个任务结束，才会执行后一个任务。**如果前一个任务耗时很长，后一个任务就不得不一直等着**。这样所导致的问题是： 如果 JS 执行的时间过长，这样就会造成页面的渲染不连贯，导致页面渲染加载阻塞的感觉
+
+###  同步任务和异步任务
+
+单线程导致的问题就是后面的任务等待前面任务完成，如果前面任务很耗时（比如读取网络数据），后面任务不得不一直等待。为了解决这个问题，利用多核CPU的计算能力，HTML5提出Web Worker标准，允许JavaScript脚本创建多个线程，但是子线程完全受主线程控制。于是，JS中出现了同步任务和异步任务
+
+同步任务：前一个任务结束后再执行后一个任务，程序的执行顺序与任务的排列顺序是一致的、同步的。比如做饭的同步做法：我们要烧水煮饭，等水开了（10分钟之后），再去切菜，炒菜
+
+异步任务：你在做一件事情时，因为这件事情会花费很长时间，在做这件事的同时，你还可以去处理其他事情。比如做饭的异步做法，我们在烧水的同时，利用这10分钟，去切菜，炒菜
+
+>JS中所有任务可以分成两种，一种是同步任务（synchronous），另一种是异步任务（asynchronous）
+>
+><u>同步任务</u>指的是：
+>
+>在主线程上排队执行的任务，只有前一个任务执行完毕，才能执行后一个任务；
+>
+><u>异步任务</u>指的是：
+>
+>不进入主线程、而进入**任务队列**的任务，当主线程中的任务运行完了，才会从任务队列取出异步任务放入主线程执行。
+
+![同步任务和异步任务](C:\Users\admin\Desktop\practicing\图片笔记\前端\js\同步任务和异步任务.png)
+
+### 事件循环
+
+![](C:\Users\admin\Desktop\practicing\图片笔记\前端\js\事件循环.png)
+
+![事件循环2](C:\Users\admin\Desktop\practicing\图片笔记\前端\js\事件循环2.png)
+
+![事件循环](C:\Users\admin\Desktop\practicing\图片笔记\前端\js\事件循环3.png)
+
 ## JavaScript的三种使用方式
 
 - 内联式（主要用于事件）
@@ -433,7 +469,7 @@ console.log(arr1.concat(arr3, arr2)); // [1, 2, 3, 'd', 'e', 'f', 'a', 'b', 'c']
 
 `slice()`返回一个并不会修改数组，而是返回一个子数组。可使用负值从数组的尾部选取元素，如果`end`未被规定，那么`slice()`方法会选取从`start`到数组结尾的所有元素
 
-### *ES5新增数组方法
+### *ES5新增数组方法-forEach/filter/some
 
 ```javascript
 // forEach遍历数组，相当于数组遍历的for循环 没有返回值
@@ -476,7 +512,82 @@ map();
 every();
 ```
 
+### *ES6 Array的扩展运算符
 
+扩展运算符可以将数组或者对象转为用逗号分隔的参数序列
+
+```javascript
+let ary = ["a", "b", "c"];
+// ...ary // "a", "b", "c"
+/* 这个参数方法中的逗号，在传入console.log中后，参数序列中的逗号会被当做console.log方法的参数分隔符 */
+console.log(...ary) // a b c 相当于下面的代码
+console.log("a", "b", "c") //a b c
+
+// 扩展运算符应用于数组合并
+// 第一种方法
+let ary1 = [1, 2, 3];
+let ary2 = [4, 5, 6];
+let ary3 = [...ary1, ...ary2];
+console.log(ary3)
+
+// 第二种方法
+ary1.push(ary2); // [1, 2, 3, [4, 5, 6]]
+ary1.push(...ary2); // [1, 2, 3, 4, 5, 6]
+console.log(ary1) 
+
+// 利用扩展运算符将伪数组转换为真正的数组，之后可以调用数组的方法
+var oDivs = document.getElementsByTagName('div');
+console.log(oDivs)
+var ary = [...oDivs];
+ary.push('a');
+console.log(ary);
+```
+
+### *ES6 构造函数方法`Array.from()`
+
+将伪数组或可遍历对象转换为真正的数组。方法还可以接受第二个参数，作用类似于数组的map方法，用来对每个元素进行处理，将处理后的值放入返回的数组
+
+```javascript
+// 注意一下这个length
+var arrayLike = {
+"0": "1",
+"1": "2",
+"length": 3
+}
+var ary = Array.from(arrayLike); // [1, 2, undefined]
+console.log(ary)
+
+var ary = Array.from(arrayLike, item => item * 2) // [2, 4, NaN]
+console.log(ary)
+```
+
+### *ES6 实例方法find/findIndex/includes
+
+- `find`方法对数组中的每一项元素执行一次`callback`函数，直至有一个`callback`返回`true`。当找到了这样一个元素后，该方法会立即返回这个元素的值，否则返回`undefined`
+- `findIndex()`方法返回数组中满足提供的测试函数的第一个元素的索引。若没有找到对应元素则返回`-1`
+- `includes()`方法用来判断一个数组是否包含一个指定的值，根据情况，如果包含则返回 `true`，否则返回 `false`
+
+```javascript
+// find()：用于找出第一个符合条件的数组成员，如果没有找到返回undefined
+let ary = [{
+     id: 1,
+     name: '张三'
+ }, { 
+     id: 2,
+     name: '李四'
+ }]; 
+// index是可选参数，表示当前遍历到的索引。和forEach中的index作用相同
+ let target = ary.find((item, index) => item.id == 2);// 找数组里面符合条件的值，当数组中元素id等于2的查找出来，注意，只会匹配第一个
+
+let ary = [1, 5, 10, 15];
+let index = ary.findIndex((value, index) => value > 9); 
+console.log(index); // 2
+
+// fromIndex 可选
+// 从fromIndex 索引处开始查找 valueToFind。如果为负值，则按升序从 array.length + fromIndex 的索引开始搜 （即使从末尾开始往前跳 fromIndex 的绝对值个索引，然后往后搜寻）。默认为 0
+[1, 2, 3].includes(2) // true 
+[1, 2, 3].includes(4) // false
+```
 
 # 运算符
 
@@ -1074,7 +1185,7 @@ console.log(p.name);    // 4 张学友
 1. 如果参数`startPos`是负数，从字符串的尾部开始算起的位置。也就是说，`-1`指字符串的最后一个字符，以此类推
 2. 如果`startPos`为负数且绝对值大于字符串长度`startPos`为`0`
 
-`replce()`和`split()`
+replace/split/trim/startsWith/endsWith/repeat
 
 ```javascript
 var longString = 'shaonianzhangsanfeng';
@@ -1091,7 +1202,50 @@ console.log(str.trim()）  //hello去除两端空格
 var str1 = '   he l l o   '
 console.log(str1.trim()）  //he l l o去除两端空格
 
+// es6中的新增方法
+// startsWith()：表示参数字符串是否在原字符串的头部，返回布尔值
+// endsWith()：表示参数字符串是否在原字符串的尾部，返回布尔值
+let str = 'Hello ECMAScript 2015';
+let r1 = str.startsWith('Hello');
+console.log(r1); // true
+let r2 = str.endsWith('2016');
+console.log(r2); // false
+// repeat方法表示将原字符串重复n次，返回一个新字符串
+console.log("y".repeat(5)); // yyyyy
 ```
+
+### ES6 模板字符串
+
+ES6新增的创建字符串的方式，使用反引号定义。
+
+```javascript
+// 模板字符串中可以解析变量
+let name = `张三`;
+let sayHello = `Hello, 我的名字叫${name}`;
+console.log(sayHello); // Hello, 我的名字叫张三
+
+// 模板字符串中可以换行
+let result = {
+    name: "zhangsan",
+    age: 20
+};
+let html = `
+			<div>
+				<span>${result.name}</span>
+				<span>${result.age}</span>
+			</div>
+		`;
+console.log(html);
+
+//在模板字符串中可以调用函数
+const fn = () => {
+    return '我是fn函数'
+}
+let html = `我是模板字符串 ${fn()}`;
+console.log(html)
+```
+
+
 
 # (ES5)构造函数+原型对象组合继承
 
@@ -1493,5 +1647,204 @@ function baz(){
 
 # ES6
 
+ES6泛指 ES2015 及后续的版本
 
+为什么使用 ES6 ?
+
+每一次标准的诞生都意味着语言的完善，功能的加强。JavaScript语言本身也有一些令人不满意的地方
+
+- 变量提升特性增加了程序运行时的不可预测性
+- 语法过于松散，实现相同的功能，不同的人可能会写出不同的代码
+
+## `let`关键字
+
+1. 使用`let`关键字声明的变量才具有块级作用域，使用`var`声明的变量不具备块级作用域特性。大括号`{}`中的作用域就是块级作用域，例如`if`语句的块级作用域。好处是可以防止内层变量覆盖外层变量，例如在循环体中防止循环变量变为全局变量。
+2. 使用`let`关键字声明的变量没有变量提升，变量必须先声明再使用。
+3. 使用`let`关键字声明的变量没有变量提升存在暂时性死区，会绑定在这个块级作用域，不会受外界的影响
+
+```javascript
+if (true) {
+    var temp = 1;
+    let b = 20;
+    console.log(b) // 20
+    if (true) {
+        let c = 30;
+    }
+    console.log(c); // undefined
+}
+console.log(temp); // 1
+console.log(b) // undefined
+
+console.log(a);
+let a = 100; // undefined
+
+var num = 10
+if (true) {
+    console.log(num); // num和这个块级作用域进行了绑定，和外部的num是没有关系的。所以再声明再使用会报错
+    let num = 20;
+}
+```
+
+## `const`关键字
+
+1. `const`关键字具有块级作用域（这点和`let`一样）
+2. 使用`const`关键字声明常量时必须同时赋值。声明后如果是基本数据类型，不能更改值，如果是复杂数据类型，不能更改地址值
+
+```javascript
+const PI; // Missing initializer in const declaration
+const ary = [100, 200];
+ary[0] = 123; // [123, 200]
+// ary = [1, 2] // 报错
+console.log(ary);
+```
+
+![var&let&const区别](C:\Users\admin\Desktop\practicing\图片笔记\前端\js\var&let&const区别.png)
+
+## 解构赋值
+
+- 数组解构允许我们按照一一对应的关系从数组中提取值然后将值赋值给变量。如果结构不成功，变量跟数值个数不匹配的时候，变量的值为`undefined`
+- 对象解构允许我们使用变量的名字匹配对象的属性。匹配成功将对象属性的值赋值给变量
+
+```javascript
+// 数组结构
+let ary = [1, 2, 3];
+let [a, b, c, d, e] = ary;
+console.log(a); // 1
+console.log(b); // 2
+console.log(c); // 3
+console.log(d); // undefined
+console.log(e); // undefined
+
+// 变量匹配 
+let person = {name: 'lisi', age: 30, sex: '男'};
+// let { name, age, sex } = person;
+// console.log(name)
+// console.log(age)
+// console.log(sex)
+// 或是
+let {name: myName} = person; // 左边的属性名只用于匹配，右边的是变量名
+console.log(myName)
+```
+
+## 箭头函数
+
+- 箭头函数中不绑定`this`，箭头函数中的`this`指向是它所定义的位置，可以简单理解成，定义箭头函数中的作用域的`this`指向谁，它就指向谁
+- 箭头函数的优点在于解决了`this`执行环境所造成的一些问题。比如：解决了匿名函数`this`指向的问题（匿名函数的执行环境具有全局性），包括`setTimeout`和`setInterval`中使用`this`所造成的问题
+
+```javascript
+() => {} //()：代表是函数； =>：必须要的符号，指向哪一个代码块；{}：函数体
+// 函数
+function sum(n1, n2) {
+    return n1 + n2;
+}
+
+// 在箭头函数中，如果函数体中只有一句代码并且代码的执行结果就是函数的返回值，函数体大括号可以省略
+const sum = (n1, n2) => n1 + n2;
+const result = sum(10, 20);
+console.log(result)
+
+// 在箭头函数中，如果形参只有一个，形参外侧的小括号也是可以省略的
+const fn = v => {
+    alert(v);
+}
+fn(20);
+
+// 箭头函数不绑定this。箭头函数没有自己的this关键字，如果在箭头函数中使用this，this关键字将指向箭头函数定义位置中的this
+function fn() {
+    console.log(this);
+    return () => {
+        console.log(this)
+    }
+}
+const obj = { name: 'zhangsan' };
+const resFn = fn.call(obj); // obj
+resFn(); // obj
+
+// 面试题
+var age = 100;
+var obj = {
+	age: 20,
+	say: () => {
+		alert(this.age)
+	}
+}
+obj.say(); // 100
+// 箭头函数this指向的是被声明的作用域里面，而对象没有作用域的，所以箭头函数虽然在对象中被定义，但是this指向的是全局作用域，即window
+```
+
+## 剩余参数
+
+剩余参数语法允许我们将一个不定数量的参数表示为一个数组，不定参数定义方式，这种方式很方便的去声明不知道参数情况下的一个函数。类似于`arguments`，但是箭头函数不支持`arguments`
+
+```javascript
+const sum = (...args) => {
+    let total = 0;
+    args.forEach(item => total += item);
+    return total;
+};
+
+console.log(sum(10, 20)); // 30, args是10,20
+console.log(sum(10, 20, 30)); // 60, args是10,20,30
+
+// 剩余参数和解构配合使用
+let ary1 = [1, 2, 3, 4, 5, 5, 7, 8];
+let [s1, ...s2] = ary1;
+console.log(s1); // 1
+console.log(s2); // [2, 3, 4, 5, 5, 7, 8]
+```
+
+## Set数据结构
+
+Set类似于数组，但是成员的值都是唯一的，没有重复的值
+
+**实例方法**
+
+- `add(value)`：添加某个值，返回 Set 结构本身
+- `delete(value)`：删除某个值，返回一个布尔值，表示删除是否成功
+- `has(value)`：返回一个布尔值，表示该值是否为 Set 的成员
+- `clear()`：清除所有成员，没有返回值
+
+**遍历**
+
+Set 结构的实例与数组一样，也拥有`forEach`方法，用于对每个成员执行某种操作，没有返回值
+
+```javascript
+// 声明
+// Set本身是一个构造函数，用来生成Set数据结构
+const s1 = new Set();
+console.log(s1.size)
+// Set函数可以接受一个数组作为参数，用来初始化
+const s2 = new Set(["a", "b"]);
+console.log(s2.size) // 2
+// 利用Set做数组去重
+const s3 = new Set(["a", "a", "b", "b"]);
+console.log(s3.size) // 2
+const ary = [...s3];
+console.log(ary) // ["a", "b"]
+
+// 实例方法
+const s4 = new Set();
+// 向set结构中添加值 使用add方法
+s4.add('a').add('b');
+console.log(s4.size); // 2
+
+// 从set结构中删除值 用到的方法是delete
+const r1 = s4.delete('c');
+console.log(s4.size) // 2
+console.log(r1); // false
+
+// 判断某一个值是否是set数据结构中的成员 使用has
+const r2 = s4.has('d');
+console.log(r2); //false
+
+// 清空set数据结构中的值 使用clear方法
+s4.clear();
+console.log(s4.size); // 0
+
+// 遍历
+const s5 = new Set(['a', 'b', 'c']);
+s5.forEach(value => {
+    console.log(value)
+})
+```
 

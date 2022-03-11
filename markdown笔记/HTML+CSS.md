@@ -545,6 +545,8 @@ css的作用：
      a:visited   /* 已访问的链接 */
      a:hover     /* 鼠标移动到链接上 */
      a:active    /* 选定的链接 */
+     :foucs
+     :lang
      ```
    
 8. 通用选择器
@@ -659,8 +661,11 @@ p{color:green;}
     word-spacing: 0.5em; /* 设置英文单词之间的间距为6px */
     letter-spacing: 0.5em; /* 设置中文字之间/英文字母之间的间距为6px */
     text-align: center; /* 设置文字水平居中 */
+    text-transform: capitalize | uppercase | lowercase;
 }
 ```
+
+![pre-defined color names](C:\Users\admin\Desktop\practicing\图片笔记\前端\css\pre-defined color names.png)
 
 ## CSS布局常用样式属性
 
@@ -1110,6 +1115,12 @@ white-space:pre-wrap;
 /*指定了怎样在单词内断行*/
 word-break
 transition：/*过渡可以为一个元素在不同状态之间切换的时候定义不同的过渡效果。比如在不同的伪元素之间切换，像是 :hover，:active 或者通过 JavaScript 实现的状态变化。*/
+
+border-image: /* he border-image CSS property draws an image around a given element. It replaces the element's regular border */
+/* multi-column layout */
+column-count: /* The column-count CSS property breaks an element's content into the specified number of columns */
+column-gap: /* The column-gap CSS property sets the size of the gap (gutter) between an element's columns */
+column-rule: /* The column-rule shorthand CSS property sets the width, style, and color of the line drawn between columns in a multi-column layout */
 ```
 
 ## CSS的简写方法
@@ -1312,6 +1323,10 @@ element.style{
 
 # CSS3
 
+CSS3 Features supported by All modern Browsers
+
+Define “modern browsers”: IE9+, Edge, Opera 10+, Firefox 3.5+, Chrome, Safari 3+
+
 ## 选择器
 
 ### 属性选择器
@@ -1391,6 +1406,11 @@ header::before {
 </style>
 
 <header>2</header>    
+
+:first-line /* add a special style to the first line of a text */
+:first-letter /* add a special style to the first letter of a text */
+:before /* to insert some content before the content of an element */
+:after /* to insert some content after the content of an element */
 ```
 
 ## 2D转换+3D转换
@@ -1526,15 +1546,21 @@ animation: name duration timing-function delay iteration-count direction fill-mo
 
 ![css3-速度曲线](C:\Users\admin\Desktop\practicing\图片笔记\前端\css\css3-速度曲线.png)
 
-# 浏览器私有前缀
+## @media
 
-浏览器私有前缀是为了兼容老版本的写法，比较新版本的浏览器无需添加
+[MDN文档](https://developer.mozilla.org/zh-CN/docs/Web/CSS/@media)
+
+![media types](C:\Users\admin\Desktop\practicing\图片笔记\前端\css\media types.png)
+
+# 浏览器私有前缀(Vendor Prefixes)
+
+浏览器私有前缀是为了兼容老版本的写法，比较新版本的浏览器无需添加。可用于测试
 
 `-moz`：代表firefox浏览器私有属性
 
 `-ms-`代表ie浏览器私有属性
 
-`-webkit`：代表safari、chrome私有属性
+`-webkit`：代表safari、chrome, Android, IOS私有属性
 
 `-o-`：代表Opera私有属性
 
