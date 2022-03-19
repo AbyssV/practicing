@@ -12,7 +12,7 @@
 
 ### JS 是单线程
 
-![js是单线程](C:\Users\admin\Desktop\practicing\图片笔记\前端\js\js是单线程.png)
+![js是单线程](..\图片笔记\前端\js\js是单线程.png)
 
 单线程就意味着所有任务需要排队，前一个任务结束，才会执行后一个任务。**如果前一个任务耗时很长，后一个任务就不得不一直等着**。这样所导致的问题是： 如果 JS 执行的时间过长，这样就会造成页面的渲染不连贯，导致页面渲染加载阻塞的感觉
 
@@ -34,15 +34,15 @@
 >
 >不进入主线程、而进入**任务队列**的任务，当主线程中的任务运行完了，才会从任务队列取出异步任务放入主线程执行。
 
-![同步任务和异步任务](C:\Users\admin\Desktop\practicing\图片笔记\前端\js\同步任务和异步任务.png)
+![同步任务和异步任务](..\图片笔记\前端\js\同步任务和异步任务.png)
 
 ### 事件循环
 
-![](C:\Users\admin\Desktop\practicing\图片笔记\前端\js\事件循环.png)
+![](..\图片笔记\前端\js\事件循环.png)
 
-![事件循环2](C:\Users\admin\Desktop\practicing\图片笔记\前端\js\事件循环2.png)
+![事件循环2](..\图片笔记\前端\js\事件循环2.png)
 
-![事件循环](C:\Users\admin\Desktop\practicing\图片笔记\前端\js\事件循环3.png)
+![事件循环](..\图片笔记\前端\js\事件循环3.png)
 
 ## JavaScript的三种使用方式
 
@@ -169,7 +169,7 @@ console.log(11 + vari);     // 11
 console.log(true + vari);   //  1
 ```
 
-![基本数据类型](C:\Users\admin\Desktop\practicing\图片笔记\前端\js\基本数据类型.png)
+![基本数据类型](..\图片笔记\前端\js\基本数据类型.png)
 
 1种复合类型：
 
@@ -428,11 +428,11 @@ Array.isArray(aList2) // true
 
 ### 添加删除数组元素
 
-![数组增删](C:\Users\admin\Desktop\practicing\图片笔记\前端\js\数组增删.png)
+![数组增删](..\图片笔记\前端\js\数组增删.png)
 
 ### 数组排序
 
-![数组排序](C:\Users\admin\Desktop\practicing\图片笔记\前端\js\数组排序.png)
+![数组排序](..\图片笔记\前端\js\数组排序.png)
 
 ```javascript
 var arr = [19, 21, 56, 73, 24, 66];
@@ -453,11 +453,11 @@ console.log(arr1.concat(arr3, arr2)); // [1, 2, 3, 'd', 'e', 'f', 'a', 'b', 'c']
 
 ### 数组索引
 
-![数组索引](C:\Users\admin\Desktop\practicing\图片笔记\前端\js\数组索引.png)
+![数组索引](..\图片笔记\前端\js\数组索引.png)
 
 ### 数组转换为字符串
 
-![数组转化为字符串](C:\Users\admin\Desktop\practicing\图片笔记\前端\js\数组转化为字符串.png)
+![数组转化为字符串](..\图片笔记\前端\js\数组转化为字符串.png)
 
 `join`方法如果不传入参数，则按照 `, `拼接元素
 
@@ -465,7 +465,7 @@ console.log(arr1.concat(arr3, arr2)); // [1, 2, 3, 'd', 'e', 'f', 'a', 'b', 'c']
 
 `Array.isArray()`用于判断一个对象是否为数组，`isArray()`是HTML5中提供的方法
 
-![数组其他方法](C:\Users\admin\Desktop\practicing\图片笔记\前端\js\数组其他方法.png)
+![数组其他方法](..\图片笔记\前端\js\数组其他方法.png)
 
 `slice()`返回一个并不会修改数组，而是返回一个子数组。可使用负值从数组的尾部选取元素，如果`end`未被规定，那么`slice()`方法会选取从`start`到数组结尾的所有元素
 
@@ -638,7 +638,7 @@ console.log(123 || 456 || 789);  //  123
 
 ## 运算符优先级
 
-![运算符优先级](C:\Users\admin\Desktop\practicing\图片笔记\前端\js\运算符优先级.png)
+![运算符优先级](..\图片笔记\前端\js\运算符优先级.png)
 
 - 一元运算符里面的逻辑非优先级很高
 - 逻辑与比逻辑或优先级高
@@ -750,7 +750,7 @@ setInterval(function(){}, 1000) // 每个1s调用一次
 
 ## 函数内部的`this`指向
 
-![函数内部的this指向](C:\Users\admin\Desktop\practicing\图片笔记\前端\js\函数内部的this指向.png)
+![函数内部的this指向](..\图片笔记\前端\js\函数内部的this指向.png)
 
 ## 改变函数内部`this`指向
 
@@ -1084,7 +1084,7 @@ Math对象不是构造函数，它具有数学常数和函数的属性和方法�
 
 Date对象和Math对象不一样，`Date`是一个构造函数，所以使用时需要实例化后才能使用其中具体方法和属性。Date 实例用来处理日期和时间
 
-![Date实例的方法和属性](C:\Users\admin\Desktop\practicing\图片笔记\前端\js\Date实例的方法和属性.png)
+![Date实例的方法和属性](..\图片笔记\前端\js\Date实例的方法和属性.png)
 
 ```javascript
 var d1 = new Date(); // 获取当前日期和时间
@@ -1155,7 +1155,7 @@ console.log(p.name);    // 4 张学友
 
 **字符串通过基本包装类型可以调用部分方法来操作字符串，以下是返回指定字符的位置的方法（查找）**
 
-![字符串方法根据字符返回位置](C:\Users\admin\Desktop\practicing\图片笔记\前端\js\字符串方法根据字符返回位置.png)
+![字符串方法根据字符返回位置](..\图片笔记\前端\js\字符串方法根据字符返回位置.png)
 
 `indexOf(substring, startpos)`：
 
@@ -1165,7 +1165,7 @@ console.log(p.name);    // 4 张学友
 
 **以下是根据位置返回指定位置上的字符（索引）**
 
-![字符串根据位置返回字符](C:\Users\admin\Desktop\practicing\图片笔记\前端\js\字符串根据位置返回字符.png)
+![字符串根据位置返回字符](..\图片笔记\前端\js\字符串根据位置返回字符.png)
 
 `charAt(index)`：
 
@@ -1173,7 +1173,7 @@ console.log(p.name);    // 4 张学友
 
 **字符串操作方法**
 
-![字符串操作方法](C:\Users\admin\Desktop\practicing\图片笔记\前端\js\字符串操作方法.png)
+![字符串操作方法](..\图片笔记\前端\js\字符串操作方法.png)
 
 `substring(startPos,stopPos)`：
 
@@ -1272,7 +1272,7 @@ console.log(html)
 - JavaScript 规定，每一个构造函数都有一个`prototype`属性，指向另一个对象。注意这个`prototype`就是一个对象，这个对象的所有属性和方法，都会被构造函数所拥有。我们可以把那些不变的方法，直接定义在`prototype`==对象==上，这样所有对象的实例就可以共享这些方法
 - 
 
-![prototype原型对象](C:\Users\admin\Desktop\practicing\图片笔记\前端\js\prototype原型对象.png)
+![prototype原型对象](..\图片笔记\前端\js\prototype原型对象.png)
 
 - 对象原型（ `__proto__`）和构造函数（`prototype`）原型对象里面都有一个`constructor`属性 ，我们称为构造函数，因为它指回构造函数本身。`constructor`主要用于记录该对象引用于哪个构造函数，它可以让原型对象重新指向原来的构造函数。一般情况下，对象的方法都在构造函数的原型对象中设置。**<u>如果有多个对象的方法，我们可以给原型对象采取对象形式赋值，但是这样就会覆盖构造函数原型对象原来的内容，这样修改后的原型对象`constructor`就不再指向当前构造函数了。此时，我们可以在修改后的原型对象中，添加一个 `constructor`指向原来的构造函数。</u>**
 
@@ -1316,13 +1316,13 @@ console.log(s1.__proto__.constructor);
 
 以上四条会在控制台输出
 
-![原型链-控制台](C:\Users\admin\Desktop\practicing\图片笔记\前端\js\原型链-控制台.png)
+![原型链-控制台](..\图片笔记\前端\js\原型链-控制台.png)
 
 ### 原型链
 
 每一个实例对象又有一个`__proto__`属性，指向的构造函数的原型对象，构造函数的原型对象也是一个对象，也有`__proto__`属性，这样一层一层往上找就形成了原型链
 
-![原型链](C:\Users\admin\Desktop\practicing\图片笔记\前端\js\原型链.png)
+![原型链](..\图片笔记\前端\js\原型链.png)
 
 ### 原型链和成员的查找机制
 
@@ -1709,7 +1709,7 @@ ary[0] = 123; // [123, 200]
 console.log(ary);
 ```
 
-![var&let&const区别](C:\Users\admin\Desktop\practicing\图片笔记\前端\js\var&let&const区别.png)
+![var&let&const区别](..\图片笔记\前端\js\var&let&const区别.png)
 
 ## 解构赋值
 

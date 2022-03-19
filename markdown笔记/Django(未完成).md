@@ -23,7 +23,7 @@ WSGI协议：它是web服务器和web框架之间进行协同工作的一个规�
 
 ## Web应用程序处理流程
 
-![](C:\Users\admin\Desktop\practicing\图片笔记\Python\web应用处理流程.png)
+![](..\图片笔记\Python\web应用处理流程.png)
 
 ## Web程序框架的意义
 
@@ -64,7 +64,7 @@ Django的主要目的是简便、快速的开发数据库驱动的网站。它�
 
 #### MVC模式说明
 
-![](C:\Users\admin\Desktop\practicing\图片笔记\Python\mvc模式说明.png)
+![](..\图片笔记\Python\mvc模式说明.png)
 
 - M全拼为Model，主要封装对数据库层的访问，对数据库中的数据进行增、删、改、查操作。
 - V全拼为View，用于封装结果，生成页面展示的html内容。
@@ -72,7 +72,7 @@ Django的主要目的是简便、快速的开发数据库驱动的网站。它�
 
 #### Django的MVT
 
-![](C:\Users\admin\Desktop\practicing\图片笔记\Python\Django的MVT.png)
+![](..\图片笔记\Python\Django的MVT.png)
 
 - M全拼为Model，与MVC中的M功能相同，负责和数据库交互，进行数据处理。
 - V全拼为View，与MVC中的C功能相同，接收请求，进行业务处理，返回应答。
@@ -147,9 +147,9 @@ Django的manage工具提供了shell命令，帮助我们配置好当前工程的
 - 由于Model中内嵌了ORM框架，所以不需要直接面向数据库编程，而是定义模型类, 通过模型类和对象完成数据库表的增删改查
 - ORM框架就是把数据库表的行与相应的对象建立关联, 互相转换，使得数据库的操作面向对象
 
-![](C:\Users\admin\Desktop\practicing\图片笔记\Python\django_orm_1.jpg)
+![](..\图片笔记\Python\django_orm_1.jpg)
 
-![django_orm_2](C:\Users\admin\Desktop\practicing\图片笔记\Python\django_orm_2.png)
+![django_orm_2](..\图片笔记\Python\django_orm_2.png)
 
 ## 使用Django进行数据库开发的步骤 
 
@@ -487,11 +487,11 @@ Django能够根据定义的模型类自动地生成管理模块
     - 在项目中定义URLconf。在settings.py设置为工程中的**urls.py**文件
     - 在应用中定义URLconf。在项目的urls.py中设置为子应用的**urls.py**文件
 
-![](C:\Users\admin\Desktop\practicing\图片笔记\Python\Django视图.png)
+![](..\图片笔记\Python\Django视图.png)
 
 ## URLconf配置
 
-![](C:\Users\admin\Desktop\practicing\图片笔记\Python\url匹配.png)
+![](..\图片笔记\Python\url匹配.png)
 
 ### 在项目中定义URLconf
 
@@ -572,4 +572,4 @@ def index(request):
     return render(request, 'Book\index.html', context)
 ```
 
-![](C:\Users\admin\Desktop\practicing\图片笔记\Python\view_template.png)
+![](..\图片笔记\Python\view_template.png)

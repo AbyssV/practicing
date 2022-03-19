@@ -734,6 +734,8 @@ print(s1.pop())
 set1 = frozenset()
 ```
 
+![set](..\图片笔记\Python\set.png)
+
 ## 生成器
 
 数据不是一次性全部生成处理，而是使用一个，再生成一个，可以节约大量的内存
@@ -1115,7 +1117,7 @@ subtraction(4, 2)
 
 ### 多个装饰器的使用
 
-![](C:\Users\admin\Desktop\practicing\图片笔记\Python\多个装饰器原理.png)
+![](..\图片笔记\Python\多个装饰器原理.png)
 
 ```python
 # 多个装饰器的装饰过程是: 离函数最近的装饰器先装饰，然后外面的装饰器再进行装饰，由内到外的装饰过程
@@ -1989,7 +1991,7 @@ TCP 网络应用程序开发分为客户端程序开发和服务端程序开发�
 6. 发送数据
 7. 关闭套接字
 
-![](C:\Users\admin\Desktop\practicing\图片笔记\Python\tcp网络应用程序的开发流程.png)****
+![](..\图片笔记\Python\tcp网络应用程序的开发流程.png)****
 
 #### 注意点
 
@@ -2044,7 +2046,7 @@ TCP 网络应用程序开发分为客户端程序开发和服务端程序开发�
 
 不管是`recv`还是`send`都不是直接接收到对方的数据和发送数据到对方，发送数据会写入到发送缓冲区，接收数据是从接收缓冲区来读取，发送数据和接收数据最终是由操作系统控制网卡来完成。
 
-![](C:\Users\admin\Desktop\practicing\图片笔记\Python\send和recv原理.png)
+![](..\图片笔记\Python\send和recv原理.png)
 
 ```python
 # 客户端代码
@@ -2347,7 +2349,7 @@ SQL语句参数化
 - SQL语言中的参数使用`%s`来占位，此处不是python中的字符串格式化操作
 - 将SQL语句中`%s`占位所需要的参数存在一个列表中，把参数列表传递给`execute`方法中第二个参数
 
-![](C:\Users\admin\Desktop\practicing\图片笔记\Python\pymysql.png)
+![](..\图片笔记\Python\pymysql.png)
 
 ```python
 import pymysql
@@ -2609,7 +2611,7 @@ book.save(r'e:\test1.xls')  # 在字符串前加r，声明为raw字符串，这�
 
 进程之间不共享全局变量的解释效果图:
 
-![](C:\Users\admin\Desktop\practicing\图片笔记\Python\进程关系.png)
+![](..\图片笔记\Python\进程关系.png)
 
 ### 示例
 

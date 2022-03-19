@@ -12,6 +12,8 @@ DOM树又称为文档树模型，把文档映射成树形结构，通过节点�
 - 节点：网页中的所有内容，在文档树中都是节点（标签、属性、文本、注释等），使用`node`表示
 - 标签节点：网页中的所有标签，通常称为元素节点，又简称为“元素”，使用`element`表示
 
+<img src="..\图片笔记\前端\webAPI\nodeType.png" alt="nodeType" style="zoom: 33%;" />
+
 ## 获取元素
 
 ```javascript
@@ -161,9 +163,9 @@ test.onclick = function() {
 
 但是有些自定义属性很容易引起歧义，不容易判断是元素的内置属性还是自定义属性。H5给我们新增了自定义属性：
 
-![设置h5自定义属性](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\设置h5自定义属性.png)
+![设置h5自定义属性](..\图片笔记\前端\webAPI\设置h5自定义属性.png)
 
-![获取h5自定义属性](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\获取h5自定义属性.png)
+![获取h5自定义属性](..\图片笔记\前端\webAPI\获取h5自定义属性.png)
 
 ```html
 <body>
@@ -205,13 +207,13 @@ HTML DOM 树中的所有节点均可通过JavaScrip 进行访问，所有HTML元
 
 ### 节点层级
 
-![dom树](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\dom树.png)
+![dom树](..\图片笔记\前端\webAPI\dom树.png)
 
 ### 节点操作
 
 ####  创建元素的三种方式及区别
 
-![创建元素的三种方式](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\创建元素的三种方式.png)
+![创建元素的三种方式](..\图片笔记\前端\webAPI\创建元素的三种方式.png)
 
 ```javascript
 // innerHTML字符串拼接方式（效率低）
@@ -418,23 +420,23 @@ JavaScript使我们有能力创建动态页面，而事件是可以被JavaScript
 
 ### 注册事件（2种方式）
 
-![注册事件（两种方式）](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\注册事件（两种方式）.png)
+![注册事件（两种方式）](..\图片笔记\前端\webAPI\注册事件（两种方式）.png)
 
 #### `addEventListener()`事件监听（IE9以后支持）
 
-![addEventListener](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\addEventListener.png)
+![addEventListener](..\图片笔记\前端\webAPI\addEventListener.png)
 
 `eventTarget.addEventListener()`方法将指定的监听器注册到`eventTarget`（目标对象）上，当该对象触发指定的事件时，就会执行事件处理函数
 
-![addEventListener参数](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\addEventListener参数.png)
+![addEventListener参数](..\图片笔记\前端\webAPI\addEventListener参数.png)
 
 #### `attacheEvent()`事件监听（IE678支持）
 
-![attachEvent](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\attachEvent.png)
+![attachEvent](..\图片笔记\前端\webAPI\attachEvent.png)
 
 `eventTarget.attachEvent()`方法将指定的监听器注册到`eventTarget`（目标对象） 上，当该对象触发指定的事件时，指定的回调函数就会被执行
 
-![attachEvent参数](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\attachEvent参数.png)
+![attachEvent参数](..\图片笔记\前端\webAPI\attachEvent参数.png)
 
 ```javascript
 <button>传统注册事件</button>
@@ -470,7 +472,7 @@ JavaScript使我们有能力创建动态页面，而事件是可以被JavaScript
 
 #### 删除事件（解绑事件）
 
-![删除事件](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\删除事件.png)
+![删除事件](..\图片笔记\前端\webAPI\删除事件.png)
 
 ```javascript
 var btns = document.querySelectorAll('button');
@@ -499,9 +501,9 @@ function fn1() {
 
 事件流描述的是从页面中接收事件的顺序，事件发生时会在元素节点之间按照特定的顺序传播，这个传播过程即DOM事件流。比如：我们给页面中的一个`div`注册了单击事件，当你单击了`div`时，也就单击了`body`，单击了`html`，单击了`document`
 
-![dom事件流](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\dom事件流.png)
+![dom事件流](..\图片笔记\前端\webAPI\dom事件流.png)
 
-![事件冒泡和事件捕获](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\事件冒泡和事件捕获.png)
+![事件冒泡和事件捕获](..\图片笔记\前端\webAPI\事件冒泡和事件捕获.png)
 
 DOM 事件流会经历3个阶段： 
 
@@ -509,9 +511,9 @@ DOM 事件流会经历3个阶段：
 2. 当前目标阶段
 3. 冒泡阶段
 
-![dom事件流2](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\dom事件流2.png)
+![dom事件流2](..\图片笔记\前端\webAPI\dom事件流2.png)
 
-![事件冒泡](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\事件冒泡.png)
+![事件冒泡](..\图片笔记\前端\webAPI\事件冒泡.png)
 
 #### 事件冒泡
 
@@ -565,7 +567,7 @@ father.addEventListener('click', function () {
 
 所以，在事件处理函数中声明1个形参用来接收事件对象。
 
-![事件对象](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\事件对象.png)
+![事件对象](..\图片笔记\前端\webAPI\事件对象.png)
 
 #### 事件对象的兼容性处理
 
@@ -574,7 +576,7 @@ father.addEventListener('click', function () {
 1. 标准浏览器中是浏览器给方法传递的参数，只需要定义形参`e`就可以获取到
 2. 在 IE6~8 中，浏览器不会给方法传递参数，如果需要的话，需要到`window.event`中获取查找
 
-![事件对象的兼容性处理](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\事件对象的兼容性处理.png)
+![事件对象的兼容性处理](..\图片笔记\前端\webAPI\事件对象的兼容性处理.png)
 
 ```javascript
 <div>123</div>
@@ -592,7 +594,7 @@ div.onclick = function(e) {
 
 #### 事件对象的属性和方法
 
-![事件对象的属性和方法](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\事件对象的属性和方法.png)
+![事件对象的属性和方法](..\图片笔记\前端\webAPI\事件对象的属性和方法.png)
 
 #### `e.target`和`this`的区别
 
@@ -642,7 +644,7 @@ div.onclick = function(e) {
 
 #### 阻止事件冒泡
 
-![阻止事件冒泡](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\阻止事件冒泡.png)
+![阻止事件冒泡](..\图片笔记\前端\webAPI\阻止事件冒泡.png)
 
 ```javascript
 <div class="father">
@@ -669,7 +671,7 @@ div.onclick = function(e) {
 </script>
 ```
 
-![阻止事件冒泡的兼容性处理](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\阻止事件冒泡的兼容性处理.png)
+![阻止事件冒泡的兼容性处理](..\图片笔记\前端\webAPI\阻止事件冒泡的兼容性处理.png)
 
 #### 事件委托
 
@@ -712,23 +714,23 @@ div.onclick = function(e) {
 
 ### 常见鼠标事件
 
-![常用鼠标事件](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\常用鼠标事件.png)
+![常用鼠标事件](..\图片笔记\前端\webAPI\常用鼠标事件.png)
 
 ### 鼠标事件对象
 
-![鼠标事件 对象](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\鼠标事件 对象.png)
+![鼠标事件 对象](..\图片笔记\前端\webAPI\鼠标事件 对象.png)
 
 ### 常用的键盘事件
 
-![键盘事件](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\键盘事件.png)
+![键盘事件](..\图片笔记\前端\webAPI\键盘事件.png)
 
-![键盘事件注意事项](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\键盘事件注意事项.png)
+![键盘事件注意事项](..\图片笔记\前端\webAPI\键盘事件注意事项.png)
 
 ### 键盘事件对象
 
-![键盘事件对象](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\键盘事件对象.png)
+![键盘事件对象](..\图片笔记\前端\webAPI\键盘事件对象.png)
 
-![键盘事件对象注意事项](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\键盘事件对象注意事项.png)
+![键盘事件对象注意事项](..\图片笔记\前端\webAPI\键盘事件对象注意事项.png)
 
 # BOM
 
@@ -738,15 +740,15 @@ BOM由一系列相关的对象构成，并且每个对象都提供了很多方�
 
 BOM缺乏标准，JavaScript语法的标准化组织是ECMA，DOM的标准化组织是W3C，BOM最初是Netscape浏览器标准的一部分
 
-![BOM](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\BOM.png)
+![BOM](..\图片笔记\前端\webAPI\BOM.png)
 
 **BOM的构成**
 
-![BOM的构成](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\BOM的构成.png)
+![BOM的构成](..\图片笔记\前端\webAPI\BOM的构成.png)
 
 ## 顶级对象window
 
-![顶级对象window](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\顶级对象window.png)
+![顶级对象window](..\图片笔记\前端\webAPI\顶级对象window.png)
 
 ## window对象的常见事件
 
@@ -754,15 +756,15 @@ BOM缺乏标准，JavaScript语法的标准化组织是ECMA，DOM的标准化组
 
 <u>方法一</u>：
 
-![window.onload](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\window.onload.png)
+![window.onload](..\图片笔记\前端\webAPI\window.onload.png)
 
 `window.onload`是窗口 (页面）加载事件，==当文档内容完全加载完成==会触发该事件（包括图像、脚本文件、CSS 文件等），就调用的处理函数
 
-![window.onload注意事项](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\window.onload注意事项.png)
+![window.onload注意事项](..\图片笔记\前端\webAPI\window.onload注意事项.png)
 
 <u>方法二：</u>
 
-![DOMContentLoaded](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\DOMContentLoaded.png)
+![DOMContentLoaded](..\图片笔记\前端\webAPI\DOMContentLoaded.png)
 
 `DOMContentLoaded`事件触发时，仅当DOM加载完成，不包括样式表，图片，flash等等。IE9以上才支持。
 
@@ -770,7 +772,7 @@ BOM缺乏标准，JavaScript语法的标准化组织是ECMA，DOM的标准化组
 
 ### 调整窗口大小事件
 
-![调整窗口大小事件](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\调整窗口大小事件.png)
+![调整窗口大小事件](..\图片笔记\前端\webAPI\调整窗口大小事件.png)
 
 `window.onresize`是调整窗口大小加载事件,  当触发时就调用的处理函数
 
@@ -782,9 +784,9 @@ BOM缺乏标准，JavaScript语法的标准化组织是ECMA，DOM的标准化组
 
 ### 一次性定时器`setTimeout()`
 
-![setTimeout](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\setTimeout.png)
+![setTimeout](..\图片笔记\前端\webAPI\setTimeout.png)
 
-![setTimeout注意事项](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\setTimeout注意事项.png)
+![setTimeout注意事项](..\图片笔记\前端\webAPI\setTimeout注意事项.png)
 
 >普通函数是按照代码顺序直接调用
 >
@@ -794,9 +796,9 @@ BOM缺乏标准，JavaScript语法的标准化组织是ECMA，DOM的标准化组
 >
 >以前我们讲的`element.onclick = function(){}`或者`element.addEventListener(“click”, fn);`里面的函数也是回调函数。
 
-![clearTimeout](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\clearTimeout.png)
+![clearTimeout](..\图片笔记\前端\webAPI\clearTimeout.png)
 
-![clearTimeout注意事项](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\clearTimeout注意事项.png)
+![clearTimeout注意事项](..\图片笔记\前端\webAPI\clearTimeout注意事项.png)
 
 ```javascript
 <button>点击停止定时器</button>
@@ -816,9 +818,9 @@ BOM缺乏标准，JavaScript语法的标准化组织是ECMA，DOM的标准化组
 
 ### 间隔定时器`setInterval()`
 
-![setInterval](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\setInterval.png)
+![setInterval](..\图片笔记\前端\webAPI\setInterval.png)
 
-![clearInterval](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\clearInterval.png)
+![clearInterval](..\图片笔记\前端\webAPI\clearInterval.png)
 
 ```javascript
 手机号码： <input type="number"> <button>发送</button>
@@ -893,21 +895,21 @@ BOM缺乏标准，JavaScript语法的标准化组织是ECMA，DOM的标准化组
 
 ## `location`对象
 
-![location对象](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\location对象.png)
+![location对象](..\图片笔记\前端\webAPI\location对象.png)
 
 ### url
 
-![url](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\url.png)
+![url](..\图片笔记\前端\webAPI\url.png)
 
-![url组成](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\url组成.png)
+![url组成](..\图片笔记\前端\webAPI\url组成.png)
 
 ### `location`对象属性
 
-![location对象属性](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\location对象属性.png)
+![location对象属性](..\图片笔记\前端\webAPI\location对象属性.png)
 
 ### location对象的常见方法
 
-![location对象方法](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\location对象方法.png)
+![location对象方法](..\图片笔记\前端\webAPI\location对象方法.png)
 
 ## `nevigator`对象
 
@@ -919,7 +921,7 @@ BOM缺乏标准，JavaScript语法的标准化组织是ECMA，DOM的标准化组
 
 window对象给我们提供了一个`history`对象，与浏览器历史记录进行交互。该对象包含用户（在浏览器窗口中）访问过的URL
 
-![history对象方法](C:\Users\admin\Desktop\practicing\图片笔记\前端\webAPI\history对象方法.png)
+![history对象方法](..\图片笔记\前端\webAPI\history对象方法.png)
 
 # 其他事件对象
 

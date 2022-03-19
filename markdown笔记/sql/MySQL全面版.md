@@ -47,7 +47,7 @@ mysql中没有`check`，只能使用enum或trigger替换
 - 关系型数据库服务端软件：主要负责管理不同的数据库，而每个数据库里面会有一系列数据文件，数据文件是用来存储数据的, 其实数据库就是一系列数据文件的集合。
 - 关系型数据库客户端软件：主要负责和关系型数据库服务端软件进行通信, 向服务端传输数据或者从服务端获取数据.
 
-<img src="C:\Users\admin\Desktop\practicing\图片笔记\Python\数据库关系图.png" style="zoom:67%;" />
+<img src="..\图片笔记\Python\数据库关系图.png" style="zoom:67%;" />
 
 说明:
 
@@ -64,24 +64,24 @@ E-R模型的使用场景:
 1. 对于大型公司开发项目，我们需要根据产品经理的设计，我们先使用建模工具, 如:power designer，db desinger等这些软件来画出实体-关系模型(E-R模型)
 2. 然后根据三范式设计数据库表结构
 
-<img src="C:\Users\admin\Desktop\practicing\图片笔记\Python\E-R模型图.png" style="zoom:67%;" />
+<img src="..\图片笔记\Python\E-R模型图.png" style="zoom:67%;" />
 
 **一对一的关系:**
 
-<img src="C:\Users\admin\Desktop\practicing\图片笔记\Python\1对1.png" style="zoom:33%;" />
+<img src="..\图片笔记\Python\1对1.png" style="zoom:33%;" />
 
 - 关系也是一种数据，需要通过一个字段存储在表中
 - 1对1关系，在表A或表B中创建一个字段，存储另一个表的主键值
 
 **一对多的关系:**
 
-<img src="C:\Users\admin\Desktop\practicing\图片笔记\Python\1对多.png" style="zoom:33%;" />
+<img src="..\图片笔记\Python\1对多.png" style="zoom:33%;" />
 
 - 1对多关系，在多的一方表(学生表)中创建一个字段，存储班级表的主键值
 
 **多对多的关系:**
 
-<img src="C:\Users\admin\Desktop\practicing\图片笔记\Python\多对多.png" style="zoom:33%;" />
+<img src="..\图片笔记\Python\多对多.png" style="zoom:33%;" />
 
 - 多对多关系，新建一张表C，这个表只有两个字段，一个用于存储A的主键值，一个用于存储B的主键值
 
@@ -819,7 +819,7 @@ SELECT col FROM mytable WHERE col =2;
 
 ```
 
-<img src="C:\Users\admin\Desktop\practicing\图片笔记\Python\连接查询.png" style="zoom: 25%;" />
+<img src="..\图片笔记\Python\连接查询.png" style="zoom: 25%;" />
 
 ### 外键约束`foreign key`
 

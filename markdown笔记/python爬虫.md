@@ -18,7 +18,7 @@
 
 - url地址不变、内容变化的数据增量爬虫
 
-![](C:\Users\admin\Desktop\practicing\图片笔记\Python\爬虫分类.png)
+![](..\图片笔记\Python\爬虫分类.png)
 
 ## 爬虫的流程
 
@@ -27,7 +27,7 @@
 3. 如果从响应中提取url，则继续发送请求获取响应
 4. 如果从响应中提取数据，则将数据进行保存
 
-![]()![爬虫流程](C:\Users\admin\Desktop\practicing\图片笔记\Python\爬虫流程.png)
+![]()![爬虫流程](..\图片笔记\Python\爬虫流程.png)
 
 ## HTTP协议
 
@@ -62,7 +62,7 @@ HTTPS比HTTP更安全，但是性能更低
 
 ### 特别关注的请求头字段
 
-![](C:\Users\admin\Desktop\practicing\图片笔记\Python\请求头字段.png)
+![](..\图片笔记\Python\请求头字段.png)
 
 - Content-Type
 - Host (主机和端口号)
@@ -77,7 +77,7 @@ HTTPS比HTTP更安全，但是性能更低
 
 ###  特别关注的响应头字段
 
-![](C:\Users\admin\Desktop\practicing\图片笔记\Python\响应头字段.png)
+![](..\图片笔记\Python\响应头字段.png)
 
 爬虫只关注一个响应头字段
 
