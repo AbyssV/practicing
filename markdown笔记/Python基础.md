@@ -2957,8 +2957,10 @@ pip install virtualenvwrapper-win # 对于windows
 # 1、创建目录用来存放虚拟环境
 mkdir $HOME/.virtualenvs
 # 2、打开~/.bashrc文件，并添加如下：
+export VIRTUALENVWRAPPER_PYTHON='/Library/Frameworks/Python.framework/Versions/3.9/bin/python3' # 在同时安装了python2和python3的情况下，需要加上这句
 export WORKON_HOME=$HOME/.virtualenvs
-source /usr/local/bin/virtualenvwrapper.sh
+# 注意对于mac，如果这个文件在/Library/Frameworks/Python.framework/Versions/3.9/bin/下，需要复制到/usr/local/bin/下
+source /usr/local/bin/virtualenvwrapper.sh 
 # 3、运行
 source ~/.bashrc
 # 对于windows，在系统变量中添加 WORKON_HOME=你想存放虚拟环境的目录，默认C:\Users\admin。如果想修改的话，virtualenvwrapper安装完成后，打开Python根目录\Scripts目录下的mkvirtualenv.bat文件，然后修改第24行[set "venvwrapper.default_workon_home=%USERPROFILE%\Envs"] 这里的，%USERPROFILE%相当于Linux系统中的/user/home，修改这个路径地址就可以修改virtualenv的环境地址
@@ -2966,13 +2968,25 @@ source ~/.bashrc
 
 # 罗列当前的虚拟环境
 workon
-# 创建虚拟环境
-mkvirtualenv -p python3 虚拟环境名称 / mkvirtualenv --python=python3 虚拟环境名称
+
+# 创建虚拟环境并进入
+mkvirtualenv -p python2.7 虚拟环境名称 / mkvirtualenv --python=python2.7 虚拟环境名称
+# 或是
+virtualenv envname02
+workon envname02  # 进入该虚拟环境
+# 或是
+virtualenv envname03
+cd envname03
+source bin/activate  # 激活并进入虚拟环境
+
 # 使用虚拟环境
 workon 虚拟环境名称
 # 工具包安装的位置是C:\Users\admin\Documents\PycharmProjects\DjangoProject\Lib\site-packages
 pip list
 pip install django==1.11.11
+pip uninstall 模块名
+# 复制虚拟环境
+cpvirtualenv env1 env2  # 前面的是原文件 后面的拷贝后的新文件
 # 退出虚拟环境
 deactivate
 # 删除虚拟环境
