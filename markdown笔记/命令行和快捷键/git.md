@@ -214,6 +214,20 @@ check [Bitbucket Resetting, Checking Out & Reverting](https://www.atlassian.com/
 
 ```bash
 git merge
+# 如果有merge conflicts
+git status # 查看哪些文件有conflict
+git diff # 查看不一致的地方，>>>>>和======中间的是本地的，下面的是remote的
+# 推荐使用ide merge
+# 若是使用以下方式merge（未测试），有个图形化界面叫beyondcompare
+# 最左边是你本地项目当前所处的分支，最右边是你要与你当前分支进行合并的分支。中间则是合并后的结果预览。图上那些有颜色覆盖的代码就是有冲突的地方，不同颜色代表不同意思。
+# 分隔线里的"Ⅹ >>"是AS提供给你的解决冲突操作方法。X代表放弃、>>代表选择
+# 当所有"Ⅹ >>"都处理后，idea会自动提示解决冲突完毕，然后就可以提交和推送到远程库了
+git mergetool
+
+git fetch origin master
+git merge commit_hash # 合并特定commit
+git push --force origin # 强制覆盖
+
 ```
 
 #### git merge --abort

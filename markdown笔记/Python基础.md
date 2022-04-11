@@ -58,7 +58,7 @@ print("百分比示例 {:2.2%}".format(f)) # 百分比示例 42.54%
 
 print(f"小数示例{32.5645:.^20.4}") # 小数示例.......32.56........
 print(f"整数示例{32:.^20d}") # 整数示例.........32.........
-print("小数示例{0:.^20.4f}".format(32.5645)) # 小数示例.......32.56........
+print("小数示例{0:.^20.4f}".format(32.5645)) # 小数示例......32.5645.......
 x = 10
 print(f"{x} is {'even' if x%2 == 0 else 'odd'}")
 
@@ -276,8 +276,9 @@ import copy  # 使用浅拷贝需要导入copy模块
 a1 = (1, 2)
 c1 = (1, 2)
 b1 = copy.copy(a1)  # 使用copy模块里的copy()函数就是浅拷贝了
+# 等于直接b1=a1
 print(a1 is b1) # True
-print(a1 is c1) # True
+print(a1 is c1) # False
 
 l1 = [1, 2, 3, [14, 16, 19]]
 l2 = [1, 2, 3, [14, 16, 19]]
@@ -3076,7 +3077,11 @@ conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/m
 conda config --set show_channel_urls yes
 # 清除添加的所有下载源
 conda config --remove-key channels
+--------------------------------------魔法函数----------------------------------------------
+%matplotlib inline
 ```
+
+
 
 # 一些注意点
 
