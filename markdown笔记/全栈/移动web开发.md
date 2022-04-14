@@ -338,3 +338,318 @@ div span:nth-child(2) {
 rem (root em)是一个相对单位，类似于em，em是父元素字体大小。不同的是rem的基准是相对于html元素的字体大小。比如，根元素（html）设置`font-size=12px;`非根元素设置`width:2rem;`则换成`px`表示就是`24px`
 
 rem的优势：父元素文字大小可能不一致， 但是整个页面只有一个html，可以很好来控制整个页面的元素大小
+
+## `@media`媒体查询
+
+媒体查询（Media Query）是CSS3新语法。
+
++ 使用 @media查询，可以针对不同的媒体类型定义不同的样式
++ @media 可以针对不同的屏幕尺寸设置不同的样式
++ 当你重置浏览器大小的过程中，页面也会根据浏览器的宽度和高度重新渲染页面 
++ 目前针对很多苹果手机、Android手机，平板等设备都用得到多媒体查询
+
+**媒体查询语法规范**
+
++ 用 `@media`开头。注意`@`符号
++ `mediatype`媒体类型
+  + `all`：用于所有设备
+  + `print`：用于打印机和打印预览
+  + `screen`：用于电脑屏幕，平板电脑，智能手机等
+
++ 关键字
+  + `and`：可以将多个媒体特性连接到一起，相当于“且”的意思
+  + `not`：排除某个媒体类型，相当于“非”的意思，可以省略
+  + `only`：指定某个特定的媒体类型，可以省略
+
++ `media feature`媒体特性必须有小括号包含。单位不能省略
+  + `width`：定义输出设备中页面可见区域的宽度
+  + `min-witdh`：定义输出设备中页面最小可见区域的宽度
+  + `max-width`：定义输出设备中页面最大可见区域的宽度
+
+
+```css
+@media mediatype and|not|only (media feature) {
+    CSS-Code;
+}
+/* 大于等于320的页面 */
+@media screen and (min-width: 320px) {
+    html {
+        font-size: 50px;
+    }
+}
+/* 大于等于640的页面 */
+@media screen and (min-width: 640px) {
+    html {
+        font-size: 100px;
+    }
+}
+
+.top {
+    height: 1rem;
+    font-size: .5rem;
+    background-color: green;
+    color: #fff;
+    text-align: center;
+    line-height: 1rem;
+}
+/* 通过引用资源的方法写 */
+/* 引入资源就是针对于不同的屏幕尺寸调用不同的css文件 */
+<link rel="stylesheet" href="style320.css" media="screen and (min-width: 320px)">
+<link rel="stylesheet" href="style640.css" media="screen and (min-width: 640px)">
+```
+
+注意： 为了防止混乱，媒体查询我们要按照从小到大或者从大到小的顺序来写，但是我们最喜欢的还是**从小到大**来写，这样通过后面的样式覆盖，代码更简洁
+
+![](..\图片笔记\前端\mobile web\媒体标签.png)
+
+## rem适配方案
+
+让一些不能等比自适应的元素，达到当设备尺寸发生改变的时候，等比例适配当前设备。使用媒体查询根据不同设备按比例设置html的字体大小，然后页面元素使用rem做尺寸单位，当html字体大小变化元素尺寸也会发生变化，从而达到等比缩放的适配
+
+技术方案：
+
+1. less+rem+媒体查询
+   - 假设设计稿是750px，我们把整个屏幕划分为15等份，每一份就是50px；在320px设备的时候，每一份320 / 15=21.33px。
+2. flexible.js+rem
+   - 手机淘宝团队出的简洁高效移动端适配库。它的原理是把当前设备划分为10等份，但是不同设备下，比例还是一致的。我们要做的，就是确定好我们当前设备的html文字大小就可以了。比如当前设计稿是750px， 那么我们只需要把html文字大小设置为75px(750px / 10) 就可以
+
+### 响应式布局
+
+响应式开发原理就是使用媒体查询针对不同宽度的设备进行布局和样式的设置，从而适配不同设备的目的
+
+响应式需要一个父级做为布局容器，来配合子级元素来实现变化效果。原理就是在不同屏幕下，通过媒体查询来改变这个布局容器的大小，再改变里面子元素的排列方式和大小，从而实现不同屏幕下，看到不同的页面布局和样式变化。
+
+父容器版心的尺寸划分
+
++ 超小屏幕（手机，小于 768px）：设置宽度为 100%
++ 小屏幕（平板，大于等于 768px）：设置宽度为 750px
++ 中等屏幕（桌面显示器，大于等于 992px）：宽度设置为 970px
++ 大屏幕（大桌面显示器，大于等于 1200px）：宽度设置为 1170px 
+
+# bootstrap
+
+Bootstrap来自Twitter（推特），是目前最受欢迎的前端框架。Bootstrap是基于HTML、CSS和JAVASCRIPT的，它简洁灵活，使得Web开发更加快捷
+
+bootstrap优点
+
+- 标准化的html+css编码规范
+- 提供了一套简洁、直观、强悍的组件
+- 有自己的生态圈，不断的更新迭代
+- 让开发更简单，提高了开发的效率
+
+使用bootstrap的样式库
+
+1. 在官网上下载bootstrap的源码
+2. 在html中引入`<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">`
+3. 在官网上查找bootstrap定义好的样式，修改时可以利用权重覆盖
+
+## bootstrap布局容器
+
+Bootstrap需要为页面内容和栅格系统包裹一个`.container`或者`.container-fluid`容器，它提供了两个作此用处的类
+
+`.container`
+
++ 响应式布局的容器 ，固定宽度
++ 大屏 ( >=1200px)-宽度定为 1170px
++ 中屏 ( >=992px)-宽度定为  970px
++ 小屏 ( >=768px)-宽度定为  750px
++ 超小屏  (100%) 
+
+`.container-fluid`
+
++ 流式布局容器，百分百宽度
++ 占据全部视口（viewport）的容器
+
+## bootstrap栅格系统
+
+Bootstrap提供了一套响应式、移动设备优先的流式栅格系统，随着屏幕或视口（viewport）尺寸的增加，系统会自动分为最多Bootstrap提供了一套响应式、移动设备优先的流式栅格系统，随着屏幕或视口（viewport）尺寸的增加，系统会自动分为最多**12**列
+
+栅格系统用于通过一系列的行（row）与列（column）的组合来创建页面布局，你的内容就可以放入这些创建好的布局中。
+
++ 按照不同屏幕划分为**1~12等份**
++ 行（row） 可以去除父容器`.container`作用15px的padding。必须先写行再写列。行必须放到`.container`布局容器里面
+  + 我们实现列的平均划分，需要给列添加类前缀：`col-xs-`：extra small超小； `col-sm-`：small小；  `col-md-`：medium中等； `col-lg-`：large大
+  + 如果一行中列的总份数相加等于12，则这一行能占满整个`.container`的宽度
+  + 如果一行中列的总份数相加小于12，则不能占满的地方会留空白
+  + 如果一行中列的总份数相加大于12，不能占满的那一列会另起一行
++ 每一列默认有左右15像素的padding
++ 可以同时为一列指定多个设备的类名，以便划分不同份数  例如`class="col-md-4 col-sm-6"`表示在小屏幕占6分在中等屏幕占4分
+
+![](..\图片笔记\前端\mobile web\bootstrap栅格系统类前缀.png)
+
+- 列嵌套：列嵌套加行包裹，这样可以取消父元素的padding值而且高度自动和父级一样高
+
+### 列偏移
+
+使用`.col-md-offset-*`类可以将列向右侧偏移。注意偏移的份数和其他列的份数和为12。本质上是给每个盒子加了margin值。
+
+### 列排序
+
+通过使用`.col-md-push-*`和`.col-md-pull-*`类就可以很容易的改变列（column）的顺序
+
+### 响应式工具
+
+为了加快对移动设备友好的页面开发工作，利用媒体查询功能，并使用这些工具类可以方便的针对不同设备展示或隐藏页面内容
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- 适配低版本IE -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- 一定不要忘记引入bootstrap 的样式文件 -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <title>Document</title>
+    <style>
+        [class^="col"] {
+            border: 1px solid #ccc;
+        }
+
+        .row:nth-child(1) {
+            background-color: pink;
+        }
+
+        .row:nth-child(2) .row {
+            background-color: green;
+        }
+
+        .row:last-child {
+            background-color: purple;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <!-- 适配不同大小的屏幕 -->
+            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">1</div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">2</div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">3</div>
+            <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">4</div>
+        </div>
+
+        <!-- 如果一行中列的总份数相加等于12，则这一行能占满整个.container的宽度 -->
+        <!-- 列嵌套：列嵌套加行包裹，这样可以取消父元素的padding值而且高度自动和父级一样高 -->
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="row">
+                    <div class="col-lg-4">a</div>
+                    <div class="col-lg-4">b</div>
+                    <div class="col-lg-4">c</div>
+                </div>
+            </div>
+            <div class="col-lg-2">2</div>
+            <div class="col-lg-2">3</div>
+            <div class="col-lg-2">4</div>
+        </div>
+
+        <!-- 列偏移 -->
+        <div class="row">
+            <div class="col-lg-2">a</div>
+            <div class="col-lg-2 col-lg-offset-3">b</div>
+            <div class="col-lg-2 col-lg-offset-3">c</div>
+        </div>
+
+        <!-- 如果一行中列的总份数相加小于12，则不能占满的地方会留空白 -->
+        <!-- 列排序 -->
+        <div class="row">
+            <div class="col-lg-6">1</div>
+            <div class="col-lg-2">2</div>
+            <div class="col-lg-2 col-lg-push-2">3</div>
+            <div class="col-lg-1 col-lg-pull-2">4</div>
+        </div>
+
+        <!-- 如果一行中列的总份数相加大于12，不能占满的那一列会另起一行 -->
+        <!-- 隐藏页面内容 -->
+        <div class="row">
+            <div class="col-lg-6">1</div>
+            <div class="col-lg-2 hidden-sm">小屏幕会消失，超小屏幕会出现</div>
+            <div class="col-lg-2 hidden-sm">小屏幕会消失，超小屏幕会出现</div>
+            <div class="col-lg-3 visible-lg">只在大屏幕显示</div>
+        </div>
+
+
+    </div>
+</body>
+
+</html>
+```
+
+
+
+# Less
+
+**CSS的弊端**
+
+CSS是一门非程序式语言，没有变量、函数、SCOPE（作用域）等概念
+
++ CSS需要书写大量看似没有逻辑的代码，CSS冗余度是比较高的
++ 不方便维护及扩展，不利于复用
++ CSS没有很好的计算能力
++ 非前端开发工程师来讲，往往会因为缺少CSS编写经验而很难写出组织良好且易于维护的CSS代码项目
+
+**Less介绍**
+
+Less（Leaner Style Sheets的缩写）是一门CSS扩展语言，也称为CSS预处理器
+
+做为CSS的一种形式的扩展，它并没有减少CSS的功能，而是在现有的CSS语法上，为CSS加入程序式语言的特性
+
+它在CSS 的语法基础之上，引入了变量，Mixin（混入），运算以及函数等功能，大大简化了 CSS 的编写，并且降低了 CSS的维护成本，就像它的名称所说的那样，Less可以让我们用更少的代码做更多的事情
+
+常见的CSS预处理器：Sass、Less、Stylus
+
+**Less安装**
+
+安装：`npm install -g less`
+
+查看版本：`lessc -v`
+
+## Less的使用
+
+可以安装VS Code插件Easy LESS，保存后会自动生成.css文件
+
+```less
+// 错误的变量名 @1color @color~@#
+// 变量名区分大小写 @color 和 @Color 是两个不同的变量
+// 定义一个粉色的变量
+@color: pink;  
+// 定义了一个字体为14像素的变量
+@font14: 14px;
+
+// less嵌套：子元素的样式直接写到父元素里面，如果有伪类、交集选择器、伪元素选择器，我们内层选择器的前面需要加 &
+.nav {
+    .logo {
+        color: green;
+    }
+    &::before {
+        content: "";
+    }
+}
+
+// less运算
+// 1. 运算符的左右两侧必须敲一个空格隔开
+// 2. 两个数参与运算，如果只有一个数有单位，则最后的结果就以这个单位为准
+// 3. 两个数参与运算，如果两个数都有单位，而且不一样的单位，最后的结果以第一个单位为准
+@baseFont: 50px;
+@border: 5px + 5;
+div {
+    width: 200px - 50;
+    height: (200px + 50px ) * 2;
+    border: @border solid red;
+    background-color: #666 - #222; // #444
+}
+img {
+    width: 82rem / @baseFont;
+    height: 82rem / @baseFont; // 结果为 (82/50)rem
+}
+
+```
+

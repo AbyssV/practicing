@@ -8,26 +8,13 @@ git update-git-for-windows
 ### git中的选项解释
 
 ```
--d
---delete：删除
-
--D
---delete --force的快捷键
-
--f
---force：强制
-
--m
---move：移动或重命名
-
--M
---move --force的快捷键
-
--r
---remote：远程
-
--a
---all：所有
+-d --delete：删除
+-D --delete --force的快捷键
+-f --force：强制
+-m --move：移动或重命名
+-M --move --force的快捷键
+-r --remote：远程
+-a --all：所有
 ```
 
 ### git config

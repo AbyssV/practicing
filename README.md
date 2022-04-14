@@ -1,18 +1,16 @@
-#### file structure
+This repository is used for self-learning, note taking and practicing with simple code snippets.
 
 
 
-#### online class recommendation
+# file structure
 
-https://www.coursera.org/specializations/biancheng-suanfa
-https://www.coursera.org/specializations/full-stack-mobile-app-development
-https://www.coursera.org/specializations/web-applications
-https://www.coursera.org/specializations/web-design
-https://www.coursera.org/learn/cpp-chengxu-sheji?specialization=biancheng-suanfa
-
-斯坦福cs229 cs230 cs231n
+- **code example**: useless in the current stage. will make it helpful in the future
+- **makedown笔记**: all the md notes I take from various online classes
+- **配置备份**: copy for configuration. used to configure settings in new machine
+- **图片笔记**: assets of markdown笔记. also has some extra mind maps
+- **遇到的问题.md**: common problems
 
 
 
-#### Other
+# Resources
 
