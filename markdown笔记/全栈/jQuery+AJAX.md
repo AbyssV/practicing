@@ -99,17 +99,17 @@ $('video').get(0).play()
 
 **基础选择器**
 
-![基础选择器](..\图片笔记\前端\jQuery\基础选择器.png)
+![基础选择器](../../图片笔记/前端/jQuery/基础选择器.png)
 
 **层级选择器**
 
-![层级选择器](..\图片笔记\前端\jQuery\层级选择器.png)
+![层级选择器](../../图片笔记/前端/jQuery/层级选择器.png)
 
 ### 筛选选择器
 
 ==注意这里是索引号==
 
-![筛选选择器](..\图片笔记\前端\jQuery\筛选选择器.png)
+![筛选选择器](../../图片笔记/前端/jQuery/筛选选择器.png)
 
 **筛选方法**
 
@@ -122,7 +122,7 @@ $('video').get(0).play()
 - `$(this).index();` 获取发生事件标签的索引
 - `$('li').has('ul').css('background-color', 'red')`：给含有`ul`的`li`加上背景色
 
-![筛选选择器的筛选方法](..\图片笔记\前端\jQuery\筛选选择器的筛选方法.png)
+![筛选选择器的筛选方法](../../图片笔记/前端/jQuery/筛选选择器的筛选方法.png)
 
 ## jQuery样式操作
 
@@ -227,7 +227,7 @@ jQuery 给我们封装了很多动画效果，最为常见的如下：
 
 ### 淡入淡出：`fadeIn()`/`fadeOut()`/`fadeToggle()`/`fadeTo()`
 
-![fadeTo](..\图片笔记\前端\jQuery\fadeTo.png)
+![fadeTo](../../图片笔记/前端/jQuery/fadeTo.png)
 
 ```javascript
 <body>
@@ -259,7 +259,7 @@ jQuery 给我们封装了很多动画效果，最为常见的如下：
 
 ### 自定义动画：`animate()`
 
-![animate](..\图片笔记\前端\jQuery\animate.png)
+![animate](../../图片笔记/前端/jQuery/animate.png)
 
 ```javascript
 <body>
@@ -519,7 +519,7 @@ element.html(""); // 清空匹配的元素内容
 
 jQuery尺寸操作包括元素宽高的获取和设置，且不一样的API对应不一样的盒子模型
 
-![尺寸操作](..\图片笔记\前端\jQuery\尺寸操作.png)
+![尺寸操作](../../图片笔记/前端/jQuery/尺寸操作.png)
 
 ```javascript
 <body>
@@ -546,11 +546,11 @@ jQuery尺寸操作包括元素宽高的获取和设置，且不一样的API对�
 
 jQuery的位置操作主要有三个：`offset()`、`position()`、`scrollTop()`/`scrollLeft()`
 
-![offset](..\图片笔记\前端\jQuery\offset.png)
+![offset](../../图片笔记/前端/jQuery/offset.png)
 
-![position](..\图片笔记\前端\jQuery\position.png)
+![position](../../图片笔记/前端/jQuery/position.png)
 
-![scroll](..\图片笔记\前端\jQuery\scroll.png)
+![scroll](../../图片笔记/前端/jQuery/scroll.png)
 
 ```javascript
 <body>
@@ -668,11 +668,11 @@ jQuery的位置操作主要有三个：`offset()`、`position()`、`scrollTop()`
 
 因为普通注册事件方法的不足，jQuery又创建了多个新的事件绑定方法`bind()`/`live()`/`delegate()`/`on()`等，其中最好用的是：`on()`
 
-![on1](..\图片笔记\前端\jQuery\on1.png)
+![on1](../../图片笔记/前端/jQuery/on1.png)
 
-![on2](..\图片笔记\前端\jQuery\on2.png)
+![on2](../../图片笔记/前端/jQuery/on2.png)
 
-![on3](..\图片笔记\前端\jQuery\on3.png)
+![on3](../../图片笔记/前端/jQuery/on3.png)
 
 ```javascript
 <script>
@@ -722,15 +722,15 @@ jQuery的位置操作主要有三个：`offset()`、`position()`、`scrollTop()`
 
 当某个事件上面的逻辑，在特定需求下不需要的时候，可以把该事件上的逻辑移除，这个过程我们称为事件解绑。jQuery为我们提供 了多种事件解绑方法：`die()`/`undelegate()`/`off()`等，甚至还有只触发一次的事件绑定方法`one()`，在这里我们重点讲解一下`off()`
 
-![off](..\图片笔记\前端\jQuery\off.png)
+![off](../../图片笔记/前端/jQuery/off.png)
 
 ### 事件处理`trigger()`自动触发事件
 
 有些时候，在某些特定的条件下，我们希望某些事件能够自动触发, 比如轮播图自动播放功能跟点击右侧按钮一致。可以利用定时器自动触发右侧按钮点击事件，不必鼠标点击触发。由此jQuery为我们提供了两个自动触发事件 `trigger()`和`triggerHandler()`
 
-![trigger](..\图片笔记\前端\jQuery\trigger.png)
+![trigger](../../图片笔记/前端/jQuery/trigger.png)
 
-![triggerHandler](..\图片笔记\前端\jQuery\triggerHandler.png)
+![triggerHandler](../../图片笔记/前端/jQuery/triggerHandler.png)
 
 ```javascript
 <script>

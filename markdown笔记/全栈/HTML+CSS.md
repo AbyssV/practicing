@@ -30,11 +30,11 @@ html是用来开发网页的，它是开发网页的语言。
 
 ## 文本格式化标签
 
-![html-文本格式化标签](..\图片笔记\前端\html\html-文本格式化标签.png)
+![html-文本格式化标签](../../图片笔记/前端/html/html-文本格式化标签.png)
 
 ## 特殊字符替换
 
-![html-特殊字符](..\图片笔记\前端\html\html-特殊字符.png)
+![html-特殊字符](../../图片笔记/前端/html/html-特殊字符.png)
 
 ## `<img>`标签和资源路径
 
@@ -113,7 +113,7 @@ html是用来开发网页的，它是开发网页的语言。
 
 ### 表单标签的`type`属性
 
-![html-表单标签type属性](..\图片笔记\前端\html\html-表单标签type属性.png)
+![html-表单标签type属性](../../图片笔记/前端/html/html-表单标签type属性.png)
 
 ## 插入ico图标
 
@@ -389,7 +389,7 @@ HTML5 拓展了哪些内容
 - CSS3特性
 - 性能与集成
 
-![html5-语义化标签](..\图片笔记\前端\html\html5-语义化标签.png)
+![html5-语义化标签](../../图片笔记/前端/html/html5-语义化标签.png)
 
 ## 多媒体标签
 
@@ -397,7 +397,7 @@ HTML5 拓展了哪些内容
 
 注意不同浏览器支持的格式不同，有的浏览器禁用了某些功能。通常我们为音频准备多个格式
 
-![html5-audio标签](..\图片笔记\前端\html\html5-audio标签.png)
+![html5-audio标签](../../图片笔记/前端/html/html5-audio标签.png)
 
 ```html
 <audio controls="controls">
@@ -408,7 +408,7 @@ HTML5 拓展了哪些内容
 
 ### `video`视频标签
 
-![html5-video标签](..\图片笔记\前端\html\html5-video标签.png)
+![html5-video标签](../../图片笔记/前端/html/html5-video标签.png)
 
 ```html
 <!-- 谷歌浏览器禁用了自动播放功能，如果想自动播放，需要添加 muted 属性 -->
@@ -423,11 +423,11 @@ HTML5 拓展了哪些内容
 
 ### 新增`input`标签
 
-![html5-input标签](..\图片笔记\前端\html\html5-input标签.png)
+![html5-input标签](../../图片笔记/前端/html/html5-input标签.png)
 
 ### 新增`input`属性
 
-![html5-input属性](..\图片笔记\前端\html\html5-input属性.png)
+![html5-input属性](../../图片笔记/前端/html/html5-input属性.png)
 
 # CSS
 
@@ -665,7 +665,7 @@ p{color:green;}
 }
 ```
 
-![pre-defined color names](..\图片笔记\前端\css\pre-defined color names.png)
+![pre-defined color names](../../图片笔记/前端/css/pre-defined color names.png)
 
 ## CSS布局常用样式属性
 
@@ -763,9 +763,9 @@ CSS 提供了3 种机制来设置盒子的摆放位置，分别是普通流（�
 
 因为父级盒子很多情况下，没有高度值，但是子盒子浮动就不占有位置，最后父级盒子高度为0，就影响了下面的标准流盒子，对后面的元素排版产生影响
 
-![清除浮动-正常标准盒子](..\图片笔记\前端\css\清除浮动-正常标准盒子.jpg)
+![清除浮动-正常标准盒子](../../图片笔记/前端/css/清除浮动-正常标准盒子.jpg)
 
-![清除浮动-子盒子浮动](..\图片笔记\前端\css\清除浮动-子盒子浮动.jpg)
+![清除浮动-子盒子浮动](../../图片笔记/前端/css/清除浮动-子盒子浮动.jpg)
 
 清除浮动的方法有
 
@@ -902,7 +902,7 @@ inline-block元素特点：
 - 盒子宽度 = width + padding左右 + border左右
 - 盒子高度 = height + padding上下 + border上下
 
-<img src="..\图片笔记\Python\hzmx.png" style="zoom:33%;" />
+<img src="../../图片笔记/Python/hzmx.png" style="zoom:33%;" />
 
 ### 外边距合并
 
@@ -918,7 +918,7 @@ inline-block元素特点：
 
 ，合并后的外边距为两者中的较大者
 
-![嵌套块元素垂直外边距的合并（塌陷）](..\图片笔记\前端\css\嵌套块元素垂直外边距的合并（塌陷）.png)
+![嵌套块元素垂直外边距的合并（塌陷）](../../图片笔记/前端/css/嵌套块元素垂直外边距的合并（塌陷）.png)
 
 解决方案：1.可以为父元素定义上边框 2.可以为父元素定义上内边距 3.可以为父元素添加`overflow:hidden`
 
@@ -947,18 +947,18 @@ inline-block元素特点：
   - 相对定位是元素相对于它原来在标准流中的位置来说的
   - 原来在标准流的区域继续占有，后面的盒子仍然以标准流的方式对待它
 
-![相对定位案例](..\图片笔记\前端\css\相对定位案例.png)
+![相对定位案例](../../图片笔记/前端/css/相对定位案例.png)
 
 - `absolute`：绝对定位
 
   - 完全不占位置，如果盒子中没有内容，需要指定宽度，不能通过设置 `margin: auto` 设置水平居中
   - 绝对定位是元素以带有定位的父级元素来移动位置。父级元素需要是相对定位
 
-  ![绝对定位_父级有定位](..\图片笔记\前端\css\绝对定位_父级有定位.png)
+  ![绝对定位_父级有定位](../../图片笔记/前端/css/绝对定位_父级有定位.png)
 
   - 父元素没有定位，则以浏览器为准定位（Document 文档）
 
-  ![绝对定位_父级无定位](..\图片笔记\前端\css\绝对定位_父级无定位.png)
+  ![绝对定位_父级无定位](../../图片笔记/前端/css/绝对定位_父级无定位.png)
 
 - `fixed`：固定定位
 
@@ -983,7 +983,7 @@ inline-block元素特点：
 1. `left: 50%;`：让盒子的左侧移动到父级元素的水平中心位置
 2. `margin-left: -100px;`：让盒子向左移动自身宽度的一半
 
-![绝对定位居中示意图](..\图片笔记\前端\css\绝对定位居中示意图.png)
+![绝对定位居中示意图](../../图片笔记/前端/css/绝对定位居中示意图.png)
 
 [^2]:能否打乱顺序
 
@@ -1007,7 +1007,7 @@ z-index 的特性如下：
 
 `vertical-align: baseline | top | middle | bottom `
 
-![垂直居中](..\图片笔记\前端\css\垂直居中.jpg)
+![垂直居中](../../图片笔记/前端/css/垂直居中.jpg)
 
 
 
@@ -1037,7 +1037,7 @@ broundground-size: 104px auto; /* length | percentage | auto | cover | contain *
 
 字体图标可以做出跟图片一样可以做的事情，改变透明度、旋转度等；但是本质其实是文字，可以很随意的改变颜色、产生阴影、透明效果等等；本身体积更小，但携带的信息并没有削减；几乎支持所有的浏览器；移动端设备必备良药
 
-![字体图标](..\图片笔记\前端\css\字体图标.png)
+![字体图标](../../图片笔记/前端/css/字体图标.png)
 
 ```html
 /*让所有斜体 不倾斜*/
@@ -1346,7 +1346,7 @@ Define “modern browsers”: IE9+, Edge, Opera 10+, Firefox 3.5+, Chrome, Safar
 
 ==类选择器，属性选择器，伪类选择器==权重为10
 
-![css3-属性选择器](..\图片笔记\前端\css\css3-属性选择器.png)
+![css3-属性选择器](../../图片笔记/前端/css/css3-属性选择器.png)
 
 ```css
 button[disabled]{}
@@ -1356,7 +1356,7 @@ div[class^="icon"]{}
 
 ### 结构伪类选择器
 
-![css3-结构伪类选择器](..\图片笔记\前端\css\css3-结构伪类选择器.png)
+![css3-结构伪类选择器](../../图片笔记/前端/css/css3-结构伪类选择器.png)
 
 `nth-child`参数详解
 
@@ -1367,7 +1367,7 @@ div[class^="icon"]{}
 - 常见的公式如下(如果`n`是公式，则从`0`开始计算)
 - 但是第`0`个元素或者超出了元素的个数会被忽略
 
-![css3-nth-child参数详解](..\图片笔记\前端\css\css3-nth-child参数详解.png)
+![css3-nth-child参数详解](../../图片笔记/前端/css/css3-nth-child参数详解.png)
 
 ```css
 /* 需要满足是span并且是div里的第一个子元素，所以不是span的标签不能选取出来 */
@@ -1378,7 +1378,7 @@ div span:first-of-type {}
 
 ### 伪元素选择器
 
-![css3-伪元素选择器](..\图片笔记\前端\css\css3-伪元素选择器.png)
+![css3-伪元素选择器](../../图片笔记/前端/css/css3-伪元素选择器.png)
 
 伪类选择器注意事项
 
@@ -1459,7 +1459,7 @@ transform:translate3d(x,y,z)
 - 透视的单位是像素
 - 透视需要写在被视察元素的父盒子上面（不是直接的父级也可以）
 
-![css3-perspective](..\图片笔记\前端\css\css3-perspective.png)
+![css3-perspective](../../图片笔记/前端/css/css3-perspective.png)
 
 ### 2d转换中心点`transform-origin`
 
@@ -1539,7 +1539,7 @@ transform: rotate3d(1, 1, 0, 45deg) /*沿x轴正方向和y轴正方向矢量和�
 
 ### 常用动画属性
 
-![css3-常用动画属性](..\图片笔记\前端\css\css3-常用动画属性.png)
+![css3-常用动画属性](../../图片笔记/前端/css/css3-常用动画属性.png)
 
 ### 动画属性简写
 
@@ -1557,13 +1557,13 @@ animation: name duration timing-function delay iteration-count direction fill-mo
 
 `animation-timing-function`规定动画的速度曲线，默认是`ease`，`transition`也有一样的函数
 
-![css3-速度曲线](..\图片笔记\前端\css\css3-速度曲线.png)
+![css3-速度曲线](../../图片笔记/前端/css/css3-速度曲线.png)
 
 ## @media
 
 [MDN文档](https://developer.mozilla.org/zh-CN/docs/Web/CSS/@media)
 
-![media types](..\图片笔记\前端\css\media types.png)
+![media types](../../图片笔记/前端/css/media types.png)
 
 # 浏览器私有前缀(Vendor Prefixes)
 

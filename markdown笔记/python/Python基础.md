@@ -2350,7 +2350,7 @@ SQL语句参数化
 - SQL语言中的参数使用`%s`来占位，此处不是python中的字符串格式化操作
 - 将SQL语句中`%s`占位所需要的参数存在一个列表中，把参数列表传递给`execute`方法中第二个参数
 
-![](../../图片笔记/Python/pymysql.png)
+<img src="../../图片笔记/Python/pymysql.png" style="zoom:50%;" />
 
 ```python
 import pymysql

@@ -64,7 +64,7 @@ const moment = require("moment");
 
 ==使用`require()`方法导入模块时，导入的结果，永远以`module.exports`指向的对象为准==
 
-![](..\图片笔记\前端\node\module_exports.png)
+![](../../图片笔记/前端/node/module_exports.png)
 
 ```javascript
 // main.js
@@ -613,7 +613,7 @@ Express的基本使用参考html内置模块
 
 每当一个请求到达服务器之后，需要先经过路由的匹配，只有匹配成功之后，才会调用对应的处理函数。在匹配时，**会按照路由的顺序进行匹配**，如果请求类型和请求的URL**同时**匹配成功，则Express会将这次请求，转交给对应的function函数进行处理
 
-![](..\图片笔记\前端\node\express_router.png)
+![](../../图片笔记/前端/node/express_router.png)
 
 ```javascript
 // 导入express
@@ -701,11 +701,11 @@ app.listen(80, () => {
 
 中间件（Middleware），特指业务流程的中间处理环节。当一个请求到达Express的服务器之后，可以连续调用多个中间件，从而对这次请求进行预处理
 
-![](..\图片笔记\前端\node\express_middleware.png)
+![](../../图片笔记/前端/node/express_middleware.png)
 
 Express的中间件，本质上就是一个function处理函数，注意：中间件函数的形参列表中，必须包含`next`参数。而路由处理函数中只包含`req`和`res`。`next`函数是实现多个中间件连续调用的关键，它表示把流转关系转交给下一个中间件或路由
 
-![](..\图片笔记\前端\node\express_middleware_function.png)
+![](../../图片笔记/前端/node/express_middleware_function.png)
 
 
 
