@@ -54,7 +54,7 @@ $('span'); // $('span')是一个jQuery对象
 console.dir($('div'));
 // 3. jQuery对象只能使用jQuery方法，DOM对象则使用原生的JavaScirpt属性和方法
 myDiv.style.display = 'none';
-// myDiv.hide(); myDiv是一个dom对象不能使用 jquery里面的hide方法
+// myDiv.hide(); myDiv是一个dom对象不能使用jquery里面的hide方法
 $('div').hide(); 
 //---------------------------------------------------------------------------------
 // 1. DOM对象转换成jQuery对象
@@ -93,9 +93,21 @@ $('video').get(0).play()
 
 使用`$(this)`可以方便绑定事件
 
+```javascript
+$(function() {
+    // 1. 隐式迭代 给所有的按钮都绑定了点击事件
+    $("button").click(function() {
+        // 2. 当前的元素变化背景颜色
+        $(this).css("background", "pink");
+        // 3. 其余的兄弟去掉背景颜色。修改兄弟元素的样式也是隐式迭代
+        $(this).siblings("button").css("background", "");
+    });
+})
+```
+
 ### 基础选择器+层级选择器
 
-可以和css选择器一起记忆
+和dom，css选择器必须一致
 
 **基础选择器**
 
@@ -111,18 +123,32 @@ $('video').get(0).play()
 
 ![筛选选择器](../../图片笔记/前端/jQuery/筛选选择器.png)
 
+`$(".j-checkbox:checked").parents(".cart-item").remove();`：删除所有`j-checkbox`中复选框类中选中的类的类名为`cart-item`的任意层级父级
+
 **筛选方法**
 
 - `parent()`：最近的父级
+  - `.parentNode`
+
 - `children()`：最近的全部子级
+  - `.children`
+
 - `parents("span")`：是父级（可以是非直系父级）且是span的元素。返回指定的祖先元素
 - `$('#box').prev();` 表示选择id是box元素的上一个的同级元素
+  - `.previousElementSibling`
+
 - `$('#box').next();` 表示选择id是box元素的下一个的同级元素
-- `$('#box').find('.myClass');` 表示选择id是box元素的class等于myClass的元素
-- `$(this).index();` 获取发生事件标签的索引
+  - `nextElementSibling`
+
+- `$('#box').find('.myClass');` Given a jQuery object that represents a set of DOM elements, the `.find()` method allows us to search through the descendants of these elements in the DOM tree and construct a new jQuery object from the matching elements. The `.find()` and `.children()` methods are similar, except that the latter only travels a single level down the DOM tree.
+- `$(this).index();` ==获取发生事件标签的索引（在事件中好用）==
 - `$('li').has('ul').css('background-color', 'red')`：给含有`ul`的`li`加上背景色
 
 ![筛选选择器的筛选方法](../../图片笔记/前端/jQuery/筛选选择器的筛选方法.png)
+
+index()的补充
+
+![index](../../图片笔记/前端/jQuery/index.png)
 
 ## jQuery样式操作
 
@@ -144,7 +170,7 @@ $(this).css({
     backgroundColor: "red"
     
 })
-$("p").css({ color: "red", font- size: 250 }); //错误！"font-size"必须加引号
+$("p").css({ color: "red", font-size: 250 }); //错误！"font-size"必须加引号
 ```
 
 ### 设置类样式方法（开发常用）
@@ -200,7 +226,7 @@ jQuery 给我们封装了很多动画效果，最为常见的如下：
 </body>
 ```
 
-### 划入划出：`slideDown()`/`slideUp()`/`slideToggle()`
+### 上下划入划出：`slideDown()`/`slideUp()`/`slideToggle()`
 
 ```javascript
 <body>
@@ -225,7 +251,7 @@ jQuery 给我们封装了很多动画效果，最为常见的如下：
 </body>
 ```
 
-### 淡入淡出：`fadeIn()`/`fadeOut()`/`fadeToggle()`/`fadeTo()`
+### 显示隐藏淡入淡出：`fadeIn()`/`fadeOut()`/`fadeToggle()`/`fadeTo()`
 
 ![fadeTo](../../图片笔记/前端/jQuery/fadeTo.png)
 
@@ -354,7 +380,7 @@ jQuery中为我们添加了一个新事件`hover()`，功能类似css中的伪�
 ### 数据缓存`data()`
 
 - `data()`方法可以在指定的元素上存取数据，并不会修改DOM元素结构。一旦页面刷新，之前存放的数据都将被移除
-- 在HTML5中添加了`data-*`的方式来自定义属性，所谓`data-*`实际上上就是`data-*`前缀加上自定义的属性名，使用这样的结构可以进行数据存放。使用`data-*`可以解决自定义属性混乱无管理的现状。可以看这篇[blog](https://blog.csdn.net/qq_27674439/article/details/90696837)
+- 在HTML5中添加了`data-*`的方式来自定义属性，所谓`data-*`实际上就是`data-*`前缀加上自定义的属性名，使用这样的结构可以进行数据存放。使用`data-*`可以解决自定义属性混乱无管理的现状。可以看这篇[blog](https://blog.csdn.net/qq_27674439/article/details/90696837)
 
 ```javascript
 // 元素固有属性prop()
@@ -461,7 +487,7 @@ $.each(object, function(index, Ele){})
                 age: 18
             }, function(i, ele) {
                 console.log(i); // 输出的是 name age 属性名
-                console.log(ele); // 输出的是 andy  18 属性值
+                console.log(ele); // 输出的是 andy 18 属性值
             })
         })
     </script>
@@ -476,7 +502,7 @@ $.each(object, function(index, Ele){})
 $("<li></li>"); // 动态地创建了一个li
 /* 2.1 内部添加，生成之后，他们是父子关系 */
 element.append(""); // 把内容放入匹配元素内部最后面，类似原生appendChild
-element.prepend(""); // 把内容放入匹配元素内部最前面
+element.prepend(""); // 把内容放入匹配元素内部最前面，类似原生insertBefore
 /* 2.2 外部添加，生成之后，他们是兄弟关系 */
 element.after(""); // 把内容放入匹配元素外部后面
 element.before(""); // 把内容放入匹配元素外部前面
@@ -572,15 +598,16 @@ jQuery的位置操作主要有三个：`offset()`、`position()`、`scrollTop()`
 			});
 
 			// 2. 获取距离带有定位父级位置（偏移）position。如果没有带有定位的父级，则以文档为准
-			// 这个方法只能获取不能设置偏移
+			// ！这个方法只能获取不能设置偏移
 			console.log($(".son").position());
 
 
 			// 3. 被卷去的头部
 			$(document).scrollTop(100);
 			// 被卷去的头部 scrollTop()  / 被卷去的左侧 scrollLeft()
-			// 页面滚动事件
+			// 获取距离顶部的距离
 			var boxTop = $(".container").offset().top;
+            // 发生页面滚动事件时 
 			$(window).scroll(function () {
 				console.log($(document).scrollTop());
 				if ($(document).scrollTop() >= boxTop) {
@@ -591,13 +618,14 @@ jQuery的位置操作主要有三个：`offset()`、`position()`、`scrollTop()`
 			});
 			// 返回顶部
 			$(".back").click(function () {
-				// $(document).scrollTop(0);
+				// 给body和html元素做动画
 				$("body, html").stop().animate({
 					scrollTop: 0
 				});
+                // 不是给文档做动画，所以这个写法是错误的
 				// $(document).stop().animate({
 				//     scrollTop: 0
-				// }); 不能是文档而是 html和body元素做动画
+				// }); 
 			})
 		})
     </script>
@@ -625,13 +653,13 @@ jQuery的位置操作主要有三个：`offset()`、`position()`、`scrollTop()`
 - `keyup()`当按钮被松开时，发生 keyup 事件。它发生在当前获得焦点的元素上。
 
 
-  注释：如果在文档元素上进行设置，则无论元素是否获得焦点，该事件都会发生
+注释：如果在文档元素上进行设置，则无论元素是否获得焦点，该事件都会发生
 
 - `resize()`当调整浏览器窗口的大小时，发生 resize 事件
 
 - `scroll()`获取匹配元素相对滚动条顶部的偏移。此方法对可见和隐藏元素均有效
 
-事件代理就是利用事件冒泡的原理(事件冒泡就是事件会向它的父级一级一级传递),把事件加到父级上，通过判断事件来源，执行相应的子元素的操作，事件代理首先可以极大减少事件绑定次数，提高性能；其次可以让新加入的子元素也可以拥有相同的操作。
+事件代理就是利用事件冒泡的原理(事件冒泡就是事件会向它的父级一级一级传递)==把事件加到父级上==，通过判断事件来源，执行相应的子元素的操作，事件代理首先可以极大减少事件绑定次数，提高性能；其次可以让新加入的子元素也可以拥有相同的操作。
 
 事件冒泡：当一个元素接收到事件的时候 会把他接收到的事件传给自己的父级，一直到window（注意这里传递的仅仅是事件 并不传递所绑定的事件函数。所以如果父级没有绑定事件函数，就算传递了事件 也不会有什么表现 但事件确实传递了）点击事件给页面显示出来的位置是没关系的，而是跟html代码中的位置有关系
 
@@ -642,23 +670,19 @@ jQuery的位置操作主要有三个：`offset()`、`position()`、`scrollTop()`
 
 ```javascript
 <script>
-    // 普通事件注册
-    /*
-    element.事件(function{}())
-    */
     $(function() {
-        // 1. 单个事件注册
+        // 单个事件注册
         $("div").click(function() {
-        $(this).css("background", "purple");
+        	$(this).css("background", "purple");
         });
         $("div").mouseenter(function() {
-        $(this).css("background", "skyblue");
+        	$(this).css("background", "skyblue");
         });
     })
 </script>
 ```
 
-​	因为普通注册事件方法的不足，jQuery又开发了多个处理方法，重点讲解如下：
+因为普通注册事件方法的不足，jQuery又开发了多个处理方法，重点讲解如下：
 
 - `on()`：用于事件绑定，目前最好用的事件绑定方法
 - `off()`：事件解绑
@@ -677,37 +701,38 @@ jQuery的位置操作主要有三个：`offset()`、`position()`、`scrollTop()`
 ```javascript
 <script>
     $(function() {
-    // (1) on可以绑定1个或者多个事件处理程序
-    // $("div").on({
-    //     mouseenter: function() {
-    //         $(this).css("background", "skyblue");
-    //     },
-    //     click: function() {
-    //         $(this).css("background", "purple");
-    //     }
-    // });
-    // 如果事件处理程序相同
+     // (1.1) on可以绑定1个或者多个事件处理程序
+     $("div").on({
+         mouseenter: function() {
+             $(this).css("background", "skyblue");
+         },
+         click: function() {
+             $(this) .css("background", "purple");
+         }
+     });
+    // (1.2) 如果事件处理程序相同
     $("div").on("mouseenter mouseleave", function() {
         $(this).toggleClass("current");
     });
 
     // (2) on可以实现事件委托（委派）
-    // click 是绑定在ul 身上的，但是 触发的对象是 ul 里面的小li
-    // $("ul li").click();
+    // click 是绑定在ul身上的，但是触发的对象是ul里面的li
     $("ul").on("click", "li", function() {
         alert(11);
     });
 
     // (3) on可以给未来动态创建的元素绑定事件
-    $("ol").on("click", "li", function() {
-        alert(11);
+    $("ol").on("click", "a", function() {
+        $(this).parent().slideUp(function(){
+            $(this).remove();
+        })
     })
-    var li = $("<li>我是后来创建的</li>");
-    $("ol").append(li);
+    var a = $("<a href='javascript:;'>删除</a>");
+    $("ol").append(a);
 //---------------------------------------------------------------------------------
     // 1. 事件解绑 off 
-    // $("div").off();  // 这个是解除了div身上的所有事件
-    $("div").off("click"); // 这个是解除了div身上的点击事件
+     $("div").off();  // 解除了div身上的所有事件
+    $("div").off("click"); // 解除了div身上的点击事件
     $("ul").off("click", "li"); // 解绑事件委托
 
     // 2. one() 但是它只能触发事件一次
@@ -735,19 +760,24 @@ jQuery的位置操作主要有三个：`offset()`、`position()`、`scrollTop()`
 ```javascript
 <script>
     $(function() {
+      // 先使用on绑定事件 
+      $("div").on("click", function(){
+          alert(11);
+      })
+    
       // 自动触发事件
       // 1. 元素.事件()
       $("div").click() // 会触发元素的默认行为
-      
       // 2. 元素.trigger("事件")
       $("input").trigger("focus"); // 会触发元素的默认行为
       
-      // 3. 元素.triggerHandler("事件") 就是不会触发元素的默认行为
+      // 3. 元素.triggerHandler("事件")，但是不会触发元素的默认行为。
       $("input").on("focus", function() {
-        $(this).val("你好吗"); /
+        $(this).val("你好吗"); 
       });
-      // 一个会获取焦点，一个不会
-      // 获取焦点时，会出现文字但是光标不会闪烁
+      // 文本框的默认行为是获取焦点时会有光标闪烁
+      $("input").trigger("focus"); 
+      // 用triggerHandler会出现文字但是光标不会闪烁
       $("div").triggerHandler("click");
     });
 </script>
@@ -757,142 +787,141 @@ jQuery的位置操作主要有三个：`offset()`、`position()`、`scrollTop()`
 
 jQuery对DOM中的事件对象event进行了封装，兼容性更好，获取更方便，使用变化不大。事件被触发，就会有事件对象的产生
 
-![event](D:\百度云\网课\web前端自学\【27】源码+课件+软件\07-10 JavaScript网页编程\09-jQuery快速开发资料\jQuery_day03\4-笔记\images\event.png)
-
-
-
-# JSON
-
-json是JavaScript Object Notation的首字母缩写，翻译过来就是javascript对象表示法，这里说的json就是**类似于javascript对象的字符串**，它同时是一种**数据格式**，目前这种数据格式比较流行，逐渐替换掉了传统的xml数据格式，web开发的时候经常使用json数据格式
-
-json有两种格式：
-
-1. 对象格式：对象格式的json数据，使用一对大括号`{}`，大括号里面放入`key:value`形式的键值对，多个键值对使用逗号分隔。
-   - json中的(key)属性名称和字符串值需要用==**双引号**==引起来，用单引号或者不用引号会导致读取数据错误。
-2. 数组格式
-   - 数组格式的json数据，使用一对中括号`[]`，中括号里面的数据使用逗号分隔。
+![event](../../图片笔记/前端/jQuery/event.png)
 
 ```javascript
-// 对象格式的json数据:
-{
-    "name":"tom",
-    "age":18
-}
-// 数组格式的json数据:
-["tom",18,"programmer"]
-
-// json数据转换成JavaScript对象
-// json本质上是字符串，如果在js中操作json数据，可以将json字符串转化为JavaScript对象
-var sJson = '{"name":"tom","age":18}';
-var oPerson = JSON.parse(sJson);
-// 操作属性
-alert(oPerson.name);
-alert(oPerson.age)
-var sJson2 = '[{"name":"张三","age":20},{"name":"李四","age":21}]'
-var aArray = JSON.parse(sJson2);
-console.log(aArray);
-//通过下标获取js对象，然后通过js对象获取name属性
-var oPerson = aArray[1];
-document.write(oPerson.name);
+<div></div>
+// 防止事件冒泡，不会出现两次
+$(function() {
+    $(document).on("click", function() {
+        console.log("点击了document");
+    })
+    $("div").on("click", function(event) {
+        // console.log(event);
+        console.log("点击了div");
+        event.stopPropagation();
+    })
+})
 ```
 
-# AJAX
+## jQuery拷贝对象
 
-ajax 是 Asynchronous JavaScript and XML的简写，ajax是一个前后台配合的技术，它可以让 javascript 发送**异步的http请求（同时发送多个请求，不用等待）**，与后台通信进行数据的获取，ajax 最大的优点是**实现局部刷新**，ajax可以发送http请求，当获取到后台数据的时候更新页面显示数据实现局部刷新，在这里大家只需要记住，当前端页面想和后台服务器进行数据交互就可以使用ajax了。
+jQuery中分别为我们提供了两套快速获取和设置元素尺寸和位置的API，方便易用
 
-这里提示一下大家，**==在html页面使用ajax需要在web服务器环境下运行==, 一般向自己的web服务器发送ajax请求。**
+![extend](../../图片笔记/前端/jQuery/extend拷贝对象.png)
 
-## AJAX的使用
+```javascript
+$(function() {
+    // 1.合并数据
+    var targetObj = {};
+    var obj = {
+        id: 1,
+        name: "andy"
+    };
+    $.extend(targetObj, obj);
+    console.log(targetObj);
+
+    // 2. 会覆盖targetObj里面原来的数据
+    // 3. 浅拷贝复制地址，深拷贝开辟新的内存空间（不冲突的属性，不会覆盖）
+    var targetObj = {
+        id: 0,
+        msg:{
+            sex: "男",
+        }
+    };
+    var obj = {
+        id: 1,
+        name: "andy",
+        msg:{
+        	age: 18,
+    	}
+    };
+    $.extend(true, targetObj, obj);
+    console.log(targetObj); // msg:{sex:"男",age:18}
+    targetObj.msg.age = 20;
+    console.log(targetObj);  // msg:{sex:"男",age:20}
+    console.log(obj); // msg:{age:18} 
+})
+```
+
+## jQuery多库共存
+
+实际开发中，很多项目连续开发十多年，jQuery版本不断更新，最初的 jQuery 版本无法满足需求，这时就需要保证在旧有版本正常运行的情况下，新的功能使用新的jQuery版本实现，这种情况被称为，jQuery 多库共存
+
+![noconfig](../../图片笔记/前端/jQuery/noconfig多库共存.png)
 
 ```html
 <script>
-    // 向服务器发送ajax请求，本质上是一个http协议的请求
-    $.ajax({
-        // 请求的资源地址，不指定ip地址和端口号表示请求的是自己的服务器资源数据
-        url:"data.json",
-        // 请求方式，默认是'GET'，常用的还有'POST'
-        type:"GET",
-        // 指定对服务器数据的解析格式，常用的是'json'格式
-        dataType:"JSON",
-        // data：表示发送给web服务器的数据, 没有数据不需要设置
-        // 设置请求成功后的执行的函数
-        success:function (response) {
-            console.log(response.name);    
-            // 数据请求回来以后可以绑定给html中的某个标签控件，实现局部刷新
-        },
-        // 设置请求失败后的执行的函数
-        error:function () {
-            alert("请求失败,请稍后再试!");
-        },
-        // async 设置是否异步，默认值是'true'，表示异步，一般不用写
-        async:true
-    });
+	$(function() {
+  		// 让jquery 释放对$ 控制权 让用自己决定
+  		var suibian = jQuery.noConflict();
+  		console.log(suibian("span"));
+	})
 </script>
 ```
 
-### ajax的简写方式
+## jQuery插件
 
-`$.ajax`按照请求方式可以简写成`$.get`或者`$.post`方式
+jQuery功能比较有限，想要更复杂的特效效果，可以借助于jQuery插件完成。 这些插件也是依赖于jQuery来完成的，所以必须要先引入jQuery文件
 
-`$.get`和`$.post`方法的参数说明:
+**jQuery插件常用的网站：**
 
-`$.get(url,data,success(data, status, xhr),dataType).error(func)`
+1. [jQuery 插件库](http://www.jq22.com/)     
+2. [jQuery 之家](http://www.htmleaf.com/)
 
-`$.post(url,data,success(data, status, xhr),dataType).error(func)`
+**jQuery插件使用步骤：**
 
-1. `url`请求地址
-2. `data`设置发送给服务器的数据，没有数据不需要设置
-3. `success`设置请求成功后的回调函数
-   - `data`请求的结果数据
-   - `status`请求的状态信息, 比如: `success`
-   - `xhr`底层发送http请求XMLHttpRequest对象
-4. `dataType`设置返回的数据格式
-   - `xml`
-   - `html`
-   - `text`
-   - `json`
-5. `error`表示错误异常处理
-   - `func`错误异常回调函数
+1. 引入相关文件（先引入jQuery文件再引用插件文件）    
 
-```html
- <script>
-    $(function(){
-        /*
-         1. url 请求地址
-         2. data 设置发送给服务器的数据, 没有参数不需要设置
-         3. success 设置请求成功后的回调函数
-         4. dataType 设置返回的数据格式，常用的是'json'格式, 默认智能判断数据格式
-        */ 
-       // 使用get方式发送请求，name=李四会以?name=李四&..&..的形式出现在地址栏后
-        $.get("data.json", {"name":"李四"}, function(dat,status){
-            console.log(dat.name);
-            console.log(status);
-        }).error(function(){
-            alert("网络异常");
-        });
+2. 复制相关html、css、js（调用插件）
 
-        /*
-         1. url 请求地址
-         2. data 设置发送给服务器的数据, 没有参数不需要设置
-         3. success 设置请求成功后的回调函数
-         4. dataType 设置返回的数据格式，常用的是'json'格式, 默认智能判断数据格式
-        */ 
-       // 使用post方式发送请求，name=李四会出现在请求体内
-       // 这里没有指定http协议头和ip地址和端口号，那么默认ajax请求会自动帮我们加上
-       // 如果请求的是自己的web服务器可以不要加上http协议地址，请求别人服务器的数据需要加上http协议地址
-        $.post("http://localhost:8000/data.json", {"name":"李四"}, function(data){
-            alert(data.name); 
-            console.log(data.time); 
-        }, "json").error(function(){
-            alert("网络异常");
-        }); 
-    });
+**示例**
+
+1. 瀑布流插件
+2. 图片懒加载插件
+3. [全屏滚动插件](http://www.dowebok.com/demo/2014/77/)
+4. bootstrap组件
+
+### bootstrap组件
+
+bootstrap是Twitter公司设计的基于HTML、CSS、JavaScript开发的简洁、直观、强悍的前端开发框架，他依靠jQuery实现，且支持响应式布局，使得Web开发更加方便快捷
+
+凡是在软件开发中用到了软件的复用，被复用的部分都可以称为组件，凡是在应用程序中已经预留接口的组件就是插件。bootstrap组件使用非常方便:  1.引入bootstrap相关css和js2.去官网复制html
+
+1. 引入bootstrap相关css和js
+
+```javascript
+<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+<script src="bootstrap/js/jquery.min.js"></script>
+<script src="bootstrap/js/bootstrap.min.js"></script>
+```
+
+2. 去官网复制html的功能模块
+
+```javascript
+<!-- Large modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg">Large modal</button>
+<div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            里面就是模态框
+        </div>
+    </div>
+</div>
+```
+
+3. 复制js代码，启动js插件
+
+```javascript
+<script>
+	// 当我们点击了自己定义的按钮，就弹出模态框
+	$(".myBtn").on("click", function() {
+		$('#btn').modal()
+	})
 </script>
 ```
 
-
-
-## 其他方法
+# 其他方法
 
 ```javascript
 var price = (p * n).toFixed(2); // 保留两位小数
@@ -915,3 +944,4 @@ if ($(".j-checkbox:checked").length === $(".j-checkbox").length) {
 
 ```
 
+ 

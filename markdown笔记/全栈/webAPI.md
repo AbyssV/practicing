@@ -2,6 +2,19 @@
 
 API（Application Programming Interface，应用程序编程接口）是一些预先定义的函数，目的是提供应用程序与开发人员基于某软件或硬件得以访问一组例程的能力，而又无需访问源码，无需理解其内部工作机制细节，只需直接调用使用即可。Web API是浏览器提供的一套操作浏览器功能和页面元素的API (BOM和DOM)
 
+# 立即执行函数
+
+立即执行函数最大的作用就是创建了一个独立的作用域，里面的变量都是局部变量
+
+```javascript
+var a = 1;
+var b = 2;
+(function(param1, param2) {})(a, b); // 多个立即执行函数必须用分号隔开 
+(function(param1, param2){}(a, b));
+// 举例
+(function(window, document){}(window, document))
+```
+
 # DOM
 
 文档对象模型（Document Object Model，简称DOM），是[W3C](https://baike.baidu.com/item/W3C)组织推荐的处理[可扩展标记语言](https://baike.baidu.com/item/%E5%8F%AF%E6%89%A9%E5%B1%95%E7%BD%AE%E6%A0%87%E8%AF%AD%E8%A8%80)（html或者xhtml）的标准[编程接口](https://baike.baidu.com/item/%E7%BC%96%E7%A8%8B%E6%8E%A5%E5%8F%A3)。
@@ -32,7 +45,7 @@ document.getElementsByName();
 
 // H5新增获取元素方式
 document.getElementsByClassName('类名') // 根据类名返回元素对象集合
-document.querySelector('选择器') // 根据指定选择器返回第一个元素对象，选择器需要加符号
+document.querySelector('选择器') or element.querySelector('选择器')// 根据指定选择器返回第一个元素对象，选择器需要加符号
 document.querySelectorAll('选择器') // 根据指定选择器返回，选择器需要加符号
 
 // 获取特殊元素
@@ -120,6 +133,11 @@ test.onclick = function() {
     // this.className = 'change';
     this.className = 'first change';
 }
+
+// 使用classList添加，移除和切换类。注意所有类名不带点
+focus.classList.add('current'); // 添加，在后面追加类名不会覆盖以前的类名
+focus.classList.remove('current'); // 移除
+focus.classList.toggle('current'); // 切换。如果没有就添加，如果有就删除这个类
 ```
 
 #### 排他思想
@@ -182,7 +200,7 @@ test.onclick = function() {
 		console.log(div.dataset); // DOMStringMap
 		console.log(div.dataset.index); // 2
 		console.log(div.dataset['index']); //2  
-		// 如果自定义属性里面有多个-链接的单词，我们获取的时候采取驼峰命名法
+		// 如果自定义属性里面有多个-链接的单词，我们获取的时候采取驼峰命名法。只能取data
 		console.log(div.dataset.listName); // andy
 		console.log(div.dataset['listName']); // andy
 	</script>
@@ -271,9 +289,9 @@ HTML DOM 树中的所有节点均可通过JavaScrip 进行访问，所有HTML元
 | document.write | appendChild  | removeChild | 修改元素属性：src/href/title          | getElementById/getElementsByTagName/getElementsByClassName/getElementsByName | getAttribute    |
 | innerHTML      | insertBefore |             | 修改普通元素内容：innerHTML/innerText | querySelector/querySelectorAll(推荐)                         | setAttribute    |
 | createElement  |              |             | 修改表单元素：value/type/disabled     | parentNode                                                   | removeAttribute |
-|                |              |             | 修改元素样式：style/className         | childNodes/children(推荐)                                    |                 |
-|                |              |             | replaceChild                          | firstChild/lastChild/firstElementChild(推荐)/lastElementChild(推荐) |                 |
-|                |              |             |                                       | previousSibling/nextSibling/previousElementSibling(推荐)/nextElementSibling(推荐) |                 |
+|                |              |             | 修改元素样式：style/className         | childNodes/**children**(推荐)                                |                 |
+|                |              |             | replaceChild                          | firstChild/lastChild**/firstElementChild**(推荐)/**lastElementChild**(推荐) |                 |
+|                |              |             |                                       | previousSibling/nextSibling/**previousElementSibling**(推荐)/**nextElementSibling**(推荐) |                 |
 |                |              |             |                                       |                                                              |                 |
 |                |              |             |                                       |                                                              |                 |
 |                |              |             |                                       |                                                              |                 |
@@ -331,7 +349,7 @@ HTML DOM 树中的所有节点均可通过JavaScrip 进行访问，所有HTML元
         // lastChild属性返回childNodes数组的最后一个子节点。如果选定的节点没有子节点，则该属性返回NULL。与elementNode.childNodes[elementNode.childNodes.length-1]是同样的效果
 		console.log(box.lastChild); // #text "\n\t\t"
         
-         // 实际开发中，firstChild和lastChild包含其他节点，操作不方便，而firstElementChild和lastElementChild又有兼容性问题，所以我们用parentNode,children[0]和parentNode.children[parentNode.children.length-1]获得第一个和最后一个元素节点
+         // 实际开发中，firstChild和lastChild包含其他节点，操作不方便，而firstElementChild和lastElementChild又有兼容性问题，所以我们用parentNode.children[0]和parentNode.children[parentNode.children.length-1]获得第一个和最后一个元素节点
         // parentNode.firstElementChild返回第一个元素子节点，找不到则返回null
         console.log(box.firstElementChild); // li
 		
@@ -528,7 +546,7 @@ father.addEventListener('click', function () {
     alert('father');
 }, false);
 document.addEventListener('click', function () {
-    alert('document'); // 先alert son再alert father和document
+    alert('document'); // 点击son元素时，先alert son再alert father，document
 })
 ```
 
@@ -599,10 +617,9 @@ div.onclick = function(e) {
 #### `e.target`和`this`的区别
 
 -  `this`是事件绑定的元素（绑定这个事件处理函数的元素） 
-
 -  `e.target`是事件触发的元素
 
-正常情况下`terget`和`this`是一致的，但有一种情况不同，那就是在事件冒泡时（父子元素有相同事件，单击子元素，父元素的事件处理函数也会被触发执行），这时候`this`指向的是父元素，因为它是绑定事件的元素对象，而`target`指向的是子元素，因为他是触发事件的那个具体元素对象
+>正常情况下`terget`和`this`是一致的，但有一种情况不同，那就是在事件冒泡时（父子元素有相同事件，单击子元素，父元素的事件处理函数也会被触发执行），这时候`this`指向的是父元素，因为它是绑定事件的元素对象，而`target`指向的是子元素，因为他是触发事件的那个具体元素对象
 
 ```javascript
 <ul>
@@ -706,15 +723,17 @@ div.onclick = function(e) {
 </script>
 ```
 
-
-
-
-
 ## 常见的事件
 
 ### 常见鼠标事件
 
 ![常用鼠标事件](../../图片笔记/前端/webAPI/常用鼠标事件.png)
+
+当鼠标移动到元素上时就会触发`mouseenter`和`mouseover`事件，它们两者的区别是
+
+- `mouseover`鼠标经过自身盒子会触发，经过子盒子还会触发。`mouseenter`只会经过自身盒子触发
+- 之所以这样，就是因为`mouseenter`不会冒泡
+- 跟`mouseenter`搭配鼠标离开`mouseleave`同样不会冒泡
 
 ### 鼠标事件对象
 
@@ -864,7 +883,7 @@ BOM缺乏标准，JavaScript语法的标准化组织是ECMA，DOM的标准化组
 <button>点击</button>
 	<script>
 		// this指向问题，一般情况下this的最终指向的是那个调用它的对象
-		// 1. 全局作用域或者普通函数中this指向全局对象window（ 注意定时器里面的this指向window）
+		// 1. 全局作用域或者普通函数中this指向全局对象window（注意定时器里面的this指向window）
 		console.log("全局作用域" + this); // Window
 		function fn() {
 			console.log("普通函数" + this);
@@ -872,7 +891,7 @@ BOM缺乏标准，JavaScript语法的标准化组织是ECMA，DOM的标准化组
 		window.fn(); // Window
 		window.setTimeout(function () {
 			console.log("定时器" + this);
-		}, 0);  //<--不随机，总是最后一个显示（可能是等页面加载完成才会调用的函数？）
+		}, 0);  //<--不随机，总是最后一个显示
 
 		// 2. 方法调用中谁调用this指向谁
 		var o = {
@@ -915,15 +934,59 @@ BOM缺乏标准，JavaScript语法的标准化组织是ECMA，DOM的标准化组
 
 `navigator`对象包含有关浏览器的信息，它有很多属性，我们最常用的是`userAgent`，该属性可以返回由客户机发送服务器的`user-agent`头部的值
 
-下面前端代码可以判断用户那个终端打开页面，实现跳转
-
 ## `history`对象
 
 window对象给我们提供了一个`history`对象，与浏览器历史记录进行交互。该对象包含用户（在浏览器窗口中）访问过的URL
 
 ![history对象方法](../../图片笔记/前端/webAPI/history对象方法.png)
 
-# 其他事件对象
+## 元素偏移量offset
+
+使用offset系列相关属性可以==动态==的得到该元素的位置（偏移）、大小。注意：返回的数值都不带单位
+
+![offset](../../图片笔记/前端/webAPI/offset.png)
+
+### offset与style区别 
+
+**offset**
+
+- offset 可以得到任意样式表中的样式值
+- offset 系列获得的数值是没有单位的
+- offsetWidth 包含padding+border+width
+- offsetWidth 等属性是只读属性，只能获取不能赋值
+
+**style**
+
+- style 只能得到行内样式表中的样式值
+- style.width 获得的是带有单位的字符串
+- style.width 获得不包含padding和border 的值
+- style.width 是可读写属性，可以获取也可以赋值
+
+我们想要获取元素大小位置，用offset更合适，给元素更改值，则需要用style改变
+
+## 元素可视区client
+
+我们使用client系列的相关属性来获取元素可视区的相关信息。通过client系列的相关属性可以动态的得到该元素的边框大小、元素大小等
+
+![client](../../图片笔记/前端/webAPI/client.png)
+
+## 元素滚动scroll 
+
+我们使用scroll系列的相关属性可以动态的得到该元素的大小、滚动距离等
+
+![scroll](../../图片笔记/前端/webAPI/scroll.png)
+
+页面被卷去的头部：如果浏览器的高（或宽）度不足以显示整个页面时，会自动出现滚动条。当滚动条向下滚动时，页面上面被隐藏掉的高度，我们就称为页面被卷去的头部。滚动条在滚动时会触发onscroll事件
+
+![scroll](../../图片笔记/前端/webAPI/scroll案例.png)
+
+页面被卷去的头部：`window.pageYOffset`，元素被卷去的头部：`element.scrollTop`
+
+页面被卷去的左侧：`window.pageXOffset`，元素被卷去的左侧：`element.scrollWidth`
+
+滚动至特定位置`window.scroll(x,y)`
+
+## 其他事件对象
 
 ```javascript
 onchange // 文本框内容改变
@@ -931,6 +994,26 @@ onselect // 文本框内容被选中
 
 onunload // 关闭网页
 ondblclick // 双击事件
+
+transitionend // 过渡完毕发生
+
+/* pageshow事件
+下面三种情况都会刷新页面都会触发load事件
+1.a标签的超链接
+2.F5或者刷新按钮（强制刷新）
+3.前进后退按钮
+
+但是火狐中有个“往返缓存”，这个缓存中不仅保存着页面数据，还保存了DOM和JavaScript的状态；实际上是将整个页面都保存在了内存里。所以此时后退按钮不能刷新页面。
+
+此时可以使用pageshow事件来触发。这个事件在页面显示时触发，无论页面是否来自缓存。在重新加载页面中，pageshow会在load事件触发后触发；根据事件对象中的persisted来判断是否是缓存中的页面触发的pageshow事件
+
+注意这个事件给window添加。
+*/
+window.addEventListener('pageshow', function(e){
+    if (e.persisted) {
+        dosomething
+    }
+})
 
 
 // 浏览器对象方法
@@ -984,4 +1067,161 @@ window.screen.height
 window.screen.width
 ```
 
-# 
+# 本地存储
+
+随着互联网的快速发展，基于网页的应用越来越普遍，同时也变的越来越复杂，为了满足各种各样的需求，会经常性在本地存储大量的数据，HTML5规范提出了相关解决方案
+
+## 本地存储特性
+
+1. 数据存储在用户浏览器中
+
+2. 设置、读取方便、甚至页面刷新不丢失数据
+
+3. 容量较大，`sessionStorage`约5M、`localStorage`约20M
+
+4. 只能存储字符串，可以将对象`JSON.stringify()`编码后存储
+
+## window.sessionStorage
+
+1. 生命周期为关闭浏览器窗口
+
+2. 在**同一个窗口**（页面）下数据可以共享
+
+3. 以键值对的形式存储使用
+
+```javascript
+sessionStorage.setItem(key, value) // 存储数据
+sessionStorage.getItem(key) // 获取数据
+sessionStorage.removeItem(key) // 删除数据
+sessionStorage.clear() // 清空数据
+```
+
+## window.localStorage
+
+1. 声明周期永久生效，除非手动删除 否则关闭页面也会存在
+
+2. 可以多窗口（页面）共享（**同一浏览器**可以共享）
+
+3. 以键值对的形式存储使用
+
+```javascript
+localStorage.setItem(key, value)  // 存储数据
+localStorage.getItem(key) // 获取数据
+localStorage.removeItem(key) // 删除数据
+localStorage.clear() // 清空数据
+```
+
+# 移动端
+
+## 触屏事件
+
+移动端浏览器兼容性较好，我们不需要考虑以前JS的兼容性问题，可以放心的使用原生JS书写效果，但是移动端也有自己独特的地方。比如触屏事件touch（也称触摸事件），Android和IOS都有。
+
+touch对象代表一个触摸点。触摸点可能是一根手指，也可能是一根触摸笔。触屏事件可响应用户手指（或触控笔）对屏幕或者触控板操作。
+
+常见的触屏事件如下：
+
+![触屏事件](../../图片笔记/前端/webAPI/触屏事件.png)
+
+### 触摸事件对象（TouchEvent）
+
+`TouchEvent`是一类描述手指在触摸平面（触摸屏、触摸板等）的状态变化的事件。这类事件用于描述一个或多个触点，使开发者可以检测触点的移动，触点的增加和减少，等等
+
+`touchstart`、`touchmove`、`touchend`三个事件都会各自有事件对象
+
+![触屏事件对象](../../图片笔记/前端/webAPI/触屏事件对象.png)
+
+>因为平时我们都是给元素注册触摸事件，所以重点记住`targetTocuhes`
+
+## click延时解决方案
+
+移动端`click`事件会有300ms的延时，原因是移动端屏幕双击会缩放(double tap to zoom) 页面
+
+解决方案：
+
+1. 禁用缩放。 浏览器禁用默认的双击缩放行为并且去掉300ms 的点击延迟
+
+```html
+<meta name="viewport" content="user-scalable=no">
+```
+
+2. 利用`touch`事件自己封装这个事件解决300ms延迟
+
+原理就是：
+
+1.  当我们手指触摸屏幕，记录当前触摸时间
+2.  当我们手指离开屏幕， 用离开的时间减去触摸的时间
+3.  如果时间小于150ms，并且没有滑动过屏幕， 那么我们就定义为点击
+
+代码如下:
+
+```javascript
+//封装tap，解决click 300ms 延时
+function tap (obj, callback) {
+        var isMove = false;
+        var startTime = 0; // 记录触摸时候的时间变量
+        obj.addEventListener('touchstart', function (e) {
+            startTime = Date.now(); // 记录触摸时间
+        });
+        obj.addEventListener('touchmove', function (e) {
+            isMove = true;  // 看看是否有滑动，有滑动算拖拽，不算点击
+        });
+        obj.addEventListener('touchend', function (e) {
+            if (!isMove && (Date.now() - startTime) < 150) {  // 如果手指触摸和离开时间小于150ms 算点击
+                callback && callback(); // 执行回调函数
+            }
+            isMove = false;  //  取反 重置
+            startTime = 0;
+        });
+}
+//调用  
+  tap(div, function(){   // 执行代码  });
+```
+
+3. 使用插件。引入fastclick插件解决300ms延迟
+
+
+![fastclick插件](../../图片笔记/前端/webAPI/fastclick插件.jpg)
+
+## 移动端常用开发插件
+
+### 什么是插件
+
+移动端要求的是快速开发，所以我们经常会借助于一些插件来帮我完成操作，那么什么是插件呢？
+
+JS插件是js文件，它遵循一定规范编写，方便程序展示效果，拥有特定功能且方便调用。如轮播图和瀑布流插件
+
+特点：它一般是为了解决某个问题而专门存在，其功能单一，并且比较小
+
+### 常见插件
+
+**fastclick**插件解决300ms延迟：[GitHub地址](https://github.com/ftlabs/fastclick)
+
+**Swiper**是纯javascript打造的滑动特效插件，面向手机、平板电脑等移动终端：[中文官网地址](https://www.swiper.com.cn/)
+
+网站上常用的“焦点图/幻灯片”“Tab标签切换”“图片滚动”“无缝滚动”等只需要一个**SuperSlide**即可解决！[中文官网地址](http://www.superslide2.com/)
+
+**iScroll** does not just scroll. It can handle any element that needs to be moved with user interaction. It adds scrolling, zooming, panning, infinite scrolling, parallax scrolling, carousels to your projects and manages to do that in just 4kb：[GitHub地址](https://github.com/cubiq/iscroll)
+
+视频插件**zy.media.js**：[GitHub地址](https://github.com/ireaderlab/zyMedia)
+
+### 插件的使用总结
+
+1. 确认插件实现的功能
+2. 去官网查看使用说明
+3. 下载插件
+4. 打开demo实例文件，查看需要引入的相关文件，并且引入
+5. 复制demo实例文件中的结构html，样式css以及js代码
+
+## 移动端常用开发框架
+
+插件一般是为了解决某个问题而专门存在，其功能单一，并且比较小
+
+前端常用的框架有Bootstrap、Vue、Angular、React等。既能开发PC端，也能开发移动端
+
+前端常用的移动端插件有swiper、superslide、iscroll等
+
+框架：大而全，一整套解决方案
+
+插件：小而专一，某个功能的解决方案
+

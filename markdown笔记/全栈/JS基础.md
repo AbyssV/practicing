@@ -272,14 +272,14 @@ var oObj = {
 
 ## JavaScript对象
 
-JavaScript 中的所有事物都是对象：字符串、数值、数组、函数等都可以认为是对象，此外，JavaScript 允许自定义对象，对象可以拥有属性和方法，对象的属性用来描述对象的特征，对象的方法用来描述对象的行为和功能
+JavaScript 中的所有事物都是对象：字符串、数值、数组、函数等都可以认为是对象，此外，JavaScript 允许自定义对象，对象可以拥有属性和方法，可以访问数据更语义化，数据结构清晰，表意明显，方便开发者使用。
 
 ### 创建对象
 
-创建自定义javascript对象有两种方式:
+创建自定义javascript对象有三种方式:
 
-1. 通过顶级Object类型来实例化一个对象
-2. 通过对象字面量创建一个对象
+1. 通过顶级Object类型来实例化一个对象：`var obj = new Object();`
+2. 通过对象字面量创建一个对象：就是花括号`{}`里面包含了表达这个具体事物（对象）的属性和方法；`{}`里面采取键值对的形式表示 
 3. 利用构造函数创建对象，通过`new`关键字创建对象的过程我们也称为对象实例化
    - 构造函数约定首字母大写
    - 函数内的属性和方法前面需要添加`this`，表示当前对象的属性和方法
@@ -289,7 +289,7 @@ JavaScript 中的所有事物都是对象：字符串、数值、数组、函数
      - 在构造函数代码开始执行之前，在内存中创建一个新的空对象
      - 修改this的指向，把this指向创建出来的空对象
      - 执行构造函数里面的代码，给这个新对象添加属性和方法
-     - 返回这个新对象（所以构造函数里面不需要return）
+     - 返回`this`这个新对象（所以构造函数里面不需要return）
 
 ```javascript
 // Object类创建对象的示例代码:
@@ -369,6 +369,18 @@ for (变量 in 对象名字) {
 }
 ```
 
+### 变量和属性，方法和函数
+
+属性是对象的一部分，而变量不是对象的一部分，变量是单独存储数据的容器。
+
+- 变量：单独声明赋值，单独存在
+- 属性：对象里面的变量称为属性，不需要声明，用来描述该对象的特征
+
+方法是对象的一部分，函数不是对象的一部分，函数是单独封装操作的容器
+
+- 函数：单独存在的，通过`函数名()`的方式就可以调用
+- 方法：对象里面的函数称为方法，方法不需要声明，使用`对象.方法名()`的方式就可以调用，方法用来描述该对象的行为和功能
+
 ### ES5新增对象方法
 
 ```javascript
@@ -376,7 +388,7 @@ for (变量 in 对象名字) {
 s1 = new Student('张三', 12, [100, 99, 102]);
 console.log(Object.keys(s1)); // ['name', 'age', 'grade', 'showGrade']
 
-// Object.defineProperty(obj,prop, descriptor)定义或修改对象中的属性
+// Object.defineProperty(obj, prop, descriptor)定义或修改对象中的属性
 // obj: 必需，目标对象
 // prop：必需，需定义或修改的属性名字
 // descriptor：必需，目标属性所拥有的特性。对象形式
@@ -418,7 +430,7 @@ console.log(s1); // 仍有id
 // 1. 利用new创建数组  
 var aList = new Array(1,2,3);
 // 如果设置的length属性值大于数组的元素个数，则会在数组末尾出现空白元素（undefined）
-var aList3 = new Array(8) //即使指定了长度为8，仍然可以将元素存储在规定长度以外。
+var aList3 = new Array(8) // 即使指定了长度为8，仍然可以将元素存储在规定长度以外。
 aList[6]=10;
 document.write("数组的长度是："+aList.length); //数组的长度是：7
 // 2. 利用数组字面量创建数组
@@ -440,7 +452,7 @@ var arr = [19, 21, 56, 73, 24, 66];
 // arr.sort(function compareFn(a, b){return b-a;});、
 // 若返回值<=-1，则表示a在排序后的序列中出现在b之前；若返回值>-1&&<1，则表示a和b具有相同的排列顺序；若返回值>=1，则表示a在排序后的序列中出现在b之后
 arr.sort((a, b) => b - a)
-console.log(arr.join());
+console.log(arr.join(‘#’));
 
 // arr1.concat(arr2, arr3)会创建一个新数组，不会改变原来的数组
 var arr1 = [1, 2, 3];
@@ -467,9 +479,9 @@ console.log(arr1.concat(arr3, arr2)); // [1, 2, 3, 'd', 'e', 'f', 'a', 'b', 'c']
 
 ![数组其他方法](../../图片笔记/前端/js/数组其他方法.png)
 
-`slice()`返回一个并不会修改数组，而是返回一个子数组。可使用负值从数组的尾部选取元素，如果`end`未被规定，那么`slice()`方法会选取从`start`到数组结尾的所有元素
+`slice()`并不会修改数组，而是返回一个子数组。可使用负值从数组的尾部选取元素，如果`end`未被规定，那么`slice()`方法会选取从`start`到数组结尾的所有元素
 
-### *ES5新增数组方法-forEach/filter/some
+### *ES5新增数组方法-forEach/filter/some/map/reduce
 
 ```javascript
 // forEach遍历数组，相当于数组遍历的for循环 没有返回值
@@ -508,13 +520,39 @@ var flag = arr.some(function(value) { // 不用可以不写
 });
 console.log(flag); // false
 
-map();
-every();
+// The map() method creates a new array populated with the results of calling a provided function on every element in the calling array
+const array1 = [1, 4, 9, 16];
+// pass a function to map
+const map1 = array1.map(x => x * 2);
+console.log(map1); // [2, 8, 18, 32]
+
+// The every() method tests whether all elements in the array pass the test implemented by the provided function. It returns a Boolean value
+const isBelowThreshold = (currentValue) => currentValue < 40;
+const array1 = [1, 30, 39, 29, 10, 13];
+console.log(array1.every(isBelowThreshold)); // true
+
+//T he reduce() method executes a user-supplied "reducer" callback function on each element of the array, in order, passing in the return value from the calculation on the preceding element. The final result of running the reducer across all elements of the array is a single value.
+const array1 = [1, 2, 3, 4];
+const initialValue = 0;
+const sumWithInitial = array1.reduce(
+  (previousValue, currentValue) => previousValue + currentValue,
+  initialValue
+);
+console.log(sumWithInitial); // 10
 ```
 
 ### *ES6 Array的扩展运算符
 
 扩展运算符可以将数组或者对象转为用逗号分隔的==参数序列==（`toString`是转换成`string`，在console是有逗号的）
+
+可以和python类比记忆。对比[剩余参数](#剩余参数)
+
+```python
+data = [1, 2, 3, 4]
+print(*data) # 1 2 3 4
+```
+
+
 
 ```javascript
 let ary = ["a", "b", "c"];
@@ -548,7 +586,7 @@ console.log(ary);
 将伪数组或可遍历对象转换为真正的数组。方法还可以接受第二个参数，作用类似于数组的map方法，用来对每个元素进行处理，将处理后的值放入返回的数组
 
 ```javascript
-// 注意一下这个length
+// 注意一下这个length的值
 var arrayLike = {
 "0": "1",
 "1": "2",
@@ -623,9 +661,7 @@ console.log(index); // 2
 
 ### 短路逻辑
 
-短路运算的原理：当有多个表达式（值）时，左边的表达式值可以确定结果时，就不再继续运算右边的表达式的值[^2]
-
-[^2]: 结果和python执行的结果相同
+短路运算的原理：当有多个表达式（值）时，左边的表达式值可以确定结果时，就不再继续运算右边的表达式的值。和python相同
 
 ```javascript
 console.log(123 && 456);        // 456
@@ -828,70 +864,64 @@ showArgu(1, 2, 3);
 
 ## 变量作用域
 
-变量作用域就是变量的使用范围，变量分为:
+在JavaScript中，根据作用域的不同，变量可以分为两种：
 
-- 局部变量：在函数内使用的变量，只能在函数内部使用
-  - 特殊情况下，在函数内不使用 var 声明的变量也是全局变量（不建议使用）
+- 局部变量：在局部作用域下声明的变量叫做局部变量（在函数内部定义的变量）
+  - 局部变量只能在该函数内部使用
+  - 在函数内部`var`声明的变量是局部变量
   - 函数的形参实际上就是局部变量
-  - 在任何一个地方都可以使用，只有在浏览器关闭时才会被销毁，因此比较占内存
+  - 局部变量只在函数内部使用，当其所在的代码块被执行时，会被初始化；当代码块运行结束后，就会被销毁，因此更节省内存空间
+  
+- 全局变量：在全局作用域下声明的变量叫做全局变量（在函数外部定义的变量）
+  - 全局变量在代码的任何位置都可以使用
+  - 在全局作用域下`var`声明的变量 是全局变量
+  - 特殊情况下，在函数内不使用`var`声明的变量也是全局变量（不建议使用）
+  - 全局变量在任何一个地方都可以使用，只有在浏览器关闭时才会被销毁，因此比较占内存
 
-- 全局变量：在函数外定义的变量，可以在不同函数内使用。并且不同函数内可以共享全局变量
-  - 只在函数内部使用，当其所在的代码块被执行时，会被初始化；当代码块运行结束后，就会被销毁，因此更节省内存空间
 
+注意**在ES6之前**JS没有块级`{}`作用域。在`if`语句、循环语句中创建的变量，能全局使用
 
-注意JS没有块级`{}`作用域
+## 作用域链
 
-```html
-function localTest(out){
-    out = 10;
-}
-localTest(num);
-alert(num); // 100
+只要是代码都一个作用域中，写在函数内部的是局部作用域，未写在任何函数内部即在全局作用域中。如果函数中还有函数，那么在这个作用域中就又可以诞生一个作用域；根据在【内部函数可以访问外部函数变量】的这种机制，用链式查找决定哪些数据能被内部函数访问，就称作作用域链
 
-<script type="text/javascript">
-    /* 函数调用：
-    函数中'return'关键字的作用:
-    1、返回函数中的值
-    2、执行完return函数执行结束
-    */
-    var iNum = 1;
-    function fnAdd(iNum01,iNum02){
-        var iRs = iNum01 + iNum02; //var就相当于找盒子的动作，在JavaScript中是关键字（即保留字），这个关键字的作用是声明变量，并为"变量"准备位置(即内存）
-        return iRs;
-        alert('here!');
-    }
-    function fnModify(){
-        iNum++;
-    }
-    var iCount = fnAdd(3,4);
-    alert(iCount);  //弹出7
-    // js可以将数字类型和字符串类型直接进行拼接，底层自动把数字类型转成字符串（隐式类型转换）
-    alert("函数外访问的全局变量":+iNum) //弹出2
-</script>
-<script type="text/javascript">
-    //计时器
-    var num=0;
-    var stop=0;
-    function numCount(){
-        document.getElementById('clocker').value=num;
-        num++;
-        stop = setTimeout("numCount()", 1000);
-}
-    function stopClocker(){
-        // 销毁定时器，返回值表示创建定时器返回的id，通俗理解就是创建的第几个定时器
-        clearTimeout(stop); //不同函数内可以共享全局变量
-    }
-</script>
-<form action="">
-    <input type="text" id="clocker">
-    <input type="button" value="Start" onClick="numCount()">
-    <input type="button" value="Stop" onclick="stopClocker()">
-</form>
+## 预解析
+
+JavaScript代码是由浏览器中的JavaScript解析器来执行的。JavaScript解析器在运行JavaScript代码的时候分为两步：预解析和代码执行。
+
+- 预解析：在当前作用域下，JS代码执行之前，浏览器会默认把带有`var`和`function`声明的变量在内存中进行提前声明或者定义
+- 代码执行： 从上到下执行JS语句
+- 预解析会把变量和函数的声明在代码执行之前执行完成
+
+```javascript
+// case 1。变量提升只提升声明，不提升赋值
+console.log(num);  // undefined
+var num = 10;   
+
+// case 2。函数声明代表函数整体，所以函数提升后，函数名代表整个函数，但是函数并没有被调用
+fn();
+function fn() {
+    console.log('打印');
+} // 打印
+
+// case 3。函数表达式创建函数，会执行变量提升，此时接收函数的变量名无法正确的调用
+fn();
+var  fn = function() {
+    console.log('想不到吧');
+} // 报错提示 "fn is not a function"
 ```
+
+**案例**
+
+![函数预解析案例2](../../图片笔记/前端/js/函数预解析案例2.png)
+
+![函数预解析案例1](../../图片笔记/前端/js/函数预解析案例1.png)
 
 ## 闭包
 
 闭包（closure）指有权访问另一个函数作用域中变量的函数。简单理解就是 ，一个作用域可以访问另外一个函数内部的局部变量。 ==闭包可以延伸变量的作用范围==
+
+本质即利用inner的函数访问outer的函数，inner的函数能访问outer里的变量。和python的闭包相同
 
 案例：利用闭包，1. 点击`li`时可以获得当前`li`的索引号 2. 计算打车价格
 
@@ -953,6 +983,7 @@ var car = (function() {
         }
     }
 })();
+// 必须先调用price再调用yd
 console.log(car); // object:(f(n), f(flag))
 console.log(car.price(5)); // 23
 console.log(car.yd(true)); // 33
@@ -986,17 +1017,17 @@ var object = {
 console.log(object.getNameFunc()()) // The Window;
 
 // 思考题2：有闭包因为使用了局部变量
-		var name = "The Window";
-		var object = {
-			name: "My Object",
-			getNameFunc: function () {
-				var that = this;
-				return function () {
-					return that.name;
-				};
-			}
-		};
-		console.log(object.getNameFunc()()) // My Object
+var name = "The Window";
+var object = {
+    name: "My Object",
+    getNameFunc: function () {
+        var that = this;
+        return function () {
+            return that.name;
+        };
+    }
+};
+console.log(object.getNameFunc()()) // My Object
 ```
 
 ## 高阶函数
@@ -1025,7 +1056,7 @@ $("div").animate({
 
 # 深拷贝和浅拷贝
 
-浅拷贝只是拷贝一层，更深层次对象级别的只拷贝引用。深拷贝拷贝多层，每一级别的数据都会拷贝。深拷贝拷贝多层，每一级别的数据都会拷贝
+浅拷贝只是拷贝一层，更深层次对象级别的只拷贝引用。深拷贝拷贝多层，每一级别的数据都会拷贝。
 
 ```javascript
 var obj = {...};
@@ -1082,7 +1113,7 @@ Math对象不是构造函数，它具有数学常数和函数的属性和方法�
 
 ## Date对象
 
-Date对象和Math对象不一样，`Date`是一个构造函数，所以使用时需要实例化后才能使用其中具体方法和属性。Date 实例用来处理日期和时间
+Date对象和Math对象不一样，`Date`是一个构造函数，所以**使用时需要实例化后才能使用其中具体方法和属性**。Date 实例用来处理日期和时间
 
 ![Date实例的方法和属性](../../图片笔记/前端/js/Date实例的方法和属性.png)
 
@@ -1112,9 +1143,9 @@ document.write(t.setMonth(12) + "</br>");
 
 为了方便操作基本数据类型，JavaScript还提供了三个特殊的引用类型：`String`、`Number`和`Boolean`
 
-基本包装类型就是把简单数据类型包装成为复杂数据类型，这样基本数据类型就有了属性和方法[^1]
+基本包装类型就是把简单数据类型包装成为复杂数据类型，这样基本数据类型就有了属性和方法
 
-[^1]: 类似Java的自动装箱和拆箱，JS的处理也是自动的
+类似Java的自动装箱和拆箱，JS的处理也是自动的
 
 ### 字符串的值不可变
 
@@ -1126,7 +1157,7 @@ document.write(t.setMonth(12) + "</br>");
 
 栈由操作系统自动分配释放存放函数的参数值、局部变量的值等。其操作方式类似于数据结构中的栈；堆存储复杂类型（对象），一般由程序员分配释放，若程序员不释放，由垃圾回收机制回收。值类型变量的数据直接存放在变量（栈空间）中，引用类型变量（栈空间）里存放的是地址，真正的对象实例存放在堆空间中
 
-函数的形参也可以看做是一个变量，当我们把一个值类型变量作为参数传给函数的形参时，其实是把变量在栈空间里的值复制了一份给形参，那么在方法内部对形参做任何修改，都不会影响到的外部变量；当我们把引用类型变量传给形参时，其实是把变量在栈空间里保存的堆地址复制给了形参，形参和实参其实保存的是同一个堆地址，所以操作的是同一个对象
+> <u>函数的形参也可以看做是一个变量，当我们把一个值类型变量作为参数传给函数的形参时，其实是把变量在栈空间里的值**复制**了一份给形参，那么在方法内部对形参做任何修改，都不会影响到的外部变量；当我们把引用类型变量传给形参时，其实是把变量在栈空间里保存的堆地址复制给了形参，形参和实参其实保存的是同一个堆地址，所以操作的是同一个对象</u>
 
 ```javascript
 function fn(a) {
@@ -1335,6 +1366,14 @@ console.log(s1.__proto__.constructor);
 
 例如，在`Object.prototype`对象里有一个方法`toString()`，但是在`Star.prototype`和`ldh.__proto__`中没有，我们仍然可以使用 
 
+**我自己的理解**
+
+![原型对象自己理解](../../图片笔记/前端/js/原型对象自己理解.png)
+
+**视频可能有问题**
+
+![原型对象疑问](../../图片笔记/前端/js/原型对象疑问.png)
+
 ### 原型对象中this指向
 
 ```javascript
@@ -1471,7 +1510,7 @@ s1.showScore("English");
 
 1. 通过`class`关键字创建类，类名我们还是习惯性定义首字母大写
 2. 类里面有个`constructor`函数，可以接受传递过来的参数，同时返回实例对象
-3. `constructor`函数只要`new`生成实例时，就会自动调用这个函数，如果我们不写这个函数，类也会自动生成这个函数
+3. ==`constructor`函数只要`new`生成实例时，就会自动调用这个函数，如果我们不写这个函数，类也会自动生成这个函数==
 4. 在 ES6 中类没有变量提升，所以必须先定义类，才能通过类实例化对象
 5. 类里面的共有的属性和方法一定要加`this`使用，时刻注意`this`的指向问题
    1. `constructor`中的`this`指向的是`new`出来的实例对象 
@@ -1579,28 +1618,6 @@ function fn(){
 
 ```javascript
 更多严格模式要求参考'use strict'
-num = 10 
-console.log(num)//严格模式后使用未声明的变量
---------------------------------------------------------------------------------
-var num2 = 1;
-delete num2;//严格模式不允许删除变量
---------------------------------------------------------------------------------
-function fn() {
- console.log(this); // 严格模式下全局作用域中函数中的 this 是 undefined
-}
-fn();  
----------------------------------------------------------------------------------
-function Star() {
-	 this.sex = '男';
-}
-// Star();严格模式下,如果 构造函数不加new调用, this 指向的是undefined 如果给他赋值则 会报错.
-var ldh = new Star();
-console.log(ldh.sex);
-----------------------------------------------------------------------------------
-setTimeout(function() {
-  console.log(this); //严格模式下，定时器 this 还是指向 window
-}, 2000);  
-
 'use strict';
 // 1. 我们的变量名必须先声明再使用
 // num = 10;
@@ -1691,7 +1708,7 @@ let a = 100; // undefined
 
 var num = 10
 if (true) {
-    console.log(num); // num和这个块级作用域进行了绑定，和外部的num是没有关系的。所以再声明再使用会报错
+    console.log(num); // num和这个块级作用域进行了绑定，和外部的num是没有关系的。所以先声明再使用会报错
     let num = 20;
 }
 ```
@@ -1713,7 +1730,7 @@ console.log(ary);
 
 ## 解构赋值
 
-- 数组解构允许我们按照一一对应的关系从数组中提取值然后将值赋值给变量。如果结构不成功，变量跟数值个数不匹配的时候，变量的值为`undefined`
+- 数组解构允许我们按照一一对应的关系从数组中提取值然后将值赋值给变量。如果解构不成功，变量跟数值个数不匹配的时候，变量的值为`undefined`
 - 对象解构允许我们使用变量的名字匹配对象的属性。匹配成功将对象属性的值赋值给变量
 
 ```javascript
@@ -1787,6 +1804,8 @@ obj.say(); // 100
 
 剩余参数语法允许我们将一个不定数量的参数表示为一个数组，不定参数定义方式，这种方式很方便的去声明不知道参数情况下的一个函数。类似于`arguments`，但是箭头函数不支持`arguments`
 
+还是和python很像。对比[*ES6 Array的扩展运算符](#*ES6 Array的扩展运算符)
+
 ```javascript
 const sum = (...args) => {
     let total = 0;
@@ -1859,3 +1878,196 @@ s5.forEach(value => {
 })
 ```
 
+# 正则表达式
+
+正则表达式（Regular Expression）是用于匹配字符串中字符组合的模式。在JavaScript中，正则表达式也是对象
+
+**正则表达式的创建**
+
+```javascript
+// 方式一：通过调用RegExp对象的构造函数创建 
+var regexp = new RegExp(/123/);
+console.log(regexp);
+
+// 方式二：利用字面量创建正则表达式
+var rg = /123/;
+```
+
+**测试正则表达式** 
+
+`test()`正则对象方法，用于检测字符串是否符合该规则，该对象会返回`true`或`false`，其参数是测试字符串
+
+```javascript
+var rg = /123/;
+console.log(rg.test(123));// true
+console.log(rg.test('abc'));// false
+```
+
+## 边界符
+
+正则表达式中的边界符（位置符）用来提示字符所处的位置，主要有两个字符
+
+| 边界符 | 说明                           |
+| ------ | ------------------------------ |
+| ^      | 表示匹配行首的文本（以谁开始） |
+| $      | 表示匹配行尾的文本（以谁结束） |
+
+如果`^`和`$`在一起，表示必须是精确匹配
+
+## 量词符
+
+量词符用来设定某个模式出现的次数。
+
+| 量词  | 说明            |
+| ----- | --------------- |
+| *     | 重复0次或更多次 |
+| +     | 重复1次或更多次 |
+| ?     | 重复0次或1次    |
+| {n}   | 重复n次         |
+| {n,}  | 重复n次或更多次 |
+| {n,m} | 重复n到m次      |
+
+`{n,m}`中间不能有空格
+
+## 预定义类
+
+![正则表达式预定义](../../图片笔记/前端/js/正则表达式预定义类.png)
+
+```javascript
+// 案例-中文昵称验证
+window.onload = function() {
+    var regnc = /^[\u4e00-\u9fa5]{2,8}$/; // 正则表达式里面不需要加引号 不管是数字型还是字符串型
+    // 这里表示unicode字符，代表中文的第一个字到最后一个字，可以在菜鸟教程上查找一些通用的正则表达式模板
+    var nc = document.querySelector('#nc');
+	var nc = document.querySelector('#nc');
+    regexp(nc, regnc); // 昵称
+    function regexp(ele, reg) {
+            ele.onblur = function() {
+                if (reg.test(this.value)) {
+                    this.nextElementSibling.className = 'success';
+                    this.nextElementSibling.innerHTML = '<i class="success_icon"></i> 恭喜您输入正确';
+                } else {
+                    this.nextElementSibling.className = 'error';
+                    this.nextElementSibling.innerHTML = '<i class="error_icon"></i> 格式不正确，请从新输入 ';
+                }
+            }
+        };
+}
+```
+
+## 正则替换replace
+
+和string的replace相同，但是原字符串可以是正则表达式
+
+**正则表达式的参数**
+
+| 参数名              | 作用 |
+| ------------------- | ---- |
+| 全局匹配            | /g   |
+| 忽略大小写          | /i   |
+| 全局匹配+忽略大小写 | /gi  |
+
+案例：屏蔽敏感词
+
+```html
+<textarea name="" id="message"></textarea> <button>提交</button>
+<div></div>
+<script>
+    var text = document.querySelector('textarea');
+    var btn = document.querySelector('button');
+    var div = document.querySelector('div');
+    btn.onclick = function() {
+    	div.innerHTML = text.value.replace(/激情|gay/g, '**');
+    }
+</script>
+```
+
+## 整理（摘自python re模块）
+
+| 模式         | 描述                                                         |
+| :----------- | :----------------------------------------------------------- |
+| ^            | 匹配字符串的开头                                             |
+| $            | 匹配字符串的末尾                                             |
+| .            | 匹配任意字符，除了换行符，当re.DOTALL标记被指定时，则可以匹配包括换行符的任意字符。 |
+| [...]        | 用来表示一组字符,单独列出：[amk] 匹配 'a'，'m'或'k'          |
+| [^...]       | 不在[]中的字符：`[^abc]`匹配除了a,b,c之外的字符。            |
+| re*          | 匹配0个或多个的表达式。                                      |
+| re+          | 匹配1个或多个的表达式。                                      |
+| re?          | 匹配0个或1个由前面的正则表达式定义的片段，非贪婪方式         |
+| re{ n}       | 匹配n个前面表达式。例如，"o{2}"不能匹配"Bob"中的"o"，但是能匹配"food"中的两个o。 |
+| re{ n,}      | 精确匹配n个前面表达式。例如，"o{2,}"不能匹配"Bob"中的"o"，但能匹配"foooood"中的所有o。"o{1,}"等价于"o+"。"o{0,}"则等价于"o*"。 |
+| re{ n, m}    | 匹配 n 到 m 次由前面的正则表达式定义的片段，贪婪方式         |
+| a\| b        | 匹配a或b                                                     |
+| (re)         | 匹配括号内的表达式，也表示一个组                             |
+| (?imx)       | 正则表达式包含三种可选标志：i, m, 或 x 。只影响括号中的区域。 |
+| (?-imx)      | 正则表达式关闭 i, m, 或 x 可选标志。只影响括号中的区域。     |
+| (?: re)      | 类似 (...), 但是不表示一个组                                 |
+| (?imx: re)   | 在括号中使用i, m, 或 x 可选标志                              |
+| (?-imx: re)  | 在括号中不使用i, m, 或 x 可选标志                            |
+| (?#...)      | 注释.                                                        |
+| (?= re)      | 前向肯定界定符。如果所含正则表达式，以 ... 表示，在当前位置成功匹配时成功，否则失败。但一旦所含表达式已经尝试，匹配引擎根本没有提高；模式的剩余部分还要尝试界定符的右边。 |
+| (?! re)      | 前向否定界定符。与肯定界定符相反；当所含表达式不能在字符串当前位置匹配时成功。 |
+| (?> re)      | 匹配的独立模式，省去回溯。                                   |
+| \w           | 匹配数字字母下划线                                           |
+| \W           | 匹配非数字字母下划线                                         |
+| \s           | 匹配任意空白字符，等价于 [\t\n\r\f]。                        |
+| \S           | 匹配任意非空字符                                             |
+| \d           | 匹配任意数字，等价于 [0-9]。                                 |
+| \D           | 匹配任意非数字                                               |
+| \A           | 匹配字符串开始                                               |
+| \Z           | 匹配字符串结束，如果是存在换行，只匹配到换行前的结束字符串。 |
+| \z           | 匹配字符串结束                                               |
+| \G           | 匹配最后匹配完成的位置。                                     |
+| \b           | 匹配一个单词边界，也就是指单词和空格间的位置。例如， 'er\b' 可以匹配"never" 中的 'er'，但不能匹配 "verb" 中的 'er'。 |
+| \B           | 匹配非单词边界。'er\B' 能匹配 "verb" 中的 'er'，但不能匹配 "never" 中的 'er'。 |
+| \n, \t, 等。 | 匹配一个换行符。匹配一个制表符, 等                           |
+| \1...\9      | 匹配第n个分组的内容。                                        |
+| \10          | 匹配第n个分组的内容，如果它经匹配。否则指的是八进制字符码的表达式。 |
+
+# 补充
+
+## 常用函数方法
+
+```javascript
+a*b.toFixed(2) // 保留两位小数
+```
+
+
+
+## 异步任务，promise，async，await
+
+>也就是说，`console.log()`所在的流水线为同步，即在主线程上执行的任务，，而`setTimeout`函数为异步任务，不进入主线程，而进入**任务队列**。程序先执行同步里的内容，执行完毕，**任务队列**开始通知主线程，请求执行任务，该任务才会进入主线程来执行。
+>
+>而任务队列是一个事件的队列，IO设备完成一项任务，就在任务队列中添加一个事件，表示相关的异步任务可以进入主线程了，主线程读取任务队列，就是读取里面就哪些事件。任务队列中的事件除了IO设备的事件以外，还包括用户产生的一些事件（比如鼠标点击、页面滚动等）。
+>
+>异步任务必须指定回调函数，当主线程开始执行异步任务，就是执行相应的回调函数。例如ajax的success，complete，error也都指定了各自的回调函数，这些函数就会加入任务队列中，等待执行。
+>
+>2、promise
+>
+>利用promise可以将异步操作以同步操作的流程表达出来，避免了层层嵌套的回调函数。此外，promise对象提供统一的接口，使得控制异步操作更加容易。
+>
+>但注意promise无法取消，一旦建立就会立即执行，无法中途取消。而且，如果不设置回调函数，promise内部抛出的错误不会反映到外部。当处于Pending状态时，无法得知进展到哪一个阶段。
+>
+>1）promise有三个状态：
+>
+>Pending-promise的初始状态，等到任务完成或是被拒绝；Resolved-执行完成并且成功的状态；Rejected-执行完成并且失败的状态。此三个状态不能相互逆转。
+>
+>2）promise对象必须实现then方法，可以说then是promise的核心，而且then方法必须返回一个promise对象，同一个promise对象可以注册多个then方法，并且回调的执行顺序和他们注册的顺序一致。
+>
+>3）then方法接收两个回调函数，他们分别是成功时的回调和失败时的回调。
+>
+>
+
+I should say MDN tutorial is very detailed. Check[How to use promises](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Promises)
+
+some excerpt:
+
+> Inside an async function you can use the await keyword before a call to a function that returns a promise
+>
+> 
+>
+> Keep in mind that just like a promise chain, `await` forces asynchronous operations to be completed in series. This is necessary if the result of the next operation depends on the result of the last one, but if that's not the case something like `Promise.all()` will be more performant.
+
+## 代码习惯
+
+变量不用时，重置为`null`

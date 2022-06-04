@@ -396,6 +396,11 @@ rem的优势：父元素文字大小可能不一致， 但是整个页面只有�
 /* 引入资源就是针对于不同的屏幕尺寸调用不同的css文件 */
 <link rel="stylesheet" href="style320.css" media="screen and (min-width: 320px)">
 <link rel="stylesheet" href="style640.css" media="screen and (min-width: 640px)">
+<link rel="stylesheet" href="style640.css" media="screen and (color)">  /* color screen */
+
+@media all and (min-width: 500px) /* is equal to */
+@media all (min-width: 500px)
+    
 ```
 
 注意： 为了防止混乱，媒体查询我们要按照从小到大或者从大到小的顺序来写，但是我们最喜欢的还是**从小到大**来写，这样通过后面的样式覆盖，代码更简洁

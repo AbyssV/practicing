@@ -1,3 +1,16 @@
+# 运行一个Java程序
+
+```java
+public class Test {
+    public static void main(String[] args) {
+        System.out.println("第一个java程序");
+    }
+}
+// 1. 切换到Test.java所在的文件夹
+// 2. 编译：javac Test.java 或 javac -encoding utf-8 Test.java
+// 3. 运行：java Test.java
+```
+
 # 	JavaSE基础
 
 ## 基础类型
@@ -515,8 +528,8 @@ public interface Inter3 extends Inter1, Inter2{}
 
 1. 创建一个空项目
 2. 创建一个空模块
-3. 在模块下的```src```下创建一个包
-4. 在包下新建一个类
+3. 在模块下的```src```下创建一个包(右键src->new->package)
+4. 在包下新建一个类(右键NewPackageName->new->java class)
 5. 在类中编写代码
 6. 在idea中执行程序
 
