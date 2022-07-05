@@ -1903,6 +1903,33 @@ console.log(rg.test(123));// true
 console.log(rg.test('abc'));// false
 ```
 
+**`exec()`检索字符串中的正则表达式的匹配**
+
+`exec()`函数用于检索字符串中的正则表达式的匹配。如果字符串中有匹配的值，则返回该匹配值，否则返回`null`。
+
+```javascript
+var str = 'hello'
+var pattern = /o/
+// 输出的结果["o", index: 4, input: "hello", groups: undefined]
+console.log(pattern.exec(str)) 
+```
+
+**正则表达式中`( )`包起来的内容表示一个分组，可以通过分组来提取自己想要的内容**
+
+```javascript
+var str = '<div>我是{{name}}</div>'
+var pattern = /{{([a-zA-Z]+)}}/
+
+// 得到name相关的分组信息
+var patternResult = pattern.exec(str)
+console.log(patternResult)
+// ["{{name}}", "name", index: 7, input: "<div>我是{{name}}</div>", groups: undefined]
+
+// 将内容替换为分组内容
+str = str.replace(patternResult[0], patternResult[1]) //replace函数返回值为替换后的新字符串
+console.log(str) // <div>我是name</div>
+```
+
 ## 边界符
 
 正则表达式中的边界符（位置符）用来提示字符所处的位置，主要有两个字符
@@ -1967,7 +1994,9 @@ window.onload = function() {
 | 忽略大小写          | /i   |
 | 全局匹配+忽略大小写 | /gi  |
 
-案例：屏蔽敏感词
+案例1：屏蔽敏感词
+
+案例2：简易模板引擎
 
 ```html
 <textarea name="" id="message"></textarea> <button>提交</button>
@@ -1979,6 +2008,19 @@ window.onload = function() {
     btn.onclick = function() {
     	div.innerHTML = text.value.replace(/激情|gay/g, '**');
     }
+</script>
+
+<!-- 使用while循环替换 -->
+<script>
+    var data = { name: '张三', age: 20 }
+    var str = '<div>{{name}}今年{{ age }}岁了</div>'
+    var pattern = /{{\s*([a-zA-Z]+)\s*}}/
+
+    var patternResult = null
+    while ((patternResult = pattern.exec(str))) {
+        str = str.replace(patternResult[0], data[patternResult[1]])
+    }
+    console.log(str) // <div>张三今年20岁了</div>
 </script>
 ```
 
@@ -2033,40 +2075,6 @@ a*b.toFixed(2) // 保留两位小数
 ```
 
 
-
-## 异步任务，promise，async，await
-
->也就是说，`console.log()`所在的流水线为同步，即在主线程上执行的任务，，而`setTimeout`函数为异步任务，不进入主线程，而进入**任务队列**。程序先执行同步里的内容，执行完毕，**任务队列**开始通知主线程，请求执行任务，该任务才会进入主线程来执行。
->
->而任务队列是一个事件的队列，IO设备完成一项任务，就在任务队列中添加一个事件，表示相关的异步任务可以进入主线程了，主线程读取任务队列，就是读取里面就哪些事件。任务队列中的事件除了IO设备的事件以外，还包括用户产生的一些事件（比如鼠标点击、页面滚动等）。
->
->异步任务必须指定回调函数，当主线程开始执行异步任务，就是执行相应的回调函数。例如ajax的success，complete，error也都指定了各自的回调函数，这些函数就会加入任务队列中，等待执行。
->
->2、promise
->
->利用promise可以将异步操作以同步操作的流程表达出来，避免了层层嵌套的回调函数。此外，promise对象提供统一的接口，使得控制异步操作更加容易。
->
->但注意promise无法取消，一旦建立就会立即执行，无法中途取消。而且，如果不设置回调函数，promise内部抛出的错误不会反映到外部。当处于Pending状态时，无法得知进展到哪一个阶段。
->
->1）promise有三个状态：
->
->Pending-promise的初始状态，等到任务完成或是被拒绝；Resolved-执行完成并且成功的状态；Rejected-执行完成并且失败的状态。此三个状态不能相互逆转。
->
->2）promise对象必须实现then方法，可以说then是promise的核心，而且then方法必须返回一个promise对象，同一个promise对象可以注册多个then方法，并且回调的执行顺序和他们注册的顺序一致。
->
->3）then方法接收两个回调函数，他们分别是成功时的回调和失败时的回调。
->
->
-
-I should say MDN tutorial is very detailed. Check[How to use promises](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Promises)
-
-some excerpt:
-
-> Inside an async function you can use the await keyword before a call to a function that returns a promise
->
-> 
->
-> Keep in mind that just like a promise chain, `await` forces asynchronous operations to be completed in series. This is necessary if the result of the next operation depends on the result of the last one, but if that's not the case something like `Promise.all()` will be more performant.
 
 ## 代码习惯
 

@@ -214,7 +214,7 @@ redis是key-value的数据结构，每条数据都是一个键值对。键的类
 - 集合set
 - 有序集合zset
 
-![](../图片笔记/Python/redis数据结构.png)
+![](../../图片笔记/Python/redis数据结构.png)
 
 数据操作
 
@@ -678,7 +678,7 @@ redis-server 7002.conf
 
 - 在7003(master)可以获取数据，如果写入数据又重定向到7000(master)(负载均衡)
 
-![](../图片笔记/Python/redis集群说明.png)
+![](../../图片笔记/Python/redis集群说明.png)
 
 #### 在哪个服务器上写数据：CRC16
 

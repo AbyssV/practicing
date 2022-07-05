@@ -312,7 +312,7 @@ endfunc
 - 编辑模式
 - 末行模式
 
-<img src="C:\Users\admin\Desktop\practicing\图片笔记\Python\vim工作模式.png" style="zoom: 50%;" />
+<img src="../../图片笔记/Python/vim工作模式.png" style="zoom: 50%;" />
 
 ## 末行模式命令
 

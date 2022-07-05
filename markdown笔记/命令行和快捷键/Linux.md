@@ -9,7 +9,7 @@
   - 只有安装了虚拟机软件才可以创建虚拟机，当然通过虚拟机软件还可以创建多个虚拟机。
   - 虚拟机之间是相互独立的，删除虚拟机不会对其它虚拟机产生影响，当然也不会对电脑本身生影响
 
-<img src="..\图片笔记\Python\虚拟机软件.jpg" style="zoom: 33%;" />
+<img src="../../图片笔记/Python/虚拟机软件.jpg" style="zoom: 33%;" />
 
 ## Ubuntu操作系统
 
@@ -35,7 +35,7 @@
   - `/usr` (unix software resource)：所有系统默认软件都会安装到这个目录；
   - `/var` (variable)：存放系统或程序运行过程中的数据文件。
 
-<img src="..\图片笔记\Python\Linux主要目录.jpg" style="zoom: 25%;" />
+<img src="../../图片笔记/Python/Linux主要目录.jpg" style="zoom: 25%;" />
 
 ## 终端命令格式的组成
 
@@ -188,7 +188,7 @@ ssh是专门为远程登录提供的一个安全性协议，常用于远程登�
 
 远程登录效果图:
 
-<img src="..\图片笔记\Python\ssh.png" style="zoom:33%;" />
+<img src="../../图片笔记/Python/ssh.png" style="zoom:33%;" />
 
 ## 软件安装步骤
 
@@ -213,7 +213,7 @@ scp是基于ssh进行远程文件拷贝的命令，也就是说需要保证服�
 
 这里sftp的默认端口号是22，不填也可以
 
-<img src="..\图片笔记\Python\FileZilla.png" style="zoom:50%;" />
+<img src="../../图片笔记/Python/FileZilla.png" style="zoom:50%;" />
 
 scp命令格式:
 
@@ -236,9 +236,9 @@ scp命令格式:
 
 以```.```开头是隐藏文件/目录
 
-<img src="..\图片笔记\Python\ls -a命令.png" style="zoom:33%;" />
+<img src="../../图片笔记/Python/ls -a命令.png" style="zoom:33%;" />
 
-<img src="..\图片笔记\Python\ls -l命令.png" alt="ls -l命令" style="zoom: 33%;" />
+<img src="../../图片笔记/Python/ls -l命令.png" alt="ls -l命令" style="zoom: 33%;" />
 
 ```chmod```修改文件权限有两种方式:
 
@@ -553,7 +553,7 @@ Ubuntu软件安装有两种方式:
 
 镜像源效果图:
 
-<img src="..\图片笔记\Python\镜像源.png" style="zoom: 33%;" />
+<img src="../../图片笔记/Python/镜像源.png" style="zoom: 33%;" />
 
 # 软件卸载
 

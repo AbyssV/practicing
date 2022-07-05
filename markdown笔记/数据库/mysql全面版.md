@@ -520,6 +520,8 @@ mysql> source Desktop/areas.sql; # 导入数据。source表示执行的sql文件
 ### 数据库操作的SQL语句
 
 ```mysql
+## 查看当前sql版本
+select version();
 ## 查看MySQL数据库支持的表的存储引擎
 show engines;
 ## 查看所有数据库

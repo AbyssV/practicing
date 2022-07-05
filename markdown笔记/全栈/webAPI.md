@@ -1015,6 +1015,12 @@ window.addEventListener('pageshow', function(e){
     }
 })
 
+// reset()方法
+<button id="clear">清空内容</button>
+$('#clear').on('click', function (e) {
+    // 清空表单内容，需要将jQuery元素转换为DOM元素
+    $('#form1')[0].reset();
+});
 
 // 浏览器对象方法
 alert() // 显示带有一段消息和一个确认按钮的警告框
@@ -1225,3 +1231,128 @@ JS插件是js文件，它遵循一定规范编写，方便程序展示效果，�
 
 插件：小而专一，某个功能的解决方案
 
+# 防抖和节流
+
+## 防抖
+
+防抖策略（debounce）是当事件被触发后延迟n秒后再执行回调，如果在这n秒内事件又被触发，则重新计时。例如用户在输入框中连续输入一串字符时，可以通过防抖策略，**只在输入完后**，才执行查询的请求，这样可以有效减少请求次数，节约请求资源
+
+![防抖](../../图片笔记/前端/webAPI/防抖.png)
+
+### 案例：搜索框的防抖和缓存
+
+```javascript
+$(function () {
+    // 1. 定义防抖的定时器
+    var timer = null
+    // 定义全局缓存对象
+    var cacheObj = {}
+
+    // 2. 定义防抖的函数
+    function debounceSearch(kw) {
+        timer = setTimeout(function () {
+            getSuggestList(kw)
+        }, 5000)
+    }
+
+    // 为输入框绑定 keyup 事件
+    $('#ipt').on('keyup', function () {
+        // 3. 重新计时
+        clearTimeout(timer)
+        var keywords = $(this).val().trim()
+        if (keywords.length <= 0) {
+            return $('#suggest-list').empty().hide()
+        }
+
+        // 先判断缓存中是否有数据
+        if (cacheObj[keywords]) {
+            return renderSuggestList(cacheObj[keywords])
+        }
+
+        debounceSearch(keywords)
+    })
+
+    function getSuggestList(kw) {
+        $.ajax({
+            url: 'https://suggest.taobao.com/sug?q=' + kw,
+            dataType: 'jsonp',
+            success: function (res) {
+                renderSuggestList(res)
+            }
+        })
+    }
+
+    // 渲染UI结构
+    function renderSuggestList(res) {
+        if (res.result.length <= 0) {
+            return $('#suggest-list').empty().hide()
+        }
+        var htmlStr = template('tpl-suggestList', res)
+        $('#suggest-list').html(htmlStr).show()
+
+        // 1. 获取到用户输入的内容，当做键
+        var k = $('#ipt').val().trim()
+        // 2. 需要将数据作为值，进行缓存
+        cacheObj[k] = res
+    }
+})
+```
+
+## 节流
+
+节流策略（throttle），顾名思义，可以减少一段时间内事件的触发频率。例如鼠标连续不断地触发某事件（如点击），只在**单位时间**内只触发一次；或**懒加载（就是滚动条滑动到特定位置时才开始加载图片，而不是加载页面时就加载全部图片）**时要监听计算滚动条的位置，但不必每次滑动都触发，可以降低计算的频率，而不必去浪费CPU资源
+
+
+
+![节流](../../图片笔记/前端/webAPI/节流.png)
+
+### 节流阀
+
+每次执行操作前，必须先判断节流阀是否为空。节流阀为空，表示可以执行下次操作；不为空，表示不能执行下次操作。当前操作执行完，必须将节流阀重置为空，表示可以执行下次操作了。
+
+可以想象成锁
+
+### 案例：鼠标跟随效果
+
+不使用节流
+
+```html
+<img src="./media/images/angel.gif" alt="" id="angel" />
+<script>
+    $(function () {
+        var angle = $('#angel');
+        $(document).on('mousemove', function (e) {
+            $(angel).css('left', e.pageX + 'px').css('top', e.pageY + 'px');
+        })
+    })
+</script>
+```
+
+使用节流
+
+```html
+<img src="./media/images/angel.gif" alt="" id="angel" />
+<script>
+    $(function () {
+        var angel = $('#angel')
+        // 定义一个timer节流阀
+        var timer = null
+        $(document).on('mousemove', function (e) {
+            // 判断节流阀是否为空，如果不为空，则证明距离上次执行间隔不足16毫秒
+            if (timer) { return }
+            timer = setTimeout(function () {
+                $(angel).css('left', e.pageX + 'px').css('top', e.pageY + 'px')
+                // 当设置了鼠标跟随效果后，清空timer节流阀，方便下次开启延时器
+                timer = null
+            }, 500)
+        })
+    })
+
+</script>
+```
+
+## 防抖和节流的区别
+
+防抖：如果事件被频繁触发，防抖能保证在一定时间内只有最后一次触发生效！前面N多次的触发都会被忽略！
+
+节流：如果事件被频繁触发，节流能够减少事件触发的频率，控制一定时间内事件发生的次数，在这个时间内多发生的事件会被锁住。因此，节流是有选择性地执行一部分事件

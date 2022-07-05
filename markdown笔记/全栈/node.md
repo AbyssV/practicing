@@ -2,9 +2,9 @@
 
 Node.js是一个基于Chrome V8引擎的JavaScript运行环境
 
-浏览器是一种运行环境（chrome的v8解析引擎性能最好），其中的DOM和BOM都是浏览器提供的接口，因此我们可以在浏览器中写前端代码。node.js也是一种运行环境，我们可以在node中做后端开发。
+浏览器是一种运行环境（chrome的v8解析引擎性能最好），其中的DOM和BOM都是浏览器提供的接口，因此我们可以在浏览器中写前端代码。node.js也是一种运行环境，我们可以在node中做后端开发
 
-浏览器是JavaScript的前端运行环境，Node.js是JavaScript的后端运行环境。Node.js中无法调用DOM和BOM等浏览器内置 API。
+浏览器是JavaScript的前端运行环境，Node.js是JavaScript的后端运行环境。Node.js中无法调用DOM和BOM等浏览器内置API
 
 ## Node.js学习路径
 
@@ -23,7 +23,7 @@ Node.js作为一个JavaScript的运行环境，仅仅提供了基础的功能和
 
 # 模块化
 
-模块化是指解决一个复杂问题时，自顶向下逐层把系统划分成若干模块的过程。对于整个系统来说，模块是可组合、分解和更换的单元，编程领域中的模块化，就是遵守固定的规则，把一个大文件拆成独立并互相依赖的多个小模块。
+模块化是指解决一个复杂问题时，自顶向下逐层把系统划分成若干模块的过程。对于整个系统来说，模块是可组合、分解和更换的单元，编程领域中的模块化，就是遵守固定的规则，把一个大文件拆成独立并互相依赖的多个小模块
 
 **把代码进行模块化拆分的好处：**
 
@@ -47,6 +47,7 @@ Node.js 中根据模块来源的不同，将模块分为了 3 大类，分别是
 // 1,加载内置的fs模块
 const fs = require('fs');
 // 2.加载用户的自定义模块
+// 使用require()加载自定义模块时，必须指定以./或../开头的路径标识符。在加载自定义模块时，如果没有指定./或../这样的路径标识符，则node会把它当作内置模块或第三方模块进行加载
 const custom = require("./custom.js"); // 注意：在使用require加载用户自定义模块期间，可以省略.js的后缀名
 // 3.加载第三方模块
 const moment = require("moment");
@@ -54,13 +55,15 @@ const moment = require("moment");
 
 ## 模块作用域（自定义模块）
 
-和函数作用域类似，==在自定义模块中定义的变量、方法等成员，只能在当前模块内被访问==，这种模块级别的访问限制，叫做模块作用域。
+和函数作用域类似，==在自定义模块中定义的变量、方法等成员，只能在当前模块内被访问==，这种模块级别的访问限制，叫做模块作用域
 
-`module`对象：在每个.js自定义模块中都有一个module对象，它里面存储了和当前模块有关的信息
+### module.exports和exports
 
-在自定义模块中，可以使用`module.exports`对象，将模块内的成员共享出去，供外界使用。外界用`require()`方法导入自定义模块时，得到的就是`module.exports`所指向的对象（在一个自定义模块中，默认情况下， `module.exports = {}`）。
+- `module`对象：在每个.js自定义模块中都有一个module对象，它里面存储了和当前模块有关的信息
+  - 在自定义模块中，可以使用`module.exports`对象，将模块内的成员共享出去，供外界使用。外界用`require()`方法导入自定义模块时，得到的就是`module.exports`所指向的对象（在一个自定义模块中，默认情况下， `module.exports = {}`）。
 
-`exports`对象：由于`module.exports`单词写起来比较复杂，为了简化向外共享成员的代码，Node提供了`exports`对象。默认情况下，`exports`和`module.exports`指向同一个对象。最终共享的结果，还是以`module.exports`指向的对象为准
+- `exports`对象：由于`module.exports`单词写起来比较复杂，为了简化向外共享成员的代码，Node提供了`exports`对象。
+- 默认情况下，`exports`和`module.exports`指向同一个对象。最终共享的结果，还是以`module.exports`指向的对象为准
 
 ==使用`require()`方法导入模块时，导入的结果，永远以`module.exports`指向的对象为准==
 
@@ -218,7 +221,6 @@ const http = require("http");
 const server = http.createServer();
 // 3. 为服务器实例绑定request事件，监听客户端的请求
 // 使用服务器实例的.on()方法，为服务器绑定一个request事件。只要有客户端来请求我们的服务器，就会触发request事件，从而调用这个事件的处理函数
-
 // req 是请求对象，包含了与客户端相关的数据和属性
 server.on("request", (req, res) => {
     // req.url 是客户端请求的 URL 地址
@@ -226,7 +228,7 @@ server.on("request", (req, res) => {
     // req.method 是客户端请求的 method 类型
     const method = req.method;
     // 置默认的响应内容
-    let content = `您请求的 URL 地址是 ${url}，请求的 method 类型为 ${method}`;
+    let content = `您请求的URL地址是 ${url}，请求的method类型为 ${method}`;
     // 判断用户请求的url
     if (url === "/" || url === "/index.html") {
         content = "<h1>首页</h1>";
@@ -254,13 +256,11 @@ Node.js中的第三方模块又叫做包，包是由第三方个人或团队开�
 
 - 由于Node.js的内置模块仅提供了一些底层的API，导致在基于内置模块进行项目开发的时，效率很低
 - 包是基于内置模块封装出来的，提供了更高级、更方便的API，极大的提高了开发效率
-- 包和内置模块之间的关系，类似于jQuery和浏览器内置 API之间的关系
+- 包和内置模块之间的关系，类似于jQuery和浏览器内置API之间的关系
 
 **从哪里下载包**
 
-国外有一家IT公司，叫做npm, Inc. 这家公司旗下有一个非常著名的网站：https://www.npmjs.com/，它是全球最大的包共享平台，你可以从这个网站上搜索到任何你需要的包
-
-到目前位置，全球约1100多万的开发人员，通过这个包共享平台，开发并共享了超过 120 多万个包供我们使用
+npm, Inc. 这家公司旗下有一个非常著名的网站：https://www.npmjs.com/，它是全球最大的包共享平台，你可以从这个网站上搜索到任何你需要的包
 
 npm, Inc. 公司提供了一个地址为https://registry.npmjs.org/的服务器，来对外共享所有的包，我们可以从这个服务器上下载自己所需要的包
 
@@ -268,7 +268,7 @@ npm, Inc. 公司提供了一个地址为https://registry.npmjs.org/的服务器�
 
 npm, Inc. 公司提供了一个包管理工具，我们可以使用这个包管理工具，从https://registry.npmjs.org/服务器把需要的包下载到本地使用
 
-这个包管理工具的名字叫做Node Package Manager（简称npm包管理工具），这个包管理工具随着Node.js的安装包一起被安装到了用户的电脑上。大家可以在终端中执行`npm -v`命令，来查看自己电脑上所安装的npm包管理工具的版本号
+这个包管理工具的名字叫做Node Package Manager（简称npm包管理工具），这个包管理工具随着Node.js的安装包一起被安装到了用户的电脑上。可以在终端中执行`npm -v`命令，来查看自己电脑上所安装的npm包管理工具的版本号
 
 ### 包的分类
 
@@ -301,8 +301,8 @@ npm, Inc. 公司提供了一个包管理工具，我们可以使用这个包管�
 - 安装包：`npm install 包1的完整名称 包2的完整名称`或`npm i 包的完整名称`
 - 安装指定版本的包，默认情况下，使用`npm install`命令安装包的时候，会自动安装最新版本的包。如果需要安装指定版本的包，可以在包名之后，通过`@`符号指定具体的版本，例如：`npm i moment@2.22.2`
   - 会覆盖之前安装的包，所以不用卸载
-  - `~`会匹配最近的小版本依赖包，比如`~1.2.3`会匹配所有`1.2.x`版本，但是不包括`1.3.0``
-  - ``^`会匹配最新的大版本依赖包，比如`^1.2.3`会匹配所有`1.x.x`的包，包括`1.3.0`，但是不包括`2.0.0`
+  - `~`会匹配最近的小版本依赖包，比如`~1.2.3`会匹配所有`1.2.x`版本，但是不包括`1.3.0`
+  - `^`会匹配最新的大版本依赖包，比如`^1.2.3`会匹配所有`1.x.x`的包，包括`1.3.0`，但是不包括`2.0.0`
   - 什么前缀也没有，比如`1.2.3`，指定特定的版本
   - `*`安装最新版本的依赖包。可能会造成版本不兼容，慎用
 - 包的语义化版本规范
@@ -369,7 +369,7 @@ npm规定，在项目根目录中，必须提供一个叫做**package.json**的�
 
 **package.json的内容**
 
-1. name - 包名。包名和文件夹的名字没有关系，npm 下载包时会以这个 name 属性为包名下载。包名具有唯一性，所以可以先在官网上搜索是否有重复的包名
+1. name - 包名。包名和文件夹的名字没有关系，npm下载包时会以这个name属性为包名下载。**包名具有唯一性**，所以可以先在官网上搜索是否有重复的包名
 2. version - 包的版本号
 3. description - 包的描述
 4. homepage - 包的官网 url
@@ -544,7 +544,7 @@ npm unpublish 包名 --force
 
 #### 内置模块的加载机制
 
-<u>内置模块</u>是由Node.js官方提供的模块，**内置模块的加载优先级最高**。例如，`require('fs') `始终返回内置的fs模块，即使在**node_modules**目录下有名字相同的包也叫做fs
+<u>内置模块</u>是由Node.js官方提供的模块，**内置模块的加载优先级最高**。例如，`require('fs') `始终返回内置的fs模块，即使在**node_modules**目录下有名字相同的包也叫做`fs`
 
 #### 自定义模块的加载机制
 
@@ -559,7 +559,7 @@ npm unpublish 包名 --force
 3. 补全 .json 扩展名进行加载
 
 4. 补全 .node 扩展名进行加载
-   1. 不能写js代码，是win32 application
+   - 该文件不能写js代码，是win32 application
 
 5. 加载失败，终端报错
 
@@ -603,13 +603,13 @@ Express的基本使用参考html内置模块
 
 ## 托管静态资源
 
-注意：Express在指定的静态目录中查找文件，并对外提供资源的访问路径。因此，存放静态文件的目录名不会出现在URL中。如果希望在托管的静态资源访问路径之前，挂载路径前缀，则可以使用`app.use('/public', express.static('public'))`通过访问`http://localhost:3000/public/images/kitten.jpg`访问**public**目录中的**images/kitten.jpg**文件
+Express在指定的静态目录中查找文件，并对外提供资源的访问路径。因此，存放静态文件的目录名不会出现在URL中。如果希望在托管的静态资源访问路径之前，挂载路径前缀，则可以使用`app.use('/public', express.static('public'))`通过访问`http://localhost:3000/public/images/kitten.jpg`访问**public**目录中的**images/kitten.jpg**文件
 
 如果要托管多个静态资源目录，多次调用`express.static() `函数。访问静态资源文件时，`express.static()`函数会根据先后顺序所需的文件
 
 ## Express路由
 
-在Express中，路由指的是客户端的请求与服务器处理函数之间的映射关系。Express 中的路由分3部分组成，分别是请求的类型、请求的 URL 地址、处理函数，格式：`app.METHOD(PAHT, HANDLER)`
+在Express中，路由指的是客户端的请求与服务器处理函数之间的映射关系。Express 中的路由分3部分组成，分别是请求的类型、请求的 URL 地址、处理函数，格式：`app.METHOD(PATH, HANDLER)`
 
 每当一个请求到达服务器之后，需要先经过路由的匹配，只有匹配成功之后，才会调用对应的处理函数。在匹配时，**会按照路由的顺序进行匹配**，如果请求类型和请求的URL**同时**匹配成功，则Express会将这次请求，转交给对应的function函数进行处理
 
@@ -629,18 +629,19 @@ app.get("/user", (req, res) => {
     res.send({ url: "user", name: "zs", age: 20, gender: "男" });
 });
 
+// 通过express.json()这个中间件，解析表单中的JSON格式的数据
+app.use(express.json())
+// 通过express.urlencoded()这个中间件，来解析表单中的url-encoded格式的数据
+app.use(express.urlencoded({ extended: false }))
 // 监听客户端的POST请求
 app.post("/user", (req, res) => {
-    // 调用express提供的res.send()方法，向客户端响应一个文本字符串
-    res.send("/user请求成功");
-});
-
-// 获取URL中携带的查询参数
-app.get("/", (req, res) => {
     // 通过req.query可以获取到客户端发送过来的查询参数：?name=zs&age=20
     // 注意：默认情况下，req.query是一个空对象
     console.log(req.query);
-    res.send(req.query.age);
+    // 在服务器，可以使用req.body这个属性，来接收客户端发送过来的请求体数据
+    // 默认情况下，如果不配置解析表单数据的中间件，则req.body默认等于undefined
+    console.log(req.body) // 客户端发送的JSON格式的表单数据和url-encoded格式的数据都会显示
+    res.send("/user 请求成功");
 });
 
 // 获取URL中的动态参数
@@ -657,7 +658,7 @@ app.listen(80, () => {
 });
 ```
 
-### 模块化路由
+### 模块化路由（包含express全部代码）
 
 为了方便对路由进行模块化的管理，Express不建议将路由直接挂载到app上，而是推荐将路由抽离为单独的模块。
 
@@ -667,7 +668,7 @@ app.listen(80, () => {
 2. 调用`express.Router()`函数创建路由对象
 3. 向路由对象上挂载具体的路由
 4. 使用`module.exports`向外共享路由对象
-5. 使用`app.use()`函数注册路由模块。app.use() 函数的作用，就是来注册全局中间件
+5. 使用`app.use()`函数注册路由模块。`app.use()`函数的作用，就是来注册全局中间件（看下文）
 
 ```javascript
 // router.js
@@ -675,12 +676,32 @@ const express = require('express')
 // 创建路由对象
 const router = express.Router()
 // 挂载具体的路由
-router.get('/user/list', (req, res) => {
-  res.send('Get user list.')
-})
-router.post('/user/add', (req, res) => {
-  res.send('Add new user.')
-})
+router.get("/get", (req, res) => {
+  const query = req.query;
+  res.send({
+    status: 0,
+    msg: "GET请求成功",
+    data: query,
+  });
+});
+
+router.post("/post", (req, res) => {
+  const body = req.body;
+  res.send({
+    status: 0,
+    msg: "POST请求成功",
+    data: body,
+  });
+});
+
+router.delete("/delete", (req, res) => {
+  res.send({
+    status: 0,
+    msg: "DELETE请求成功",
+  });
+});
+// 这里也可以用router.use()绑定一个中间件
+router.use(function(req, res, next){...next()})
 // 向外导出路由对象
 module.exports = router
 
@@ -689,9 +710,29 @@ const express = require('express')
 // 导入路由模块
 const router = require('./router')
 const app = express()
+// 如果想要拿到客户端发送的post urlencoded表单数据，必须在路由之前配置中间件，否则是undefined
+app.use(express.urlencoded({ extended: false }));
+// 必须在配置cors中间件之前，配置JSONP的接口【这个接口不会被处理成CORS接口】
+// 没有注册路由，这里手动写
+app.get("/api/jsonp", (req, res) => {
+  // 1. 获取客户端发送过来的回调函数的名字
+  const funcName = req.query.callback;
+  // 2. 得到要通过JSONP形式发送给客户端的数据
+  const data = { name: "James", age: 100, id: 11 };
+  // 3. 根据前两步得到的数据，拼接出一个函数调用的字符串
+  const scriptStr = `${funcName}(${JSON.stringify(data)})`;
+  // 4. 把上一步拼接得到的字符串，响应给客户端的<script>标签进行解析执行
+  res.send(scriptStr);
+});
+
+// 在路由之前使用CORS中间件【后续的所有接口都会被处理成CORS接口】
+const cors = require("cors");
+app.use(cors());
+
 // app.use('/files', express.static('./files'))
-// 注册路由模块，添加访问前缀/api
-app.use('/api', router)
+// 注册路由模块，添加访问前缀/api（客户端访问时，要先加/api再加router里定义的路由）
+app.use("/api", router);
+
 app.listen(80, () => {
   console.log('http://127.0.0.1')
 })
@@ -699,21 +740,596 @@ app.listen(80, () => {
 
 ## Express中间件
 
-中间件（Middleware），特指业务流程的中间处理环节。当一个请求到达Express的服务器之后，可以连续调用多个中间件，从而对这次请求进行预处理
+中间件（Middleware），特指业务流程的中间处理环节。当一个请求到达Express的服务器之后，可以连续调用多个中间件，从而对这次请求进行预处理。Express的中间件，本质上就是一个function处理函数
 
 ![](../../图片笔记/前端/node/express_middleware.png)
 
-Express的中间件，本质上就是一个function处理函数，注意：中间件函数的形参列表中，必须包含`next`参数。而路由处理函数中只包含`req`和`res`。`next`函数是实现多个中间件连续调用的关键，它表示把流转关系转交给下一个中间件或路由
+`next`函数是实现多个中间件连续调用的关键，它表示把流转关系转交给下一个中间件或路由
 
 ![](../../图片笔记/前端/node/express_middleware_function.png)
 
+**注意：中间件函数的形参列表中，必须包含`next`参数**。而路由处理函数中只包含`req`和`res`。
 
+### 中间件的作用
+
+多个中间件之间，共享同一份`req`和`res`。基于这样的特性，我们可以在上游的中间件中，统一为`req`或`res`对象添加**自定义**的属性或方法，供下游的中间件或路由进行使用
+
+![](../../图片笔记/前端/node/express_middleware_share.png)
+
+中间件的5个使用注意事项
+
+1. 一定要在路由之前注册中间件。因为路由的匹配是在代码中从上往下的，如果路由匹配了，之后的函数不会再执行
+2. 客户端发送过来的请求，可以连续调用多个中间件进行处理
+3. 执行完中间件的业务代码之后，不要忘记调用`next()`函数
+4. 为了防止代码逻辑混乱，调用`next()`函数后不要再写额外的代码[把`next()`放在中间件函数的最后]
+5. 连续调用多个中间件时，多个中间件之间，共享`req`和`res`对象
+
+### 定义和使用全局生效的中间件函数
+
+全局生效的中间件：客户端发起的任何请求，到达服务器之后，都会触发的中间件，叫做全局生效的中间件。
+通过调用`app.use(中间件函数)`，即可定义一个全局生效的中间件
+
+```javascript
+// 定义一个最简单的中间件函数
+const mw = function (req, res, next) {
+  console.log('这是最简单的中间件函数')
+  // 把流转关系，转交给下一个中间件或路由
+  next()
+}
+// 将mw注册为全局生效的中间件
+app.use(mw)
+// ------------------------以上两步可以简化为----------------------------
+// 这是定义全局中间件的简化形式
+app.use((req, res, next) => {
+  console.log('这是最简单的中间件函数')
+  next()
+})
+// ------------------------先进入中间件函数，再进入路由处理函数----------------------------
+const express = require("express");
+const app = express();
+
+// 定义第一个全局中间件
+app.use((req, res, next) => {
+  console.log("调用了第1个全局中间件");
+  // 获取到请求到达服务器的时间
+  const time = Date.now();
+  // 为req对象挂载自定义属性，从而把时间共享给后面的所有路由
+  req.startTime = time;
+  next();
+});
+// 定义第二个全局中间件
+app.use((req, res, next) => {
+  console.log("调用了第2个全局中间件");
+  console.log(req.startTime);
+  next();
+});
+// 定义路由
+app.get("/", (req, res) => {
+  console.log("调用了 / 这个路由"); // 先打印中间件函数，再打印路由里的函数
+  res.send("Home page." + req.startTime); // req.startTime是中间件共享的
+});
+
+app.get("/user", (req, res) => {
+  console.log("调用了 /user 这个路由");
+  res.send("User page." + req.startTime);
+});
+```
+
+### 定义和使用局部生效的中间件函数
+
+不使用`app.use()`定义的中间件，叫做局部生效的中间件
+
+```javascript
+// 定义中间件函数
+const mw1 = (req, res, next) => {...next()}
+const mw2 = (req, res, next) => {...next()}
+// 定义路由，以下两个是等价的。中间件函数只会在 / 路由下局部生效
+app.get('/', [mw1, mw2], (req, res) => {})
+app.get('/', mw1, mw2, (req, res) => {})
+// /user这个路由不会受到中间件影响
+app.get('/user', (req, res) => {})
+```
+
+### 中间件的分类
+
+为了方便大家理解和记忆中间件的使用，Express 官方把常见的中间件用法，分成了 5 大类，分别是：
+
+1. 应用级别的中间件：通过`app.use()`或`app.get()`或`app.post()`绑定到 app 实例上的中间件。例如上面的全局中间件和局部中间件
+
+2. 路由级别的中间件：绑定到`express.Router()`实例上的中间件叫做路由级别的中间件。它的用法和应用级别中间件没有任何区别。只不过，应用级别中间件是绑定到 app 实例上，路由级别中间件绑定到 router 实例上
+
+   - ```javascript
+     var app = express()
+     var router = express.Router()
+     // 路由级别的中间件
+     router.use((req, res, next)=>{...next()})
+     app.use('/', router)
+     ```
+
+3. 错误级别的中间件：专门用来捕获整个项目中发生的异常错误，从而防止项目异常崩溃的问题
+
+   - 错误级别中间件的function处理函数中，必须有4个形参，形参顺序从前到后，分别是`(err, req, res, next)`
+
+   - **<u>错误级别的中间件，必须注册在所有路由之后</u>**
+
+   - ```javascript
+     app.get('/', function(req, res){
+         // 这里我们强制让他发生一个错误
+         // 如果没有中间件处理函数会崩溃，但是下一行的res.send还是不会执行
+         throw new Error('服务器内部发生了错误！')
+         // 这个函数不会执行
+         res.send('Home Page')
+     })
+     // 错误级别的中间件，捕获整个项目的异常错误，防止崩溃，必须注册在所有路由之后
+     app.use(function(err, req, res, next){
+         console.log('发生了错误' + err.message) // 在服务器打印错误消息
+         res.send('Error! ' + err.message) // 向客户端响应错误相关的内容
+     })
+     ```
+
+4. Express内置的中间件，自Express 4.16.0版本开始，Express 内置了3个常用的中间件，极大的提高了Express项目的开发效率和体验
+
+   - `express.static`快速托管静态资源的内置中间件，例如：HTML文件、图片、CSS样式等（无兼容性）
+   - `express.json`解析JSON格式的请求体数据（有兼容性，仅在4.16.0+版本中可用）
+     - `app.use(express.json())`
+   - `express.urlencoded`解析URL-encoded格式的请求体数据（有兼容性，仅在4.16.0+版本中可用）
+     - `app.use(express.urlencoded({ extended: false }))`
+   - 注意除了错误级别的中间件，其他的中间件必须在路由之前进行配置
+   - <img src="../../图片笔记/前端/node/postman发送数据.png" style="zoom: 50%;" />
+
+5. 第三方的中间件：非Express官方内置的，而是由第三方开发出来的中间件，叫做第三方中间件
+
+#### 使用body-parser第三方中间件解析请求体数据
+
+1. 运行`npm install body-parser`安装中间件
+2. 使用`require`导入中间件
+3. 调用`app.use()`注册并使用中间件
+
+Express内置的`express.urlencoded`中间件，就是基于`body-parser`这个第三方中间件进一步封装出来的
+
+```javascript
+// 1. 导入解析表单数据的中间件body-parser
+const parser = require('body-parser')
+// 2. 使用 app.use() 注册中间件
+app.use(parser.urlencoded({ extended: false }))
+// 使用Express内置的express.urlencoded中间件
+// app.use(express.urlencoded({ extended: false }))
+app.post(...)
+```
+
+### 自定义express.urlencoded中间件
+
+```javascript
+const express = require("express");
+const qs = require("querystring");
+const app = express();
+
+app.use((req, res, next) => {
+  /*
+    监听req的data事件
+    在中间件中，需要监听req对象的data事件，来获取客户端发送到服务器的数据
+    如果数据量比较大，无法一次性发送完毕，则客户端会把数据切割后，分批发送到服务器。所以data事件可能会触发多次，每一次触发data事件时，获取到数据只是完整数据的一部分，需要手动对接收到的数据进行拼接
+  */
+  // 定义一个str字符串用来拼接客户端发送的请求体数据
+  let str = "";
+  req.on("data", (chunk) => {
+    str += chunk;
+  });
+  /*
+    监听req的end事件
+    当请求体数据接收完毕之后，会自动触发req的end事件
+    因此，我们可以在req的end事件中，拿到并处理完整的请求体数据
+  */
+  req.on("end", () => {
+    console.log(str); // 此时在str中存放的是完整的请求体数据
+    /*
+      调用qs.parse()方法，把查询字符串解析为对象
+      Node.js内置了一个querystring模块，专门用来处理查询字符串。通过这个模块提供的parse()函数，可以轻松把查询字符串，解析成对象的格式
+    */
+    const body = qs.parse(str);
+    /*
+      上游的中间件和下游的中间件及路由之间，共享同一份req和 res。
+      因此，我们可以将解析出来的数据，挂载为req的自定义属性，命名为req.body，供下游使用
+    */
+    req.body = body;
+    next();
+  });
+});
+
+app.post("/user", (req, res) => {
+  res.send(req.body);
+});
+
+// 指定端口号并开启服务器
+app.listen(80, () => {
+  console.log("Express server running at http://127.0.0.1");
+});
+```
+
+### 使用express-session进行身份验证
+
+`npm install express-session`
+
+```javascript
+const express = require("express");
+const app = express();
+
+// 配置Session中间件
+const session = require("express-session");
+app.use(
+  session({
+    secret: "itheima", // 自定义
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+
+// 托管静态页面
+app.use(express.static("./pages"));
+// 解析POST提交过来的表单数据
+app.use(express.urlencoded({ extended: false }));
+
+// 登录的 API 接口
+app.post("/api/login", (req, res) => {
+  // 判断用户提交的登录信息是否正确
+  if (req.body.username !== "admin" || req.body.password !== "000000") {
+    return res.send({ status: 1, msg: "登录失败" });
+  }
+
+  // 将登录成功后的用户信息，保存到Session中
+  // 只有成功配置了express-session中间件之后，才能够通过req.session来访问和使用session对象
+  req.session.user = req.body; // 用户的信息
+  req.session.islogin = true; // 用户的登录状态
+
+  res.send({ status: 0, msg: "登录成功" });
+});
+
+// 获取上一部分用户发送的信息并相应的改变username接口的内容
+app.get("/api/username", (req, res) => {
+  if (!req.session.islogin) {
+    return res.send({ status: 1, msg: "fail" });
+  }
+  res.send({
+    status: 0,
+    msg: "success",
+    username: req.session.user.username,
+  });
+});
+
+// 退出登录的接口并清空**当前客户端**对应的session信息
+app.post("/api/logout", (req, res) => {
+  req.session.destroy();
+  res.send({
+    status: 0,
+    msg: "退出登录成功",
+  });
+});
+
+app.listen(80, function () {
+  console.log("Express server running at http://127.0.0.1:80");
+});
+```
+
+#### 使用express-jwt和jsonwebtoken进行身份验证
+
+`npm install jsonwebtoken express-jwt`其中
+
+- `jsonwebtoken`用于生成JWT字符串
+- `express-jwt`用于将JWT字符串解析还原成JSON对象
+
+```javascript
+const express = require('express')
+const app = express()
+
+// 导入jsonwebtoken和express-jwt
+const jwt = require('jsonwebtoken')
+const expressJWT = require('express-jwt')
+
+// 允许跨域资源共享
+const cors = require('cors')
+app.use(cors())
+
+// 解析post表单数据的中间件
+const bodyParser = require('body-parser')
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// 定义secret密钥，建议将密钥命名为secretKey。secret密钥的本质就是一个字符串
+/* 
+  为了保证JWT字符串的安全性，防止JWT字符串在网络传输过程中被别人破解，我们需要专门定义一个用于加密和解密的secret密钥：
+  当生成JWT字符串的时候，需要使用 ecret密钥对用户的信息进行加密，最终得到加密好的JWT字符串
+  当把JWT字符串解析还原成JSON对象的时候，需要使用secret密钥进行解密 
+*/
+const secretKey = 'itheima No1 ^_^'
+
+// 服务器可以通过express-jwt这个中间件，自动将客户端发送过来的Token解析还原成JSON对象
+/* 
+  客户端每次在访问那些有权限接口的时候都需要主动通过请求头中的Authorization字段，将Token字符串发送到服务器进行身份认证
+  注意：只要成功配置了express-jwt这个中间件，就可以把解析出来的用户信息，挂载到req.user属性上
+ */
+// unless({ path: [/^\/api\//] }) 用来指定哪些接口不需要访问权限。正则+转义表示以/api/开头的
+app.use(expressJWT({ secret: secretKey }).unless({ path: [/^\/api\//] }))
+
+// 登录接口
+app.post('/api/login', function (req, res) {
+  const userinfo = req.body
+  // 登录失败
+  if (userinfo.username !== 'admin' || userinfo.password !== '000000') {
+    return res.send({
+      status: 400,
+      message: '登录失败！',
+    })
+  }
+
+  // 在登录成功之后，用jwt.sign()方法生成JWT字符串。并通过token属性发送给客户端
+/*   
+  参数1：用户的信息对象
+  参数2：加密的秘钥
+  参数3：配置对象，可以配置当前token的有效期 
+  */
+  // 记住：千万不要把重要信息类似用户密码加密到token字符中
+  const tokenStr = jwt.sign({ username: userinfo.username }, secretKey, { expiresIn: '30s' }) // '3h'
+  res.send({
+    status: 200,
+    message: '登录成功！',
+    token: tokenStr, // 要发送给客户端的 token 字符串
+  })
+})
+
+// 这是一个有权限的 API 接口
+app.get('/admin/getinfo', function (req, res) {
+  // 使用req.user获取用户信息
+  // 当express-jwt这个中间件配置成功之后，即可在那些有权限的接口中使用req.user对象来访问从JWT字符串中解析出来的用户信息了
+  console.log(req.user)
+  res.send({
+    status: 200,
+    message: '获取用户信息成功！',
+    data: req.user, // 要发送给客户端的用户信息
+  })
+})
+
+// 使用全局错误处理中间件，捕获解析JWT失败后产生的错误
+/* 当使用express-jwt解析Token字符串时，如果客户端发送过来的Token字符串过期或不合法，会产生一个解析失败的错误，影响项目的正常运行。我们可以通过Express的错误中间件，捕获这个错误并进行相关的处理 */
+app.use((err, req, res, next) => {
+  // 这次错误是由token解析失败导致的
+  if (err.name === 'UnauthorizedError') {
+    return res.send({
+      status: 401,
+      message: '无效的token',
+    })
+  }
+  res.send({
+    status: 500,
+    message: '未知的错误',
+  })
+})
+
+app.listen(8888, function () {
+  console.log('Express server running at http://127.0.0.1:8888')
+})
+```
+
+## CORS跨域资源共享
+
+CORS （Cross-Origin Resource Sharing，跨域资源共享）由一系列HTTP响应头组成，这些HTTP响应头决定浏览器是否阻止**前端JS代码跨域获取资源**
+
+**浏览器的同源安全策略默认会阻止网页跨域获取资源。但如果接口服务器配置了CORS相关的HTTP响应头，就可以解除浏览器端的跨域访问限制**
+
+![](../../图片笔记/前端/node/CORS跨域资源共享.png)
+
+**注意**
+
+1. CORS主要在服务器端进行配置。客户端浏览器无须做任何额外的配置，即可请求开启了CORS的接口
+2. CORS在浏览器中有兼容性。只有支持XMLHttpRequest Level2的浏览器，才能正常访问开启了CORS的服务端接口（例如：IE10+、Chrome4+、FireFox3.5+）
+
+**解决接口跨域问题的方案主要有两种：**
+
+1. CORS（主流的解决方案，推荐使用）
+2. JSONP（有缺陷的解决方案：只支持 GET 请求）：
+   - 如果项目中已经配置了CORS跨域资源共享，为了防止冲突，必须在配置CORS中间件之前声明JSONP的接口。否则JSONP接口会被处理成开启了CORS的接口
+
+
+### CORS响应头
+
+#### Access-Control-Allow-Origin
+
+响应头部中可以携带一个`Access-Control-Allow-Origin`字段：
+
+- `Access-Control-Allow-Origin: <origin> | *`
+  - `origin`参数的值指定了允许访问该资源的外域URL。例如，下面的字段值将只允许来自http://itcast.cn 的请求：`res.setHeader('Access-Control-Allow-Origin', 'http://itcast.cn')`
+  - 如果指定了`Access-Control-Allow-Origin`字段的值为通配符`*`，表示允许来自任何域的请求：`res.setHeader('Access-Control-Allow-Origin', '*')`
+
+#### Access-Control-Allow-Headers
+
+默认情况下，CORS仅支持客户端向服务器发送如下的 9 个请求头：`Accept`、`Accept-Language`、`Content-Language`、`DPR`、`Downlink`、`Save-Data`、`Viewport-Width`、`Width`、`Content-Type `（值仅限于 `text/plain`、`multipart/form-data`、`application/x-www-form-urlencoded`三者之一）
+
+如果客户端向服务器发送了额外的请求头信息，则需要在服务器端，通过`Access-Control-Allow-Headers`对额外的请求头进行声明，否则这次请求会失败！
+
+- `res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-Custom-Header')`
+  - 注意多个请求头之间使用英文逗号进行分隔
+
+#### Access-Control-Allow-Methods
+
+默认情况下，CORS仅支持客户端发起`GET`、`POST`、`HEAD`请求。如果客户端希望通过`PUT`、`DELETE`等方式请求服务器的资源，则需要在服务器端，通过`Access-Control-Alow-Methods`来指明实际请求所允许使用的HTTP方法
+
+- `res.setHeader('Access-Control-Allow-Methods', 'POST, GET, DELETE, HEAD')`
+- 允许请求所有的HTTP方法：`res.setHeader('Access-Control-Allow-Methods', '*')`
+
+### CORS请求的分类
+
+客户端在请求CORS接口时，根据请求方式和请求头的不同，可以将CORS的请求分为两大类，分别是：
+
+1. 简单请求，同时满足以下两大条件的请求，就属于简单请求：
+   1. 请求方式：`GET`、`POST`、`HEAD`三者之一
+   2. HTTP头部信息不超过以下几种字段：不包含自定义头部字段、`Accept`、`Accept-Language`、`Content-Language`、`DPR`、`Downlink`、`Save-Data`、`Viewport-Width`、`Width`、`Content-Type`（只有三个值`application/x-www-form-urlencoded`、`multipart/form-data`、`text/plain`）
+2. 预检请求：在浏览器与服务器正式通信之前，浏览器会先发送`OPTION`请求进行预检，以获知服务器是否允许该实际请求，所以这一次的`OPTION请求称为**预检请求**。服务器成功响应预检请求后，才会发送真正的请求，并且携带真实数据。只要符合以下任何一个条件的请求，都需要进行预检请求：
+   1. 请求方式为`GET`、`POST`、`HEAD`之外的请求Method类型（例如`DELETE`，`PUT`）
+   2. 请求头中包含自定义头部字段
+   3. 向服务器发送了 application/json 格式的数据
+
+**简单请求和预检请求的区别**
+
+简单请求的特点：客户端与服务器之间只会发生一次请求
+
+预检请求的特点：客户端与服务器之间会发生两次请求，`OPTION`预检请求成功之后，才会发起真正的请求
+
+### 在服务器端中实现JSONP接口的步骤
+
+1. 获取客户端发送过来的回调函数的名字
+2. 得到要通过`JSONP`形式发送给客户端的数据
+3. 根据前两步得到的数据，拼接出一个函数调用的字符串
+4. 把上一步拼接得到的字符串，响应给客户端的`<script>`标签进行解析执行
+
+```javascript
+// 必须在配置cors中间件之前，配置JSONP的接口【这个接口不会被处理成CORS接口】
+app.get("/api/jsonp", (req, res) => {
+  // 1. 获取客户端发送过来的回调函数的名字
+  const funcName = req.query.callback;
+  // 2. 得到要通过JSONP形式发送给客户端的数据
+  const data = { name: "James", age: 100, id: 11 };
+  // 3. 根据前两步得到的数据，拼接出一个函数调用的字符串
+  const scriptStr = `${funcName}(${JSON.stringify(data)})`;
+  // 4. 把上一步拼接得到的字符串，响应给客户端的<script>标签进行解析执行
+  res.send(scriptStr);
+});
+```
+
+### 使用Express cors中间件解决跨域问题
+
+cors是Express的一个第三方中间件。通过安装和配置cors中间件，可以很方便地解决跨域问题
+
+使用步骤分为如下 3 步：
+
+1. 运行`npm install cors`安装中间件
+2. 使用`const cors = require('cors')`导入中间件
+3. 在路由之前调用`app.use(cors())`配置中间件
+
+# mysql
+
+mysql模块是托管于npm上的第三方模块。它提供了在Node.js项目中连接和操作MySQL数据库的能力。运行`npm install mysql`安装模块
+
+```javascript
+// 导入mysql模块
+const mysql = require("mysql");
+// 建立与MySQL数据库的连接关系
+const db = mysql.createPool({
+  host: "127.0.0.1", // 数据库的IP地址
+  user: "root", // 登录数据库的账号
+  password: "1djdgQL@", // 登录数据库的密码
+  database: "stock_db", // 指定要操作哪个数据库
+});
+
+// 查询语句
+const selectQuery = "select * from info;";
+db.query(selectQuery, (err, results) => {
+  // mysql模块工作期间报错了
+  if (err) return console.log(err.message);
+  // 能够成功的执行SQL语句，返回的results是一个数组[ RowDataPacket { '1':1 } ]，里面包含查询的结果
+  console.log(results);
+});
+
+// 插入语句，插入的内容
+const company = {
+  id: "94",
+  code: "603993",
+  short: "洛阳钼业",
+  chg: "2.94%",
+  turnover: "2.50%",
+  price: "7.36",
+  highs: "7.16",
+  time: "2017-07-19",
+};
+
+// 插入语句使用数组对占位符填充
+// ? 表示占位符
+const insertQuery =
+  "insert into info (id, code, short, chg, turnover, price, highs, time) values (?, ?, ?, ?, ?, ?, ?, ?);";
+// 值会自动填充问号
+// 如果sql语句中有多个占位符，则必须使用数组为每个占位符指定具体的值。如果只有一个占位符，可以省略数组直接插入数据
+db.query(
+  insertQuery,
+  [
+    company.id,
+    company.code,
+    company.short,
+    company.chg,
+    company.turnover,
+    company.price,
+    company.highs,
+    company.time,
+  ],
+  (err, results) => {
+    if (err) return console.log(err.message);
+    // 注意：如果执行的是insert into插入语句，则results是一个对象。可以通过affectedRows属性来判断是否插入数据成功
+    // results返回的是一个对象
+    if (results.affectedRows === 1) {
+      console.log("插入数据成功");
+    }
+  }
+);
+
+// 插入语句的便捷方式使用对象
+// 向表中插入或更新数据时，如果插入或更新的对象的每个属性和数据表的字段一一对应，则可以通过如下方式快速插入或更新数据
+const insertQuery = "insert into info set ?";
+db.query(insertQuery, company, (err, results) => {
+  if (err) return console.log(err.message);
+  if (results.affectedRows === 1) {
+    console.log("插入数据成功");
+  }
+});
+
+// 更新语句
+const newInfo = { price: "2.11", highs: "2.11", id: "94" };
+const updateQuery = "update info set price=?, highs=? where id=94;";
+db.query(updateQuery, [newInfo.price, newInfo.highs, newInfo.id], (err, results) => {
+  if (err) return console.log(err.message);
+  if (results.affectedRows === 1) {
+    console.log("更新数据成功");
+  }
+});
+
+// 更新的便捷方式使用对象
+const updateQuery = "update info set ? where id = ?;";
+db.query(updateQuery, [newInfo, newInfo.id], (err, results) => {
+  if (err) return console.log(err.message);
+  if (results.affectedRows === 1) {
+    console.log("更新数据成功");
+  }
+});
+
+// 删除语句
+const deleteQuery = "delete from info where id=?;";
+db.query(deleteQuery, 94, (err, results) => {
+  if (err) return console.log(err.message);
+  if (results.affectedRows === 1) {
+    console.log("删除数据成功");
+  }
+});
+
+```
 
 # 问题处理
 
-global install express但是在运行的时候显示can't find module express
+问题：global install express但是在运行的时候显示can't find module express
 
 <u>解决方式</u>：Add an environment variable called `NODE_PATH` and set it to `C:\Users\admin\AppData\Roaming\npm\node_modules`. Add `C:\Users\admin\AppData\Roaming\npm` to PATH. You have to restart cmd/powershell/VSC
 
 ***
+
+<u>问题：</u>安装`npm install mysql`并使用后，跳出错误
+
+>ER_NOT_SUPPORTED_AUTH_MODE: Client does not support authentication protocol requested by server; consider upgrading MySQL client
+
+<u>解决方式</u>
+
+1. Execute the following query in MYSQL Workbench（命令行也行）
+   - `ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '新的password';`
+   - Where `root` as your user `localhost` as your URL and `password` as your password
+
+2. Then run this query to refresh privileges:
+
+   - `flush privileges;`
+3. Try connecting using node after you do so.
+
+
+If that doesn't work, try it without `@'localhost'` part.
 
