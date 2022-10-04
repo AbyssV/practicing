@@ -2,6 +2,30 @@ This repository is used for self-learning, note taking and practicing with simpl
 
 
 
+# Study Path
+
+## 数据结构和算法
+
+- 哈希表：散列函数、碰撞解决
+- 字符串：KMP、数据压缩
+- 树：AVL树、红黑树、b（refer to database）、b+
+- Monte Carlo
+- Union Find，LRD
+
+
+
+## 编程语言进阶
+
+- 继承，封装，多态
+
+
+
+## 其他技能
+
+- Docker
+
+
+
 # front end study
 
 1. （除案例已完成）HTML5+CSS3+移动端+jQuery+JS基础：https://www.bilibili.com/video/BV1RK4y1X7qd?spm_id_from=333.999.0.0&vd_source=d16bf647e36354ffbe4efd700a927726
@@ -29,8 +53,4 @@ This repository is used for self-learning, note taking and practicing with simpl
 - **配置备份**: copy for configuration. used to configure settings in new machine
 - **图片笔记**: assets of markdown笔记. also has some extra mind maps
 - **遇到的问题.md**: common problems
-
-
-
-# Resources
 

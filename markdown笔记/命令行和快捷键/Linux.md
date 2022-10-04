@@ -228,6 +228,21 @@ scp命令格式:
     - ```scp yating@192.168.xx.xx:/home/yating/test .```
   - ```-r```表示递归拷贝整个目录，```scp```后必须跟参数
 
+# SFTP
+
+```bash
+sftp -i 'tomcat.pem' your remote server address
+> ls # remove server file system
+> lls *.java # local file system
+> cd ...
+> pwd
+> lpwd
+> put xxx.txt # upload 
+> get xxx.txt # download
+```
+
+
+
 # 文件权限命令
 
 ```ls -la```查看权限```-当前用户权限-同组用户权限-其他用户权限--```：
@@ -541,6 +556,7 @@ Ubuntu软件安装有两种方式:
   - 是在线安装deb软件包的命令，主要用于在线从互联网的软件仓库中搜索、安装、升级、卸载软件。
     - ```sudo apt-get update```更新软件下载列表
     - ```sudo apt–get install 安装包 ```
+    - `sudo apt list --installed`查看安装的包
 
 ## 更改镜像源
 因为使用```apt-get```命令默认是从国外的服务器下载安装软件的，会导致下载安装速度很慢，所以需要更改成国内的镜像源服务器。
