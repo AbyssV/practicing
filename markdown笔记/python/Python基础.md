@@ -630,6 +630,8 @@ print(tuple1.count('bb'))  # 2
 
 - There is a type called ```defaultdict``` whose constructor generally takes an argument that is a reference to any object that CAN BE CALLED WITH NO ARGUMENTS. Very frequently we use a NAME OF A CLASS that when called will CONSTRUCT A NEW VALUE: if the argument is ```int```, it will call ```int()``` producing the value ```0```; if the argument is ```list```, it will call ```list()``` producing an empty list; if the argument is ```set```, it will call ```set()``` producing an empty set; etc.
 
+![set](../../图片笔记/Python/dict.png)
+
 ```python
 # comprehension字典推导式
 dict1 = {k : len(k) for k in ['one', 'two', 'three', 'four', 'five']}
@@ -693,12 +695,37 @@ for i in range(10):
 print(dict(dd)) # {'even': [0, 2, 4, 6, 8], 'odd': [1, 3, 5, 7, 9]}
 ```
 
+### Counter
+
+- A Counter is a dict subclass for counting hashable objects. It is an unordered collection where elements are stored as dictionary keys and their counts are stored as dictionary values. Counts are allowed to be any integer value including zero or negative counts. The Counter class is similar to bags or multisets in other languages.
+
+```python
+from collections import Counter
+
+c = Counter('gallahad')
+print(c)
+del c['a']
+print(c)
+# Counter objects have a dictionary interface except that they return a zero count for missing items instead of raising a KeyError
+print(c['z'])
+# Return a list of the n most common elements and their counts from the most common to the least. If n is omitted or None, most_common() returns all elements in the counter. Elements with equal counts are ordered arbitrarily
+print(Counter('abracadabra').most_common(3))
+```
+
+
 ### set和frozenset
 
 - 集合可以去掉重复数据；
 - 集合数据是无序的，故不支持下标
-- 创建集合使用`{}`或`set()`， 但是如果要创建空集合只能使用`set()`，因为`{}`用来创建空字典。
-- a frozenset can do everything that a set can do, but doesn't allow any mutator methods to be called(so we can not add a value to or delete a value from a frozenset). Thus, we can use a frozenset as a value in a set or a key in a dictionary
+- 创建集合使用`{1,2,3}`或`set()`， 但是如果要创建空集合只能使用`set()`，因为`{}`用来创建空字典。
+- Frozenset is a new class that has the characteristics of a set, but its elements cannot be changed once assigned. While tuples are immutable lists, frozensets are immutable sets.
+  
+  Sets being mutable are unhashable, so they can't be used as dictionary keys. On the other hand, frozensets are hashable and can be used as keys to a dictionary.
+  
+  Frozensets can be created using the function `frozenset()`.
+  
+  This datatype supports methods like `copy()`, `difference()`, `intersection()`, `isdisjoint()`, `issubset()`, `issuperset()`, `symmetric_difference()` and `union()`. Being immutable it does not have method that add or remove elements.
+
 
 ```python
 # comprehension集合推导式
@@ -730,10 +757,65 @@ print(s1) # {10, 20}
 print(s1.pop())
 
 # frozenset
-set1 = frozenset()
+A = frozenset([1, 2, 3, 4])
+B = frozenset([3, 4, 5, 6])
+A.isdisjoint(B) # False
+A.difference(B) # frozenset({1, 2})
+# A.add(3) # error
 ```
 
 ![set](../../图片笔记/Python/set.png)
+
+![set](../../图片笔记/Python/setbuiltin.png)
+
+```python
+# these methods do not mutate the original set
+# set union
+# Union of A and B is a set of all elements from both sets
+# Union is performed using | operator. Same can be accomplished using the method union()
+A = {1, 2, 3, 4, 5}
+B = {8, 7, 6, 5, 4}
+# use | operator
+# Output: {1, 2, 3, 4, 5, 6, 7, 8}
+print(A | B)
+A.union(B)
+B.union(A)
+
+# Set Intersection
+# Intersection of A and B is a set of elements that are common in both sets.
+# Intersection is performed using & operator. Same can be accomplished using the method intersection().
+A = {1, 2, 3, 4, 5}
+B = {4, 5, 6, 7, 8}
+# use & operator
+# Output: {4, 5}
+print(A & B)
+A.intersection(B)
+B.intersection(A)
+
+# Set Difference
+# Difference of A and B (A - B) is a set of elements that are only in A but not in B. Similarly, B - A is a set of element in B but not in A.
+# Difference is performed using - operator. Same can be accomplished using the method difference().
+A = {1, 2, 3, 4, 5}
+B = {4, 5, 6, 7, 8}
+# use - operator on A
+# Output: {1, 2, 3}
+print(A - B)
+A.difference(B)
+B.difference(A)
+
+# Set Symmetric Difference
+# Symmetric Difference of A and B is a set of elements in both A and B except those that are common in both.
+# Symmetric difference is performed using ^ operator. Same can be accomplished using the method symmetric_difference().
+A = {1, 2, 3, 4, 5}
+B = {4, 5, 6, 7, 8}
+# use ^ operator
+# Output: {1, 2, 3, 6, 7, 8}
+print(A ^ B)
+A.symmetric_difference(B)
+B.symmetric_difference(A)
+```
+
+
 
 ## 生成器
 
@@ -1705,6 +1787,8 @@ testB() # NameError: name 'testB' is not defined
 
 ### 导入包
 
+以数字开头命名的包不能导入
+
 **注意同一文件夹导入时也需要加包名**
 
 <u>方法一</u>
@@ -1832,275 +1916,6 @@ def my_open(path, mode):
         
 with my_open('out.txt', 'w') as f:
     f.write("hello , the simplest context manager")
-```
-
-## 常用library
-
-### math
-
-```python
-import math
-math.sqrt(x)
-math.ceil(x)/math.floor(x)
-math.cos(x)/math.sin(x)
-math.log(x, base)
-math.pi/math.e
-```
-
-### `logging`日志
-
-记录程序日志信息的目的是
-
-1. 可以很方便的了解程序的运行情况
-2. 可以分析用户的操作行为、喜好等信息
-3. 方便开发人员检查bug
-
-#### 日志等级
-
-日志等级可以分为5个，从低到高分别是:
-
-1. DEBUG：程序调试bug时使用
-2. INFO：程序正常运行时使用
-3. WARNING：程序未按预期运行时使用，但并不是错误，如:用户登录密码错误
-4. ERROR：程序出错误时使用，如:IO操作失败
-5. CRITICAL：特别严重的问题，导致程序不能再继续运行时使用，如:磁盘空间为空，一般很少使用
-
-默认的日志级别设置为WARNING，当在WARNING或WARNING之上等级的才记录日志信息。
-
-日志等级从低到高的顺序是: DEBUG < INFO < WARNING < ERROR < CRITICAL
-
-#### 示例
-
-在`logging`包中记录日志的方式有两种:
-
-1. 输出到控制台
-2. 保存到日志文件
-
-**设置日志等级和输出日志格式**
-
-- `level`表示设置的日志等级
-- `format`表示日志的输出格式, 参数说明:
-  - `%(levelname)s`: 打印日志级别名称
-  - `%(filename)s`: 打印当前执行程序名
-  - `%(lineno)d`: 打印日志的当前行号
-  - `%(asctime)s`: 打印日志的时间
-  - `%(message)s`: 打印日志信息
-
-```python
-import logging
-logging.basicConfig(level=logging.DEBUG,
-                    format='%(asctime)s - %(filename)s[line:%(lineno)d] - %(levelname)s: %(message)s',
-                    filename="log.txt",
-                    filemode="a")
-logging.debug('这是一个debug级别的日志信息')
-logging.info('这是一个info级别的日志信息')
-logging.warning('这是一个warning级别的日志信息')
-logging.error('这是一个error级别的日志信息')
-logging.critical('这是一个critical级别的日志信息')
-"""
-运行结果在log.txt：
-2021-03-28 23:40:34,837 - logging.py[line:6] - DEBUG: 这是一个debug级别的日志信息
-2021-03-28 23:40:34,862 - logging.py[line:7] - INFO: 这是一个info级别的日志信息
-2021-03-28 23:40:34,862 - logging.py[line:8] - WARNING: 这是一个warning级别的日志信息
-2021-03-28 23:40:34,862 - logging.py[line:9] - ERROR: 这是一个error级别的日志信息
-2021-03-28 23:40:34,862 - logging.py[line:10] - CRITICAL: 这是一个critical级别的日志信息
-"""
-# 注意，以上代码不能修改写入文件的编码格式，所以我找了下，这是修改后的代码
-logger = logging.getLogger()
-logger.setLevel(logging.DEBUG)
-fh = logging.FileHandler(filename="log.txt", mode="a", encoding="utf-8")
-logger.addHandler(fh)
-formatter = logging.Formatter("%(asctime)s-%(filename)s[lineno:%(lineno)d]-%(levelname)s-%(message)s")
-fh.setFormatter(formatter)
-```
-
-### os
-
-```python
-import os
-# os模块中文件和文件夹的操作
-os.rename(目标文件名, 新文件名) # 文件重命名
-os.remove(目标文件名) # 删除文件
-os.mkdir(文件夹名字) # 创建文件夹
-os.rmdir(文件夹名字) # 删除文件夹
-os.getcwd() # 获取当前目录
-os.chdir(目录) # 改变默认目录
-os.listdir(目录) # 获取目录列表
-```
-
-### time
-
-```python
-import time
-time.time()
-time.ctime()
-```
-
-### pymysql
-
-#### 防止SQL注入
-
-用户提交带有恶意的数据与SQL语句进行字符串方式的拼接，从而影响了SQL语句的语义，最终产生**数据泄露**的现象。例如：```sql = "select * from students where name = '%s';" % "黄蓉' or 1 = 1 or '"`会显示所有的数据
-
-**如何防止SQL注入?**
-
-SQL语句参数化
-
-- SQL语言中的参数使用`%s`来占位，此处不是python中的字符串格式化操作
-- 将SQL语句中`%s`占位所需要的参数存在一个列表中，把参数列表传递给`execute`方法中第二个参数
-
-<img src="../../图片笔记/Python/pymysql.png" style="zoom:50%;" />
-
-```python
-import pymysql
-"""
-*参数host：连接的mysql主机，如果本机是
-'localhost'
-*参数port：连接的mysql主机的端口，默认是3306
-*参数user：连接的用户名
-*参数password：连接的密码
-*参数database：数据库的名称
-*参数charset：通信采用的编码方式，推荐使用utf8
-"""
-# 创建连接对象
-"""
-连接对象操作说明:
-    - 关闭连接 conn.close()
-    - 提交数据 conn.commit() 表示将修改操作提交到数据库
-    - 撤销数据 conn.rollback() 表示回滚数据
-"""
-conn = pymysql.connect(host="localhost",
-                       port=3306,
-                       user="root",
-                       password="1djdgQL@",
-                       database="self_practice",
-                       charset="utf8")
-# 获取游标对象
-"""
-游标操作说明:
-    - 使用游标执行SQL语句: execute(operation [parameters ]) 执行SQL语句，
-      返回受影响的行数，主要用于执行insert、update、delete、select等语句
-    - 获取查询结果集中的一条数据:cur.fetchone()返回一个元组, 如 (1,'张三')
-    - 获取查询结果集中的所有数据: cur.fetchall()返回一个元组,如((1,'张三'),(2,'李四'))
-    - 关闭游标: cur.close(),表示和数据库操作完成
-"""
-cursor = conn.cursor();
-sql = "insert into goods values(%s, %s, %s, %s, %s, %s, %s);"
-try:
-    cursor.execute(sql, (0, 'test_laptop1', 'alienware', '戴尔', 16888.000, 1, 0))
-    # 如果是查询的sql语句，可以不用提交
-    conn.commit()
-except Exception as e:
-    print(e)
-    conn.rollback()
-"""
-# 查询语句
-sql = "select * from goods where cate_name = %s and price > %s;"
-# 返回的数据类型是一个元组，其中元组里面的每条数据还是元组
-cursor.execute(sql, ("超级本", 1000))
-result = cursor.fetchall()
-for row in result:
-    print(row)
-"""
-cursor.close()
-conn.close()
-```
-
-### xlrd
-
-python操作excel主要用到```xlrd```和```xlwt```这两个库，即```xlrd```是读excel，```xlwt```是写excel的库。
-
-#### 常用单元格中的数据类型
-
-- 0: empty（空的
-
-- 1: string（text）
-- 2: number
-
-- 3: date: 日期需要做特殊处理
-- 4: boolean
-- 5: error
-
-- 6: blank（空白表格）
-
-```python
-# -*- coding: utf-8 -*-
-import xlrd
-data = xlrd.open_workbook(filename)#文件名以及路径，如果路径或者文件名有中文给前面加一个r表示原生字符。需要输入Excel的名称，程序会在Python程序所在目录下找到该文件，如果文件不存在，会返回FileNotFoundError错误
-names = data.sheet_names()    #返回book中所有工作表的名字
-table = data.sheets()[0]          #通过索引顺序获取
-table = data.sheet_by_index(sheet_indx) #通过索引顺序获取
-table = data.sheet_by_name(sheet_name)#通过名称获取
-'''以上三个函数都会返回一个xlrd.sheet.Sheet()对象'''
-data.sheet_loaded(sheet_name or indx)   # 检查某个sheet是否导入完毕
-
-print(sheet1.name, sheet1.nrows, sheet1.ncols)
-# sheet1的名称、行数、列数
-print(sheet1.row_values(0), sheet1.col_values(0), sheet1.cell_value(0, 0))
-# sheet1的某一行/某一列所有值的列表，某行某列的值
-nrows = table.nrows  #获取该sheet中的有效行数
-table.row(rowx)  #返回由该行中所有的单元格对象组成的列表
-table.row_slice(rowx)  #返回由该列中所有的单元格对象组成的列表
-table.row_types(rowx, start_colx=0, end_colx=None)    #返回由该行中所有单元格的数据类型组成的列表
-table.row_values(rowx, start_colx=0, end_colx=None)   #返回由该行中所有单元格的数据组成的列表
-table.row_len(rowx) #返回该列的有效单元格长度
-ncols = table.ncols   #获取列表的有效列数
-table.col(colx, start_rowx=0, end_rowx=None)  #返回由该列中所有的单元格对象组成的列表
-table.col_slice(colx, start_rowx=0, end_rowx=None)  #返回由该列中所有的单元格对象组成的列表
-table.col_types(colx, start_rowx=0, end_rowx=None)    #返回由该列中所有单元格的数据类型组成的列表
-table.col_values(colx, start_rowx=0, end_rowx=None)   #返回由该列中所有单元格的数据组成的列表
-table.cell(rowx,colx)   #返回单元格对象
-
-table.cell_type(rowx,colx)    #返回单元格中的数据类型
-table.cell_value(rowx,colx)   #返回单元格中的数据
-table.cell_xf_index(rowx, colx)   # 暂时还没有搞懂
-
-#日期的处理
-'''
-excel中的日期时间通过xlrd读取到数据后，会转换成一串数字
-2018/07/10会转换为43291.0
-2018/7/10  18:15:02 会转换成43291.76043981482
-'''
-cell_0_0_tuple = xlrd.xldata_as_tuple(cell_0_0.value, datemode=0)
-# 首先要判断ctype属于日期，然后才能转换为tuple（年，月，日，时，分，秒）
-# datemode在此处的含义是从1900年开始，如果等于1，则是从1904年开始（使用0即可）
-
-from datetime import datetime, date
-date(*cell_0_0_tuple[:3]）.strftime('%Y/%m/%d')
-# 使用date模块，将tuple的年月日转换为date对象（只支持三位参数），使用strftime方法格式化。
-```
-
-### xlwt
-
-```python
-# -*- coding: utf-8 -*-
-#导入xlwt模块
-import xlwt
-# 创建一个Workbook对象，这就相当于创建了一个Excel文件
-book = xlwt.Workbook(encoding='utf-8', style_compression=0)
-'''
-Workbook类初始化时有encoding和style_compression参数
-encoding:设置字符编码，一般要这样设置：w = Workbook(encoding='utf-8')，就可以在excel中输出中文了。
-默认是ascii。当然要记得在文件头部添加：
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-style_compression:表示是否压缩，不常用。
-'''
-#创建一个sheet对象，一个sheet对象对应Excel文件中的一张表格。
-# 在电脑桌面右键新建一个Excel文件，其中就包含sheet1，sheet2，sheet3三张表
-sheet = book.add_sheet('test', cell_overwrite_ok=True)
-# 其中的test是这张表的名字,cell_overwrite_ok，表示是否可以覆盖单元格，其实是Worksheet实例化的一个参数，默认值是False
-# 向表test中添加数据
-sheet.write(0, 0, 'EnglishName')  # 其中的'0-行, 0-列'指定表中的单元，'EnglishName'是向该单元写入的内容
-sheet.write(1, 0, 'Marcovaldo')
-txt1 = '中文名字'
-sheet.write(0, 1, txt1.decode('utf-8'))  # 此处需要将中文字符串解码成unicode码，否则会报错
-txt2 = '马可瓦多'
-sheet.write(1, 1, txt2.decode('utf-8'))
- 
-# 最后，将以上操作保存到指定的Excel文件中
-book.save(r'e:\test1.xls')  # 在字符串前加r，声明为raw字符串，这样就不会处理其中的转义了。否则，可能会报错
-# 这个真的很有用
 ```
 
 # 进程和线程
@@ -2348,343 +2163,7 @@ if __name__ == '__main__':
     sing_thread.start()
 ```
 
-
-
-
-
- # PyCharm
-
-## Tips
-
-- 如果你在条件句前忘记键入```if```，在该句子最后增添```.if```并点击```Tab```键，PyCharm将修复该`if`条件句。该用法同样适用于```True.while```。这即是PyCharm的Postfix Completion功能，它可以帮助用户减少退格键使用次数。或者选中语句，按住`Ctrl+Alt+T`环绕
-- 输入`main Enter`PyCharm会自动输入`if __name__ == __main__:`
-- 要快速查看插入符号处的文档，请按`Ctrl+Q`（查看|快速文档）。
-- 如果光标位于方法调用的括号之间，按下`Ctrl+P`将弹出一个有效参数列表。
-- (`Ctrl+Shift+J`快捷键将两行合并为一行，并删除不必要的空格以符合您的代码样式。)
-- `Ctrl+Shift+Backspace`（导航|上一个编辑位置）将您带回到您在代码中进行更改的最后一个地方。
-- 使用`Ctrl+Shift+F7`（Edit|Find|突出显示文件中的用法）快速突出显示当前文件中某些变量的用法。`F3`/`Shift+F3`向后或向前浏览。按`Esc`退出
-- 要查看您的本地文件更改历史记录，请调用本地历史记录|显示上下文菜单中的历史记录（Local History|Show History）。 您可以浏览不同的文件版本，查看差异并回滚到任何以前的版本。
-- 使用`Alt+Up`和`Alt+Down`在编辑器中快速移动方法。
-- 使用`Ctrl+Shift+V`快捷键选择并将最近的剪贴板内容插入到文本中。如果不选择文本，`Ctrl+C`会复制当前行到剪切板。`Ctrl+Alt+Shift+V`纯文本粘贴
-- 您可以通过按`Ctrl+O`(代码|覆盖方法）轻松地覆盖基类的方法。
-- `Alt+Insert`智能生成常用代码
-- `Alt+Enter`智能提示
-- `Ctrl+Alt+V`会自动生成局部变量接受
-- 为了帮助您了解主菜单中每个项目的用途，将鼠标指针放在该项目上时，其简短说明会显示在应用程序框架底部的状态栏中。
-
-## 一些常用设置
-
-- 插件介绍：https://www.2bboy.com/archives/153.html
-
-- PyCharm中的设置是可以导入和导出的，**Manage IDE Settings -> Export Settings**可以保存当前PyCharm中的设置
-
-- 在**Editer -> File and Code Templates -> python scripts**输入如下
-
-  ```python
-    #!/usr/bin/env python
-    # `-*- coding: utf-8 -*-`
-    """
-    __title__ = '$Package_name'
-    __author__ = '$USER'
-    __mtime__ = '$DATE'
-    """
-  ```
-
-- PyCharm默认是自动保存的，习惯自己按```Ctrl+S```全部保存的可以进行如下设置：
-  
-- **Appearance & Behavior -> System Settings -> Save files if IDE is idle for xx seconds**的勾去掉
-  
-- 对于常用的快捷键，可以设置为visual studio, eclipse一样的：
-  
-  - **Keymap -> Visual Studio**
-  
-- PyCharm中默认是不能用`Ctrl+'+'`滚轮改变字体大小的，可以在**Genral -> Mouse Control -> Change font size with Control+Mouse Wheel**打上勾
-
-- 设置缩进符为制表符```Tab```
-  
-  - **Editor -> Code Style -> Python -> 勾选Use tab character -> Python -> 勾选Use tab character**，其他的语言代码同理设置
-  
-- ==显示行号与空白字符==
-  
-  - **Editor -> General -> Appearance -> 勾选“Show line numbers”; “Show whitespaces”; “Show method separators”**
-  
-- 去掉默认折叠
-  
-  - **Editor -> General -> Code Folding** 
-  
-  
-  
-
-## 在 PyCharm 中搜索和导航
-
-在大项目中，我们很难记住每个事物的位置，因此快速导航和搜索非常重要。PyCharm可以提供这些功能。
-
-- 在当前文件中搜索代码段：在Mac系统中使用`Cmd+F`键，在Windows或 Linux系统中使用`Ctrl+F`键。
-
-  在整个项目中搜索代码段：在Mac系统中使用`Cmd+Shift+F`键，在Windows或Linux系统中使用`Ctrl+Shift+F`键。
-- 搜索类：在Mac系统中使用`Cmd+O`键，在Windows或Linux系统中使用`Ctrl+N`键。
-- 搜索文件：在Mac系统中使用`Cmd+Shift+O`键，在Windows或Linux系统中使用`Ctrl+Shift+N`键。
-- **如果你不知道要搜索的是文件、类还是代码段，则搜索全部：按两次 Shift 键。**
-
-导航可使用以下快捷键：
-
-- 前往变量的声明：在Mac系统中使用`Cmd`键，在Windows或Linux系统中使用`Ctrl`键，然后单击变量。
-- 寻找类、方法或文件的用法：使用`Alt+F7`键。
-- 查看近期更改：使用`Shift+Alt+C`键，或者在主菜单中点击View → Recent Changes。
-- 查看近期文件：在Mac系统中使用`Cmd+E`键，在Windows或Linux系统中使用`Ctrl+E`键，或者在主菜单中点击View → Recent Files。
-- 多次跳转后在导航历史中前进和后退：在Mac系统中使用`Cmd+[`/`Cmd+]`键，在Windows或Linux系统中使用`Ctrl+Alt+Left`/`Ctrl+Alt+Right`键。
-
-# python虚拟环境和安装包
-
-安装Redis的有3种方式https://github.com/andymccurdy/redis-py
-
-第一种：进入虚拟环境，联网安装包redis：`pip install redis`
-
-第二种：进入虚拟环境，联网安装包redis：`easy_install redis`
-
-第三种：到中文官网-客户端下载redis包的源码，使用源码安装
-
-```bash
-wget https://github.com/andymccurdy/redis-py/archive/master.zip
-unzip master.zip
-cd redis-py-master
-sudo python setup.py install
-```
-
-## pip
-
-While **pip** alone is sufficient to install from pre-built binary archives, up to date copies of the **setuptools** and **wheel** projects are useful to ensure you can also install from source archives: ```python -m pip install --upgrade pip setuptools wheel```
-
-```bash
-# upgrade pip
-python3 -m pip install --upgrade pip
-# check packages
-pip list
-pip show xlwt
-# check outdated packages
-pip list --outdated
-# install the latest version of "someproject"
-pip install "someproject" / python -m pip install --user "someproject"
-# install a specfic version 
-pip install "someproject==1.4"
-# install greater than or equal to one version and less than another
-pip install "SomeProject>=1,<2"
-# To install a version that’s “compatible” with a certain version
-# this means to install any version "==1.4.*" version that’s also ">=1.4.2.*"
-pip install "SomeProject~=1.4.2"
-# Upgrade an already installed SomeProject to the latest
-pip install --upgrade SomeProject
-# uninstall
-pip uninstall [options] <package>
-# 查看是否安装成功
-pip show pymsql
-```
-
-Install a list of requirements specified in a Requirements File: ```pip install -r requirements.txt```
-
-To uninstall: ```pip uninstall [options] -r <requirements file> ...```
-
-For more information, check [python documentation](https://packaging.python.org/tutorials/installing-packages/#installing-packages)
-
-## 虚拟环境
-
- virtual environments have their own installation directories and they don’t share libraries with other virtual environments.
-
-Currently, there are two common tools for creating Python virtual environments:
-
-- **venv** is available by default in Python 3.3 and later, and installs pip and setuptools into created virtual environments in Python 3.4 and later.
-- **virtualenv** needs to be installed separately, but supports Python 2.7+ and Python 3.3+, and pip, setuptools and wheel are always installed into created virtual environments by default (regardless of Python version).
-
-### `pipenv`
-
-```bash
-# 查看命令使用帮助
-pipenv -h 
-pipenv --python 3[.6]
-# 这条命令会指出pidfile的存储地址和新的虚拟环境的存储地址。pidfile中会有安装包，依赖包和配置环境等相关信息
-pipenv --where # 查看项目位置
-pipenv --py # 查看解释器信息
-# 激活虚拟环境
-pipenv shell
-# 查看虚拟环境信息 
-pipenv --venv
-# 安装包
-pipenv install requests
-# 卸载包
-pipenv uninstall requests
-# 查看包的依赖结构
-pipenv graph
-# 退出虚拟环境
-exit
-# 删除虚拟环境
-# 注意 pipenv --rm 只是把创建的虚拟环境删除了，但Pipfile和Pipfile.lock还存。下次如果想要创建与项目myproject相同的虚拟环境时：只要打 cmd，切换到myproject目录下执行命令 pip install 即可
-pipenv --rm
-使用pipenv install -r requirements.txt安装第三方的模块
-pipenv install -r requirements.txt
-# 查看第三方安装的模块依赖，可导出到requirements.txt
-pipenv lock -r -i https://pypi.org/simple
-```
-
-### `venv`
-
-```bash
-# install pipenv
-pip install --user pipenv
-# install packages for your project
-cd my_project
-pipenv install requests 
-# create a virtual environment
-python3 -m venv my_project/test_env
-source myproject/test_env/bin/activate
-```
-
-### `virtualenv`
-
-目前只有这个比较稳定（因为被很多人试过了），保险起见还是用这个吧~
-
-```bash
-# 安装虚拟环境
-sudo pip install virtualenv
-# Virtaulenvwrapper是virtualenv的扩展包，用于更方便管理虚拟环境，它可以做
-# 将所有虚拟环境整合在一个目录下 
-# 管理（新增，删除，复制）虚拟环境 
-# 快速切换虚拟环境
-# 安装
-sudo pip install virtualenvwrapper
-pip install virtualenvwrapper-win # 对于windows
-
-# 安装完虚拟环境后，如果提示找不到mkvirtualenv命令，须配置环境变量：
-# 1、创建目录用来存放虚拟环境
-mkdir $HOME/.virtualenvs
-# 2、打开~/.bashrc文件，并添加如下：
-export VIRTUALENVWRAPPER_PYTHON='/Library/Frameworks/Python.framework/Versions/3.9/bin/python3' # 在同时安装了python2和python3的情况下，需要加上这句
-export WORKON_HOME=$HOME/.virtualenvs
-# 注意对于mac，如果这个文件在/Library/Frameworks/Python.framework/Versions/3.9/bin/下，需要复制到/usr/local/bin/下
-source /usr/local/bin/virtualenvwrapper.sh 
-# 3、运行
-source ~/.bashrc
-# 对于windows，在系统变量中添加 WORKON_HOME=你想存放虚拟环境的目录，默认C:\Users\admin。如果想修改的话，virtualenvwrapper安装完成后，打开Python根目录\Scripts目录下的mkvirtualenv.bat文件，然后修改第24行[set "venvwrapper.default_workon_home=%USERPROFILE%\Envs"] 这里的，%USERPROFILE%相当于Linux系统中的/user/home，修改这个路径地址就可以修改virtualenv的环境地址
-# 我在用windows做完上述步骤之后，workon没有结果。于是在系统变量里加了WORKON_HOME=C:\Users\admin\.virtualenvs并且重新运行了C:\Users\admin\AppData\Local\Programs\Python\Python36\Scripts下的virtualenvwrapper.bat文件，之后可以正常显示。之所以用.是因为这是pycharm默认安装虚拟环境的目录。但是创建虚拟环境的话，用pycharm的话比较方便
-
-# 罗列当前的虚拟环境
-workon
-
-# 创建虚拟环境并进入
-mkvirtualenv -p python2.7 虚拟环境名称 / mkvirtualenv --python=python2.7 虚拟环境名称
-# 或是
-virtualenv envname02
-workon envname02  # 进入该虚拟环境
-# 或是
-virtualenv envname03
-cd envname03
-source bin/activate  # 激活并进入虚拟环境
-
-# 使用虚拟环境
-workon 虚拟环境名称
-# 工具包安装的位置是C:\Users\admin\Documents\PycharmProjects\DjangoProject\Lib\site-packages
-pip list
-pip install django==1.11.11
-pip uninstall 模块名
-# 复制虚拟环境
-cpvirtualenv env1 env2  # 前面的是原文件 后面的拷贝后的新文件
-# 退出虚拟环境
-deactivate
-# 删除虚拟环境
-先退出：deactivate
-再删除：rmvirtualenv py3_django
-------------------------------------没有用过，复制的-------------------------------------
-pip freeze # 查看当前安装库版本
-# 创建 requirements.txt 文件，其中包含了当前环境中所有包及各自的版本的简单列表
-# 保持部署相同，一键安装所有包
-pip install -r requirements.txt
-pip freeze > requirements.txt 
-lsvirtualenv    #列举所有的环境
-cdvirtualenv    #导航到当前激活的虚拟环境的目录中，相当于pushd 目录
-cdsitepackages   # 和上面的类似，直接进入到 site-packages 目录
-lssitepackages     #显示 site-packages 目录中的内容
----------------------------------------没有装virtualenvwrapper----------------------------------------
-# 在windows系统下，推荐使用cmd，提示pip有新版本，按提示用'python -m pip install --upgrade pip'命令更新就好了。在虚拟环境里，千万别用'pip install --upgrade pip'更新pip，这会破坏pip。
-# 使用虚拟环境
-.\Scripts\activate.bat或直接activate
-# 退出虚拟环境
-.\Scripts\deactivate.bat或直接deactivate
-# 删除虚拟环境
-# 没有使用virtualenvwrapper前，可以直接删除venv文件夹来删除环境
-```
-
-# Anaconda
-
-```bash
-# 检查conda版本
-conda --version
-# 查看包括版本的更多信息
-conda info
-# 查看conda帮助信息
-conda -h
-# 更新Anaconda
-conda update conda
-# 更新所有包
-conda update --all
-# 列举当前活跃环境下的所有包
-conda list
-conda list beautifulsoup4
-# 查找指定的包信息，模糊查找，即模糊匹配，只要含py字符串的包名就能匹配到
-conda search numpy  
-# 查找包，--full-name表示精确查找，即完全匹配名为numpy的包
-conda search --full-name numpy
-# 在当前活跃环境安装包
-conda install beautifulsoup4
-# 删除当前环境的包
-conda remove beautifulsoup4
-# 列举一个非当前活跃环境下的所有包
-conda list -n your_env_name
------------------------------虚拟环境的操作，加上--name和虚拟环境名称-----------------------------
-# 查看conda环境管理命令帮助信息
-conda create --help
-# 创建不同的python版本，直接写出版本号就好了
-conda create -n env_name python=3.5
-# 指定python版本,以及多个包
-conda create -n env_name python=3.4 scipy=0.15.0 astroib numpy
-# 查看某个指定环境的已安装包
-conda list -n env_name
-# 为指定环境安装某个包，也可以通过-c指定通过某个channel安装
-conda install -n env_name package_name
-# 更新指定环境下安装的某个包
-conda update -n env_name scrapy
-# 删除指定环境安装的包
-conda remove -n env_name package_name
-# 激活虚拟环境
-activate env_name / source activate env_name
-# 退出虚拟环境
-deactivate / source deactivate
-# 删除一个已有环境
-conda remove --name env_name --all
-# 列出系统存在虚拟环境
-conda info -e
-conda env list
-# 克隆一个环境
-conda create --name clone_env --clone envname   # clone_env 代指克隆得到的新环境的名称，envname 代指被克隆的环境的名称
----------------------------------------更换源-----------------------------------------------
-# 查看当前下载源
-conda config --show channels
-# 配置国内安装的镜像
-conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
-conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free
-conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/r
-conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/pro
-conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/msys2
-conda config --set show_channel_urls yes
-# 清除添加的所有下载源
-conda config --remove-key channels
---------------------------------------魔法函数----------------------------------------------
-%matplotlib inline
-```
-
-
-
 # 一些注意点
-
-以数字开头命名的包不能导入
 
 ## raw字符串
 

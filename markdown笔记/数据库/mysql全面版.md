@@ -515,6 +515,10 @@ mysql> quit/exit/ctrl+d # 登出(退出)数据库
 mysql> select now(); # 显示当前时间，如果记不住时间格式，可以用这个查看
 mysql> system clear # 清屏，windows下只能exit退出后用cls命令来清屏
 mysql> source Desktop/areas.sql; # 导入数据。source表示执行的sql文件
+
+ #aws上的ubuntu 20.04自动安装mysql，无法修改密码。通过如下命令创建一个用户
+mysql> CREATE USER 'sammy'@'localhost' IDENTIFIED BY 'password';
+
 ```
 
 ### 数据库操作的SQL语句

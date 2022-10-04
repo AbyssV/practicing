@@ -1,16 +1,3 @@
-# 运行一个Java程序
-
-```java
-public class Test {
-    public static void main(String[] args) {
-        System.out.println("第一个java程序");
-    }
-}
-// 1. 切换到Test.java所在的文件夹
-// 2. 编译：javac Test.java 或 javac -encoding utf-8 Test.java
-// 3. 运行：java Test.java
-```
-
 # 	JavaSE基础
 
 ## 基础类型
@@ -59,7 +46,7 @@ System.out.println(i=j); //20. 把j的值赋值给了i，然后输出i的值
 | ~    | not                                                          |
 | <<   | Left shift operator: shifts the bits of the number to the left and fills 0 on voids left as a result. Similar effect as of multiplying the number with some power of two |
 | >>   | Signed Right shift operator: shifts the bits of the number to the right and fills 0 on voids left as a result. The leftmost bit depends on the sign of initial number. Similar effect as of dividing the number with some power of two. |
-| >>>  | shifts the bits of the number to the right and fills 0 on voids left as a result. The leftmost bit is set to 0 |
+| >>>  | shifts the bits of the number to the right and fills 0 on voids left as a result. **The leftmost bit is set to 0** |
 
 
 
@@ -352,7 +339,7 @@ public static void main(String[] args){
 
 - 接口就是一种公共的规范标准，只要符合规范标准，大家都可以通用
 - Java中的接口更多的体现在对行为的抽象
-- 接口用关键字```interface```修饰：```public interface 接口名{}```
+- 接口用关键字```interface```修饰：```public interface 接口名{}``` 
 - 类实现接口用```implements```表示：```public class 类名 implements 接口名{}```
 - 接口不能实例化
   - 接口实例化参照多态的方式，通过实现类对象实例化，这叫接口多态
@@ -534,6 +521,19 @@ public interface Inter3 extends Inter1, Inter2{}
 6. 在idea中执行程序
 
 ![](../图片笔记/Java/IDEA中项目结构 (2).jpg)
+
+### 运行一个Java程序
+
+```java
+public class Test {
+    public static void main(String[] args) {
+        System.out.println("第一个java程序");
+    }
+}
+// 1. 切换到Test.java所在的文件夹
+// 2. 编译：javac Test.java 或 javac -encoding utf-8 Test.java
+// 3. 运行：java Test.java
+```
 
 ### 在一个模块内导入另一个模块的包
 
