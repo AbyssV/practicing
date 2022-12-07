@@ -14,10 +14,6 @@ This repository is used for self-learning, note taking and practicing with simpl
 
 
 
-## 编程语言进阶
-
-- 继承，封装，多态
-
 
 
 ## 其他技能
@@ -34,11 +30,15 @@ This repository is used for self-learning, note taking and practicing with simpl
 4. （八天内容，学至34p）Vue：https://www.bilibili.com/video/BV15v411T7UX?p=34&spm_id_from=pageDriver&vd_source=d16bf647e36354ffbe4efd700a927726
 5. （已完成，复习建议读我自己在AndroidStudio写的案例和Google的docs，因为flutter更新很快）flutter入门：https://www.bilibili.com/video/BV1EY41177y4?spm_id_from=333.999.0.0&vd_source=d16bf647e36354ffbe4efd700a927726
 
+复习时可以用案例
+
+建议不看vue直接看javaee视频
+
 
 
 # Machine Learning：
 
-
+机器学习大量依赖于书籍，所以除了个别包的是使用建议直接看书
 
 
 
@@ -54,3 +54,8 @@ This repository is used for self-learning, note taking and practicing with simpl
 - **图片笔记**: assets of markdown笔记. also has some extra mind maps
 - **遇到的问题.md**: common problems
 
+
+
+# Java
+
+serialization, deserialization

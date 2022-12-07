@@ -82,6 +82,8 @@ msg={'name':'wang','age':10}
 '{0:b}'.format(10) # 1010
 # 输出千分位分隔符
 '{:,}'.format(12369132698) # 12,369,132,698
+
+hw12 = '%s %s %d' % ('hello', 'world', 12) # hello world 12
 ```
 
 ## 数据转换类型
@@ -89,18 +91,18 @@ msg={'name':'wang','age':10}
 |         函数          |                             说明                             |
 | :-------------------: | :----------------------------------------------------------: |
 |  **int(x [,base])**   |                      将x转换为一个整数                       |
-|     **float(x)**      |                     将x转换为一个浮点数                      |
+|       float(x)        |                     将x转换为一个浮点数                      |
 | complex(real [,imag]) |             创建一个复数，real为实部，imag为虚部             |
-|      **str(x)**       |                    将对象 x 转换为字符串                     |
+|        str(x)         |                    将对象 x 转换为字符串                     |
 |        repr(x)        | 用于生成解释器可读的表示（如果没有等效的语法，则会强制执行 SyntaxError） |
 |     **eval(str)**     |     用来计算在字符串中的有效Python表达式,并返回一个对象      |
-|     **tuple(s)**      |                   将序列 s 转换为一个元组                    |
-|      **list(s)**      |                   将序列 s 转换为一个列表                    |
+|       tuple(s)        |                   将序列 s 转换为一个元组                    |
+|        list(s)        |                   将序列 s 转换为一个列表                    |
 |        chr(x)         |               将一个整数转换为一个Unicode字符                |
-|        ord(x)         |               将一个字符转换为它的ASCII整数值                |
+|      **ord(x)**       |               将一个字符转换为它的ASCII整数值                |
 |        hex(x)         |              将一个整数转换为一个十六进制字符串              |
 |        oct(x)         |               将一个整数转换为一个八进制字符串               |
-|        bin(x)         |               将一个整数转换为一个二进制字符串               |
+|      **bin(x)**       |               将一个整数转换为一个二进制字符串               |
 
 ```python
 #eval() -- 将字符串中的数据转换成Python表达式原本类型
@@ -162,6 +164,12 @@ a = b = 10 #多个变量赋相同值
 |  and   |  x and y   | 布尔"与"：如果 x 为 False，x and y 返回 False，否则它返回 y 的值。 |      True and False， 返回 False。       |
 |   or   |   x or y   |  布尔"或"：如果 x 是 True，它返回 True，否则它返回 y 的值。  |       False or True， 返回 True。        |
 |  not   |   not x    | 布尔"非"：如果 x 为 True，返回 False 。如果 x 为 False，它返回 True。 | not True 返回 False, not False 返回 True |
+|   &    |            |                           bit and                            |                1 & 0 = 0                 |
+|   \|   |            |                            bit or                            |                1 \| 0 = 1                |
+|   ^    |            |                           bit xor                            |                1 ^ 1 = 0                 |
+|   ~    |            |                           bit not                            |                ~1 =  -2?                 |
+|   >>   |            |                         right shift                          |              128 >> 2 = 32               |
+|   <<   |            |                          left shift                          |              32 << 2 = 128               |
 
 ### 数字之间的逻辑运算
 
@@ -262,7 +270,7 @@ print(id(bb))  # 2325297783432
 #### 浅拷贝
 
 - `copy`函数是浅拷贝，只对可变类型的第一层对象进行拷贝，对拷贝的对象开辟新的内存空间进行存储，不会拷贝对象内部的子对象。
-- 不可变类型进行浅拷贝不会给拷贝的对象开辟新的内存空间，而只是拷贝了这个对象的引用。
+- **不可变类型进行浅拷贝不会给拷贝的对象开辟新的内存空间，而只是拷贝了这个对象的引用。**
 
 - Note that ```copy``` is shallow. That means the "copy" is a new object, but that object stores all the references from the "object being copied". 
 
@@ -283,7 +291,7 @@ l2 = [1, 2, 3, [14, 16, 19]]
 l3 = copy.copy(l1)
 print(id(l1) == id(l2)) # False
 print(l1 is l2) # False
-# 支队最外层拷贝，里面的一层不拷贝
+# 注意：只对最外层拷贝，里面的一层不拷贝
 print(l1[3] is l3[3]) # True
 l1[3].append(20)
 print(l1, l3) # [1, 2, 3, [14, 16, 19, 20]] [1, 2, 3, [14, 16, 19, 20]]
@@ -292,7 +300,7 @@ print(l1, l3) # [1, 2, 3, [14, 16, 19, 20]] [1, 2, 3, [14, 16, 19, 20]]
 #### 深拷贝
 
 - `deepcopy`函数是深拷贝, 只要发现对象有可变类型就会对该对象到最后一个可变类型的每一层对象就行拷贝, 对每一层拷贝的对象都会开辟新的内存空间进行存储。
-- 不可变类型进行深拷贝如果子对象没有可变类型则不会进行拷贝，而只是拷贝了这个对象的引用，否则会对该对象到最后一个可变类型的每一层对象就行拷贝, 对每一层拷贝的对象都会开辟新的内存空间进行存储
+- 不可变类型进行深拷贝**如果子对象没有可变类型则不会进行拷贝，而只是拷贝了这个对象的引用**，否则会对该对象到最后一个可变类型的每一层对象就行拷贝, 对每一层拷贝的对象都会开辟新的内存空间进行存储
 
 ```python
 from copy import deepcopy
@@ -630,7 +638,7 @@ print(tuple1.count('bb'))  # 2
 
 - There is a type called ```defaultdict``` whose constructor generally takes an argument that is a reference to any object that CAN BE CALLED WITH NO ARGUMENTS. Very frequently we use a NAME OF A CLASS that when called will CONSTRUCT A NEW VALUE: if the argument is ```int```, it will call ```int()``` producing the value ```0```; if the argument is ```list```, it will call ```list()``` producing an empty list; if the argument is ```set```, it will call ```set()``` producing an empty set; etc.
 
-![set](../../图片笔记/Python/dict.png)
+<img src="../../图片笔记/Python/dict.png" alt="set" style="zoom:67%;" />
 
 ```python
 # comprehension字典推导式
@@ -662,6 +670,7 @@ print('-------------------------------------------------------------------------
 dict1['id'] = 110
 print(dict1) # {'name': 'Tom', 'age': 20, 'gender': '男', 'id': 110}
 dict1 = {'name': 'Tom', 'age': 20, 'gender': '男'}
+# setdefault用起来和defaultdict差不多
 value = dict1.setdefault('id', 20) # 若键对应的值存在，则返回该值，若不存在则新增该键值对并返回新增的值
 print(value) # 20
 print(dict1) # {'name': 'Tom', 'age': 20, 'gender': '男', 'id': 20}
@@ -764,62 +773,54 @@ A.difference(B) # frozenset({1, 2})
 # A.add(3) # error
 ```
 
-![set](../../图片笔记/Python/set.png)
+<img src="../../图片笔记/Python/set.png" alt="set" style="zoom: 67%;" />
 
-![set](../../图片笔记/Python/setbuiltin.png)
+<img src="../../图片笔记/Python/setbuiltin.png" alt="set" style="zoom: 67%;" />
 
 ```python
 # these methods do not mutate the original set
-# set union
 # Union of A and B is a set of all elements from both sets
 # Union is performed using | operator. Same can be accomplished using the method union()
 A = {1, 2, 3, 4, 5}
 B = {8, 7, 6, 5, 4}
-# use | operator
 # Output: {1, 2, 3, 4, 5, 6, 7, 8}
 print(A | B)
-A.union(B)
-B.union(A)
+print(A.union(B))
+print(B.union(A))
 
-# Set Intersection
 # Intersection of A and B is a set of elements that are common in both sets.
 # Intersection is performed using & operator. Same can be accomplished using the method intersection().
 A = {1, 2, 3, 4, 5}
 B = {4, 5, 6, 7, 8}
-# use & operator
 # Output: {4, 5}
 print(A & B)
-A.intersection(B)
-B.intersection(A)
+print(A.intersection(B))
+print(B.intersection(A))
 
-# Set Difference
 # Difference of A and B (A - B) is a set of elements that are only in A but not in B. Similarly, B - A is a set of element in B but not in A.
 # Difference is performed using - operator. Same can be accomplished using the method difference().
 A = {1, 2, 3, 4, 5}
 B = {4, 5, 6, 7, 8}
-# use - operator on A
 # Output: {1, 2, 3}
 print(A - B)
-A.difference(B)
-B.difference(A)
+print(A.difference(B))
+print(B.difference(A))
 
-# Set Symmetric Difference
 # Symmetric Difference of A and B is a set of elements in both A and B except those that are common in both.
 # Symmetric difference is performed using ^ operator. Same can be accomplished using the method symmetric_difference().
 A = {1, 2, 3, 4, 5}
 B = {4, 5, 6, 7, 8}
-# use ^ operator
 # Output: {1, 2, 3, 6, 7, 8}
 print(A ^ B)
-A.symmetric_difference(B)
-B.symmetric_difference(A)
+print(A.symmetric_difference(B))
+print(B.symmetric_difference(A))
 ```
 
 
 
 ## 生成器
 
-数据不是一次性全部生成处理，而是使用一个，再生成一个，可以节约大量的内存
+数据不是一次性全部生成处理，而是使用一个，再生成一个，**可以节约大量的内存**
 
 - 代码执行到`yield`会暂停，然后把结果返回出去，下次启动生成器会在暂停的位置继续往下执行
 - 生成器如果把数据生成完成，再次获取生成器中的下一个数据会抛出一个`StopIteration`异常，表示停止迭代异常
@@ -906,13 +907,14 @@ print(b)  # 1
   - 局部变量的作用：在函数体内部，临时保存数据，即当函数调用完成后，则销毁局部变量。
 - 全局变量
   - 所谓全局变量，指的是在函数体内、外都能生效的变量。
+- 更多内容可以阅读Python的namespace
 
 ```python
 # 1. 定义全局变量
 glo_num = 0
 
 def test1():
-    global glo_num
+    global glo_num # 没有这行test2结果是0
     glo_num = 100
 
 def test2():
@@ -932,14 +934,14 @@ test2()  # 100
 #### 关键字参数
 
 - 函数调用，通过```键=值```形式加以指定。可以让函数更加清晰、容易使用，同时也清除了参数的顺序需求。
-- 注意：函数调用时，如果有位置参数时，==**位置参数必须在关键字参数的前面**==，但关键字参数之间不存在先后顺序。
+- 注意：函数调用时，如果有位置参数时，==**关键字参数必须在位置参数的后面**==，但关键字参数之间不存在先后顺序。
 
 #### 缺省参数
 
-- 缺省参数也叫默认参数，用于定义函数，为参数提供默认值，调用函数时可不传该默认参数的值（注意：**所有位置参数必须出现在默认参数前，包括函数定义和调用**）。
+- 缺省参数也叫默认参数，用于定义函数，为参数提供默认值，调用函数时可不传该默认参数的值（注意：**默认参数必须出现在所有位置参数后，包括函数定义和调用**）。
 - 注意：函数调用时，如果为缺省参数传值则修改默认参数值；否则使用这个默认值。
 
-#### 不定长参数
+#### 可变参数
 
 - 不定长参数也叫可变参数。用于不确定调用的时候会传递多少个参数(不传参也可以)的场景。此时，可用包裹(packing)位置参数，或者包裹关键字参数，来进行参数传递，会显得非常方便。
 - 注意点：参数```(arg, *args, **kwargs)```三个参数的位置必须是一定的。必须是```(arg,*args,**kwargs)```这个顺序，否则程序会报错。
@@ -1088,8 +1090,6 @@ print(list(l)) # [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
 - 返回一个```zip```对象。
 
 ```python
-# 虽然在参数传递也通过*args，这里的*更像是zip()独有的用法
-
 raw_data = ('abcde', (1, 2, 3), ['1st', '2nd', '3rd', '4th'])
 z = zip(*raw_data) 
 # this is same as z = zip('abcde',(1, 2, 3),['1st', '2nd', '3rd', '4th'])
@@ -1105,6 +1105,22 @@ z2 = zip([1, 2, 3], ('a', 'b', 'c'))
 # 只能使用两个zip()参数，前者产生key，后者产生value。
 print(dict(z2)) # {1: 'a', 2: 'b', 3: 'c'}
 ```
+
+<u>用JS语法记忆</u>
+
+```python
+def f(*args):
+    print(*args)
+# 很像js
+f(1,2,3,4) # 1 2 3 4
+
+def f(*args):
+    print(args)
+
+f(1,2,3,4) # (1, 2, 3, 4)
+```
+
+
 
 ## 闭包
 
@@ -1150,7 +1166,15 @@ f(2) # 仍然保留了外部函数的变量值
 """
 ```
 
-## 装饰器
+### currying
+
+currying is a concept / idea, closures are implementation technique / detail.
+
+Currying is the transformation of a function with multiple arguments into a sequence of single-argument functions. **That means converting a function like this `f(a, b, c, ...)` into a function like this `f(a)(b)(c)`**
+
+in short, currying means f(a, b, c) => f(a)(b)(c)
+
+## 装饰器   
 
 装饰器就是给已有函数增加额外功能的函数，它本质上就是一个闭包函数。
 
@@ -1165,7 +1189,7 @@ f(2) # 仍然保留了外部函数的变量值
 ```python
 # 通用装饰器：添加输出日志的功能
 # 装饰器的执行时机：当前模块加载完成后，装饰器会立即执行，对已有函数进行装饰
-# 如果闭包函数有且只有一个并且是函数类型，那么这个闭包函数称为装饰器
+# !!如果闭包函数有且只有一个并且是函数类型，那么这个闭包函数称为装饰器
 def logging(fn): 
     def inner(*args, **kwargs): # 应该是固定写法
         # 在内部函数里面对已有函数进行装饰
@@ -1227,6 +1251,8 @@ print(result)
 
 ### 带有参数的装饰器
 
+> 不是传给被装饰函数的参数，是传给装饰器的参数
+>
 > 简单的说就是最外层函数指传参，中间一层传递函数（相当于原来的最外层），最内层函数装饰并返回装饰的函数
 
 ```python
@@ -1414,86 +1440,74 @@ Python面向对象的继承指的是多个类之间的所属关系，即子类�
 私有属性和私有方法只能在类里面访问和修改。在Python中，一般定义函数名`get_xx`用来获取私有属性，定义`set_xx`用来修改私有属性值。
 
 ```python
+class Doctor(object):
+    def __init__(self):
+        self._certif = 'Doctor'
+        self.__biased = False
+
+    def bias(self):
+        print(f'{self._certif} student {"is" if self.__biased else "is not"} biased')
+
 class Master(object):
     def __init__(self):
-        self.kongfu = '[古法煎饼果子配方]'
+        self._certif = 'Master'
+        self.__biased = False
 
-    def make_cake(self):
-        print(f'运用{self.kongfu}制作煎饼果子')
+    def bias(self):
+        print(f'{self._certif} student {"is" if self.__biased else "is not"} biased')
 
-
-class School(object):
+class Undergraduate(Master, Doctor):
     def __init__(self):
-        self.kongfu = '[黑马煎饼果子配方]'
+        self._certif = 'Undergraduate'
+        self.__biased = True
+        self.__num = 100000
 
-    def make_cake(self):
-        print(f'运用{self.kongfu}制作煎饼果子')
-
-
-class Prentice(School, Master):
-    def __init__(self):
-        self.kongfu = '[独创煎饼果子配方]'
-        self.__money = 2000000
-
-    def __str__(self):
-        return f'配方是{self.kongfu}，钱是{self.__money}'
+    def bias(self):
+        print(f'{self._certif} student {"is" if self.__biased else "is not"} biased')
 
     # 获取私有属性
-    def get_money(self):
-        return self.__money
+    def get_num(self):
+        return self.__num
 
     # 修改私有属性
-    def set_money(self):
-        self.__money = 500
-
-
-    def make_cake(self):
-        self.__init__()
-        print(f'运用{self.kongfu}制作煎饼果子')
+    def set_num(self, num):
+        self.__num = num
 
     # 一次性调用父类的同名属性和方法
-    def make_old_cake(self):
+    def effort(self):
         # 方法一：代码冗余；父类类名如果变化，这里代码需要频繁修改
-        # Master.__init__(self)
-        # Master.make_cake(self)
-        # School.__init__(self)
-        # School.make_cake(self)
+        # 但是可以指定继承类
+        Master.__init__(self)
+        Master.bias(self)
+        Doctor.__init__(self)
+        Doctor.bias(self)
 
         # 方法二: super()
         # 方法2.1 super(当前类名, self).函数()
-        # super(Prentice, self).__init__()
-        # super(Prentice, self).make_cake()
+        # super(Undergraduate, self).__init__()
+        # super(Undergraduate, self).bias()
 
         # 方法2.2 super().函数()
-        super().__init__()
-        super().make_cake()
+        # super().__init__()
+        # super().bias()
 
-# 徒孙类
-class Tusun(Prentice):
-    pass
+liu = Undergraduate()
+liu.bias()
+print(liu._certif) # undergraduate
+print(liu.__num) # attribute error
+liu.effort() # Master student is not biased Doctor student is not biased
+print(liu._certif)# Doctor
 
-daqiu = Prentice()
-xiaoqiu = Tusun()
-print(daqiu) # 配方是[独创煎饼果子配方]，钱是2000000
-daqiu.make_old_cake() # 运用[黑马煎饼果子配方]制作煎饼果子
-print(Tusun.__mro__) # (<class '__main__.Tusun'>, <class '__main__.Prentice'>, <class '__main__.School'>, <class '__main__.Master'>, <class 'object'>)
+print(Undergraduate.__mro__) # 有顺序的
 ```
 
 <u>a more detailed example</u>
 
 ```python
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-"""
-__title__ = ''
-__author__ = 'admin'
-__mtime__ = '2021/11/14'
-"""
-
 import math
 import time
 import copy
-#*
+
 
 class Grandfather(object):
     def __init__(self, age):
@@ -1555,13 +1569,13 @@ class Child(Father, Mother):
         return identity
 
     def showMotherIdentity(self):
-        Mother.__init__(self, 40)
+        Mother.__init__(self, 20)
         identity = Mother.showIdentity(self)
         return identity
 
 grandfather = Grandfather(60)
 father = Father(30)
-mother = Mother(30)
+mother = Mother(15)
 child = Child(10)
 
 print(father.showIdentity())
@@ -1569,15 +1583,18 @@ print(mother.showIdentity())
 print(child.showIdentity())
 print(child.showFatherIdentity())
 print(child.showMotherIdentity())
-# child()
+print(child.gender)
+print(child.age)
 child()
 print(Child.__mro__)
 """
 I am father 30 yrs. old
-I am mother 30 yrs. old
+I am mother 15 yrs. old
 I am child 10 yrs. old
 I am father 40 yrs. old
-I am mother 40 yrs. old
+I am mother 20 yrs. old
+female
+20
 HAHA you find me!!
 (<class '__main__.Child'>, <class '__main__.Father'>, <class '__main__.Grandfather'>, <class '__main__.Mother'>, <class 'object'>)
 """
@@ -1602,7 +1619,7 @@ HAHA you find me!!
 - 类属性的优点
   - 记录的某项数据始终保持一致时，则定义类属性。
   - 实例属性要求每个对象为其单独开辟一份内存空间来记录数据，而类属性为全类所共有，仅占用一份内存，**更加节省内存空间**
-- 类属性只能通过类对象修改，不能通过实例对象修改，如果通过实例对象修改类属性，表示的是创建了一个实例属性
+- **类属性只能通过类对象修改，不能通过实例对象修改，如果通过实例对象修改类属性，表示的是创建了一个实例属性**
 
 #### 类方法(`@classmethod`)和静态方法(`@staticmethod`)
 
@@ -1626,6 +1643,7 @@ HAHA you find me!!
 
 ```python
 class Dog(object):
+    # private attribute
     __genre = "柯基"
     age = 9
 
@@ -1646,8 +1664,8 @@ d1.age = 10
 print(d1.age) # 10
 print(d2.age) # 9
 print(Dog.age) # 9
-# print(d2.__genre) 不知道是不是私有反正无法访问
-
+# print(Dog.__genre) # Attribute Error
+# print(d2.__genre) # Attribute Error
 # 静态方法和类方法能够通过实例对象和类对象去访问
 print(d2.get_genre())
 print(Dog.get_genre())
@@ -1742,7 +1760,8 @@ from module-name import * # 不推荐，如果导入的不同模块的方法名�
 当想导入某个模块，但不想执行该模块中的函数时
 
 - ```if __name__ == '__main__':```
-  - 只在当前文件中调用该函数，其他导入的文件内不符合该条件，则不执行函数调用
+  - `main`指代当前文件的文件名，`main`之后的内容只会在运行当前文件时运行。其他文件导入该文件时，`main`以上的都会被导入运行，`main`以下的则不会
+
 
 #### 模块定位顺序
 
@@ -1756,7 +1775,8 @@ from module-name import * # 不推荐，如果导入的不同模块的方法名�
 
 - 注意
   - 自己的文件名不要和已有模块名重复，否则导致模块功能无法使用
-  - 使用`from 模块名 import 功能`的时候，如果功能名字重复，调用到的是最后定义或导入的功能。
+  - 使用`from 模块名 import 功能`的时候，如果功能名字重复，调用到的是最后定义或导入的功能
+  - 所以尽量不要用重复的函数名，或定义一个类
 
 #### ```__all__```
 
@@ -1774,6 +1794,12 @@ from my_module1 import *
 testA()
 testB() # NameError: name 'testB' is not defined
 ```
+
+>！！上面这个案例只对`from my_module1 import *`适用，对`inpoort my_module1`无影响。然而这个`my_module1`本身也不符合规范
+>
+>Import only needed names or import the module and then use its members.
+>
+>虽然不符合规范但是你可以用
 
 ### 包
 
@@ -1846,7 +1872,7 @@ test1.info_print1()
 
 - ```read(num)```：```num```表示要从文件中读取的数据的长度（单位是字节），如果没有传入```num```，那么就表示读取文件中所有的数据。
 - ```readline()``` 读取文件中的一行，然后返回整行，包括行结束符到字符串变量中 
-- ```readlines()``` 读取整个文件，返回一个字符串```list```，列表中的每个元素都是一个字符串，代表一行
+- ```readlines()``` 读取整个文件，返回一个字符串```list```，列表中的每个元素都是一个字符串，代表一行，也包括行结束符
 - ```文件对象.seek(偏移量, 起始位置)```：用来移动文件指针。
   - 起始位置：
     - 0：文件开头
@@ -1860,8 +1886,9 @@ test1.info_print1()
 执行完成以后自动调用关闭文件操作，即使出现异常也会自动调用关闭文件操作。使用`with`语句操作建立在上下文管理器(实现`__enter__`和`__exit__`)的基础上，**也就是说使用`open`函数创建的文件对象就是就是一个上下文管理器对象**
 
 ```python
-with open("1.txt", "w") as f:
-    f.write("hello world")
+with open('2.txt', 'w') as f1:
+    with open('1.txt', 'r') as f2:
+        f1.write(''.join(f2.readlines()))
 ```
 
 #### 自定义上下文管理器类并模拟文件操作
@@ -1927,7 +1954,7 @@ with my_open('out.txt', 'w') as f:
 
 - 并行: 对于多核cpu处理多任务，操作系统会给cpu的每个内核安排一个执行的软件，多个内核是真正的一起执行软件。这里需要注意多核cpu是并行的执行多任务，始终有多个软件一起执行。
 
-任务数大于CPU的核数表示并发的去执行多任务，任务数小于等于CPU的核数表示并行的去执行多任务。
+**任务数大于CPU的核数表示并发的去执行多任务，任务数小于等于CPU的核数表示并行的去执行多任务**
 
 ## 进程和线程对比
 
@@ -1965,7 +1992,7 @@ with my_open('out.txt', 'w') as f:
 
 和计算密集型相关操作使用多进程
 
-文件写入，文件的下载，i/o使用多线程
+文件写入，文件的下载，i/o使用多线程，因为这几个任务比较耗时，不会出现锁的问题
 
 ## 进程
 
@@ -2161,6 +2188,28 @@ if __name__ == '__main__':
     sing_thread = threading.Thread(target=sing, name = "sing_thread")
     dance_thread.start()
     sing_thread.start()
+"""
+<_MainThread(MainThread, started 41264)>执行中
+进程<Thread(dance_thread, started 36412)>执行中
+张三（年龄20）第1次跳舞中...
+张三（年龄20）第2次跳舞中...
+张三（年龄20）第3次跳舞中...
+进程<Thread(sing_thread, started 26596)>执行中
+第1次唱歌中...
+第2次唱歌中...
+第3次唱歌中...
+"""
+# 不用锁也不用join()
+"""
+<_MainThread(MainThread, started 42856)>执行中
+进程<Thread(dance_thread, started 42960)>执行中
+张三（年龄20）第1次跳舞中...
+进程<Thread(sing_thread, started 42964)>执行中
+第1次唱歌中...
+张三（年龄20）第2次跳舞中...第2次唱歌中...
+
+张三（年龄20）第3次跳舞中...第3次唱歌中...
+"""
 ```
 
 # 一些注意点
@@ -2185,7 +2234,7 @@ print(type(s2)) # <class 'str'>
 
 注意：如果中文字符串在Python环境下遇到```UnicodeDecodeError```，这是因为```.py```文件保存的格式有问题。可以在第一行添加注释：```# -*- coding: utf-8 -*-```，对于GBK，使用```# -*- coding: gbk -*-```
 
-我的备注：实际上加不加效果是一样的，因为Python2默认使用的是ASCII编码 (不支持中文)，Python3默认使用UTF-8编码(万国码, 支持中文)。
+实际上加不加效果是一样的，因为Python2默认使用的是ASCII编码 (不支持中文)，Python3默认使用UTF-8编码(万国码, 支持中文)。
 
 ## ```#!/usr/bin/env python3```
 
@@ -2209,7 +2258,7 @@ print(type(s2)) # <class 'str'>
 
 [知乎的详细解释](https://www.zhihu.com/question/48219401/answer/742444326)
 
-[菜鸟教程](https://www.runoob.com/python3/python3-reg-expressions.html)
+[菜鸟教程](https://www.runoob.com/python3/python3-reg-expressions.html)推荐
 
 - `.`匹配任意1个字符（除了`\n`）
 - `*`匹配前一个字符出现0次或者无限次
@@ -2218,18 +2267,50 @@ print(type(s2)) # <class 'str'>
 - `{m,}`匹配前一个字符至少出现m次
 - `{m,n}`匹配前一个字符出现从m到n次
 - `\w`匹配非特殊字符，即`a-z`、`A-Z`、`0-9`、`_`、汉字
-- 一个小括号就表示一个分组，分组是从1开始的。默认是0，获取整个分组的数据
+- `|`匹配左右任意一个表达式
+- `(ab)` 将括号中字符作为一个分组.分组数是从左到右的方式进行分配的，**最左边的是第一个分组，依次类推**
+- `\num`引用分组`num`匹配到的字符串
+- `(?P<name>)`分组起别名
+- `(?P=name)`引用别名为name分组匹配到的字符串
 
 ```python
 import re
-"""
-|: 匹配左右任意一个表达式
-(ab): 将括号中字符作为一个分组.分组数是从左到右的方式进行分配的，最左边的是第一个分组，依次类推
-\num: 引用分组num匹配到的字符串
-(?P<name>): 分组起别名
-(?P=name): 引用别名为name分组匹配到的字符串
-"""
 
+# re.search
+string = "Python is fun"
+pattern = "is"
+# check if 'Python' is at the beginning
+match = re.search(pattern, string) # found
+if match:
+  print("pattern found inside the string")
+else:
+  print("pattern not found")
+
+# re.match
+# will search from the start, so not found
+match = re.match(pattern, string)
+
+# re.findall
+# 在字符串中找到正则表达式所匹配的所有子串，并返回一个列表，如果有多个匹配模式，则返回元组列表，如果没有找到匹配的，则返回空列表
+# 注意： match 和 search 是匹配一次 findall 匹配所有
+
+# re.sub
+# 找到所有符合的pattern并替换
+# multiline string
+string = 'abc 12\
+de 23 \n f45 6'
+# matches all whitespace characters
+pattern = '\s+'
+# empty string
+replace = ''
+new_string = re.sub(pattern, replace, string)
+print(new_string) # abc12de23f456
+
+# re.compile
+# compile 函数用于编译正则表达式，生成一个正则表达式（ Pattern ）对象，供 match() 和 search() 这两个函数使用
+
+
+# re.group
 # \1也是一个特殊字符，所以用\\1转义，表示引用第一个分组
 html_tag = re.match("<([a-zA-Z1-6]+)>.*</\\1>", "<html>hh</html>")
 if html_tag:
@@ -2242,6 +2323,29 @@ if match_obj:
     print(match_obj.group())
 else:
     print("匹配失败")
+
+
+# another example
+string = '39801 356, 2102 1111'
+
+# Three digit number followed by space followed by two digit number
+pattern = '(\d{3}) (\d{2})'
+
+# match variable contains a Match object.
+match = re.search(pattern, string)
+
+if match:
+  print(match.group()) # 801 35
+  print(match.group(1)) # 801
+  print(match.group(2)) # 35
+  #  returns the index of the start of the matched substring
+  print(match.start()) # 2
+  # returns the end index of the matched substring
+  print(match.end()) # 8
+  # returns a tuple containing start and end index of the matched part
+  print(match.span()) # (2, 8)
+else:
+  print("pattern not found")
 ```
 
 # 编码经验

@@ -10,6 +10,33 @@ delimiter ;
 
 mysql中没有`check`，只能使用enum或trigger替换
 
+注意在subquery中不要用别名
+
+***
+
+`distinct`:
+
+- 在对字段进行去重的时候，要保证`distinct`在所有字段的最前面
+- 如果`distinct`关键字后面有多个字段时，则会对多个字段进行组合去重，只有多个字段组合起来的值是相等的才会被去重
+
+***
+
+`in`和`exists`的区别
+
+- 使用上的区别：`exists`中放一个子查询有记录返回true，无记录返回false（NULL也算有记录），in中查询结果集只能有一个字段
+- 性能上的区别：`in`要把缓存到内存中，`exists`不需要缓存结果
+  - `in`适合B表比A表数据小的情况
+  - `exists`适合B表比A表数据大的情况
+  - 当A表数据与B表数据一样大时,`in`与`exists`效率差不多,可任选一个使用
+  - 
+
+
+[脚本之家](https://www.jb51.net/article/214052.htm)
+
+***
+
+
+
 # 数据库的介绍
 
 数据库就是存储和管理数据的仓库，数据按照一定的格式进行存储，用户可以对数据库中的数据进行增加、修改、删除、查询等操作。
@@ -166,6 +193,11 @@ rollback;
 -- 给name字段添加索引
 alter table classes add index my_index_name (name); -- 索引名不指定，默认使用字段名
 
+## 查看
+show index from Sells;
+## 创建
+create index price_idx on Sells(price);
+
 ## 索引的删除:
 -- 删除索引的语法格式
 -- alter table 表名 drop index 索引名
@@ -228,6 +260,10 @@ alter table teacher drop index name;
 - 只使用实际表的一部分数据；
 - 通过只给用户访问视图的权限，保证数据的安全性；
 - 更改数据格式和表示。
+
+同样的视图也可以像真实的表一样更新数据，但是值得注意的是更新视图里的数据，也相当于对真实的表做了更新
+
+对视图操作和对表操作相同，操作时把`drop/update table`换成`drop/update view`即可
 
 ```mysql
 CREATE VIEW myview AS
@@ -411,6 +447,8 @@ SQL语言主要分为：
 - 日期时间: `date`, `time`, `datetime`
 - 枚举类型(`enum`)
 - 字符串`text`表示存储大文本，当字符大于 4000 时推荐使用, 比如技术博客
+  - text cant be primary key
+
 
 对于图片、音频、视频等文件，不存储在数据库中，而是上传到某个服务器上，然后在表中存储这个文件的保存路径.
 
@@ -456,6 +494,7 @@ SQL语言主要分为：
 - 非空`not null`: 此字段不允许填写空值
 - 惟一`unique`: 此字段的值不允许重复
 - 默认`default`: 当不填写字段对应的值会使用默认值，如果填写时以填写为准
+- `check`
 
 ## MySQL的安装
 
@@ -540,6 +579,9 @@ drop database 数据库名;
 select database();
 ## 查看创库SQL语句
 show create database 数据库名;
+show create table table_name
+
+source xxx.sql
 
 # 注释
 1. #
@@ -562,7 +604,7 @@ SELECT * FROM mytable ORDER BY col COLLATE latin1_general_ci;
 ```mysql
 ## 查看当前数据库中所有表
 show tables;
-## 查看表结构
+## 查看表结构, desc is drscribe, which is metadata
 desc 表名; 
 ## 创建表
 create table 表名(
@@ -573,9 +615,14 @@ column1 datatype contrai,
 create table students(
  id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT NOT NULL,
  name VARCHAR(20) NOT NULL,
+ -- 注意这个unsigned
  age TINYINT UNSIGNED DEFAULT 0,
  height DECIMAL(5,2),
- gender ENUM('男','女','人妖','保密')
+ gender ENUM('男','女','人妖','保密'),
+ check (age <= 100);
+ -- primary key(a, b), 
+ -- foreign key references table_b on update cascade
+    
 );
 
 /*
@@ -634,8 +681,12 @@ where语句支持的运算符:
     	- 不能使用 where height = null 判断为空
 		- 不能使用 where height != null 判断非空
 */
-select * from students where (not id between 3 and 8) and gender='男';
 
+-- this will show you how sql plan to execute the query
+explain select * from Sells;
+
+select * from students where (not id between 3 and 8) and gender='男';
+select * from contacts where phone_number like '%0_'
 ## 添加数据
 /* 主键列是自动增长，但是在全列插入时需要占位，通常使用空值(0或者null或者default)
    在全列插入时，如果字段列有默认值可以使用 default 来占位，插入后的数据就是之前设置的默认值*/
@@ -764,16 +815,20 @@ RDBMS creates Cartesian product of every table in the FROM clause
     - 内连接查询：查询两个表中符合条件的共有记录
     	select 字段 from 表1 inner join 表2 on 表1.字段1 = 表2.字段2
     - 左连接查询：以左表为主根据条件查询右表数据，如果根据条件查询右表数据不存在使用null值填充
-    	select 字段 from 表1 left join 表2 on 表1.字段1 = 表2.字段2
+    	select 字段 from 表1 left join 表2 on 表1.字段1 = 表2.字段2, same as 
+    - tb1 natural left outer join tb2: inner + left dangling
     - 右连接查询：以右表为主根据条件查询左表数据，如果根据条件查询左表数据不存在使用null值填充
-    	select 字段 from 表1 right join 表2 on 表1.字段1 = 表2.字段2
+    	select 字段 from 表1 right join 表2 on 表1.字段1 = 表2.字段2, same as 
+    - tb1 natural right outer join tb2: inner + right dangling
     - 自连接查询：左表和右表是同一个表，根据连接查询条件查询两个表中的数据。
     	自连接查询必须对表起别名
     	自连接查询就是把一张表模拟成左右两张表，然后进行连表查询。
 		自连接就是一种特殊的连接方式，连接的表还是本身这张表
 	- 自然连接：是把同名列通过等值测试连接起来的，同名列可以有多个。
 		内连接和自然连接的区别：内连接提供连接的列，而自然连接自动连接所有同名列。
-	- mysql不支持outer join
+		等同于用逗号链接, cross join, join
+		顺序有影响，左边的先显示
+	- mysql不支持`outer join`, full outer join = inner + left + right dangling
 */
 # recursive join example
 SELECT S.id, S.name. M.name
@@ -804,6 +859,9 @@ ALL operator
 	- uses a comparison operator other than equals
 ANY operator
 	- allows comparsion of a single value to a list of values and selects only the rows for which the value is greater than 	  or less than any value in the list 
+	
+all是对于对于前面的逐条结果，对subquery里的每一条结果都为true的结果集
+all是对于对于前面的逐条结果，对subquery里的任意一条结果为true的结果集
 */
 SELECT P_CODE, P_QOH*P_PRICE FROM PRODUCT WHERE P_QOH*P_PRICE>ALL
 (SELECT P_QOH*P_PRICE FROM PRODUCT WHERE V_CODE IN (SELECT V_CODE FROM VENDOR WHERE V_STATE='FL'))
@@ -814,7 +872,7 @@ SELECT A.value, B.value FROM tablea AS A NATURAL JOIN tableb AS B;
 /*
     - 使用UNION来组合两个查询，如果第一个查询返回M行，第二个查询返回N行，那么组合查询的结果一般为M+N行
     - 每个查询必须包含相同的列、表达式和聚集函数。
-    - 默认会去除相同行，如果需要保留相同行，使用UNION ALL
+    - **默认会去除相同行，如果需要保留相同行，使用UNION ALL**
     - 只能包含一个ORDER BY子句，并且必须位于语句的最后
     - union-compatible: number of attributes are the same and their corresponding data type are alike
     - INTERSECT: combine rows from two queries, returning only the rows that appear in both sets
@@ -830,6 +888,8 @@ SELECT col FROM mytable WHERE col =2;
 ### 外键约束`foreign key`
 
 对外键字段的值进行更新和插入时会和引用表中字段的数据进行验证，数据如果不合法则更新和插入会失败，保证数据的有效性
+
+另一个表的主键或者unique的属性（可以包含空值）可以做外键
 
 ```mysql
 /*

@@ -1,5 +1,15 @@
 # 常用library
 
+```python
+from functools import reduce
+from functools import accumulator
+from collections import deque
+from collections import Counter
+from itertools import 
+```
+
+
+
 ## math
 
 ```python

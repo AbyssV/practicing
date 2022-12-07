@@ -108,7 +108,7 @@ source myproject/test_env/bin/activate
 
 ```bash
 # 安装虚拟环境
-sudo pip install virtualenv
+sudo pip install --user virtualenv
 # Virtaulenvwrapper是virtualenv的扩展包，用于更方便管理虚拟环境，它可以做
 # 将所有虚拟环境整合在一个目录下 
 # 管理（新增，删除，复制）虚拟环境 
