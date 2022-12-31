@@ -89,6 +89,7 @@ python app.py # 有app.run()
 flask run
 flask run -h 0.0.0.0 -p 8000 绑定地址 端口
 python -m flask run # 如果上面的不行
+flask run --host 0.0.0.0 --port=50001 --debugger --reload
 ```
 
 ## 应用程序配置参数
