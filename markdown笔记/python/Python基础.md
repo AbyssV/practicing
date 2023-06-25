@@ -488,7 +488,7 @@ print('-------------------------------------------------------------------------
 # find()：检测某个子串是否包含在这个字符串中，如果在返回这个子串开始的位置下标，否则则返回-1。
 # 字符串序列.find(子串, 开始位置下标, 结束位置下标)
 # 注意：开始和结束位置下标可以省略，表示在整个字符串序列中查找。
-# 注意：list没有find函数，可以多用index
+# 注意：index如果查找的数据不存在则报错，find则会返回-1。list没有find函数
 # rfind()： 和find()功能相同，但查找方向为右侧开始。
 print(mystr.find('and', 15, 30))  # 23
 # index()：检测某个子串是否包含在这个字符串中，如果在返回这个子串开始的位置下标，否则则报异常。
@@ -551,7 +551,7 @@ print('-------------------------------------------------------------------------
 # 查找
 # index()：返回指定数据所在位置的下标 。
 # 列表序列.index(数据, 开始位置下标, 结束位置下标)
-# 注意：如果查找的数据不存在则报错。
+# 注意：index如果查找的数据不存在则报错，没有find函数
 print(name_list.index('Lily', 0, 2))  # 1
 # count()：统计指定数据在当前列表中出现的次数。
 print(name_list.count('Lily'))  # 1
@@ -2279,7 +2279,7 @@ import re
 # re.search
 string = "Python is fun"
 pattern = "is"
-# check if 'Python' is at the beginning
+# 从头扫描整个字符串以匹配模式，只要中间有就能返回
 match = re.search(pattern, string) # found
 if match:
   print("pattern found inside the string")
@@ -2287,10 +2287,11 @@ else:
   print("pattern not found")
 
 # re.match
-# will search from the start, so not found
+# 必须需要从头匹配，所以not found
 match = re.match(pattern, string)
+string[match.start():match.end()]
 
-# re.findall
+# re.findall / re.finditer
 # 在字符串中找到正则表达式所匹配的所有子串，并返回一个列表，如果有多个匹配模式，则返回元组列表，如果没有找到匹配的，则返回空列表
 # 注意： match 和 search 是匹配一次 findall 匹配所有
 
@@ -2307,8 +2308,9 @@ new_string = re.sub(pattern, replace, string)
 print(new_string) # abc12de23f456
 
 # re.compile
-# compile 函数用于编译正则表达式，生成一个正则表达式（ Pattern ）对象，供 match() 和 search() 这两个函数使用
-
+# compile 函数用于编译正则表达式，生成一个正则表达式（ Pattern ）对象，供 match() 和 search() 或其他函数使用
+# but using re.compile() and saving the resulting regular expression object for reuse is more efficient when the expression will be used several times in a single program。节省CPU时间
+re.compile(pattern, flags = re.IGNORECASE) # 不区分大小写
 
 # re.group
 # \1也是一个特殊字符，所以用\\1转义，表示引用第一个分组
@@ -2317,7 +2319,23 @@ if html_tag:
     print(html_tag.group())
 else:
     print("匹配失败")
+
 # 分组起别名
+pattern = r'([A-Z0-9._%+-]+)@([A-Z0-9.-]+)\.([A-Z]{2,4})'
+regex = re.compile(pattern, flags=re.IGNORECASE)
+text = """Dave dave@google.com
+Steve steve@gmail.com
+Rob rob@gmail.com
+Ryan ryan@yahoo.com
+"""
+
+m = regex.match('wesm@bright.net')
+m.groups() # ('wesm', 'bright', 'net')
+regex.findall(text) # 对于带有分组功能的模式，findall会返回一个元组列表
+print(regex.sub(r'Username: \1, Domain: \2, Suffix: \3', text)) # sub还能通过诸如\1、\2之类的特殊符号访问各匹配项中的分组。符号\1对应第一个匹配的分组，\2对应第二个匹配的分组，以此类推
+
+
+# another example
 match_obj = re.match("<(?P<name1>[a-zA-Z1-6]+)><(?P<name2>[a-zA-Z1-6]+)>.*</(?P=name2)></(?P=name1)>", "<html><h1>www.itcast.cn</h1></html>")
 if match_obj:
     print(match_obj.group())
@@ -2329,7 +2347,7 @@ else:
 string = '39801 356, 2102 1111'
 
 # Three digit number followed by space followed by two digit number
-pattern = '(\d{3}) (\d{2})'
+pattern = '(\d{3}) (\d{2})' # 801 36 | 102 11
 
 # match variable contains a Match object.
 match = re.search(pattern, string)

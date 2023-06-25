@@ -54,16 +54,16 @@ $('span'); // $('span')是一个jQuery对象
 console.dir($('div'));
 // 3. jQuery对象只能使用jQuery方法，DOM对象则使用原生的JavaScirpt属性和方法
 myDiv.style.display = 'none';
-// myDiv.hide(); myDiv是一个dom对象不能使用jquery里面的hide方法
+// myDiv.hide(); 发现myDiv是一个dom对象不能使用jquery里面的hide方法
 $('div').hide(); 
 //---------------------------------------------------------------------------------
 // 1. DOM对象转换成jQuery对象
 var box = document.getElementById('box');  // 获取DOM对象
 var jQueryObject = $(box);  // 把DOM对象转换为jQuery对象
 
-// 2. jQuery对象转换为DOM对象有两种方法：
+// 2. jQuery对象转换为DOM对象有两种方法：索引 和 get(索引)
 var myvideo = document.querySelector('video');
-// $(myvideo).play(); jquery里面没有play这个方法
+// $(myvideo).play(); 发现jquery里面没有play这个方法
 
 // (1) jQuery对象[索引值]
 $('video')[0].play() // 1. 
@@ -148,7 +148,7 @@ $(function() {
 
 index()的补充
 
-![index](../../图片笔记/前端/jQuery/index.png)
+<img src="../../图片笔记/前端/jQuery/index.png" alt="index" style="zoom: 67%;" />
 
 ## jQuery样式操作
 

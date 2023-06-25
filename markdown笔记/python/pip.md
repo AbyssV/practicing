@@ -178,4 +178,14 @@ lssitepackages     #显示 site-packages 目录中的内容
 
 
 
-# 
+# 更换源
+
+```
+vi ~/.pip/pip.conf
+
+[global]
+index-url = https://pypi.tuna.tsinghua.edu.cn/simple
+[install]
+trusted-host=pypi.tuna.tsinghua.edu.cn
+```
+

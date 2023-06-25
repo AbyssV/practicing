@@ -50,7 +50,7 @@
 
   - `<input type="button" name="" onclick="alert('ok！');">`
   - 可以将单行或少量JS代码写在HTML标签的事件属性中（以`on`开头的属性），如：`onclick`
-  - 注意单双引号的使用：在HTML中我们推荐使用双引号，JS中我们推荐使用单引号
+  - **注意单双引号的使用：在HTML中我们推荐使用双引号，JS中我们推荐使用单引号**
   - 可读性差， 在html中编写JS大量代码时，不方便阅读
   - 引号易错，引号多层嵌套匹配时，非常容易弄混
   - 特殊情况下使用
@@ -237,36 +237,6 @@ for (var i = 1; i <= 5; i++) {
        break; // 单行注释前面注意有个空格
    }
    console.log('我正在吃第' + i + '个包子呢');
-}
-```
-
-### 匈牙利命名风格
-
-- 对象o Object 比如：oDiv
-- 数组a Array 比如：aItems
-- 字符串s String 比如：sUserName
-- 整数i Integer 比如：iItemCount
-- 布尔值b Boolean 比如：bIsComplete
-- 浮点数f Float 比如：fPrice
-- 函数fn Function 比如：fnHandler
-
-```javascript
- //同时定义多个变量可以用","隔开，公用一个‘var’关键字
-var iNum = 45,sTr='qwe',sCount='68';
-// number
-var iOne = 10.1;
-// string
-var sStr = '1234';
-// boolean; 
-var bIsTrue = false;
-// undefined
-var unData;
-// null空对象
-var nullData = null;
-// object对象类型
-var oObj = {
-   name:"隔壁老王",
-   age:88
 }
 ```
 
@@ -481,7 +451,7 @@ console.log(arr1.concat(arr3, arr2)); // [1, 2, 3, 'd', 'e', 'f', 'a', 'b', 'c']
 
 `slice()`并不会修改数组，而是返回一个子数组。可使用负值从数组的尾部选取元素，如果`end`未被规定，那么`slice()`方法会选取从`start`到数组结尾的所有元素
 
-### *ES5新增数组方法-forEach/filter/some/map/reduce
+### *ES5新增数组方法-forEach/filter/some/every/map/reduce
 
 ```javascript
 // forEach遍历数组，相当于数组遍历的for循环 没有返回值
@@ -550,6 +520,9 @@ console.log(sumWithInitial); // 10
 ```python
 data = [1, 2, 3, 4]
 print(*data) # 1 2 3 4
+
+let data = [1, 2, 3, 4]
+console.log(...data) # 1 2 3 4
 ```
 
 
@@ -631,7 +604,7 @@ console.log(index); // 2
 
 ## 算术运算符
 
-`+`，`-`， `*`， `/`（取模）， `%`，`++`（自增），`--`（自减），`+=`，`-=`，`*=`，`/=`，`%=`
+`+`，`-`， `*`， `/`， `%`，`++`（自增），`--`（自减），`+=`，`-=`，`*=`，`/=`，`%=`
 
 浮点数的精度问题：浮点数值的最高精度是17位小数，但在进行算术计算时其精确度远远不如整数，所以不要直接判断两个浮点数是否相等
 
@@ -666,7 +639,7 @@ console.log(index); // 2
 ```javascript
 console.log(123 && 456);        // 456
 console.log(0 && 456);          // 0
-console.log(123 && 45 6&& 789);  // 789
+console.log(123 && 456&& 789);  // 789
 console.log(123 || 456);         //  123
 console.log(0 ||  456);          //  456
 console.log(123 || 456 || 789);  //  123
@@ -754,7 +727,7 @@ function 函数名(形参1, 形参2 , 形参3...) { // 可以定义任意多的�
 // 匿名函数
 // 这是函数表达式写法，匿名函数后面跟分号结束
 var fn = function(){...};
-// 调用的方式，函数调用必须写到函数体下面
+// 调用的方式，函数调用必须写到函数体下面。如果先调用fn，就会报错
 fn();
 
 // new Function()定义函数
@@ -911,11 +884,35 @@ var  fn = function() {
 } // 报错提示 "fn is not a function"
 ```
 
-**案例**
+**案例**：注意区分全局变量、局部变量、块级作用域
 
 ![函数预解析案例2](../../图片笔记/前端/js/函数预解析案例2.png)
 
 ![函数预解析案例1](../../图片笔记/前端/js/函数预解析案例1.png)
+
+```
+a: 因为函数声明表示函数整体，在预解析fn时，num没有值，所以是undefined
+b:
+Q: num可以被声明两次吗
+A: 在 JavaScript 中，你可以在同一个作用域内多次声明同一个变量，但是这通常是不被推荐的，因为它可能会导致代码的混乱和错误。在严格模式（'use strict'）下，试图重复声明变量将导致错误。
+
+在你的代码示例中，你在全局作用域和函数 fn 的局部作用域中分别声明了变量 num。这是完全合法的，因为它们是在不同的作用域中声明的。这两个 num 变量是不同的变量，各自有自己的值。在函数 fn 内部，局部的 num 遮蔽了全局的 num。
+
+所以，虽然在同一作用域内多次声明同一变量通常是不好的实践，但在不同的作用域中声明同名的变量是完全合法的。这是 JavaScript 作用域规则的一部分。
+c:
+这个现象与 JavaScript 的操作符优先级和变量声明有关。在这个语句 var a = b = c = 9; 中，赋值操作符 = 是从右到左执行的，所以这个语句实际上可以看作是：var a = (b = (c = 9));
+
+首先，c = 9 创建了一个全局变量 c 并赋值为 9。然后 b = c 创建了一个全局变量 b 并赋值为 c 的值 9。最后，var a = b 在局部作用域（函数 f1）创建了一个变量 a 并赋值为 b 的值 9。
+
+这里的关键在于 var 关键字只对 a 起作用，使 a 成为函数 f1 的局部变量。而 b 和 c 没有使用 var 关键字，所以它们是全局变量（除非你在 'use strict' 模式下，那样的话试图赋值未声明的变量将导致错误）。
+
+这就是为什么在这个语句中，只有 a 是使用 var 关键字声明的。这也是一个很好的例子，说明为什么在 JavaScript 中，我们应该总是显式地声明我们的变量，以避免意外创建全局变量，可能会导致意想不到的结果。
+
+d:
+然而，只有 a 是在函数 f1 的局部作用域内声明的，b 和 c 没有使用 var 关键字，因此它们成为全局变量（如果 'use strict' 模式没有被启用）。这就是为什么在函数 f1 外部，你可以访问到 b 和 c 的值。
+```
+
+
 
 ## 闭包
 
@@ -941,7 +938,7 @@ var  fn = function() {
             lis[i].index = i;
             lis[i].onclick = function() {
                 // console.log(i); for循环立即执行，但是onclick是一个点击事件（异步），所以点击任意一个li都会输出4
-                console.log(this.index);
+                console.log(this.index); // 这个index是自定义属性
             }
         }
         // 2. 利用闭包的方式得到当前小li的索引号
@@ -997,14 +994,6 @@ console.log(car.yd(false)); // 13
 ```javascript
 // 思考题1：没有闭包产生，因为没有局部变量
 var name = "The Window";
-/* 		var object = {
-						name: "My Object",
-						getNameFunc: function () {
-							return this.name;
-						}
-					};
-				console.log(object.getNameFunc()) // My Object */
-
 var object = {
     name: "My Object",
     getNameFunc: function () {
@@ -1013,7 +1002,7 @@ var object = {
         };
     }
 };
-// console.log(object.getNameFunc()) // f(){return this.name;}
+console.log(object.getNameFunc()) // f(){return this.name;}
 console.log(object.getNameFunc()()) // The Window;
 
 // 思考题2：有闭包因为使用了局部变量
@@ -1166,7 +1155,7 @@ function fn(a) {
 }
 var x = 10;
 fn(x); // 11
-console.log(x); //10
+console.log(x); //10 number是简单数据类型
 
 function Person(name) {
     this.name = name;
@@ -1216,7 +1205,7 @@ console.log(p.name);    // 4 张学友
 1. 如果参数`startPos`是负数，从字符串的尾部开始算起的位置。也就是说，`-1`指字符串的最后一个字符，以此类推
 2. 如果`startPos`为负数且绝对值大于字符串长度`startPos`为`0`
 
-#### replace/split/trim/startsWith/endsWith/repeat
+#### replace/split/toLowerCase/trim/startsWith/endsWith/repeat
 
 ```javascript
 // 转义字符
@@ -1258,7 +1247,7 @@ console.log("y".repeat(5)); // yyyyy
 
 ### ES6 模板字符串
 
-ES6新增的创建字符串的方式，使用反引号定义。
+ES6新增的创建字符串的方式，使用反引号定义。和python的fstring类似
 
 ```javascript
 // 模板字符串中可以解析变量
@@ -1300,28 +1289,50 @@ console.log(html)
   - 对象都会有一个属性`__proto__`指向构造函数的`prototype`原型对象，之所以我们对象可以使用构造函数`prototype`原型对象的属性和方法，就是因为对象有`__proto__`原型的存在
   - `__proto__`对象原型和原型对象`prototype`是等价的
   - `__proto__`对象原型的意义就在于为对象的查找机制提供一个方向，或者说一条路线，但是它是一个非标准属性，因此实际开发中，不可以使用这个属性，它只是内部指向原型对象`prototype`
-- JavaScript 规定，每一个构造函数都有一个`prototype`属性，指向另一个对象。注意这个`prototype`就是一个对象，这个对象的所有属性和方法，都会被构造函数所拥有。我们可以把那些不变的方法，直接定义在`prototype`==对象==上，这样所有对象的实例就可以共享这些方法
-- 
+- JavaScript 规定，每一个构造函数都有一个`prototype`属性，指向另一个对象。注意这个`prototype`就是一个对象，这个对象的所有属性和方法，都会被构造函数所拥有。我们可以把那些不变的方法，直接定义在`prototype`对象上，这样所有对象的实例就可以共享这些方法
 
 ![prototype原型对象](../../图片笔记/前端/js/prototype原型对象.png)
 
 - 对象原型（ `__proto__`）和构造函数（`prototype`）原型对象里面都有一个`constructor`属性 ，我们称为构造函数，因为它指回构造函数本身。`constructor`主要用于记录该对象引用于哪个构造函数，它可以让原型对象重新指向原来的构造函数。一般情况下，对象的方法都在构造函数的原型对象中设置。**<u>如果有多个对象的方法，我们可以给原型对象采取对象形式赋值，但是这样就会覆盖构造函数原型对象原来的内容，这样修改后的原型对象`constructor`就不再指向当前构造函数了。此时，我们可以在修改后的原型对象中，添加一个 `constructor`指向原来的构造函数。</u>**
 
+<img src="../../图片笔记/前端/js/原型对象解释.jpeg" alt="prototype原型对象" style="zoom: 33%;" />
+
 ```javascript
-Student.prototype.tell = function () {
-    document.write("im a bad student");
-}
+function Student(name, age, grade) {
+  this.name = name;
+  this.age = age;
+  this.grade = grade;
+  this.showGrade = function () { ducument.write(grade); };
+};
+
+s1 = new Student('张三', 12, [100, 99, 102]);
+s2 = new Student('李四', 20, [10, 2, 5]);
+
 console.log(s1.__proto__ === Student.prototype); // true
 
-// 很多情况下,我们需要手动的利用constructor这个属性指回原来的构造函数
-// Student.prototype.bad = function () {
-// 	document.write("im a bad student<br>");
-// }
+// 这一部分是追加
+Student.prototype.tell = function () {
+  document.write("im a bad student");
+}
+console.log(Student.prototype); // 会出现tell:f(), constructor, 而showGrade则出现在constructor里
+console.log(s1.__proto__);
+s1.tell(); // 可以调用
+console.log(Student.prototype.constructor); // 和原来的Student一样，不会出现tell
+console.log(s1.__proto__.constructor);
+```
 
-// Student.prototype.good = function () {
-// 	document.write("im a good student<br>");
-// }
-// 可以写成，但是会把原先的prototype覆盖，以上是追加
+以上四条会在控制台输出
+
+![原型链-控制台](../../图片笔记/前端/js/原型链-控制台1.png)
+
+```javascript
+function Student(name, age, grade) {
+  this.name = name;
+  this.age = age;
+  this.grade = grade;
+  this.showGrade = function () { ducument.write(grade); };
+};
+// 很多情况下,我们需要手动的利用constructor这个属性指回原来的构造函数
 Student.prototype = {
     // 如果我们修改了原来的原型对象，给原型对象赋值的是一个对象，则必须手动的利用constructor指回原来的构造函数
     constructor: Student,
@@ -1335,19 +1346,17 @@ Student.prototype = {
 
 s1 = new Student('张三', 12, [100, 99, 102]);
 s2 = new Student('李四', 20, [10, 2, 5]);
-s1.good();
-s1.bad();
+s1.good(); // 可以调用
+s1.bad(); // 可以调用
 console.log(Student.prototype);
 console.log(s1.__proto__);
-console.log(Student.prototype.constructor);
+console.log(Student.prototype.constructor); // 和原来的Student一样，不会出现good, bad
 console.log(s1.__proto__.constructor);
-
-
 ```
 
 以上四条会在控制台输出
 
-![原型链-控制台](../../图片笔记/前端/js/原型链-控制台.png)
+![原型链-控制台](../../图片笔记/前端/js/原型链-控制台2.png)
 
 ### 原型链
 
@@ -1365,10 +1374,6 @@ console.log(s1.__proto__.constructor);
 `__proto__`对象原型的意义就在于为对象成员查找机制提供一个方向，或者说一条路线
 
 例如，在`Object.prototype`对象里有一个方法`toString()`，但是在`Star.prototype`和`ldh.__proto__`中没有，我们仍然可以使用 
-
-**我自己的理解**
-
-![原型对象自己理解](../../图片笔记/前端/js/原型对象自己理解.png)
 
 **视频可能有问题**
 
@@ -1743,6 +1748,13 @@ console.log(c); // 3
 console.log(d); // undefined
 console.log(e); // undefined
 
+// python
+ary = [1,2,3]
+a,b,c = ary
+print(a) # 1
+print(b) # 2
+print(c) # 3
+
 // 变量匹配 
 let person = {name: 'lisi', age: 30, sex: '男'};
 // let { name, age, sex } = person;
@@ -1757,6 +1769,8 @@ console.log(myName)
 ## 箭头函数
 
 - 箭头函数中不绑定`this`，箭头函数中的`this`指向是它所定义的位置，可以简单理解成，定义箭头函数中的作用域的`this`指向谁，它就指向谁
+  - 在 JavaScript 中，箭头函数并不绑定 `this`，也就是说，箭头函数中的 `this` 值由它所在的上下文决定，这被称为词法作用域或静态作用域。这与普通函数不同，普通函数的 `this` 值是在函数被调用时确定的，可以被改变（例如通过 `call`、`apply` 或 `bind` 方法）。
+
 - 箭头函数的优点在于解决了`this`执行环境所造成的一些问题。比如：解决了匿名函数`this`指向的问题（匿名函数的执行环境具有全局性），包括`setTimeout`和`setInterval`中使用`this`所造成的问题
 
 ```javascript
@@ -2079,3 +2093,5 @@ a*b.toFixed(2) // 保留两位小数
 ## 代码习惯
 
 变量不用时，重置为`null`
+
+HTML用双引号，JS用单引号
