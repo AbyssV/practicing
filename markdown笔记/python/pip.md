@@ -62,6 +62,16 @@ Currently, there are two common tools for creating Python virtual environments:
 ### `pipenv`
 
 ```bash
+# 以ubuntu系统级的python3.10为例
+# 安装pip
+sudo apt-get install python3-pip
+# 安装pipenv
+pip install --user pipenv
+# 配置环境变量
+export PATH="$PATH:$HOME/.local/bin"
+source ~/.bashrc
+
+
 # 查看命令使用帮助
 pipenv -h 
 pipenv --python 3[.6]
@@ -100,6 +110,8 @@ pipenv install requests
 # create a virtual environment
 python3 -m venv my_project/test_env
 source myproject/test_env/bin/activate
+# quit
+deactivate
 ```
 
 ### `virtualenv`

@@ -22,7 +22,7 @@ This repository is used for self-learning, note taking and practicing with simpl
 
 
 
-# front end study
+# Frontend Study
 
 1. （除案例已完成）HTML5+CSS3+移动端+jQuery+JS基础：https://www.bilibili.com/video/BV1RK4y1X7qd?spm_id_from=333.999.0.0&vd_source=d16bf647e36354ffbe4efd700a927726
 2. （已完成）JavaScript高级：https://www.bilibili.com/video/BV1DY41177dM?spm_id_from=333.999.0.0&vd_source=d16bf647e36354ffbe4efd700a927726
@@ -36,17 +36,17 @@ This repository is used for self-learning, note taking and practicing with simpl
 
 
 
-# Machine Learning：
+# Machine Learning
 
-机器学习大量依赖于书籍，所以除了个别包的是使用建议直接看书
-
-
+机器学习大量依赖于书籍，所以除了个别包的使用建议直接看书
 
 
 
 
 
-# file structure
+
+
+# File Structure
 
 - **code example**: useless in the current stage. will make it helpful in the future
 - **makedown笔记**: all the md notes I take from various online classes

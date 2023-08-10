@@ -145,3 +145,38 @@ GIL: Global Interpreter Lock
   - `print(dir(LowercaseClass))`
 
 ### 装饰器
+
+
+
+跳过第8章和第4章
+
+
+
+ ```
+ 很多模板引擎都有转义操作，python的http模块也可以=通过escape和unescape转义，防止XSS
+ python的from pprint import pprint
+ gunicorn提供gevent, asynoic
+ from wsgiref.simple_server import make_server
+ 
+ import hashlib
+ url = "www.baidu.com"
+ hashlib.md5(url.encode()).hexdigest()
+ 
+ divmod()
+ from flask import Flask, jsonify, render_template, request
+ from flask_mysqldb import MySQL
+ from flask.ext.redis import FlaskRedis
+ 
+ 
+ 
+ 
+ ```
+
+
+
+
+
+
+
+
+

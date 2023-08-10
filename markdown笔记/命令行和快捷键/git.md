@@ -263,7 +263,11 @@ git push --force origin # 强制覆盖
 
 通常情况下分支合并都会产生一个合并节点，但是在某些特殊情况下例外。例如调用`git pull`命令更新远端代码时，如果本地的分支没有任何的提交，那么没有必要产生一个合并节点。这种情况下将不会产生一个合并节点，HEAD直接指向更新后的顶端代码，这种合并的策略就是fast-forward合并
 
+
+
 ## git rebase
+
+
 
 ```bash
 git rebase 分支名 # 将当前版本重置到分支中
@@ -324,11 +328,12 @@ git stash save "save message" # 执行存储时，添加备注，方便查找，
 git stash pop # 恢复改动。将缓存堆栈中的对应stash删除，并将对应修改应用到当前的工作目录下,默认为第一个stash,即stash@{0}，如果要应用并删除其他stash，命令：git stash pop stash@{$num} ，比如应用并删除第二个：git stash pop stash@{1}
 
 git stash list # 查看stash了哪些存储
+git stash show -p # 显示最近的存储的改动，如果想显示其他存存储，命令：git stash show stash@{$num}  -p ，比如第二个：git stash show stash@{1} -p
 git stash apply # 应用某个存储,但不会把存储从存储列表中删除，默认使用第一个存储,即stash@{0}，如果要使用其他个，git stash apply stash@{$num} ， 比如第二个：git stash apply stash@{1} 
 git stash drop stash@{$num} # 丢弃stash@{$num}存储，从列表中删除这个存储
 git stash clear # 删除所有缓存的stash
 git stash show # 显示做了哪些改动，默认show第一个存储,如果要显示其他存贮，后面加stash@{$num}，比如第二个 git stash show stash@{1}
-git stash show -p # 显示第一个存储的改动，如果想显示其他存存储，命令：git stash show stash@{$num}  -p ，比如第二个：git stash show stash@{1} -p
+
 
 git stash branch branch_name # 创建一个新的分支，检出你储藏工作时的所处的提交，重新应用你的工作，如果成功，将会丢弃储藏
 ```

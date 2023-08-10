@@ -92,6 +92,10 @@ xrandr -s 1920x1440 # 调整分辨率，推荐2560x1600
 
 - ```man``` 使用说明: ```man 命令```-这个更全
 
+- `pip install tldr`+`$tldr tar`：更全更清楚
+
+- 《鸟哥的linux私房菜》
+
 ```man```命令和```more```命令的说明:
 
 | 操作键 |      说明      |
@@ -133,7 +137,7 @@ xrandr -s 1920x1440 # 调整分辨率，推荐2560x1600
 | ln -s 源文件路径 目标文件路径 | 创建软链接，类似于Windows下的快捷方式，当一个源文件的目录层级比较深，我们想要方便使用它可以给源文件创建一个软链接。 |                                                              | 1.如果软链接和源文件不在同一个目录，源文件要使用绝对路径，不能使用相对路径。<br />2.删除源文件则软链接失效。<br />3.可以给目录创建软链接 |
 |              ln               | 创建硬链接。类似于源文件的一个别名，也就是说这两个名字指向的是同一个文件数据。一般在防止误删时使用 |                                                              | 1.创建硬链接使用相对路径和绝对路径都可以。<br />2.删除源文件，硬链接还可以访问到数据。<br />3.创建硬链接，硬链接数会加1，删除源文件或者硬链接，硬链接数会减1。<br/>4.创建软链接，硬链接数不会加1<br/>5.不能给目录创建硬链接<br />6.硬链接数就是文件数据被文件名使用的次数, 好比引用计数 |
 |    grep 文本搜索内容 文件     |                           文本搜索                           |                                                              | ```-i ```忽略大小写<br />```-n``` 显示匹配行号<br />```-v``` 显示不包含匹配文本的所有行<br /><br />`-c`统计匹配到行的个数<br />```grep``` 命令还可以文本搜索管道中的内容，比如: ```ls /bin | grep "sh"```<br />搜索内容的引号可以省略，比如： ```ls /bin | grep ^a..c$```<br />可以加入**正则表达式**，比如：```grep '^a..c' -i hello.py``` |
-|       find 目录 文件名        |                在指定目录下查找文件(包括目录)                | ```find . -name "?.txt"```                                   | ```-name``` 根据文件名(包括目录名)字查找<br />可以加入通配符，```*``` 代表0个或多个任意字符，```?``` 代表任意一个字符。通配符不仅能结合```find```命令使用，还可以结合其它命令使用, 比如: ```ls```、```mv```、```cp``` 等，**这里需要注意只有```find```命令使用通配符需要加上引号。** |
+|       find 目录 文件名        |                在指定目录下查找文件(包括目录)                | ```find . -name "?.txt" -delete```                           | ```-name``` 根据文件名(包括目录名)字查找<br />可以加入通配符，```*``` 代表0个或多个任意字符，```?``` 代表任意一个字符。通配符不仅能结合```find```命令使用，还可以结合其它命令使用, 比如: ```ls```、```mv```、```cp``` 等，**这里需要注意只有```find```命令使用通配符需要加上引号。** |
 |              tar              |      压缩和解压缩命令（```.gz```和```.bz2```的压缩包）       | ```tar -zcvf  test.tar.gz *.txt```/```tar -zxvf test.tar.gz -C 文件名```/```tar -jcvf test.bz2 *.txt```/```tar -jxvf test.bz2 -C 文件名``` | ```-c``` 创建打包文件<br/>```-v``` 显示打包或者解包的详细信息<br/>```-f``` 指定文件名称, 必须放到所有选项后面<br/>```-z``` 压缩或解压缩(```.gz```)<br/>```-j ``` 压缩或解压缩(```.bz2```)<br/>```-x``` 解包<br/>```-C``` 解压缩到指定目录，只有解压缩才有指定目录 |
 |              zip              |                   压缩成```.zip```格式文件                   | ```zip test *.txt```                                         | 默认是```.zip```后缀，相对占用空间比较多。尽量使用```.gz```格式，占用空间比较少 |
 |             unzip             |                   解压缩```.zip```格式文件                   | ```unzip test.zip -d 文件名```                               |                  ```-d``` 解压缩到指定目录                   |
@@ -145,6 +149,8 @@ xrandr -s 1920x1440 # 调整分辨率，推荐2560x1600
 |   diff 文件/目录 文件/目录    | 如果指定比较的是文件，则只有当输入为文本文件时才有效。以逐行的方式，比较文本文件的异同处。如果指定比较的是目录的的时候，diff 命令会比较两个目录下名字相同的文本文件 | `diff 1.txt 2.txt`                                           | ```-i ```忽略大小写<br />`-x`不比较选项中所指定的文件或目录<br />`-q`仅显示有无差异，不显示详细的信息<br />`-y`以并列的方式显示文件的异同之处<br />`-W`在使用-y参数时，指定栏宽 |
 |              wc               |                          wordcount                           |                                                              |                                                              |
 |            history            |                         使用过的命令                         | history 5                                                    |                                                              |
+
+
 
 # vim 常用命令
 
@@ -350,6 +356,46 @@ chmod 644 1.txt
 chmod 777 1.txt
 chmod 000 1.txt
 ```
+
+
+
+## `chattr`
+
+`chattr` 命令在 Linux 系统中用于改变文件或目录的属性。这些属性为文件或目录提供了额外的功能和特性，超出了基本的权限系统，比如 `read`、`write` 和 `execute`。
+
+以下是一些常用的 `chattr` 命令选项：
+
+- `+`：添加属性。
+- `-`：删除属性。
+- `=`：设置属性。
+
+以及一些常见的文件或目录属性：
+
+- `i`：设置文件或目录为不可修改（immutable）。设置此属性后，任何用户（包括 root）都不能删除、修改、重命名或者创建硬链接。
+
+- `a`：设置文件或目录仅可追加（append only）。设置此属性后，只能向文件添加数据，不能删除和修改已有的数据。
+
+- `s`：启用安全删除（secure deletion）。设置此属性后，当文件被删除时，其磁盘空间将被全面地填满，而不是只是删除文件的索引。
+
+- `A`：禁用 atime 记录。设置此属性后，系统不会记录文件的最后访问时间。
+
+以下是一个简单的 `chattr` 命令示例：
+
+```
+sudo chattr -R +i myfile
+```
+
+这条命令将 `myfile.txt` 设置为不可修改，即使 root 用户也不能修改它。
+
+要查看文件或目录的当前属性，可以使用 `lsattr` 命令。例如：
+
+```
+lsattr myfile.txt
+```
+
+这条命令将显示 `myfile.txt` 的当前属性。
+
+
 
 # 获取管理员权限的相关命令
 
@@ -594,8 +640,79 @@ sudo apt-get install net-tools # 这个是使用netstat，选装
 sudo apt-get install ruby # 因为redis-trib.rb是⽤ruby开发的
 sudo apt-get install fcitx # 因为搜狗输入法是建立在fcitx框架之上的，所以要将输入法框架选择为fictx
 service --status-all # 查看所有服务
+ps -ef | grep mysql # 查看进程
 sudo kill -9 3105 # 杀死进程3105
+lsof -i:3306 # 查看3306端口号占用
+
+
+# chown: change the owner of a file or directory
+sudo chown john file.txt # change the owner of a file named file.txt to user john
+
+# chgrpx: change the group ownership of a file or directory
+sudo chgrp developers file.txt # change the group of a file named file.txt to the group developers
+
+# locate: find the location of files and directories based on their names. It uses a prebuilt database to search, making it faster than commands like find
+# Note: The database used by locate is usually updated daily, so it might not find very recently created or modified files. You can update the database manually with sudo updatedb
+locate file.txt # Find all files and directories with the name file.txt
+
+# rename: rename files based on patterns, often using regular expressions
+# The syntax for rename can vary between different Linux distributions, so refer to the man page (man rename) for the correct syntax on your system
+rename 's/\.txt$/.bak/' *.txt # Rename all .txt files in the current directory to .bak extensions
+
+# top: provides a real-time view of the system's performance, including CPU usage, memory usage, process information, and more.
+top 
+
+# htop: an interactive process viewer, similar to top, but with an improved user interface and additional features. It provides a real-time view of system processes, CPU usage, memory usage, and more
+htop
+
+# free: display the amount of free and used physical and swap memory in the system, as well as the buffers and caches used by the kernel
+free -h # display memory usage in human-readable format
+
+# tcpdump: command-line utility that captures and displays network packets. It is a powerful tool for troubleshooting network issues and analyzing network behavior
+# tcpdump can generate a lot of output, especially on a busy network. Use filters and options to limit the capture to the specific traffic you're interested in.
+sudo tcpdump -i eth0 # capture packets on the eth0 interface and display them in standard output
+sudo tcpdump -i eth0 port 80 -w capture.pcap # capture packets on port 80 and write them to a file called capture.pcap
+
 ```
+
+# Ubuntu快捷键
+
+在 Ubuntu 的命令行界面中，有许多快捷键可以提高工作效率。以下是一些常用的快捷键：
+
+### 命令行编辑
+
+- **Ctrl + A**: 移动光标到行首。
+- **Ctrl + E**: 移动光标到行尾。
+- **Ctrl + U**: 删除光标到行首的内容。
+- **Ctrl + K**: 删除光标到行尾的内容。
+- **Ctrl + W**: 删除光标前的一个词。
+- **Alt + D**: 删除光标后的一个词。
+- **Ctrl + Y**: 粘贴由 Ctrl + U、Ctrl + K 或 Ctrl + W 删除的文本。
+- **Ctrl + Left/Right Arrow**: 向左/右移动一个词。
+- **Ctrl + C**: 中断当前命令。
+- **Ctrl + D**: 退出当前 shell（如果命令行为空）。
+- **Ctrl + R**: 搜索历史命令。
+- **Ctrl + L**: 清屏。
+
+### 终端窗口管理
+
+- **Ctrl + Alt + T**: 打开新的终端窗口。
+- **Ctrl + Shift + T**: 在当前终端窗口中打开新的标签页。
+- **Ctrl + Shift + W/C**: 关闭当前终端标签页/窗口。
+- **Ctrl + PageUp/PageDown**: 在终端标签页之间切换。
+- **Ctrl + +/-**: 增加/减小字体大小。
+- **Ctrl + Shift + C/V**: 复制/粘贴。
+
+### Bash 历史快捷键
+
+- **上/下箭头**: 在命令历史中向上/向下移动。
+- **!!**: 重复上一条命令。
+- **!n**: 重复历史中的第 n 条命令。
+- **!-n**: 重复历史中的倒数第 n 条命令。
+- **!string**: 重复最近以指定字符串开头的命令。
+- **!?string?**: 重复最近包含指定字符串的命令。
+
+这些快捷键可以帮助您更快地导航和编辑命令行，从而提高在 Ubuntu 终端中的工作效率。不同的 shell（如 Bash、Zsh 等）和终端模拟器可能会有一些差异，所以某些快捷键可能在特定配置下不适用。
 
 # 读书笔记
 
