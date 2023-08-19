@@ -52,6 +52,12 @@ conda info -e
 conda env list
 # 克隆一个环境
 conda create --name clone_env --clone envname   # clone_env 代指克隆得到的新环境的名称，envname 代指被克隆的环境的名称
+-----------------------------------生成requiremtns---------------------------------------------
+# 当使用Conda管理Python环境和包时，你通常会使用Conda自己的导出和导入机制，而不是使用pip freeze。虽然pip freeze仍然可以用于导出某些通过pip安装的包，但它可能不会捕获通过Conda安装的所有包和依赖项
+# 你可以使用conda env export命令将当前激活的Conda环境导出到一个YAML文件。这个文件将包括Conda和pip安装的所有包及其精确版本
+conda env export > environment.yml
+# 要在另一台计算机或同一台计算机的不同位置重新创建环境，你可以使用以下命令，这将从 environment.yml 文件创建一个新的 Conda 环境，并安装其中列出的所有包和版本。
+conda env create -f environment.yml
 ---------------------------------------更换源-----------------------------------------------
 # 查看当前下载源
 conda config --show channels

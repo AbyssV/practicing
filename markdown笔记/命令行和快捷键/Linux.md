@@ -106,6 +106,72 @@ xrandr -s 1920x1440 # 调整分辨率，推荐2560x1600
 |   f    | 显示下一屏信息 |
 |   q    |      退出      |
 
+## 快捷键
+
+### 命令行编辑
+
+- **Ctrl + A**: 移动光标到行首。
+- **Ctrl + E**: 移动光标到行尾。
+- **Ctrl + U**: 删除光标到行首的内容。
+- **Ctrl + K**: 删除光标到行尾的内容。
+- **Ctrl + W**: 删除光标前的一个词。
+- **Alt + D**: 删除光标后的一个词。
+- **Ctrl + Y**: 粘贴由 Ctrl + U、Ctrl + K 或 Ctrl + W 删除的文本。
+- **Ctrl + Left/Right Arrow**: 向左/右移动一个词。
+- **Ctrl + C**: 中断当前命令。
+- **Ctrl + D**: 退出当前 shell（如果命令行为空）。
+- **Ctrl + R**: 搜索历史命令。
+- **Ctrl + L**: 清屏。
+
+### 终端窗口管理
+
+- **Ctrl + Alt + T**: 打开新的终端窗口。
+- **Ctrl + Shift + T**: 在当前终端窗口中打开新的标签页。
+- **Ctrl + Shift + W/C**: 关闭当前终端标签页/窗口。
+- **Ctrl + PageUp/PageDown**: 在终端标签页之间切换。
+- **Ctrl + +/-**: 增加/减小字体大小。
+- **Ctrl + Shift + C/V**: 复制/粘贴。
+
+### Bash 历史快捷键
+
+- **上/下箭头**: 在命令历史中向上/向下移动。
+- **!!**: 重复上一条命令。
+- **!n**: 重复历史中的第 n 条命令。
+- **!-n**: 重复历史中的倒数第 n 条命令。
+- **!string**: 重复最近以指定字符串开头的命令。
+- **!?string?**: 重复最近包含指定字符串的命令。
+
+这些快捷键可以帮助您更快地导航和编辑命令行，从而提高在 Ubuntu 终端中的工作效率。不同的 shell（如 Bash、Zsh 等）和终端模拟器可能会有一些差异，所以某些快捷键可能在特定配置下不适用。
+
+## tmux快捷键
+
+`tmux` 是一个流行的终端多路复用器，它允许用户在一个终端窗口中创建、访问和控制多个终端会话。这意味着你可以启动多个终端窗口，同时运行不同的进程，并在它们之间轻松切换，而无需使用多个物理终端或 GUI 窗口。`tmux` 还可以保持会话活跃，即使你从远程服务器断开连接，你也可以重新连接到同一个会话，这对于长时间运行的任务特别有用。
+
+以下是一些常用的 `tmux` 快捷键：
+
+1. **会话管理**:
+   - `tmux new -s session_name`：创建新会话。
+   - `tmux attach -t session_name`：连接到已有会话。
+   - `tmux switch -t session_name`：切换到另一个会话。
+   - `tmux list-sessions`：列出所有会话。
+   - `tmux detach`：从当前会话中断开连接。
+2. **窗口管理** (在 `tmux` 中，窗口类似于标签)：
+   - `Ctrl-b c`：创建新窗口。
+   - `Ctrl-b ,`：重命名当前窗口。
+   - `Ctrl-b p`：切换到上一个窗口。
+   - `Ctrl-b n`：切换到下一个窗口。
+   - `Ctrl-b l`：切换到最后使用的窗口。
+3. ！**面板管理** (面板是窗口内的子窗口，常用)：
+   - `Ctrl-b %`：垂直分割面板。
+   - `Ctrl-b "`：水平分割面板。
+   - `Ctrl-b arrow_keys`：在面板之间切换。
+   - `Ctrl-b Ctrl-arrow_keys`：调整面板大小。
+   - `Ctrl-b x`：关闭当前面板。
+4. **其他快捷键**：
+   - `Ctrl-b t`：显示时钟。
+   - `Ctrl-b d`：从当前会话中断开连接，但保持会话活动。
+   - `Ctrl-b [`：进入复制模式，允许你滚动和复制文本。
+
 # 常用命令
 
 |             命令              |                             说明                             | 示例                                                         |                             备注                             |
@@ -149,6 +215,7 @@ xrandr -s 1920x1440 # 调整分辨率，推荐2560x1600
 |   diff 文件/目录 文件/目录    | 如果指定比较的是文件，则只有当输入为文本文件时才有效。以逐行的方式，比较文本文件的异同处。如果指定比较的是目录的的时候，diff 命令会比较两个目录下名字相同的文本文件 | `diff 1.txt 2.txt`                                           | ```-i ```忽略大小写<br />`-x`不比较选项中所指定的文件或目录<br />`-q`仅显示有无差异，不显示详细的信息<br />`-y`以并列的方式显示文件的异同之处<br />`-W`在使用-y参数时，指定栏宽 |
 |              wc               |                          wordcount                           |                                                              |                                                              |
 |            history            |                         使用过的命令                         | history 5                                                    |                                                              |
+|              pv               | 通过管道操作查看数据的处理进度、传输速度、已传输数据量和预估完成时间等信息 | `pv source-file > destination-file`                          |                                                              |
 
 
 
@@ -639,11 +706,22 @@ sudo apt-get install gcc
 sudo apt-get install net-tools # 这个是使用netstat，选装
 sudo apt-get install ruby # 因为redis-trib.rb是⽤ruby开发的
 sudo apt-get install fcitx # 因为搜狗输入法是建立在fcitx框架之上的，所以要将输入法框架选择为fictx
+sudo apt-get install maven
+sudo apt-get install openjdk-8-jdk
+sudo apt-get install openssh-server
+sudo apt-get install docker.io
+
 service --status-all # 查看所有服务
 ps -ef | grep mysql # 查看进程
+jobs
+# top: provides a real-time view of the system's performance, including CPU usage, memory usage, process information, and more.
+top 
+# htop: an interactive process viewer, similar to top, but with an improved user interface and additional features. It provides a real-time view of system processes, CPU usage, memory usage, and more
+htop
 sudo kill -9 3105 # 杀死进程3105
 lsof -i:3306 # 查看3306端口号占用
-
+netstat -ntlp # 查看端口占用
+sz filename # 下载文件到本地
 
 # chown: change the owner of a file or directory
 sudo chown john file.txt # change the owner of a file named file.txt to user john
@@ -659,60 +737,19 @@ locate file.txt # Find all files and directories with the name file.txt
 # The syntax for rename can vary between different Linux distributions, so refer to the man page (man rename) for the correct syntax on your system
 rename 's/\.txt$/.bak/' *.txt # Rename all .txt files in the current directory to .bak extensions
 
-# top: provides a real-time view of the system's performance, including CPU usage, memory usage, process information, and more.
-top 
-
-# htop: an interactive process viewer, similar to top, but with an improved user interface and additional features. It provides a real-time view of system processes, CPU usage, memory usage, and more
-htop
-
 # free: display the amount of free and used physical and swap memory in the system, as well as the buffers and caches used by the kernel
 free -h # display memory usage in human-readable format
+df -lh
+du -sh *
 
 # tcpdump: command-line utility that captures and displays network packets. It is a powerful tool for troubleshooting network issues and analyzing network behavior
 # tcpdump can generate a lot of output, especially on a busy network. Use filters and options to limit the capture to the specific traffic you're interested in.
 sudo tcpdump -i eth0 # capture packets on the eth0 interface and display them in standard output
 sudo tcpdump -i eth0 port 80 -w capture.pcap # capture packets on port 80 and write them to a file called capture.pcap
 
+nohup # 后台启动
+
 ```
-
-# Ubuntu快捷键
-
-在 Ubuntu 的命令行界面中，有许多快捷键可以提高工作效率。以下是一些常用的快捷键：
-
-### 命令行编辑
-
-- **Ctrl + A**: 移动光标到行首。
-- **Ctrl + E**: 移动光标到行尾。
-- **Ctrl + U**: 删除光标到行首的内容。
-- **Ctrl + K**: 删除光标到行尾的内容。
-- **Ctrl + W**: 删除光标前的一个词。
-- **Alt + D**: 删除光标后的一个词。
-- **Ctrl + Y**: 粘贴由 Ctrl + U、Ctrl + K 或 Ctrl + W 删除的文本。
-- **Ctrl + Left/Right Arrow**: 向左/右移动一个词。
-- **Ctrl + C**: 中断当前命令。
-- **Ctrl + D**: 退出当前 shell（如果命令行为空）。
-- **Ctrl + R**: 搜索历史命令。
-- **Ctrl + L**: 清屏。
-
-### 终端窗口管理
-
-- **Ctrl + Alt + T**: 打开新的终端窗口。
-- **Ctrl + Shift + T**: 在当前终端窗口中打开新的标签页。
-- **Ctrl + Shift + W/C**: 关闭当前终端标签页/窗口。
-- **Ctrl + PageUp/PageDown**: 在终端标签页之间切换。
-- **Ctrl + +/-**: 增加/减小字体大小。
-- **Ctrl + Shift + C/V**: 复制/粘贴。
-
-### Bash 历史快捷键
-
-- **上/下箭头**: 在命令历史中向上/向下移动。
-- **!!**: 重复上一条命令。
-- **!n**: 重复历史中的第 n 条命令。
-- **!-n**: 重复历史中的倒数第 n 条命令。
-- **!string**: 重复最近以指定字符串开头的命令。
-- **!?string?**: 重复最近包含指定字符串的命令。
-
-这些快捷键可以帮助您更快地导航和编辑命令行，从而提高在 Ubuntu 终端中的工作效率。不同的 shell（如 Bash、Zsh 等）和终端模拟器可能会有一些差异，所以某些快捷键可能在特定配置下不适用。
 
 # 读书笔记
 
@@ -723,7 +760,7 @@ Shell 编程跟 JavaScript、php 编程一样，只要有一个能编写代码�
 Linux 的 Shell 种类众多，常见的有：
 
 - Bourne Shell（`/usr/bin/sh`或`/bin/sh`）
-- Bourne Again Shell（`/bin/bash`）
+- Bourne Again Shell（`/bin/bash`）：详见笔记《[shell 编程](https://www.runoob.com/linux/linux-shell.html)》
 - C Shell（`/usr/bin/csh`）
 - K Shell（`/usr/bin/ksh`）
 - Shell for Root（`/sbin/sh`）
@@ -733,8 +770,6 @@ The Bourne Again Shell
 Bourne Again shell (bash), 正如它的名字所暗示的，是 Bourne shell 的扩展。bash 与 Bourne shell 完全向后兼容，并且在 Bourne shell 的基础上增加和增强了很多特性。bash 也包含了很多 C 和 Korn shell 里的优点。bash 有很灵活和强大的编程接口，同时又有很友好的用户界面。
 
 为什么要用 bash 来代替 sh 呢？Bourne shell 最大的缺点在于它处理用户的输入方面。在 Bourne shell 里键入命令会很麻烦，尤其当你键入很多相似的命令时。而 bash 准备了几种特性使命令的输入变得更容易。 
-
-[练习使用的教程](https://www.runoob.com/linux/linux-shell.html)
 
 ### 通配符
 
@@ -750,9 +785,9 @@ Bourne Again shell (bash), 正如它的名字所暗示的，是 Bourne shell 的
 
 ### 用户化配置bash
 
-为了保存这些用户化配置，你必须把它们保存到一个bash的初始化文件里。这个文件里最常见到的命令通常是alias和变量的初始化。bash的初始化文件叫做profile。每个使用bash的用户都有一个`.profile`文件在他的用户目录里（也可能是`.bash_profile`）。bash在每次启动时都读取这个文件，并执行所有包含的命令。
+为了保存这些用户化配置，你必须把它们保存到一个bash的初始化文件里。这个文件里最常见到的命令通常是`alias`和变量的初始化。bash的初始化文件叫做`profile`。每个使用bash的用户都有一个`.profile`文件在他的用户目录里（也可能是`.bash_profile`或`.bashrc`）。bash在每次启动时都读取这个文件，并执行所有包含的命令。
 
-我的应该是`.bashrc`文件
+我的mac是`.bash_profile`，ubuntu是`.bashrc`文件
 
 #### bash 命令概要
 
@@ -786,12 +821,13 @@ bash还有许多命令，但这些是最常用的，想了解更详细的情况�
 ### 注意点
 
 1. 一定要写成`./test.sh`，而不是`test.sh`，运行其它二进制的程序也一样，直接写`test.sh`，linux系统会去**PATH**里寻找有没有叫`test.sh`的，而只有`/bin`, `/sbin`, `/usr/bin`，`/usr/sbin`等在**PATH**里，你的当前目录通常不在**PATH**里，所以写成`test.sh` 是会找不到命令的，要用`./test.sh`告诉系统说，就在当前目录找
-2. 变量名和等号之间不能有空格，这可能和你熟悉的所有编程语言都不一样
+2. <u>**变量名和等号之间不能有空格，这可能和你熟悉的所有编程语言都不一样**</u>
 
 
-## Everything Is a File
 
-To Linux, a file is just a stream of bits and bytes. Linux doesn't care what those bits and bytes form; instead, the programs running on Linux care. To Linux, a text document and a network connection are both files; it's your text editor that knows how to work with the text document, and your Internet applications that recognize the network connection.
+## (以下不知道从哪本书抄过来)Everything Is a File
+
+To Linux, a file is just a stream of bits and bytes. Linux doesn't care what those bits and bytes form; instead, the programs running on Linux core. To Linux, a text document and a network connection are both files; it's your text editor that knows how to work with the text document, and your Internet applications that recognize the network connection.
 
 - Linux (and Unix) filenames can be up to 255 characters in length. Unlike Windows and Mac OS machines, Linux boxes are **case-sensitive** when it comes to filenames. Case-sensitivity also means that commands and filenames **must be entered exactly to match their real command names or filenames**.
 - **```/``` is never an option because that particular character is used to separate directories and files**. 

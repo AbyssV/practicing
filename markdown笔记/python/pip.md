@@ -27,6 +27,8 @@ pip uninstall [options] <package>
 pip show pymsql
 ```
 
+To generate a requirement file: `pip freeze > requirements.txt`
+
 Install a list of requirements specified in a Requirements File: ```pip install -r requirements.txt```
 
 To uninstall: ```pip uninstall [options] -r <requirements file> ...```
