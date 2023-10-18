@@ -46,7 +46,7 @@ yield
 |    %g    |      %f和%e的简写      |
 |    %G    |      %f和%E的简写      |
 
-#### f-字符串/```format```
+### f-字符串/```format```
 
 ```python
 # 百分比
@@ -235,7 +235,7 @@ if not found_one:
 
 ### 引用
 
-在python中，值是靠引用来传递来的。
+Python中函数参数是引用传递（注意不是值传递）。对于不可变类型（数值型、字符串、元组），因变量不能修改，所以运算不会影响到变量自身；而对于可变类型（列表字典）来说，函数体运算可能会更改传入的参数变量
 
 我们可以用`id()`来判断两个变量是否为同一个值的引用。 我们可以将id值理解为那块内存的地址标识。
 
@@ -267,7 +267,7 @@ print(id(bb))  # 2325297783432
 - 浅拷贝和深拷贝的区别是:
   - 浅拷贝最多拷贝对象的一层，深拷贝可能拷贝对象的多层。
 
-#### 浅拷贝
+**浅拷贝**
 
 - `copy`函数是浅拷贝，只对可变类型的第一层对象进行拷贝，对拷贝的对象开辟新的内存空间进行存储，不会拷贝对象内部的子对象。
 - **不可变类型进行浅拷贝不会给拷贝的对象开辟新的内存空间，而只是拷贝了这个对象的引用。**
@@ -297,7 +297,7 @@ l1[3].append(20)
 print(l1, l3) # [1, 2, 3, [14, 16, 19, 20]] [1, 2, 3, [14, 16, 19, 20]]
 ```
 
-#### 深拷贝
+**深拷贝**
 
 - `deepcopy`函数是深拷贝, 只要发现对象有可变类型就会对该对象到最后一个可变类型的每一层对象就行拷贝, 对每一层拷贝的对象都会开辟新的内存空间进行存储。
 - 不可变类型进行深拷贝**如果子对象没有可变类型则不会进行拷贝，而只是拷贝了这个对象的引用**，否则会对该对象到最后一个可变类型的每一层对象就行拷贝, 对每一层拷贝的对象都会开辟新的内存空间进行存储
@@ -361,9 +361,7 @@ print(lst[3:1:-1]) # ['d', 'c']
 print(lst[-1:1:-1]) # ['e', 'd', 'c']
 ```
 
-### 公共操作
-
-#### 运算符
+### 公共运算符
 
 | 运算符 |      描述      |      支持的容器类型      |
 | :----: | :------------: | :----------------------: |
@@ -411,7 +409,7 @@ print('aa' in t1)  # False
 print('aa' not in t1)  # True
 ```
 
-#### 公共方法
+### 公共方法
 
 |          函数           |                             描述                             |
 | :---------------------: | :----------------------------------------------------------: |
@@ -634,7 +632,7 @@ print(tuple1.index('aa'))  # 0
 print(tuple1.count('bb'))  # 2
 ```
 
-### dict和defaultdict
+### dict / defaultdict / OrderedDict / Counter
 
 - There is a type called ```defaultdict``` whose constructor generally takes an argument that is a reference to any object that CAN BE CALLED WITH NO ARGUMENTS. Very frequently we use a NAME OF A CLASS that when called will CONSTRUCT A NEW VALUE: if the argument is ```int```, it will call ```int()``` producing the value ```0```; if the argument is ```list```, it will call ```list()``` producing an empty list; if the argument is ```set```, it will call ```set()``` producing an empty set; etc.
 
@@ -704,9 +702,9 @@ for i in range(10):
 print(dict(dd)) # {'even': [0, 2, 4, 6, 8], 'odd': [1, 3, 5, 7, 9]}
 ```
 
-### Counter
+**Counter**
 
-- A Counter is a dict subclass for counting hashable objects. It is an unordered collection where elements are stored as dictionary keys and their counts are stored as dictionary values. Counts are allowed to be any integer value including zero or negative counts. The Counter class is similar to bags or multisets in other languages.
+A Counter is a dict subclass for counting hashable objects. It is an unordered collection where elements are stored as dictionary keys and their counts are stored as dictionary values. Counts are allowed to be any integer value including zero or negative counts. The Counter class is similar to bags or multisets in other languages.
 
 ```python
 from collections import Counter
@@ -722,7 +720,7 @@ print(Counter('abracadabra').most_common(3))
 ```
 
 
-### set和frozenset
+### set / frozenset
 
 - 集合可以去掉重复数据；
 - 集合数据是无序的，故不支持下标
@@ -1030,9 +1028,7 @@ result = sum_num(-1, 2, abs)
 print(result)  # 3
 ```
 
-### 内置高阶函数
-
-#### map()
+### map()
 
 - ```map()```会根据提供的函数对指定序列做映射。
 - 语法：```map(function, iterable, ...)```
@@ -1051,7 +1047,7 @@ l = list(map(f, [1,2,3], [4,5,6]))
 print(l) # [5, 7, 9]
 ```
 
-#### reduce()
+### reduce()
 
 - ```reduce()```函数会对参数序列中元素进行累积。
 - 函数将一个数据集合（链表，元组等）中的所有数据进行下列操作：用传给```reduce```中的函数```function（有两个参数）```先对集合中的第 1、2 个元素进行操作，得到的结果再与第三个数据用```function```函数运算，最后得到一个结果。
@@ -1068,7 +1064,7 @@ from functools import reduce
 print(reduce((lambda x,y:x+y), [1,2,3,4,5]))  # 15
 ```
 
-#### filter()
+### filter()
 
 - ```filter()```函数用于过滤序列，过滤掉不符合条件的元素，返回由符合条件元素组成的新列表。
 - 该接收两个参数，第一个为函数，第二个为序列，序列的每个元素作为参数传递给函数进行判断，然后返回```True```或```False```，最后将返回```True```的元素放到新列表中。
@@ -1083,7 +1079,7 @@ print(l) # <filter object at 0x0000024E83575188>
 print(list(l)) # [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]
 ```
 
-#### zip()
+### zip()
 
 - ```zip()```函数用于将可迭代的对象作为参数，将对象中对应的元素打包成一个个元组，然后返回由这些元组组成的列表。
 - 如果各个迭代器的元素个数不一致，则返回列表长度与最短的对象相同，利用```*```号操作符，可以将元组解压为列表。
@@ -1233,7 +1229,7 @@ subtraction(4, 2)
 
 ### 多个装饰器的使用
 
-![](../../图片笔记/Python/多个装饰器原理.png)
+<img src="../../图片笔记/Python/多个装饰器原理.png" style="zoom:33%;" />
 
 ```python
 # 多个装饰器的装饰过程是: 离函数最近的装饰器先装饰，然后外面的装饰器再进行装饰，由内到外的装饰过程
@@ -1352,7 +1348,7 @@ def mysleep():
 mysleep()
 ```
 
-## `wraps`
+### `wraps`
 
 ```python
 # 优化斐波那契数列
@@ -1476,76 +1472,57 @@ p.age = 1000
 
 在Python中，`__xx__()`的函数叫做魔法方法，指的是具有特殊功能的函数。
 
-#### ```__init__()```
+`__new__` / `__init__`
 
-作用：初始化对象。
+- `__init__`是初始化方法，在创建一个对象时默认被调用，不需要手动调用。有一个参数`self`，就是`__new__`返回的实例。`__init__`在`__new__`的基础上可以完成一些其它初始化的动作。`__init__`不需要返回值
+- `__new__`是一个魔法方法或特殊方法，它是Python的内建方法，通常用于控制对象的创建过程。当你创建一个新的对象实例时，`__new__`方法会首先被调用。这是一个静态方法，其主要任务是创建并返回一个新的对象。它接收类作为`cls`第一个参数，代表当前类必须要有返回值，返回实例化出来的实例。其余参数会传给`__init__`方法。在自己实现`__new__`时要特别注意，可以return父类（通过`super(当前类名, cls).__new__`出来的实例，或者直接是object`__new__`出来的实例
+- 如果`__new__`创建的是当前类的实例，会自动调用`__init__`函数。如果是其他类的类名，那么实际创建返回的就是其他类的实例，此时就会跳过当前类的`__init__`函数，也不会调用其他类的`__init__`函数。
 
-**注意：**
+```python
+# 使用__new__实现单例模式
+# 因为创建对象时__new__方法执行，并且必须return 返回实例化出来的对象所cls.__instance是否存在，不存在的话就创建对象，存在的话就返回该对象，来保证只有一个实例对象存在（单列）
+class Singleton(object):
+    __instance = None
 
-- `__init__()`方法，**在创建一个对象时默认被调用，不需要手动调用**
-- `__init__(self)`中的```self```参数，不需要开发者传递，python解释器会自动把当前的对象引用传递过去。
+    def __new__(cls):
+        if not cls.__instance:
+            cls.__instance = object.__new__(cls)
+        return cls.__instance
+```
 
-#### ```__str__()```
+```__str__()``` / `__repr__()`
 
-当使用```print```输出对象的时候，默认打印对象的内存地址。如果类定义了`__str__`方法，那么就会打印从在这个方法中return的数据。
+- 当使用```print```输出对象的时候，默认打印对象的内存地址。如果类定义了`__str__`方法，那么就会打印从在这个方法中return的数据。
 
-#### ```__del__()```
+- `__repr__(self)`: 返回一个可以用来表示对象的字符串（通常可以通过`eval()`函数将这个字符串转换为这个对象）。
+
+```__del__()```
 
 当删除对象时，python解释器也会默认调用`__del__()`方法。
 
-#### `__new__()`
-
-在Python中，`__new__`是一个魔法方法或特殊方法，它是Python的内建方法，通常用于控制对象的创建过程。
-
-当你创建一个新的对象实例时，`__new__`方法会首先被调用。这是一个静态方法，其主要任务是创建并返回一个新的对象。它接收类作为第一个参数，其余参数会传给`__init__`方法。
-
-这是`__new__`方法在Python中的一个基本示例：
-
-```python
-class MyClass(object):
-    def __new__(cls, *args, **kwargs):
-        _instance = super(MyClass, cls).__new__(cls, *args, **kwargs)
-        return _instance
-
-    def __init__(self, value):
-        self.value = value
-```
-
-在上述示例中，我们首先使用`super(MyClass, cls).__new__(cls, *args, **kwargs)`调用了父类（即`object`）的`__new__`方法来创建一个新的实例，然后返回这个实例。
-
-需要注意的是，`__new__`方法通常只在你需要对创建的对象进行某种控制（如改变对象的类，或重用已存在的对象）时才会使用，否则，我们更常用`__init__`方法来初始化对象的状态。
-
 > Python 的魔法方法（也称为特殊方法或双下方法）是用于特殊目的的内建方法。以下是一些常用的魔法方法：
 >
-> 1. **构造和初始化**:
->     - `__new__(cls[, ...])`: 创建并返回一个新对象。
->     - `__init__(self[, ...])`: 初始化一个新创建的对象。
->
-> 2. **表示**:
->     - `__repr__(self)`: 返回一个可以用来表示对象的字符串（通常可以通过`eval()`函数将这个字符串转换为这个对象）。
->     - `__str__(self)`: 返回一个用于表示对象的“非正式”或可读的字符串。
->
-> 3. **算术运算符**:
+> 1. **算术运算符**:
 >     - `__add__(self, other)`: 实现加法操作符`+`的行为。
 >     - `__sub__(self, other)`: 实现减法操作符`-`的行为。
->     - `__mul__(self, other)`: 实现乘法操作符`*`的行为。
+>    - `__mul__(self, other)`: 实现乘法操作符`*`的行为。
 >     - 以此类推，还有`__div__`、`__mod__`、`__pow__`等等。
->
-> 4. **比较运算符**:
->     - `__eq__(self, other)`: 实现等于运算符`==`的行为。
+> 
+> 2. **比较运算符**:
+>    - `__eq__(self, other)`: 实现等于运算符`==`的行为。
 >     - `__ne__(self, other)`: 实现不等于运算符`!=`的行为。
 >     - `__lt__(self, other)`: 实现小于运算符`<`的行为。
 >     - 以此类推，还有`__le__`、`__gt__`、`__ge__`等等。
->
-> 5. **描述符**:
->     - `__get__(self, instance, owner)`: 获取属性的行为。
+> 
+> 3. **描述符**:
+>    - `__get__(self, instance, owner)`: 获取属性的行为。
 >     - `__set__(self, instance, value)`: 设置属性的行为。
 >     - `__delete__(self, instance)`: 删除属性的行为。
->
-> 6. **上下文管理**:
+> 
+> 4. **上下文管理**:
 >     - `__enter__(self)`: 用于上下文管理器，当使用`with`语句时，会先调用此方法。
->     - `__exit__(self, exc_type, exc_value, traceback)`: 用于上下文管理器，当`with`语句块结束时，会调用此方法。
->
+>    - `__exit__(self, exc_type, exc_value, traceback)`: 用于上下文管理器，当`with`语句块结束时，会调用此方法。
+> 
 > 还有许多其他的魔法方法，如`__getitem__`、`__setitem__`、`__delitem__`（用于实现容器类型）、`__iter__`、`__next__`（用于迭代器）等等。这些方法允许开发者定义类的行为，使其能够像内建类型那样工作。
 
 ### 继承
@@ -1782,7 +1759,6 @@ HAHA you find me!!
 - 取消不需要的参数传递，**有利于减少不必要的内存占用和性能消耗**
 
 >classmethod是为了使用类变量，staticmethod是为了代码组织的需要，完全可以放到类之外
->
 >
 
 ```python
@@ -2424,17 +2400,30 @@ Inter-Process Communication
 
 # 一些注意点
 
-## raw字符串
+## raw字符串 / 字节字符串
 
 如果一个字符串包含很多需要转义的字符，对每一个字符都进行转义会很麻烦。为了避免这种情况，
 
-我们可以在字符串前面加个前缀```r```，表示这是一个raw字符串，里面的字符就不需要转义了。例如：```print(r"\r\n\t")```。前缀加`b`表示字节字符串（byte string）。字节字符串是一种特殊的字符串，其中的每个字符都只占用一个字节。
+我们可以在字符串前面加个前缀```r```，表示这是一个"原始字符串"。在原始字符串中，反斜杠`\`不会被作为一个特殊字符处理。这在正则表达式中尤为有用，因为正则表达式通常会大量使用反斜杠。如果没有`r`前缀，我们需要在每个反斜杠前面再加一个反斜杠来进行转义，这样代码可读性就会大大降低。例如：```print(r"\r\n\t")```。
 
-例如，`b"hello"` 是一个字节字符串。这与普通的字符串 `"hello"` 不同，普通的字符串在 Python 3 中被处理为 Unicode 字符串，每个字符可能占用多个字节。
+r在正则表达式字符串前面是一个前缀，
 
-字节字符串在处理二进制数据、与二进制文件交互、进行网络通信等场景中非常有用。例如，如果你正在从网络上接收数据，那么这些数据可能会作为字节流（即字节字符串）到达。在处理这些数据时，你需要使用字节字符串，而不是普通的字符串。
+前缀加`b`表示字节字符串（byte string）。字节字符串是一种特殊的字符串，其中的每个字符都只占用一个字节，而unicode字符串占据多个字节。例如，`b"hello"` 是一个字节字符串。这与普通的字符串 `"hello"` 不同，python2中unicode表示字符串序列，str表示字节序列，python3中str表示字符串序列，byte表示字节序列。
 
-请注意，字节字符串和普通字符串有一些重要的差异。例如，字节字符串不能包含非 ASCII 字符（除非你明确地指定了编码），并且字节字符串和普通字符串之间的转换需要明确的编码和解码步骤。
+字节字符串在处理二进制数据、与二进制文件交互、进行网络通信、加密和解密操作等场景中非常有用。例如，如果你正在从网络上接收数据，那么这些数据可能会作为字节流（即字节字符串）到达。在处理这些数据时，你需要使用字节字符串，而不是普通的字符串。由于字节序列表示的是原始的二进制数据，你可能需要使用更低级的操作来处理它，例如使用位操作符。
+
+请注意，字节字符串和普通字符串有一些重要的差异。例如，字节字符串不能包含非 ASCII 字符（除非你明确地指定了编码），并且字节字符串和普通字符串之间的转换需要明确的编码和解码步骤：要将字节转换为字符串，你需要使用解码操作，要将字符串转换为字节，你需要使用编码操作。常用的编码包括UTF-8、ASCII、ISO-8859-1等
+
+无论是bytes还是str，在Python中它们都是不可变的（immutable）。这意味着一旦创建了一个字节或字符串对象，你就不能修改其内容。但你可以基于现有的对象创建新的对象
+
+```python
+a = b"hello"
+b = "哈哈".encode()
+print(a, b)
+print(type(a), type(b))
+```
+
+
 
 ## 字符串类型
 
@@ -2463,14 +2452,13 @@ print(type(s2)) # <class 'str'>
 > 在 Python 中，monkey patching 可以直接通过赋值语句来实现。例如，如果你想修改类 `A` 的方法 `foo`，你可以这样做：
 >
 > ```python
-> pythonCopy code
 > def new_foo(self, arg):
->     print("new foo: ", arg)
-> 
+>  print("new foo: ", arg)
+>    
 > A.foo = new_foo
 > ```
->
-> 这样，当你调用 `A().foo(arg)` 时，将会打印出 "new foo: arg"。
+> 
+>这样，当你调用 `A().foo(arg)` 时，将会打印出 "new foo: arg"。
 
 ## ```#!/usr/bin/env python3```
 
@@ -2518,6 +2506,8 @@ import re
 string = "Python is fun"
 pattern = "is"
 # 从头扫描整个字符串以匹配模式，只要中间有就能返回
+# re.findall结果无需加group()，search match需要加group()提取
+
 match = re.search(pattern, string) # found
 if match:
   print("pattern found inside the string")
@@ -2551,8 +2541,12 @@ print(new_string) # abc12de23f456
 re.compile(pattern, flags = re.IGNORECASE) # 不区分大小写
 
 # re.group
-# \1也是一个特殊字符，所以用\\1转义，表示引用第一个分组
-html_tag = re.match("<([a-zA-Z1-6]+)>.*</\\1>", "<html>hh</html>")
+#（.*）是贪婪匹配，会把满足正则的尽可能多的往后匹配
+#（.*?）是非贪婪匹配，会把满足正则的尽可能少匹配
+# # \1也是一个特殊字符，所以用\\1转义，表示引用第一个分组，但是推荐加r
+html_tag = re.match("<([a-zA-Z1-6]+)>.*?</\\1>", "<html>hh</html>")
+# \2和\1是对之前的捕获组的引用，分别指代第二个和第一个捕获组。这确保了我们匹配到的关闭标签与之前的打开标签相匹配
+html_tag = re.match(r"<(\w*)><(\w*)>.*?</\2></\1>", "<html>hh</html>")
 if html_tag:
     print(html_tag.group())
 else:
@@ -2604,6 +2598,8 @@ else:
   print("pattern not found")
 ```
 
+### 贪心匹配
+
 > 在正则表达式中，贪心匹配是指在满足表达式的情况下，匹配尽可能多的字符。
 >
 > 例如，你有一个正则表达式 `a.*b` 和一个字符串 `"acdcbefb"`，这个正则表达式会匹配最长的、以 `a` 开始以 `b` 结束的子串。因此，它会匹配整个字符串 "acdcbefb"，而不是 "acdc" 或 "befb"。
@@ -2612,7 +2608,9 @@ else:
 >
 > 总结起来，贪心匹配会尽可能多地匹配字符，而非贪心匹配会尽可能少地匹配字符。你可以通过在量词后面加 `?` 来切换这两种模式。
 
-一个正则匹配的例子
+### 前视断言
+
+**一个正则匹配的例子**
 
 > ```python
 > import pandas as pd
@@ -2666,7 +2664,28 @@ else:
    	pass
    ```
 
-   
 
-   
+3. title for project in pycharm
 
+   ```python
+   # -*- coding: utf-8 -*-
+   """
+   Created on ${Date} ${Time}
+   @author: ytl
+   @project: ${PROJECT_NAME}
+   @file: ${NAME}.py
+   applications: 
+   """
+   ```
+
+
+4. performance optimizaion
+   1. data structures
+   2. profile(`import cProfile`)
+   3. think about under the hood
+
+5. 列举3条以上PEP8编码规范
+   1. 顶级定义之间空两行，比如函数或者类定义。
+   2. 方法定义、类定义与第一个方法之间，都应该空一行
+   3. 三引号进行注释
+   4. 使用Pycharm、Eclipse一般使用4个空格来缩进代

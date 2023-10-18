@@ -1,16 +1,25 @@
 # 常用library
 
 ```python
-from functools import reduce
-from functools import accumulator
-from collections import deque
-from collections import Counter
+from functools import reduce, accumulator
+from functools import 
+from collections import deque, Counter, OrderedDict
+
 from itertools import 
+import sys
+import os
+import calendar
+import datetime
+
+# import pyecharts
+import cProfile
+import Cython
+# import PyPy
 ```
 
 
 
-## math
+# math
 
 ```python
 import math
@@ -23,18 +32,7 @@ math.pi/math.e
 
 
 
-## re
-
-```python
-
-
-
-
-```
-
-
-
-## `logging`日志
+# `logging`日志
 
 记录程序日志信息的目的是
 
@@ -42,7 +40,7 @@ math.pi/math.e
 2. 可以分析用户的操作行为、喜好等信息
 3. 方便开发人员检查bug
 
-### 日志等级
+## 日志等级
 
 日志等级可以分为5个，从低到高分别是:
 
@@ -56,7 +54,7 @@ math.pi/math.e
 
 日志等级从低到高的顺序是: DEBUG < INFO < WARNING < ERROR < CRITICAL
 
-### 示例
+## 示例
 
 在`logging`包中记录日志的方式有两种:
 
@@ -101,7 +99,7 @@ formatter = logging.Formatter("%(asctime)s-%(filename)s[lineno:%(lineno)d]-%(lev
 fh.setFormatter(formatter)
 ```
 
-## os
+# os
 
 ```python
 import os
@@ -115,17 +113,22 @@ os.chdir(目录) # 改变默认目录
 os.listdir(目录) # 获取目录列表
 ```
 
-## time
+# time / datetime / calendar
 
 ```python
 import time
 time.time()
 time.ctime()
+
+a = str(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ' 星期' + str(datetime.datetime.now().isoweekday()) )
+print('timestamp: ', a)
 ```
 
-## pymysql
 
-### 防止SQL注入
+
+# pymysql
+
+## 防止SQL注入
 
 用户提交带有恶意的数据与SQL语句进行字符串方式的拼接，从而影响了SQL语句的语义，最终产生**数据泄露**的现象。例如：```sql = "select * from students where name = '%s';" % "黄蓉' or 1 = 1 or '"`会显示所有的数据
 
@@ -136,7 +139,7 @@ SQL语句参数化
 - SQL语言中的参数使用`%s`来占位，此处不是python中的字符串格式化操作
 - 将SQL语句中`%s`占位所需要的参数存在一个列表中，把参数列表传递给`execute`方法中第二个参数
 
-<img src="C:/Users/admin/Desktop/practicing/图片笔记/Python/pymysql.png" style="zoom:50%;" />
+<img src="../../图片笔记/Python/pymysql.png" style="zoom:33%;" />
 
 ```python
 import pymysql
@@ -193,11 +196,11 @@ cursor.close()
 conn.close()
 ```
 
-## xlrd
+# xlrd 
 
 python操作excel主要用到```xlrd```和```xlwt```这两个库，即```xlrd```是读excel，```xlwt```是写excel的库。
 
-### 常用单元格中的数据类型
+## 常用单元格中的数据类型
 
 - 0: empty（空的
 
@@ -257,7 +260,7 @@ date(*cell_0_0_tuple[:3]）.strftime('%Y/%m/%d')
 # 使用date模块，将tuple的年月日转换为date对象（只支持三位参数），使用strftime方法格式化。
 ```
 
-## xlwt
+# xlwt
 
 ```python
 # -*- coding: utf-8 -*-

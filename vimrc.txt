@@ -1,0 +1,109 @@
+
+" .vimrc file with comments
+
+" General settings
+set nocompatible              " Turn off Vi compatibility mode
+filetype on
+filetype indent on
+filetype plugin on            " Enable filetype plugins
+syntax on                     " Enable syntax highlighting
+set hidden                    " Enable buffer hiding
+set mouse+=a                  " Enable mouse support
+set selectmode=mouse,key      " 设置选择文本的方式可以使用鼠标或键盘。这允许你在可视模式下使用鼠标来选择文本
+set number                    " Show line numbers
+" set ruler
+set relativenumber            " Show relative line numbers
+set tabstop=4                 " Set tab width to 4 spaces
+set shiftwidth=4              " Set indent width to 4 spaces
+set softtabstop=4             " Set the number of spaces that a tab in the text stands for.
+set smarttab                  " Smart tabbing (use shiftwidth instead of tabstop for indenting)
+set autoindent                " Set auto-indenting on.
+set smartindent               " Turn on smart indenting.
+set wrap                      " Set line wrapping on.
+
+
+" Search settings
+set incsearch                 " Incremental search
+set ignorecase                " Ignore case while searching
+" set smartcase
+set hlsearch                  " Highlight all search matches.
+" Set the color for search matches.
+highlight Search ctermbg=black ctermfg=white guifg=white guibg=black
+
+" Visual settings
+set cursorline                " Highlight current line
+hi cursorline guibg=#00ff00   " Set the background color of the cursor line and column to bright green.
+hi CursorColumn guibg=#00ff00
+set showmatch                 " Highlight matching brackets
+colorscheme desert            " Set colorscheme to desert
+" Set the font for the GUI version of Vim.
+set guifont=dejaVu\ Sans\ MONO\ 14
+" set guifont=Courier_New:h10:cANSI
+
+" set language encodings
+set encoding=utf-8            " Set the character encoding to use for the display.
+set fileencodings=utf-8       " Set the character encoding for reading and writing files.
+set termencoding=utf-8        " Set the character encoding for communication between Vim and the terminal.
+set langmenu=zh_CN.UTF-8
+set helplang=cn               " Set the language for the menus and help files.
+" Set the list of character encodings that will be tried when reading a file.
+set fencs=utf-8,ucs-bom,shift-jis,gb18030,gbk,gb2312,cp936
+
+
+
+" other settings
+set showmode                  " 显示当前的编辑模式（例如，插入模式、命令模式等）
+set backspace=2               " 允许使用 Backspace 键删除文本，包括在插入模式下的文本，即使在插入模式下光标前面没有字符
+set selection=exclusive       " 设置选择文本的方式为“独占模式”，这意味着在可视模式下选择文本时，选择的文本不包括光标所在位置的字符
+set report=0                  " Set the number of lines to report; 0 means always report, even if one line is affected.
+" 设置用于填充状态行和竖直分割线的字符。例如，vert 是用于竖直分割线的字符，stl 是状态行左边的填充字符，stlnc 是状态行右边的填充字符。
+set fillchars=vert:\ ,stl:\ ,stlnc:\
+" 这两个自动命令分别在进入和退出插入模式时更改光标的可见性。在插入模式下，光标会变得更加可见（se cul），而在退出插入模式后，光标会变得不可见（se nocul）
+autocmd InsertLeave * se nocul 
+autocmd InsertEnter * se cul
+set showcmd                   " Show (partial) command in status line.
+" set confirm                   " When quitting or closing a window, prompt to save changed buffer.
+set laststatus=2              " 显示状态栏（包括文件名和文件状态）
+" Set the format of the status line.
+set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %{strftime(\"%d/%m/%y\ -\ %H:%M\")}
+" 配置自动补全选项，指定了当进行自动补全时的行为，包括在最长匹配项时停止、预览候选项和显示菜单
+set completeopt=longest,preview,menu
+set clipboard+=unnamed        " Share clipboard between Vim and the system.
+
+" Key mappings
+" nnoremap <F3> :w<CR>          " Map F2 key to save file
+nnoremap <F2> :wq<CR>         " Map F3 key to save and quit
+
+
+" Plugins settings
+" ... (add your plugin settings here)
+
+" Custom functions
+autocmd BufNewFile *.py,*.cc,*.sh,*.java exec ":call SetTitle()"
+" Set the title block when creating a new file with one of the specified extensions.
+
+" This function sets a title block for shell scripts
+function! SetTitle()
+    if expand("%:e") == 'sh'
+        " Set the shebang for bash
+        call setline(1, "#!/bin/bash")
+        
+        " Add metadata about the author and blog
+        call setline(2, "# Author: Yating")
+
+        
+        " Add timestamp
+        call setline(3, "# Date:" . strftime("%F %T"))
+        
+        " Add file name
+        call setline(4, "# File:" . expand("%"))
+       
+        
+        " Add a brief description
+        call setline(5, "# Description:This is a production script.")
+    endif
+endfunction
+
+" Automatically call SetTitle when a new shell script is created
+autocmd BufNewFile *.sh call SetTitle()
+

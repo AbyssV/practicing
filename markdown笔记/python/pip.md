@@ -61,7 +61,7 @@ Currently, there are two common tools for creating Python virtual environments:
 - **venv** is available by default in Python 3.3 and later, and installs pip and setuptools into created virtual environments in Python 3.4 and later.
 - **virtualenv** needs to be installed separately, but supports Python 2.7+ and Python 3.3+, and pip, setuptools and wheel are always installed into created virtual environments by default (regardless of Python version).
 
-### `pipenv`
+## `pipenv`
 
 ```bash
 # 以ubuntu系统级的python3.10为例
@@ -101,7 +101,7 @@ pipenv install -r requirements.txt
 pipenv lock -r -i https://pypi.org/simple
 ```
 
-### `venv`
+## `venv`
 
 ```bash
 # install pipenv
@@ -116,7 +116,7 @@ source myproject/test_env/bin/activate
 deactivate
 ```
 
-### `virtualenv`
+## `virtualenv`
 
 目前只有这个比较稳定（因为被很多人试过了），保险起见还是用这个吧~
 

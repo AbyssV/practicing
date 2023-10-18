@@ -18,14 +18,155 @@
 
 在进入vim之后，在vim里面输入`:e ~/.vimrc`编辑vimrc
 
-`''`/`"`：注释
+```bash
+
+" .vimrc file with comments
+
+" General settings
+set nocompatible              " Turn off Vi compatibility mode
+
+filetype on
+filetype indent on
+
+filetype plugin on            " Enable filetype plugins
+syntax on                     " Enable syntax highlighting
+set hidden                    " Enable buffer hiding
+set mouse=a                   " Enable mouse support
+set number                    " Show line numbers
+set relativenumber            " Show relative line numbers
+set tabstop=4                 " Set tab width to 4 spaces
+set shiftwidth=4              " Set indent width to 4 spaces
+set softtabstop=4
+" Set the number of spaces that a tab in the text stands for.
+set smarttab
+" Smart tabbing (use shiftwidth instead of tabstop for indenting)
+set ai
+" Set auto-indenting on.
+set smartindent
+" Turn on smart indenting.
+set wrap
+" Set line wrapping on.
+
+
+" Search settings
+set incsearch                 " Incremental search
+set ignorecase                " Ignore case while searching
+set hlsearch
+" Highlight all search matches.
+
+" Visual settings
+set cursorline                " Highlight current line
+set showmatch                 " Highlight matching brackets
+colorscheme desert            " Set colorscheme to desert
+set guifont=dejaVu\ Sans\ MONO\ 14
+" set guifont=Courier_New:h10:cANSI
+" Set the font for the GUI version of Vim.
+hi cursorline guibg=#00ff00
+hi CursorColumn guibg=#00ff00
+" Set the background color of the cursor line and column to bright green.
+
+
+" other settings
+set selection=exclusive
+set selectmode=mouse,key
+
+set report=0
+" Set the number of lines to report; 0 means always report, even if one line is affected.
+
+set fillchars=vert:\ ,stl:\ ,stlnc:\
+" Set the characters used to fill the statusline and vertical separators.
+
+
+autocmd InsertLeave * se nocul
+autocmd InsertEnter * se cul
+" Use autocmd to remove cursorline highlighting in insert mode and restore in normal mode.
+
+set showcmd
+" Show (partial) command in status line.
+
+set encoding=utf-8
+" Set the character encoding to use for the display.
+
+set fencs=utf-8,ucs-bom,shift-jis,gb18030,gbk,gb2312,cp936
+" Set the list of character encodings that will be tried when reading a file.
+
+set fileencodings=utf-8
+" Set the character encoding for reading and writing files.
+
+set termencoding=utf-8
+" Set the character encoding for communication between Vim and the terminal.
+
+set langmenu=zh_CN.UTF-8
+set helplang=cn
+" Set the language for the menus and help files.
+
+
+set confirm
+" When quitting or closing a window, prompt to save changed buffer.
+
+set laststatus=2
+" Set the size of the command line: 2 means always display the status line.
+
+set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %{strftime(\"%d/%m/%y\ -\ %H:%M\")}
+" Set the format of the status line.
+
+set completeopt=longest,preview,menu
+" Set completion options.
+
+set clipboard+=unnamed
+" Share clipboard between Vim and the system.
+
+highlight Search ctermbg=black ctermfg=white guifg=white guibg=black
+" Set the color for search matches.
+
+" Key mappings
+" nnoremap <F2> :w<CR>          " Map F2 key to save file
+nnoremap <F3> :wq<CR>         " Map F3 key to save and quit
+
+
+" Plugins settings
+" ... (add your plugin settings here)
+
+" Custom functions
+autocmd BufNewFile *.py,*.cc,*.sh,*.java exec ":call SetTitle()"
+" Set the title block when creating a new file with one of the specified extensions.
+
+" This function sets a title block for shell scripts
+function! SetTitle()
+    if expand("%:e") == 'sh'
+        " Set the shebang for bash
+        call setline(1, "#!/bin/bash")
+        
+        " Add metadata about the author and blog
+        call setline(2, "# Author: Yating")
+
+        
+        " Add timestamp
+        call setline(3, "# Date:" . strftime("%F %T"))
+        
+        " Add file name
+        call setline(4, "# File:" . expand("%"))
+       
+        
+        " Add a brief description
+        call setline(5, "# Description:This is a production script.")
+    endif
+endfunction
+
+" Automatically call SetTitle when a new shell script is created
+autocmd BufNewFile *.sh call SetTitle()
+
+
+```
+
+## vimrc配置参考
 
 ```bash
-"关闭vi兼容模式"
+" 关闭vi兼容模式
 set nocompatible
 
 
-"设置历史记录步数"
+" 设置历史记录步数
 set history=1000
 
 "开启相关插件"
@@ -285,18 +426,32 @@ highlight Search ctermbg=black ctermfg=white guifg=white guibg=black
 """"""""""""""""""""""""""""""""
 "新建.py,.cc,.sh,.java文件，自动插入文件头"
 autocmd BufNewFile *.py,*.cc,*.sh,*.java exec ":call SetTitle()"
-"定义函数SetTitle，自动插入文件头"
-func SetTitle()
-    if expand ("%:e") == 'sh'
+" This function sets a title block for shell scripts
+function! SetTitle()
+    if expand("%:e") == 'sh'
+        " Set the shebang for bash
         call setline(1, "#!/bin/bash")
+        
+        " Add metadata about the author and blog
         call setline(2, "#Author:bert")
         call setline(3, "#Blog:https://blog.51cto.com/zpf666")
-        call setline(4, "#Time:".strftime("%F %T"))
-        call setline(5, "#Name:".expand("%"))
+        
+        " Add timestamp
+        call setline(4, "#Time:" . strftime("%F %T"))
+        
+        " Add file name
+        call setline(5, "#Name:" . expand("%"))
+        
+        " Add version information
         call setline(6, "#Version:V1.0")
+        
+        " Add a brief description
         call setline(7, "#Description:This is a production script.")
     endif
-endfunc
+endfunction
+
+" Automatically call SetTitle when a new shell script is created
+autocmd BufNewFile *.sh call SetTitle()
 
 ```
 
@@ -366,52 +521,56 @@ endfunc
 
 ## 移动操作
 
-| 命令                                   | 说明                                                         |
-| -------------------------------------- | ------------------------------------------------------------ |
-| `10k`  / `10j` / `10h` / `10l`         | 上移(10个字符)/下移(10个字符)/左移(10个字符)/右移(10个字符)。 可以用arrow key代替kjhl，但是会让你移开键盘常用位置（但我压根记不住啊 |
-| `10w` / `W`                            | 移动到下10个单词词首，大写W不包含特殊字符                    |
-| `b` / `B`                              | 移动到上一个单词词首                                         |
-| `10e` / `E`                            | 移动到下10单词词尾，大写E不包含特殊字符                      |
-| `ge`                                   | 移动到下一单词词尾                                           |
-| `(` / `)`                              | 光标移至句首/句尾。句指以`.`/`!`/`?`+`EOF`/`tab`/`space`     |
-| `{` / `}`                              | 光标移至段首/段位。段指以空行开头空行结尾                    |
-| `0(Home)` / `$(End)`                   | 光标移至行首/行位，包含空格                                  |
-| `^`                                    | 光标移至行首第一个非空格字符                                 |
-| `shift+6` / `shift+4`                  | 回到当前行的行首/回到当前行的行末                            |
-| `H` / `M` / `L`                        | 光标移至屏幕顶行/中间行/最后行的第一个字符                   |
-| `gg` / `G`                             | 移到第一行/移到最后一行                                      |
-| `ctrl+u` / `ctrl+d`                    | 向上翻半页/向下翻半页                                        |
-| ``2ctrl+b(PageUp)` / ctrl+f(PageDown)` | 上两屏/下一屏                                                |
-| `数字+G` / `数字+gg` / `:数字+Enter`   | 移动到指定行                                                 |
-| `n<space>`                             | `20<space>`表示移动到20个字符后                              |
-| `n<Enter>`                             | `10<Enter>`表示向下移动10行                                  |
+| 命令                                      | 说明                                                         |
+| ----------------------------------------- | ------------------------------------------------------------ |
+| `10k`  / `10j` / `10h` / `10l`            | 上移(10个字符)/下移(10个字符)/左移(10个字符)/右移(10个字符)。 可以用arrow key代替kjhl，但是会让你移开键盘常用位置（但我压根记不住啊 |
+| `10w` / `W`                               | 移动到下10个单词词首，大写W不包含特殊字符                    |
+| `b` / `B`                                 | 移动到上一个单词词首，大写B不包含特殊字符                    |
+| `10e` / `E`                               | 移动到下10单词词尾，大写E不包含特殊字符                      |
+| `ge`                                      | 移动到下一单词词尾                                           |
+| `(` / `)`                                 | 光标移至句首/句尾。句指以`.`/`!`/`?`+`EOF`/`tab`/`space`     |
+| `{` / `}`                                 | 光标移至段首/段位。段指以空行开头空行结尾                    |
+| `0(Home)` / `$(End)`                      | 光标移至行首/行位，包含空格                                  |
+| `^`                                       | 光标移至行首第一个非空格字符                                 |
+| `shift+6` / `shift+4`                     | 回到当前行的行首/回到当前行的行末                            |
+| `H` / `M` / `L`                           | 光标移至屏幕顶行/中间行/最后行的第一个字符                   |
+| `gg` / `G`                                | 移到第一行/移到最后一行                                      |
+| `ctrl+o`                                  | 返回到之前的位置                                             |
+| `ctrl+u` / `ctrl+d`                       | 向上翻半页/向下翻半页                                        |
+| `2ctrl+b(PageUp)` / `ctrl+f(PageDown)`    | 上两屏backword/下一屏forward                                 |
+| `数字+G` / `数字+gg` / `:数字+Enter`      | 移动到指定行                                                 |
+| `n<space>`                                | `20<space>`表示移动到20个字符后                              |
+| `n<Enter>`                                | `10<Enter>`表示向下移动10行                                  |
+| `%`                                       | 跳转到到匹配的括号或注释对                                   |
+| `f+字符` / `t+字符` / `F+字符` / `T+字符` | 向后 / 前 跳转到字符（小写表示向后找，大写表示向前找，t表示找到的字符的的前一个位置，f表示找到的字符的位置），`,`表示上一个，`;`表示下一个 |
 
 ## 编辑操作
 
-| 命令                              | 说明                                                         |
-| :-------------------------------- | :----------------------------------------------------------- |
-| `o` / `O`                         | 在当前光标的下一行/上一行插入新的一行                        |
-| `a` / `A`                         | 在当前光标所在的下一个字符 / 所在行的最后一个字符开始插入    |
-| `i` / `I`                         | 在当前光标所在处 / 当前光标所在行的第一个非空白字符处插入    |
-| `J`                               | 将光标所在的行与下一行的数据合并为同一行                     |
-| `nyy`                             | yank ≈ copy，复制光标所在的下n整行。注意不能只输入一个`y`，不然vim不知道复制什么 |
-| `y2w`                             | yank 2 words，包括当前单词，参考以下`d0`的操作               |
-| `p` / `P`                         | put ≈ paste，粘贴在当前字符之后/之前                         |
-| `10x` / `10X`                     | 向后/前 删除/剪切10个字符。使用`x p`交换两个连续字符的位置   |
-| s                                 | 替换字符                                                     |
-| `4dd`                             | 删除/剪切整行到行首（包括当前行）下4列。注意不能只输入一个`d`，不然vim不知道删什么 |
-| `db` / `d1G` / `dG` / `d$` / `d0` | `db`删除上一个词 / `d1G`删除光标所在到第1列的数据/ `dG`删除光标所在到最后一列的数据 / `d$`删除光标所在到该行行尾的数据 / `d0`删除光标所在到该行行首的数据 /`d/good`删除所有匹配`good`的词 |
-| `c+移动`                          | `10cj`向后删除10行。删除当前词并进入insert mode。`c/h`从当前字符删到h之前并进入insertion mode |
-| `u` / `ctr+r` / `.`               | undo / redo / repeat，似Excel中的F4                          |
-| `>>` / `:>`                       | 往右缩进                                                     |
-| `<<` / `:<`                       | 往左缩进                                                     |
-| `:m,n>` / `:m>(n-m+1)`            | m到n行缩进 / 从m开始缩进n行（包含m行）(`:m>n` 等价于命令 `:m,m+n-1>`) |
+| 命令                   | 说明                                                         |
+| :--------------------- | :----------------------------------------------------------- |
+| `o` / `O`              | 在当前光标的下一行/上一行插入新的一行，open a line           |
+| `a` / `A`              | 在当前光标所在的下一个字符 / 所在行的最后一个字符开始插入，append |
+| `i` / `I`              | 在当前光标所在处 / 当前光标所在行的第一个非空白字符处插入，insert |
+| `J`                    | 将光标所在的行与下一行的数据合并为同一行                     |
+| `nyy`                  | yank ≈ copy，复制光标所在的下n整行。注意不能只输入一个`y`，不然vim不知道复制什么 |
+| `y2w`                  | yank 2 words，包括当前单词，参考以下`d0`的操作               |
+| `p` / `P`              | put ≈ paste，粘贴在当前字符之后/之前                         |
+| `10x` / `10X`          | 向后/前 删除/剪切10个字符。使用`x p`交换两个连续字符的位置   |
+| `s` / `x`              | 替换（相当于`xi`） / 删除（相当于`dl`）字符                  |
+| `4dd`                  | 删除/剪切整行到行首（包括当前行）下4列。注意不能只输入一个`d`，不然vim不知道删什么 |
+| `d+移动`               | `db`删除上一个词 / `d1G`删除光标所在到第1列的数据/ `dG`删除光标所在到最后一列的数据 / `d$`删除光标所在到该行行尾的数据 / `d0`删除光标所在到该行行首的数据 /`d/good`删除所有匹配`good`的词 |
+| `c+移动`               | `10cj`向后删除10行。删除当前词并进入insert mode。`c/h`从当前字符删到h之前并进入insertion mode |
+| `~`                    | 改变字符的大小写                                             |
+| `u` / `ctr+r` / `.`    | undo / redo / repeat，似Excel中的F4                          |
+| `>>` / `:>`            | 往右缩进                                                     |
+| `<<` / `:<`            | 往左缩进                                                     |
+| `:m,n>` / `:m>(n-m+1)` | m到n行缩进 / 从m开始缩进n行（包含m行）(`:m>n` 等价于命令 `:m,m+n-1>`) |
 
 ### 组合删除
 
 `[count]operation`/`[count]{motion}`
 
-前面的数字表示编辑操作的次数，后面的数字表示移动操作的次数
+前面的数字表示编辑操作的次数，后面的数字表示移动操作的次数，count为2次时不要写数字，而是重复执行的字符，如`dd`
 
 | [count]operation / [count]{motion} | 定义                                                         |
 | ---------------------------------- | ------------------------------------------------------------ |
@@ -422,7 +581,22 @@ endfunc
 | `D3w`                              | 正向删除3w动作                                               |
 | `2d3w`                             | 正向删除3w动作 两次                                          |
 
+## 修饰语
+
+修饰语有`i`和`a`。i表示内部（不包含空格），a表示周围（包含空格），daw
+
+| 命令   | 说明                                   |
+| ------ | -------------------------------------- |
+| `ci(`  | 改变当前括号内的内容                   |
+| `ci[]` | 改变当前方括号内的内容                 |
+| `da'`  | 删除一个单引号字符串，包括周围的单引号 |
+|        |                                        |
+|        |                                        |
+|        |                                        |
+
 # Visual Block
+
+可以用移动命令来选中
 
 | 命令     | 说明                                 |
 | :------- | :----------------------------------- |
@@ -437,9 +611,9 @@ endfunc
 
 | 组合按钮            | 补齐的内容 |
 | ------------------- | ---------- |
-| `ctrl+x` | `ctrl+n` | 通过当前文件的内容文字进行补齐 |
-| `ctrl+x` | `ctrl+n` | 通过当前目录下的文件名进行补齐 |
-| `ctrl+x` | `ctrl+n` | 以扩展名作为语法补充进行补齐 |
+| `ctrl+x ctrl+n` | `ctrl+n` |
+| `ctrl+x` | `ctrl+n` |
+| `ctrl+x` | `ctrl+n` |
 
 
 

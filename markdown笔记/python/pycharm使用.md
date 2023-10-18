@@ -1,6 +1,4 @@
- # PyCharm
-
-## Tips
+# Tips
 
 - 如果你在条件句前忘记键入```if```，在该句子最后增添```.if```并点击```Tab```键，PyCharm将修复该`if`条件句。该用法同样适用于```True.while```。这即是PyCharm的Postfix Completion功能，它可以帮助用户减少退格键使用次数。或者选中语句，按住`Ctrl+Alt+T`环绕
 - 输入`main Enter`PyCharm会自动输入`if __name__ == __main__:`
@@ -18,7 +16,7 @@
 - `Ctrl+Alt+V`会自动生成局部变量接受
 - 为了帮助您了解主菜单中每个项目的用途，将鼠标指针放在该项目上时，其简短说明会显示在应用程序框架底部的状态栏中。
 
-## 一些常用设置
+# 一些常用设置
 
 - 插件介绍：https://www.2bboy.com/archives/153.html
 
@@ -34,6 +32,16 @@
     __author__ = '$USER'
     __mtime__ = '$DATE'
     """
+      
+   对于公司的项目，设置是
+  # -*- coding: utf-8 -*-
+  """
+  Created on ${Date} ${Time}
+  @author: ytl
+  @project: ${PROJECT_NAME}
+  @file: ${NAME}.py
+  applications: 
+  """
   ```
 
 - PyCharm默认是自动保存的，习惯自己按```Ctrl+S```全部保存的可以进行如下设置：
@@ -60,7 +68,7 @@
 
   
 
-## 在 PyCharm 中搜索和导航
+# 在 PyCharm 中搜索和导航
 
 在大项目中，我们很难记住每个事物的位置，因此快速导航和搜索非常重要。PyCharm可以提供这些功能。
 

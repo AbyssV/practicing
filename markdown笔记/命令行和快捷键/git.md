@@ -202,6 +202,10 @@ in `git reset`, you delete the older commit and move the head backwards, in` git
 
 This method would not have the disadvantage of ```git reset```, it would point HEAD to newly created reverting commit and **it is ok to directly push the changes to remote without using the ```-f``` option**
 
+## git restore
+
+
+
 ## 总结
 
 | 命令         | 作用域   | 常用情景                                                     |
@@ -506,9 +510,11 @@ git pull --rebase <远程主机名> <远程分支名>:<本地分支名> # 使用
 
 如果是clone，默认仓库是绑定上去的，所以```git clone```的repo，通过```git push```就可以了
 
+clone完成之后，git会自动将该远程仓库命名为origin
+
 ```bash
 git clone 远程仓库的地址
-git clone branch_name https://github.com/reddit/reddit.git
+git clone -b branch_name https://github.com/reddit/reddit.git
 ```
 
 It's important to understand that **this is not only a copy of the source code, but also a copy of the history of changes stored by git. **
@@ -521,7 +527,7 @@ git fetch <远程主机名> <分支名> # 取回特定分支的更新，注意�
 git fetch origin master # 取回origin主机的master分支
 git fetch --all # 获取远程仓库所有分支的更新
 git log -p FETCH_HEAD # 取回更新后，会返回一个FETCH_HEAD，指的是某个branch在服务器上的最新状态，我们可以在本地通过它查看刚取回的更新信息
-
+git diff -stat dev origin/dev # 查看本地dev分支和远程dev分支的区别
 git merge FETCH_HEAD    # 将拉取下来的最新内容合并到当前所在的分支中。相当于 git pull <远程主机名> <远程分支名>:<本地分支名>
 ```
 
