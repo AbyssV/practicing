@@ -1,8 +1,12 @@
+slash in windows `c:\path`(using forward slash), in unix or mac`/mnt/path/c`(using backslash)
+
 # python
 
 ## 安装配置python3
 
-进入`~/.bash_profile`并添加
+### mac
+
+进入`~/.bash_profile`或`~/.zshrc`并添加
 
 ```bash
 # 配置python3
@@ -14,7 +18,7 @@ export PATH=$PATH:/Library/Frameworks/Python.framework/Versions/3.9/bin/pip3.9
 alias pip="/Library/Frameworks/Python.framework/Versions/3.9/bin/pip3.9"
 ```
 
-## 路径
+路径
 
 ```bash
 # 我的python默认路径
@@ -22,6 +26,59 @@ alias pip="/Library/Frameworks/Python.framework/Versions/3.9/bin/pip3.9"
 /Library/Frameworks/Python.framework/Versions/3.9/bin/virtualenvwrapper.sh
  ~ which python
 python: aliased to /Library/Frameworks/Python.framework/Versions/3.9/bin/python3
+```
+
+### windows
+
+### 环境变量配置
+
+```
+在windows，指定
+F:\Python310
+F:\Python310\Scripts
+F:\Anaconda3\Scripts
+在编辑器中，指定
+F:\Anaconda3\python.exe
+如果有指定的虚拟环境，默认，但是这个默认位置可以修改
+F:\Anaconda3\envs
+```
+
+### 换源
+
+命令行
+
+```
+1 pip install pip -U
+2 pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
+# 在C:\Users\yating\AppData\Roaming\pip\pip.ini上生成
+[global]
+index-url = https://pypi.tuna.tsinghua.edu.cn/simple
+```
+
+也可手动修改
+
+```
+[global]
+timeout = 6000
+index-url = https://pypi.tuna.tsinghua.edu.cn/simple
+trusted-host = pypi.tuna.tsinghua.edu.cn
+```
+
+
+
+==问题：在git自带的mingw中无法使用`python`命令==
+
+<u>解决方式</u>
+
+在mingw64终端中输入`alias python='winpty python.exe'`
+
+但是重启终端时就失效了。如果希望每次启动终端时都有效，则需要在`.bash_profile`文件中(此文件通常在`c/Users/你的用户名`目录下)添加命令`alias python='winpty python.exe'`
+
+如果你的系统中同时安装了python 2.x和python 3.x，并且把exe重命名为了python2.exe和python3.exe，则需要在`.bash_profile`中添加
+
+```bash
+alias python2='winpty python2.exe'
+alias python3='winpty python3.exe'
 ```
 
 ## 更新
@@ -49,6 +106,9 @@ pip install --upgrade SomeProject
 pip uninstall [options] <package>
 # 查看是否安装成功
 pip show pymsql
+
+pip freeze > requirements.txt
+pip install -r requirements.txt
 ```
 
 
@@ -56,6 +116,8 @@ pip show pymsql
 
 
 # Conda
+
+## mac
 
 ### conda退出base环境
 
@@ -72,6 +134,34 @@ pip show pymsql
 2. 那要进入的话通过`conda activate base`
 
 3. 如果反悔了还是希望base一直留着的话通过`conda config --set auto_activate_base true`来恢复
+
+## win
+
+### 换源
+
+1. `$ conda config --set show_channel_urls yes`
+2. 之后可以找到C:\Users\yating\\.condarc(~/.condarc)文件。修改该文件内容如下
+
+```
+channels:
+  - defaults
+show_channel_urls: true
+default_channels:
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/r
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/msys2
+custom_channels:
+  conda-forge: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
+  msys2: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
+  bioconda: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
+  menpo: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
+  pytorch: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
+  pytorch-lts: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
+  simpleitk: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
+```
+
+3. `conda clean -i`
+4. 如果要切换回默认源，使用命令`conda config --remove-key channels`
 
 
 
@@ -104,9 +194,64 @@ brew unlink + 包名 # brew link的逆操作
 brew server # 启动web服务器，可以通过浏览器访问http://localhost:4567/ 来同网页来管理包
 ```
 
+## 换源
+
+参考[Homebrew更换国内镜像源（中科大、阿里、清华）](https://zhuanlan.zhihu.com/p/475756310)推荐
+
+[推荐一个Mac brew软件源，迄今为止最快的源](https://zhuanlan.zhihu.com/p/72251385)
+
+```
+# 替换brew.git:
+cd "$(brew --repo)"
+git remote set-url origin https://mirrors.cloud.tencent.com/homebrew/brew.git
+
+# 替换homebrew-core.git:
+cd "$(brew --repo)/Library/Taps/homebrew/homebrew-core"
+git remote set-url origin https://mirrors.cloud.tencent.com/homebrew/homebrew-core.git
+
+# 替换bottles源
+echo 'export HOMEBREW_BOTTLE_DOMAIN=https://mirrors.cloud.tencent.com/homebrew-bottles' >> ~/.zshrc
+# 更换JSON API镜像
+echo 'export HOMEBREW_API_DOMAIN="https://mirrors.ustc.edu.cn/homebrew-bottles/api" #brew.idayer.com' >> ~/.zshrc
+source ~/.zshrc
+
+# 查看 brew.git 当前源
+cd "$(brew --repo)" && git remote -v
+# 查看 homebrew-core.git 当前源
+cd "$(brew --repo homebrew/core)" && git remote -v
+
+```
+
+# GIT
+
+使用gitclone代替git
+
+```
+// 方法一（设置git参数）
+git config --global url."https://gitclone.com/".insteadOf https://
+git clone https://github.com/tendermint/tendermint.git
+// 方法二（使用cgit客户端）
+cgit clone https://github.com/tendermint/tendermint.git
+// 方法三（替换URL）
+
+F:>git clone https://gitclone.com/github.com/tendermint/tendermint.git
+Cloning into 'tendermint'...
+remote: 对象计数中:67188,完成.
+remote: 压缩对象中:100%(19987/19987),完成.
+remote: Total 67199(delta 45743),rouned 66648(delta 45294)
+Receiving objects: 100%(67188/67188),66.04MiB | 1.29Mib/s
+Resolving deltas: 100%(45/43/45/43), done
+
+git clone https://gitclone.com/github.com/AbyssV/practicing.git
+```
 
 
-# 其他
+
+# Java+maven
+
+==问题：无法显示java --version==
+
+<u>解决方式</u>：`java -version`
 
 安装maven时需要在`~/.bashrc`添加如下路径，注意有时`~/.zshrc`也需要修改
 
@@ -123,4 +268,70 @@ export JAVA_HOME=$(/usr/libexec/java_home) # 这句不加会报错JAVA_HOME没�
 # local repo
 /Users/liuyating/Documents/maven
 ```
+
+# Ubuntu
+
+==问题：在windows系统下安装Ubuntu时控制台出现如下问题：==
+
+>Installing, this may take a few minutes...
+>WslRegisterDistribution failed  with error: 0x8007019e
+>The Windows Subsystem for Linux optional component is  not enabled. Please enable it and try again.
+>See https://aka.ms/wslinstall  for details.
+>Press any key to continue...
+
+
+解决方法：
+
+**控制面板–程序与功能–启动或关闭Windows功能勾选适用于Linux的Windows子系统**，重启即可
+
+或
+
+**设置–更新和安全–开发者选项**
+
+---
+
+==问题：在虚拟机Ubuntu20.04中vim输入i无法进入编辑模式==
+
+解决方法：
+
+```bash
+-- 步骤一，输入下述命令以卸载vim-tiny：
+sudo apt-get remove vim-common
+-- 步骤二，输入下述命令以安装vim-full：
+sudo apt-get install vim
+-- 修改/etc/vim/vimrc.tiny 文件，将set compatible设置成set nocompatible，保存退出即可。这是因为有时候系统会默认vim兼容vi，所以使用vi的命令，在使用i可以进入插入模式，当按下Esc的时候退出到命令模式
+```
+
+补充：Ubuntu最好装上gcc和make，不然有makefile的c程序无法运行
+
+```bash
+sudo apt-get install make
+sudo apt-get install gcc
+sudo apt-get install net-tools // 这个是使用netstat，选装
+```
+
+
+
+# flutter
+
+问题
+
+在cmd中运行`flutter doctor --android-licenses`之后出现错误:
+
+`ERROR: JAVA_HOME is set to an invalid directory:C:\...`
+
+解决办法
+
+进入到环境变量中，将用户变量和系统变量中的`JAVA_HOME`删除，重新打开一个cmd，运行`flutter doctor --android-licenses`命令，会有多次提示是否接受证书，输入y同意即可
+
+原因分析
+
+Android Studio不需要设置外部jdk,因为Android Studio自带有默认的jdk11。
+
+
+
+其他
+
+vscode镜像下载，将vscode官网下载链接的哈希值前半部分替换为https://vscode.cdn.azure.cn/stable/，如
+https://vscode.cdn.azure.cn/stable/f1b07bd25dfad64b0167beb15359ae573aecd2cc/VSCodeSetup-x64-1.83.1.exe
 
