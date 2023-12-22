@@ -277,7 +277,7 @@ Fasd 基于 [*frecency* ](https://developer.mozilla.org/en-US/docs/Mozilla/Tech/
 |       find 目录 文件名        |                在指定目录下查找文件(包括目录)                | ```find . -name "?.txt" -delete```                           | ```-name``` 根据文件名(包括目录名)字查找<br />可以加入通配符，```*``` 代表0个或多个任意字符，```?``` 代表任意一个字符。通配符不仅能结合```find```命令使用，还可以结合其它命令使用, 比如: ```ls```、```mv```、```cp``` 等，**这里需要注意只有```find```命令使用通配符需要加上引号。** |
 |             alias             |                           显示别名                           |                                                              |                                                              |
 |          file / stat          |                  查看文件类型或文件属性信息                  |                                                              |                                                              |
-|              tar              | 压缩和解压缩命令（```.gz```和```.bz2```的压缩包，默认`/tar`） | ```tar -zcvf  test.tar.gz *.txt```/```tar -zxvf test.tar.gz -C 文件名```/```tar -jcvf test.bz2 *.txt```/```tar -jxvf test.bz2 -C 文件名``` | ```-c``` 创建打包文件<br/>```-v``` 显示打包或者解包的详细信息<br/>```-f``` 指定文件名称, 必须放到所有选项后面<br/>```-z``` 压缩或解压缩(```.gz```)<br/>```-j ``` 压缩或解压缩(```.bz2```)<br/>```-x``` 解包<br/>```-C``` 解压缩到指定目录，只有解压缩才有指定目录 |
+|              tar              | 压缩和解压缩命令（```.gz```和```.bz2```的压缩包，默认`/tar`） | ```tar -zcvf  test.tar.gz *.txt```/```tar -zxvf test.tar.gz -C 文件名```/```tar -jcvf test.bz2 *.txt```/```tar -jxvf test.bz2 -C 文件名``` | ```-c``` 创建打包文件<br/>```-v``` 显示打包或者解包的详细信息<br/>```-f``` 指定文件名称, 必须放到所有选项后面<br/>```-z``` 压缩或解压缩(```.tar.gz```/ `.tgz`)<br/>```-j ``` 压缩或解压缩(```.tar.bz2```)<br/>```-x``` 解包<br/><br />`J`压缩或解压缩(`.tar.xz`)<br />```-C``` 解压缩到指定目录，只有解压缩才有指定目录 |
 |              zip              |                   压缩成```.zip```格式文件                   | ```zip test *.txt```                                         | 默认是```.zip```后缀，相对占用空间比较多。尽量使用```.gz```格式，占用空间比较少 |
 |             unzip             |                   解压缩```.zip```格式文件                   | ```unzip test.zip -d 文件名```                               |                  ```-d``` 解压缩到指定目录                   |
 |    ifconfig / ip addr show    |                          查看ip地址                          |                                                              |                                                              |
@@ -434,7 +434,7 @@ scp命令格式:
 
 - 远程拷贝文件
   - ```scp 本地文件 远程服务器用户名@远程服务器ip地址:指定拷贝到远程服务器的路径```
-    - ```scp 1.txt yating@192.168.xx.xx:/home/yating/test```
+    - ```scp 1.txt root@192.168.xx.xx:/home/yating/test```
   - ```scp 远程服务器用户名@远程服务器ip地址:远程服务器文件 指定拷贝到本地电脑的路径```
     - ```scp yating@192.168.xx.xx:/home/yating/test/1.txt .```
 - 远程拷贝目标

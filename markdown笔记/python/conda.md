@@ -31,6 +31,9 @@ conda create --help
 conda create -n env_name python=3.5
 # 指定python版本,以及多个包
 conda create -n env_name python=3.4 scipy=0.15.0 astroib numpy
+# 复制存在的虚拟环境A，生成新环境B
+conda create -n envB --clone envA
+
 # 查看某个指定环境的已安装包
 conda list -n env_name
 # 为指定环境安装某个包，也可以通过-c指定通过某个channel安装
@@ -50,16 +53,21 @@ conda info -e
 conda env list
 # 克隆一个环境
 conda create --name clone_env --clone envname   # clone_env 代指克隆得到的新环境的名称，envname 代指被克隆的环境的名称
------------------------------------生成requiremtns---------------------------------------------
+-----------------------------------生成requiremtns--------------------------------------------
 # 当使用Conda管理Python环境和包时，你通常会使用Conda自己的导出和导入机制，而不是使用pip freeze。虽然pip freeze仍然可以用于导出某些通过pip安装的包，但它可能不会捕获通过Conda安装的所有包和依赖项
 # 你可以使用conda env export命令将当前激活的Conda环境导出到一个YAML文件。这个文件将包括Conda和pip安装的所有包及其精确版本
 conda env export > environment.yml
 # 要在另一台计算机或同一台计算机的不同位置重新创建环境，你可以使用以下命令，这将从 environment.yml 文件创建一个新的 Conda 环境，并安装其中列出的所有包和版本。
 conda env create -f environment.yml
+
+# 如果不使用yml文件
+conda list -e > requirements.txt
+conda install --yes --file requirements.txt
+
 ---------------------------------------更换源-----------------------------------------------
 # 查看当前下载源
 conda config --show channels
-# 配置国内安装的镜像
+# 配置国内安装的镜像，也可以该文件，参见备忘录
 conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
 conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free
 conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/r
@@ -68,8 +76,11 @@ conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/m
 conda config --set show_channel_urls yes
 # 清除添加的所有下载源
 conda config --remove-key channels
+# 删除指定镜像源
+conda config --remove channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
 --------------------------------------魔法函数----------------------------------------------
 %matplotlib inline
+!pip install
 ```
 
 # Jupyter Notebook

@@ -27,13 +27,15 @@ pip uninstall [options] <package>
 pip show pymsql
 ```
 
-To generate a requirement file: `pip freeze > requirements.txt`
+To generate a requirement file: `pip freeze > requirements.txt`。使用`pip list --format=freeze> requirements.txt`会保留依赖包的版本号
 
-Install a list of requirements specified in a Requirements File: ```pip install -r requirements.txt```
+Install a list of requirements specified in a Requirements File: ```pip install [-i https://pypi.tuna.tsinghua.edu.cn/simple] -r requirements.txt```
 
 To uninstall: ```pip uninstall [options] -r <requirements file> ...```
 
 For more information, check [python documentation](https://packaging.python.org/tutorials/installing-packages/#installing-packages)
+
+
 
 # python虚拟环境和安装包
 
@@ -80,9 +82,9 @@ pipenv --python 3[.6]
 # 这条命令会指出pidfile的存储地址和新的虚拟环境的存储地址。pidfile中会有安装包，依赖包和配置环境等相关信息
 pipenv --where # 查看项目位置
 pipenv --py # 查看解释器信息
-# 激活虚拟环境
+# 激活/进入虚拟环境，如果不存在虚拟环境会自动安装一个
 pipenv shell
-# 查看虚拟环境信息 
+# 查看虚拟环境信息，如目录位置
 pipenv --venv
 # 安装包
 pipenv install requests
@@ -104,6 +106,7 @@ pipenv lock -r -i https://pypi.org/simple
 ## `venv`
 
 ```bash
+sudo apt-get install python3-venv
 # install pipenv
 pip install --user pipenv
 # install packages for your project
@@ -194,6 +197,8 @@ lssitepackages     #显示 site-packages 目录中的内容
 
 # 更换源
 
+换源时，若是临时使用，可加`-i`
+
 ```
 vi ~/.pip/pip.conf
 
@@ -203,3 +208,4 @@ index-url = https://pypi.tuna.tsinghua.edu.cn/simple
 trusted-host=pypi.tuna.tsinghua.edu.cn
 ```
 
+查看有哪些源`pip config list`

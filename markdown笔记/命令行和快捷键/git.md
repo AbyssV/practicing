@@ -36,6 +36,8 @@ git branch -h # 更简洁的说明
 # set up new repo locally
 
 ```bash
+mkdir newProj
+# make some changes
 git init # create a local git repo
 
 git status (branch master)
@@ -47,6 +49,11 @@ git status -s / git status --short # 更精简，未跟踪文件前面有红色�
 git add file1.txt file2.txt / git stage file1.txt # git stage is really just another name for git add
 git add *.txt
 git commit -a -m "Now has my major" / git commit -am "Now has my major" # git会自动把所有已经跟踪过的文件暂存起来一起提交，可以省略单独的git add步骤
+
+# 如果已经有仓库了，可以直接到这步
+git remote add origin https://gitee.com/AbyssV/newProj.git
+git push -u origin master
+
 ```
 
 ## git add
@@ -318,6 +325,10 @@ Rebase will present conflicts one commit at a time whereas merge will present th
 
 总结就是推荐merge，rebase会让commit history变得简单，但是相对解决conflit也很麻烦
 
+
+
+<img src="../../图片笔记/其他/git merge.jpg" style="zoom:25%;" />
+
 # git stash暂存修改
 
 `git stash`（git储藏）可用于以下情形，简单来说就是对于当前工作区的内容，不想删也不想提交：
@@ -363,7 +374,7 @@ git diff # 当工作区有改动，临时区为空，diff的对比是“工作�
 git diff --cached / git diff --staged # 显示暂存区和最后一次commit(HEAD)之间的所有不相同文件的增删改(git diff --cached和git diff –staged相同作用)
 git diff HEAD # 显示工作目录(已track但未add文件)和暂存区(已add但未commit文件)与最后一次commit之间的的所有不相同文件的增删改
 git diff HEAD~X或git diff HEAD^^^…(后面有X个^符号，X为正整数) # 可以查看最近一次提交的版本与往过去时间线前数X个的版本之间的所有文件之间的增删改
-git diff <分支名1> <分支名2> # 比较两个分支上最后commit的内容的差别
+git diff <分支名1> <分支名2> # 比较两个分支上最后commit的内容的差别，会以补丁的形式显示差异，可能不太直观
 git diff branch1 branch2 --stat # 显示出所有有差异的文件(不详细,没有对比内容)
 git diff branch1 branch2 # 显示出所有有差异的文件的详细差异(更详细)
 git diff branch1 branch2 具体文件路径 # 显示指定文件的详细差异(对比内容)
@@ -526,6 +537,7 @@ git fetch <远程主机名> # 这个命令将某个远程主机的更新全部�
 git fetch <远程主机名> <分支名> # 取回特定分支的更新，注意之间有空格
 git fetch origin master # 取回origin主机的master分支
 git fetch --all # 获取远程仓库所有分支的更新
+git fetch --tags
 git log -p FETCH_HEAD # 取回更新后，会返回一个FETCH_HEAD，指的是某个branch在服务器上的最新状态，我们可以在本地通过它查看刚取回的更新信息
 git diff -stat dev origin/dev # 查看本地dev分支和远程dev分支的区别
 git merge FETCH_HEAD    # 将拉取下来的最新内容合并到当前所在的分支中。相当于 git pull <远程主机名> <远程分支名>:<本地分支名>
