@@ -163,7 +163,9 @@ custom_channels:
 3. `conda clean -i`
 4. 如果要切换回默认源，使用命令`conda config --remove-key channels`
 
+==问题：cannot import name ‘COMMON_SAFE_ASCII_CHARACTERS‘ from ‘charset_normalizer.constant‘==
 
+<u>解决方式</u>：`conda install chardet`
 
 # Homebrew
 
@@ -221,6 +223,27 @@ cd "$(brew --repo)" && git remote -v
 cd "$(brew --repo homebrew/core)" && git remote -v
 
 ```
+
+
+
+# CUDA
+
+1. [测试](https://developer.nvidia.com/cuda-gpus#collapseOne)本机独立显卡是否支持CUDA的安装
+2. 打开NVIDIA驱动，点击系统信息->组件->NVCUDA.dll，查看NAVDIA驱动版本（本机为12.2）
+3. [官网](https://developer.nvidia.com/cuda-toolkit-archive)下载对应的cuda toolkit
+4. （需要安装Visual Studio，也可以换成自定义的安装方式，并将VS勾给去掉）安装后在cmd输入`nvcc -V`，查看`nvidia-smi`
+5. 添加环境变量
+   1. C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.2
+   2. C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.2\bin
+   3. C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.2\libnvvp
+   4. C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.2\lib
+6. （可选）安装对应的[cudnn](https://developer.nvidia.com/rdp/cudnn-download)，将解压得到的bin、include、lib文件拷贝到NVIDIA GPU Computing Toolkit\CUDA\v12.2下的对应文件
+7. [官网](https://pytorch.org/)安装`conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia`
+8. 测试`import torch;torch.cuda.is_available()`返回`True`
+
+参考链接
+
+[Windows10+GTX 1070安装cuda11、pytorch](https://zhuanlan.zhihu.com/p/505875985#:~:text=Windows10%2BGTX%201070%E5%AE%89%E8%A3%85cuda11%E3%80%81pytorch%201%201.%E6%A3%80%E6%9F%A5%E9%A9%B1%E5%8A%A8%E5%99%A8%E7%89%88%E6%9C%AC%E3%80%81cuda%E7%89%88%E6%9C%AC%202%202.%20%E5%AE%98%E7%BD%91%E4%B8%8B%E8%BD%BD%E5%AF%B9%E5%BA%94cuda%E7%89%88%E6%9C%AC%EF%BC%9A%203,3.%20cudnn%E5%AE%89%E8%A3%85%204%204.%20%E5%AE%89%E8%A3%85pytorch%205%205.%20%E6%A3%80%E9%AA%8C%E5%AE%89%E8%A3%85)
 
 # GIT
 
