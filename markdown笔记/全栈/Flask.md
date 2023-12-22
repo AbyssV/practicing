@@ -66,8 +66,8 @@ app = Flask(__name__)
 
 # 装饰器的作用是将路由映射到视图函数index
 # 定义视图
-@app.route('/')
-def hello_world():  # put application's code here
+@app.route('/') # 这是路由
+def hello_world():  # 这是视图函数，不叫controller
     return 'Hello World!'
 
 # Flask应用程序实例的run方法启动WEB服务器
@@ -85,12 +85,14 @@ if __name__ == '__main__':
 <u>命令行运行</u>
 
 ```bash
-python app.py # 有app.run()
+python app.py # 有app.run(host="0.0.0.0", port=5000, debug = True)
 flask run
 flask run -h 0.0.0.0 -p 8000 绑定地址 端口
 python -m flask run # 如果上面的不行
-flask run --host 0.0.0.0 --port=50001 --debugger --reload
+flask run --host 0.0.0.0 --port=50001 --debugger --reload # important
 ```
+
+![](../../图片笔记/Python/flask_pycharm.png)
 
 ## 应用程序配置参数
 
@@ -202,7 +204,7 @@ def index():
 表示系统环境变量中没有设置相应值时是否抛出异常
 
 - `False`表示不安静的处理，没有值时报错通知，默认为`False`
-- `True`表示安静的处理，即时没有值也让`Flask`正常的运行下去
+- `True`表示安静的处理，即使没有值也让`Flask`正常的运行下去
 
 **应用场景：** 配置文件的地址不固定；在代码中不想暴露真实的配置文件地址，只在运行代码的服务器上才有真实配置文件的信息
 
