@@ -1021,4 +1021,4 @@ You can only use the ```touch``` command on a file and change the times if you h
 
 ```mkdir -pv``` tells you what ```mkdir``` is doing every step of the way, so you don't need to actually check to make sure ```mkdir``` has done its job.
 
-`grep -n name *.[chS]`用于查找文件中符合字符串的哪行。
+`grep -n name *.[chS]`用于查找文件中符合字符串的哪行。 
