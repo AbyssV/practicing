@@ -65,6 +65,12 @@ Currently, there are two common tools for creating Python virtual environments:
 
 ## `pipenv`
 
+将pip和virtualenv结合，适合复杂的虚拟环境管理
+
+pipenv的工作方式是基于项目目录的，它在每个项目的基础上创建和管理虚拟环境，而不是全局地管理所有虚拟环境。每个虚拟环境与项目目录相关联。
+
+如果想要通过名称管理和切换不同的虚拟环境，可以考虑`virtualenvwrapper`，它是`virtualenv`的一个扩展，提供了更高级的虚拟环境管理功能，包括命名环境和切换环境
+
 ```bash
 # 以ubuntu系统级的python3.10为例
 # 安装pip
@@ -78,32 +84,44 @@ source ~/.bashrc
 
 # 查看命令使用帮助
 pipenv -h 
-pipenv --python 3[.6]
+
 # 这条命令会指出pidfile的存储地址和新的虚拟环境的存储地址。pidfile中会有安装包，依赖包和配置环境等相关信息
 pipenv --where # 查看项目位置
 pipenv --py # 查看解释器信息
+
+# 进入项目目录，安装3.10虚拟环境
+pipenv --python 3.10
 # 激活/进入虚拟环境，如果不存在虚拟环境会自动安装一个
 pipenv shell
-# 查看虚拟环境信息，如目录位置
-pipenv --venv
+# 退出虚拟环境
+exit
 # 安装包
 pipenv install requests
 # 卸载包
 pipenv uninstall requests
+# 更新包
+pipenv update requests
+# 更新所有包
+pipenv update
 # 查看包的依赖结构
 pipenv graph
-# 退出虚拟环境
-exit
+# 查看虚拟环境信息，如目录位置
+pipenv --venv
+# 在虚拟环境中执行命令而不进入shell
+pipenv run <command>
 # 删除虚拟环境
+# Pipfile和Pipfile.lock是pipenv管理依赖的两个关键文件。Pipfile声明了依赖项，Pipfile.lock用于确保这些依赖在所有环境中一致
 # 注意 pipenv --rm 只是把创建的虚拟环境删除了，但Pipfile和Pipfile.lock还存。下次如果想要创建与项目myproject相同的虚拟环境时：只要打 cmd，切换到myproject目录下执行命令 pip install 即可
 pipenv --rm
-使用pipenv install -r requirements.txt安装第三方的模块
+# 使用pipenv install -r requirements.txt安装第三方的模块
 pipenv install -r requirements.txt
 # 查看第三方安装的模块依赖，可导出到requirements.txt
 pipenv lock -r -i https://pypi.org/simple
 ```
 
 ## `venv`
+
+较为简单，且在python3.3后作为标准库的一部分不需要额外安装
 
 ```bash
 sudo apt-get install python3-venv
@@ -121,7 +139,7 @@ deactivate
 
 ## `virtualenv`
 
-目前只有这个比较稳定（因为被很多人试过了），保险起见还是用这个吧~
+比较灵活，或需要在旧版本的python上创建虚拟环境。需要通过pip额外安装
 
 ```bash
 # 安装虚拟环境
