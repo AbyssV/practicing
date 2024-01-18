@@ -713,10 +713,28 @@ c = Counter('gallahad')
 print(c)
 del c['a']
 print(c)
+c.update('good')
+print(c)
 # Counter objects have a dictionary interface except that they return a zero count for missing items instead of raising a KeyError
 print(c['z'])
 # Return a list of the n most common elements and their counts from the most common to the least. If n is omitted or None, most_common() returns all elements in the counter. Elements with equal counts are ordered arbitrarily
 print(Counter('abracadabra').most_common(3))
+
+c1 = Counter(a=3, b=1)
+c2 = Counter(a=1, b=2)
+# Addition
+c3 = c1 + c2  # Counter({'a': 4, 'b': 3})
+# Subtraction
+c4 = c1 - c2  # Counter({'a': 2})
+# Intersection (minimum of corresponding counts)
+c5 = c1 & c2  # Counter({'a': 1, 'b': 1})
+# Union (maximum of corresponding counts)
+c6 = c1 | c2  # Counter({'a': 3, 'b': 2})
+
+print("Addition:", c3)
+print("Subtraction:", c4)
+print("Intersection:", c5)
+print("Union:", c6)
 ```
 
 
@@ -1310,10 +1328,12 @@ class Check(object):
         print("请先登陆...")
         self.__fn()
 
-@Check # @Check => comment = Check(comment)
+@Check 
 def comment():
     print("发表评论")
 comment()
+# @Check => comment = Check(comment)
+# 相当于comment是一个check的实例，comment()相当于这个实例调用了__call__。也就是说Check(comment)返回一个callable的类
 
 # 扩展：函数之所以能够调用是因为函数内部使用__call__
 def test():
@@ -1345,7 +1365,10 @@ class LogTime:
 def mysleep():
     time.sleep(1)
   
-mysleep()
+mysleep() # 相当于mysleep = LogTime(use_int = 1)(mysleep)
+
+# ---------------------------------装饰类的装饰器
+
 ```
 
 ### `wraps`
@@ -2484,7 +2507,7 @@ print(type(s2)) # <class 'str'>
 
 [知乎的详细解释](https://www.zhihu.com/question/48219401/answer/742444326)
 
-[菜鸟教程](https://www.runoob.com/python3/python3-reg-expressions.html)推荐
+[菜鸟教程](https://www.runoob.com/regexp/regexp-metachar.html)推荐
 
 - `.`匹配任意1个字符（除了`\n`）
 - `*`匹配前一个字符出现0次或者无限次
@@ -2494,20 +2517,30 @@ print(type(s2)) # <class 'str'>
 - `{m,n}`匹配前一个字符出现从m到n次
 - `\w`匹配非特殊字符，即`a-z`、`A-Z`、`0-9`、`_`、汉字
 - `|`匹配左右任意一个表达式
+  - 注意`[]`不同，`|`类似逻辑或，左右都是pattern
+  - `1|2|3` is matching three separate patterns (`1`, `2`, or `3`). This one is more efficient
+  - `[123]` is matching any one character that is either `1`, `2`, or `3`.
+
 - `(ab)` 将括号中字符作为一个分组.分组数是从左到右的方式进行分配的，**最左边的是第一个分组，依次类推**
-- `\num`引用分组`num`匹配到的字符串
-- `(?P<name>)`分组起别名
-- `(?P=name)`引用别名为name分组匹配到的字符串
+  - `(?:exp)`是非捕获组
+  - `?=`正向先行断言，`?!`负向先行断言
+  - `?<=`正向后行断言，`?<!`负向后行断言
+
+- 反向引用
+  - `(?P<name>exp)`分组起别名`name`, `()`默认数字分组。
+  - `\num`引用分组`num`匹配到的字符串。在数字分组中，第0组为整个表达式，第1组开始为分组
+  - `(?P=name)`引用别名为name分组匹配到的字符串
+
 
 ```python
 import re
 
-# re.search
 string = "Python is fun"
 pattern = "is"
+
+# re.search
 # 从头扫描整个字符串以匹配模式，只要中间有就能返回
 # re.findall结果无需加group()，search match需要加group()提取
-
 match = re.search(pattern, string) # found
 if match:
   print("pattern found inside the string")
@@ -2516,12 +2549,13 @@ else:
 
 # re.match
 # 必须需要从头匹配，所以not found
+# 返回Match object，match.group(1) 和 match.groups()[0] 是一样的
 match = re.match(pattern, string)
 string[match.start():match.end()]
 
 # re.findall / re.finditer
 # 在字符串中找到正则表达式所匹配的所有子串，并返回一个列表，如果有多个匹配模式，则返回元组列表，如果没有找到匹配的，则返回空列表
-# 注意： match 和 search 是匹配一次 findall 匹配所有
+# 注意： match 和 search 是返回第一个匹配的Match object， findall 匹配所有，且findall返回字符串，若有多个group，则以[(group1, group2), (group1, group2)]的形式
 
 # re.sub
 # 找到所有符合的pattern并替换
@@ -2538,6 +2572,7 @@ print(new_string) # abc12de23f456
 # re.compile
 # compile 函数用于编译正则表达式，生成一个正则表达式（ Pattern ）对象，供 match() 和 search() 或其他函数使用
 # but using re.compile() and saving the resulting regular expression object for reuse is more efficient when the expression will be used several times in a single program。节省CPU时间
+# 其他还有re.MULTILINE, re.DOTALL
 re.compile(pattern, flags = re.IGNORECASE) # 不区分大小写
 
 # re.group
