@@ -86,21 +86,3 @@ conda config --remove channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkg
 # Jupyter Notebook
 
 `%matplotlib inline`是ipython的魔法函数，可以使matplotlib绘制的图像嵌入在jupyter notebook的单元格里。除此之外还有计算内存，时间的魔法函数
-
-# problems
-
-## how to deactivate conda auto start
-
-如果不想默认启动 `base`工作空间可以通过在终端输入以下命令：
-
-```bash
-conda config --set auto_activate_base false
-```
-
-如果要启动虚拟空间`base`可以使用以下命令：
-
-```bash
-conda activate base
-```
-
-启动其他虚拟空间同理。

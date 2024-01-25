@@ -755,6 +755,9 @@ print("Intersection:", c5)
 print("Union:", c6)
 ```
 
+> 注意，如果一个object没有定义`__hash__`，将它作为dict的key会报错unhashable type
+>
+> 两个不同的object有可能有相同的hash值（hash collision），最好重载`__eq__`。如果hash一样且equal就是一个key，如果hash一样不eq就是两个key
 
 ### set / frozenset
 
@@ -2108,6 +2111,34 @@ with my_open('out.txt', 'w') as f:
 
 # 一些注意点
 
+## python解释器
+
+PyPy是一个替代 CPython（官方的 Python 解释器）的 Python 解释器实现。PyPy 使用 Just-In-Time（JIT）编译技术，与 CPython 不同，后者是解释执行 Python 代码。
+
+具体来说，PyPy 通过即时编译技术（JIT）将 Python 代码转换为本地机器码，从而提高运行时的性能。这使得 PyPy 在某些情况下比 CPython 更快，尤其是在涉及大量计算的场景中。PyPy 的目标是提供更高的执行速度，同时保持 Python 的灵活性和易用性。它兼容 Python 2 和 Python 3，并可以运行大多数 Python 代码。由于其性能优势，PyPy 在一些性能敏感的应用中得到了广泛的应用，尤其是在科学计算、大数据处理等领域。需要注意的是，虽然 PyPy 提供了性能上的优势，但并不是所有的 Python 代码都能够充分受益于其性能提 升。在一些特定情况下，仍然可能需要使用 CPython 或其他 Python 解释器。
+
+JIT对某些热点（经常执行的操作进行了优化），但是并不是对所有的cpython package都兼容了，由于cpython才是官方的标准和实现，因此PyPy总是比cpython慢一些
+
+除了PyPy外，还有Jpython（基于java实现）等
+
+## 下划线
+
+1. **单下划线 `_var`**:
+   - **用途**: 通常用于表示变量或方法是“内部的”或“私有的”。这是一种约定，用于向程序员表明这些变量或方法不应该在类外部被使用。然而，这只是一种约定，并不会在 Python 解释器级别强制实施。
+   - **作用域**: 在模块导入时，从模块中导入所有名称（例如，`from module import *`）不会导入以单下划线开头的名称。
+2. **双前缀和双后缀 `__var__`**:
+   - **用途**: 这种格式通常用于 Python 的魔术方法（也称为特殊方法），如 `__init__`, `__str__`, `__repr__` 等。这些是 Python 的内置方法名称，用于特定的用途和操作重载。
+   - **作用域**: 它们被 Python 解释器特别处理，用于实现特定的类操作。
+3. **双下划线前缀 `__var`**:
+   - **用途**: 用于类属性的名称改写（name mangling）。当类属性以双下划线前缀开头时，Python 解释器会自动将其名称改写为 `_ClassName__var` 的形式，以此避免在子类中的命名冲突。
+   - **作用域**: 这种改写意味着这些属性在类外部不容易被访问，但它并不是真正的私有化。如果你知道改写后的名称，仍然可以访问它们。
+   - 由于名称改写，你在类的外部无法直接通过 `__var` 来访问这个变量。试图这样做将导致一个 `AttributeError`，因为从外部看这个名称不存在。尽管不推荐，但如果你需要从类的外部访问这个变量，你可以使用它的改写名称`obj = MyClass();print(obj._MyClass__var)`
+   - 请注意，通常不建议这样做，因为私有变量（通过双下划线定义）应该被视为类的内部实现的一部分，不应该从类外部访问或修改。这种访问方式破坏了封装原则，可能导致代码维护困难，并且增加了代码之间不必要的耦合。如果需要从外部访问某个属性，考虑使用 getter 和 setter 方法或将其定义为一个公开属性。
+4. **单下划线后缀 `var_`**:
+   - **用途**: 通常用于避免与 Python 关键字的命名冲突。例如，`class_` 可以用作变量名，以避免与保留字 `class` 冲突。
+
+
+
 ## raw字符串 / 字节字符串
 
 如果一个字符串包含很多需要转义的字符，对每一个字符都进行转义会很麻烦。为了避免这种情况，
@@ -2385,18 +2416,8 @@ else:
    ```
 
 
-3. title for project in pycharm
+3. 导包时，先导入非标准库模块（例如requests），再导入标准库模块os、sys
 
-   ```python
-   # -*- coding: utf-8 -*-
-   """
-   Created on ${Date} ${Time}
-   @author: ytl
-   @project: ${PROJECT_NAME}
-   @file: ${NAME}.py
-   applications: 
-   """
-   ```
 
 
 4. performance optimizaion
@@ -2409,3 +2430,4 @@ else:
    2. 方法定义、类定义与第一个方法之间，都应该空一行
    3. 三引号进行注释
    4. 使用Pycharm、Eclipse一般使用4个空格来缩进代
+6. 网络波动很可能出错，因此需要做额外的exception handling

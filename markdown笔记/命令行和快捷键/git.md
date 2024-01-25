@@ -1,6 +1,6 @@
 # 更新git
 
-```
+```bash
 git --version
 git update-git-for-windows
 ```
@@ -50,10 +50,9 @@ git add file1.txt file2.txt / git stage file1.txt # git stage is really just ano
 git add *.txt
 git commit -a -m "Now has my major" / git commit -am "Now has my major" # git会自动把所有已经跟踪过的文件暂存起来一起提交，可以省略单独的git add步骤
 
-# 如果已经有仓库了，可以直接到这步
+# 如果已经有仓库了，可以直接到这步（很大概率有conflict吧）
 git remote add origin https://gitee.com/AbyssV/newProj.git
 git push -u origin master
-
 ```
 
 ## git add
@@ -68,7 +67,6 @@ when you `add` a file you are telling git to keep track of it.`add` also tells G
 >
 >And better than ```git add .``` is ```git add -p``` because it will interactively ask what to stage, this will show you all the changes again and will show you comment/logging that you forgot to remove as well. Also commit often, as large changes tend to be hard to review/oversee.
 >
->推荐`git add .`
 
 ## git commit
 
@@ -80,39 +78,11 @@ git commit -a -m "Now has my major"/git commit -am "Now has my major" # the powe
 git commit --amend -m "Added favorite restaurant and movie" # amend your commit message 
 ```
 
-# 删除相关
 
-## git rm
 
-you use the `git add` command to stage a new or modified file. However, to stage the deletion of a file, you need to use then `git rm` So run the commands `git add file1.txt` and `git rm file2.txt` to set the stage
+# 覆盖提交
 
->从git仓库和工作区同时移除对应的文件, 可以使用`git rm [-f]`
->`git rm file` = `rm file`+ `git add file`
->`rm file`删除本地文件
->`git add file`提交删除的步骤同步到git仓库
->
->***
->
->从暂存区和git仓库中移除指定的文件，但是保留工作区的文件，可以使用`git rm --cached`
->
->`git rm --cached file`从暂存区删除该文件，并将其设置为未跟踪
->
->当我们需要删除暂存区或分支上的文件, 但本地又需要使用, 只是不希望这个文件被版本控制, 可以使用`git rm --cached`
->`git rm --cached`会从index里面删除该文件，下次commit的时候会修改git仓库，但是本地的文件还是保留
->
->***
->
->`git checkout -- 文件名`把对工作区对应文件的修改，还原成git仓库中所保留的版本。它会覆盖工作区中指定的文件。注意：所有的修改会丢失，且无法恢复！危险性较高，请谨慎操作！
->
->详见git checkout 文件层面
->
->***
->
->`git reset HEAD 文件名`会从缓存区移除对应的文件，而不会影响工作目录中的更改
->
->详见git reset 文件层面
-
-# 重置提交
+<img src="../../图片笔记/其他/git撤销.png" style="zoom: 67%;" />
 
 HEAD和HASH
 
@@ -129,9 +99,7 @@ git reset HEAD~2 # 让hotfix分支向后回退了两个提交
 
 hotfix分支末端的两个提交现在变成了悬挂提交。也就是说，下次Git执行垃圾回收的时候，这两个提交会被删除。换句话说，如果你想扔掉这两个提交，你可以这么做
 
-The purpose of the ```git reset``` command is to move the current HEAD to the commit specified (in this case, the HEAD itself, one commit before HEAD and so on).
-
-the version after xxxx will be deleted, to push to remote repo, you have to use ```git push -f``` because remote origin still has HEAD points to the deleted commit
+**the version after xxxx will be deleted, to push to remote repo, you have to use ```git push -f``` because remote origin still has HEAD points to the deleted commit**
 
 ```bash
 # 其他参数
@@ -150,7 +118,7 @@ git reset --hard HEAD~2     # going back two commits before HEAD
 git reset --hard HEAD@{1}   # undo a hard reset on Git
 ```
 
-### 文件层面
+### 文件层面（缓存区）
 
 当检测到文件路径时，`git reset` 将缓存区同步到你指定的那个提交。比如，下面这个命令会将倒数第二个提交中的foo.py加入到缓存区中，供下一个提交使用
 
@@ -160,17 +128,17 @@ git reset HEAD~2 foo.py
 
 和提交层面的`git reset`一样，通常我们使用HEAD而不是某个特定的提交。运行`git reset HEAD foo.py` 会将当前的foo.py从缓存区中移除出去，而不会影响工作目录中对foo.py的更改
 
-`--soft`、`--mixed`和`--hard`对文件层面的`git reset`毫无作用，因为**缓存区中的文件一定会变化，而工作目录中的文件一定不变**
+
 
 ## git checkout
 
 对于快速查看项目旧版本来说非常有用
 
-**This is useful for quickly inspecting an old version of your project.** However, since there is no branch reference to the current HEAD, this puts you in a detached HEAD state. **This can be dangerous if you start adding new commits because there will be no way to get back to them after you switch to another branch. **For this reason, you should always create a new branch before adding commits to a detached HEAD.
+**This is useful for quickly inspecting an old version of your project.** However, since there is no branch reference to the current HEAD, this puts you in a detached HEAD state. **This can be dangerous if you start adding new commits because there will be no way to get back to them after you switch to another branch. For this reason, you should always create a new branch before adding commits to a detached HEAD.**
 
-### 文件层面
+### 文件层面（工作目录）
 
-checkout一个文件和带文件路径`git reset` 非常像，除了它更改的是工作目录而不是缓存区。不像提交层面的checkout命令，它不会移动HEAD引用，也就是你不会切换到别的分支上去
+checkout一个文件和带文件路径`git reset` 非常像，**除了它更改的是工作目录而不是缓存区**。不像提交层面的checkout命令，它不会移动HEAD引用，也就是你不会切换到别的分支上去
 
 Unlike the commit-level version of this command, this does not move the `HEAD` reference, which means that you won’t switch branches.
 
@@ -182,13 +150,11 @@ git checkout HEAD~2 foo.py
 
 和提交层面相同的是，它可以用来检查项目的旧版本，但作用域被限制到了特定文件
 
-如果你缓存并且提交了checkout的文件，它具备将某个文件回撤到之前版本的效果。注意它撤销了这个文件后面所有的更改
+如果你stage并且commit了checkout后的文件，它具备将某个文件回撤到之前版本的效果。注意它撤销了这个文件后面所有的更改
 
-==**和`git reset` 一样，这个命令通常和HEAD一起使用。比如`git checkout HEAD foo.py`等同于舍弃foo.py没有缓存的更改。这个行为和`git reset HEAD --hard`很像，但只影响特定文件**==（确实很像）
+**If you stage and commit the checked-out file, this has the effect of "reverting" to the old version of that file. Note that this removes all of the subsequent changes to the file, whereas the `git revert` command undoes only the changes introduced by the specified commit.**
 
-Like `git reset`, this is commonly used with `HEAD` as the commit reference. For instance, `git checkout HEAD foo.py` has the effect of discarding unstaged changes to `foo.py`. This is similar behavior to `git reset HEAD --hard`, but it operates only on the specified file.
-
-==**If you stage and commit the checked-out file, this has the effect of "reverting" to the old version of that file. Note that this removes all of the subsequent changes to the file, whereas the `git revert` command undoes only the changes introduced by the specified commit.**==
+和`git reset` 一样，这个命令通常和HEAD一起使用。比如`git checkout HEAD foo.py`等同于舍弃foo.py没有缓存的更改。这个行为和`git reset HEAD --hard`很像，因为本地暂存区都修改了，但只影响特定文件
 
 ## git revert
 
@@ -205,9 +171,29 @@ git revert HEAD~2
 >
 > 就像`git checkout` 一样，`git revert` 也有可能会重写文件。所以，Git会在你执行revert之前要求你提交或者缓存你工作目录中的更改。
 
-in `git reset`, you delete the older commit and move the head backwards, in` git revert` you are introducing an order version to the current branch and move the head forward. When you merge with another branch, the changes may be introduced again in using reset, but will not be introduced if using revert. 
+When you merge with another branch, the changes may be introduced again in using reset, but will not be introduced if using revert. 
 
 This method would not have the disadvantage of ```git reset```, it would point HEAD to newly created reverting commit and **it is ok to directly push the changes to remote without using the ```-f``` option**
+
+## git rm（文件层面）
+
+从git仓库和工作区同时移除对应的文件, 可以使用`git rm [-f]`
+
+`git rm file` = `rm file`+ `git add file`
+
+- `rm file`删除本地文件
+
+- `git add file`提交删除的步骤同步到git仓库
+
+***
+
+从暂存区和git仓库中移除指定的文件，但是保留工作区的文件，可以使用`git rm --cached`
+
+`git rm --cached file`从暂存区删除该文件，并将其设置为未跟踪
+
+当我们需要删除暂存区或分支上的文件, 但本地又需要使用, 只是不希望这个文件被版本控制, 可以使用`git rm --cached`
+
+`git rm --cached`会从index里面删除该文件，下次commit的时候会修改git仓库，但是本地的文件还是保留
 
 ## git restore
 
@@ -218,25 +204,21 @@ This method would not have the disadvantage of ```git reset```, it would point H
 | 命令         | 作用域   | 常用情景                                                     |
 | ------------ | -------- | ------------------------------------------------------------ |
 | git reset    | 提交层面 | 在私有分支上舍弃一些没有提交的更改                           |
-| git reset    | 文件层面 | 将文件从缓存区中移除                                         |
+| git reset    | 文件层面 | 将文件从缓存区中同步                                         |
 | git checkout | 提交层面 | 切换分支或查看旧版本                                         |
-| git checkout | 文件层面 | 舍弃工作目录中的更改                                         |
+| git checkout | 文件层面 | 将文件从工作目录中同步                                       |
 | git revert   | 提交层面 | 在公共分支上回滚更改（通过创建一个截然不同的新提交来重置一个提交） |
 | git revert   | 文件层面 | 无                                                           |
 
->A `revert` is an operation that takes a specified commit and creates a new commit which inverses the specified commit. git revert can only be run at a commit level scope and has no file level functionality.
->
->A `reset` is an operation that takes a specified commit and resets the "three trees" to match the state of the repository at that specified commit. A reset can be invoked in three different modes which correspond to the three trees.
->
 >`checkout` and `reset` are generally used for making local or private 'undos'. They modify the history of a repository that can cause conflicts when pushing to remote shared repositories. Revert is considered a safe operation for 'public undos' as it creates new history which can be shared remotely and doesn't overwrite history remote team members may be dependent on.
 
-***
-
->我个人觉得checkout提交层面只是单纯的把HEAD到别的commit id（但是因为HEAD和当前的branch detached了，可能会回不去，适合看order version），```git checkout HEAD file```是将file恢复到git仓库中的记录（即放弃工作区未提交的修改），所有之后的修改都会丢失，无法撤销操作。reset提交层面是将HEAD往过去移，之后的提交都会被删除。reset的三种模式-hard，mix，soft分别对应工作区+stage snopshot+commit history，snopshot+commit hisotry(default)，commit history。 ```git reset file```是unstage某个file，reset file不会改变工作区的文件（只会同步缓存区）。revert是增加新的commit并且将HEAD向前移达到撤回操作的效果。git rm会先删除工作区的文件，然后commit该删除操作，而加上--cache则会在stage里删除，但是在working directory保留。每一个commit都对应一个log，每一个log都有HEAD做标记
+>  我个人觉得checkout提交层面只是单纯的把HEAD到别的commit id（但是因为HEAD和当前的branch detached了，可能会回不去，适合看order version），```git checkout HEAD file```是将file恢复到git仓库中的记录（即放弃工作区未提交的修改），所有之后的修改都会丢失，无法撤销操作。reset提交层面是将HEAD往过去移，之后的提交都会被删除。reset的三种模式-hard，mix，soft分别对应工作区+stage snopshot+commit history，snopshot+commit hisotry(default)，commit history。 ```git reset file```是unstage某个file，reset file不会改变工作区的文件（只会同步缓存区）。revert是增加新的commit并且将HEAD向前移达到撤回操作的效果。git rm会先删除工作区的文件，然后commit该删除操作，而加上--cache则会在stage里删除，但是在working directory保留。每一个commit都对应一个log，每一个log都有HEAD做标记
 
 推荐阅读 [Bitbucket Resetting, Checking Out & Reverting](https://www.atlassian.com/git/tutorials/resetting-checking-out-and-reverting)
 
 # 合并提交
+
+<img src="../../图片笔记/其他/git工作流2.png" style="zoom: 67%;" />
 
 ## git merge
 
@@ -323,7 +305,38 @@ If the feature branch you are getting changes from is shared with other develope
 Rebasing is better to streamline a complex history, you are able to change the commit history by interactive rebase. You can remove undesired commits, squash two or more commits into one or edit the commit message.
 Rebase will present conflicts one commit at a time whereas merge will present them all at once. It is better and much easier to handle the conflicts but you shouldn’t forget that reverting a rebase is much more difficult than reverting a merge if there are many conflicts. You can find details of a basic rebase process from git — Basic Rebase .
 
-总结就是推荐merge，rebase会让commit history变得简单，但是相对解决conflit也很麻烦
+> ### git merge
+>
+> 1. **场景**:
+>    - 当你想保留所有分支的历史记录时。
+>    - 在共享或公共分支上工作时，如 `main` 或 `develop` 分支。
+> 2. **特点**:
+>    - 它会创建一个新的“合并提交”来表示合并的操作，这个提交记录有两个父节点。
+>    - 合并之后的历史是非线性的，即它保留了实际的分支和合并历史。
+> 3. **优点**:
+>    - 保持完整的历史记录和分支的上下文。
+> 4. **缺点**:
+>    - 可能导致复杂的项目历史和难以阅读的日志。
+>
+> ### git rebase
+>
+> 1. **场景**:
+>    - 在个人或特性分支上工作，准备合并到共享分支之前。
+>    - 想要一个更干净、线性的项目历史。
+> 2. **特点**:
+>    - 它会重新应用一个分支上的更改到另一个分支。
+>    - 可以避免不必要的合并提交。
+> 3. **优点**:
+>    - 提供了一个清晰、直线的提交历史，没有不必要的合并提交。
+>    - 可以使用 `--interactive` 选项来清理提交历史，比如合并、编辑或丢弃某些提交。
+> 4. **缺点**:
+>    - 改变了项目历史，这可能导致混淆和困难，特别是在团队协作的环境中。
+>    - 如果不正确使用，可能导致更多的合并冲突和复杂的冲突解决过程。
+>
+> ### 选择建议
+>
+> - 如果你在一个团队环境中工作，并且你的分支将被合并到公共分支，如 `main`，通常最好使用 `git merge`。这样可以保持完整的历史记录，并避免改变共享分支的历史。
+> - 如果你正在处理一个个人分支，并且希望在合并到主分支之前保持历史记录的干净整洁，`git rebase` 是一个不错的选择。这样可以避免不必要的合并提交，并且提供一个简洁的项目历史。
 
 
 
@@ -600,17 +613,6 @@ touch .gitignore
    - 两个星号`**`表示匹配任意中间目录（比如`a/**/z`可以匹配**a/z** 、**a/b/z**或**a/b/c/z**等）
 
 <img src="../../图片笔记/其他/gitignore配置.jpg" style="zoom: 80%;" />
-
-# 跨团队协作
-
-1. 程序员C fork仓库
-2. 程序员C 将仓库克隆在本地进行修改
-3. 程序员C 将仓库推送到远程
-4. 程序员C 发起pull request
-5. 原仓库作者审核
-6. 原仓库作者合并代码
-
-fork才需要发起pull request？
 
 # 示例
 

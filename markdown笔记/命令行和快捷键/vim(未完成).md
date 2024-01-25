@@ -455,6 +455,32 @@ autocmd BufNewFile *.sh call SetTitle()
 
 ```
 
+# neovim
+
+pass
+
+
+
+# zsh
+
+配置笔记：https://www.geekhour.net/2023/10/21/linux-terminal/
+
+oh-my-zsh安装命令
+
+- `sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"`
+
+powerlevel10k 主题：
+
+- `git clone https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k`
+
+zsh-autosuggestions自动补全插件：
+
+- `git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions`
+
+zsh-syntax-highlighting语法高亮插件：
+
+- `git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting`
+
 
 
 # 进入vim

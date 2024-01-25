@@ -248,6 +248,10 @@ server.listen(8080, function() {
 });
 ```
 
+## npm
+
+参考[NodeJs 的安装及配置环境变量](https://blog.csdn.net/zimeng303/article/details/112167688)，包括了全平台安装和换源
+
 ## 包（第三方模块）
 
 Node.js中的第三方模块又叫做包，包是由第三方个人或团队开发出来的，免费供所有人使用

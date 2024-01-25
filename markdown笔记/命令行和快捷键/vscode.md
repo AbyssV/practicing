@@ -1,6 +1,4 @@
-# VS Code
-
-## configuration file
+# configuration file
 
 Inside ```.vscode``` file, change ```tasks.json``` to run tasks, change ```launch.json``` to run the debugger
 
@@ -8,7 +6,7 @@ Change ```settings.json```(workspace settings) to overwrite user settings.
 
 Change ```keybindings.json``` to customize keyboard shortcuts.
 
-### ```.eslintrc.json```
+## ```.eslintrc.json```
 
 Install the [ESLint extension](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint). Configure your linter however you'd like. Consult the [ESLint specification](https://eslint.org/docs/user-guide/configuring) for details on its linting rules and options.
 
@@ -16,13 +14,15 @@ Install the [ESLint extension](https://marketplace.visualstudio.com/items?itemNa
 
 For python,you can modify your own ```.pylintrc``` file to customize messages
 
-### ```package.json```
+## ```package.json```
 
 See IntelliSense for your ```package.json``` file.
 
-### ```setting.json```
+## ```setting.json```
 
-some of my settings
+some of my settings. location see [this](#User and Workspace Settings) part
+
+- 在全局的json设置中加入`{"python.linting.mypyenabled": true}`可以开启mypy、及type hint不符时红线提示
 
 ```json
 {
@@ -102,17 +102,18 @@ For the settings, which you only want for specific languages, you can scope the 
 
 
 
-## Tips and Tricks
+# Tips and Tricks
 
-### Getting started
+## Getting started
 
 Open the **Welcome** page to get started with the basics of VS Code. **Help > Welcome**.
 
-### Open multiple files from Quick Open
+## Open multiple files from Quick Open
 
 You can open multiple files from **Quick Open**)(```ctrl+p```) by pressing the Right arrow key. This will open the currently selected file in the background and you can continue selecting files from **Quick Open**. (在同一个文件夹内)
 
-### Preventing dirty writes
+## Preventing dirty writes
+
 VS Code will show you an error message when you try to save a file that cannot be saved because it has changed on disk. VS Code blocks saving the file to prevent overwriting changes that have been made outside of the editor.
 
 In order to resolve the save conflict, click the **Compare** action in the error message to open a diff editor that will show you the contents of the file on disk (to the left) compared to the contents in VS Code (on the right):
@@ -121,7 +122,7 @@ Use the actions in the editor toolbar to resolve the save conflict. You can eith
 
 **Note**: The file will remain dirty and cannot be saved until you pick one of the two actions to resolve the conflict.
 
-### Customize your keyboard shortcuts
+## Customize your keyboard shortcuts
 
 Keyboard Shortcut: ```Ctrl+K Ctrl+S```(按两次)
 
@@ -137,7 +138,7 @@ You can search for shortcuts and add your own keybindings to the ```keybindings.
 
 See more in Key Bindings for [Visual Studio Code](https://code.visualstudio.com/docs/getstarted/keybindings).
 
-### Multi cursor selection
+## Multi cursor selection
 
 To add cursors at arbitrary positions, select a position with your mouse and use ```Alt+Click``` (```Option+click``` on macOS).
 
@@ -151,98 +152,101 @@ To set cursors above or below the current position use ```Ctrl+Alt+Up``` or ```C
 
 If you do not want to add all occurrences of the current selection, you can use ```Ctrl+D``` instead. This only selects the next occurrence after the one you selected so you can add selections one by one.
 
-### Column (box) selection
+## Column (box) selection
+
 You can select blocks of text by holding ```Shift+Alt``` (```Shift+Option``` on macOS) while you drag your mouse. A separate cursor will be added to the end of each selected line. 不包括空行
 
-### Transform text commands
+## Transform text commands
 
 You can change selected text to uppercase, lowercase, and title case with the **transform** commands from the Command Palette.
 
-### Search and modify
+## Search and modify
 
 Besides searching and replacing expressions, you can also search and reuse parts of what was matched, using regular expressions with capturing groups. Enable regular expressions in the search box by clicking the **Use Regular Expression**``` .*``` button (```alt+R```) and then write a regular expression and use parenthesis to define groups. You can then reuse the content matched in each group by using ```$1```, ```$2```, etc. in the Replace field.
 
-### Create custom snippets
+## 其他
 
-**File** > **Preferences** > **User Snippets** (**Code** > **Preferences** > **User Snippets** on macOS), select the language, and create a snippet. See more details in [Creating your own Snippets](https://code.visualstudio.com/docs/editor/userdefinedsnippets).
-
-应该是编码习惯自定义，这个vim也有
-
-### 在新建文件夹的时候，如果直接输入 ```aa/bb/cc```，那么，就可以创建多层子文件夹
-
-### Emmet in VS Code
+在新建文件夹的时候，如果直接输入 ```aa/bb/cc```，那么，就可以创建多层子文件夹
 
 
 
-### Git integration ```Ctrl+Shift+G```
+# Git integration ```Ctrl+Shift+G```
 
-#### Diffs
+## Diffs
 
 From the **Source Control** view, select the file to diff. *Default is side by side diff*. 
 
-#### Inline view
+## Inline view
 
 Toggle inline view by clicking the **More Actions** (...) button in the top right and selecting **Switch to Inline View**. If you prefer the inline view, you can set ```"diffEditor.renderSideBySide": false```.
 
-#### Review pane
+## Review pane
 
 Navigate through diffs with ```F7```(顺序看) and ```Shift+F7```(倒序看). This will present them in a unified patch format. Lines can be navigated with arrow keys and pressing ```Enter``` will jump back in the diff editor and the selected line.
 
-#### Edit pending changes
+## Edit pending changes
 
 You can make edits directly in the pending changes of the diff view.
 
-#### Branches
+## Branches
+
 Easily switch between Git branches via the Status Bar.(左下角)
 
-#### Stage all
+## Stage all
 
 Hover over the number of files and click the plus button.(颜色会由灰**U**变为绿**A**)
 
-#### Stage selected
+## Stage selected
 
 Stage a portion of a file by selecting that file (using the arrows) and then choosing **Stage Selected Ranges** from the **Command Palette**.
 
-#### Undo last commit
+## Undo last commit
 
 点右上角的**...**，再点击**Undo Last Commit**
 
-#### See Git output
+## See Git output
+
 VS Code makes it easy to see what Git commands are actually running. This is helpful when learning Git or debugging a difficult source control issue.
 
 Use the **Toggle Output** command (```Ctrl+Shift+U```) and select **Git** in the drop-down.
 
-#### Resolve merge conflicts
+## Resolve merge conflicts
+
 During a merge, go to the **Source Control** view (```Ctrl+Shift+G```) and make changes in the diff view.
 
 You can resolve merge conflicts with the inline CodeLens which lets you **Accept Current Change**, **Accept Incoming Change**, **Accept Both Changes**, and **Compare Changes**.
 
-#### Set VS Code as default merge tool
+## Set VS Code as default merge tool
 
 ```
 git config --global merge.tool vscode
 git config --global mergetool.vscode.cmd 'code --wait $MERGED'
 ```
 
-#### Set VS Code as default diff tool
+## Set VS Code as default diff tool
 
 ```
 git config --global diff.tool vscode
 git config --global difftool.vscode.cmd 'code --wait --diff $LOCAL $REMOTE'
 ```
 
-### Debugging
 
-#### Configure debugger
+
+# Debugging
+
+## Configure debugger
+
 Open the **Command Palette** (```Ctrl+Shift+P```) and select **Debug**: Open ```launch.json```, which will prompt you to select the environment that matches your project (Node.js, Python, C++, etc). This will generate a ```launch.json``` file. Node.js support is built-in and other environments require installing the appropriate language extensions. See the debugging [documentation](https://code.visualstudio.com/docs/editor/debugging) for more details.
 
-#### Data inspection
+## Data inspection
+
 Inspect variables in the **Debug** panels and in the console. 
 
-#### Inline values
+## Inline values
+
 You can set ```"debug.inlineValues": true``` to see variable values inline in the debugger. This feature can be expensive and may slow down stepping, so it is disabled by default
 
-#### Logpoints
+## Logpoints
 
 Logpoints act much like breakpoints but instead of halting the debugger when they are hit, they log a message to the console. Logpoints are especially useful for injecting logging while debugging production servers that cannot be modified or paused.
 
@@ -250,17 +254,20 @@ Add a logpoint with the **Add Logpoint** command in the left editor gutter and i
 
 非阻塞，挺好用的
 
-### Task runner
+# Task runner
 
-#### Auto detect tasks
+## Auto detect tasks
+
 Select **Terminal** from the top-level menu, run the command **Configure Tasks**, then select the type of task you'd like to run. This will generate a ```tasks.json``` file. See the [Tasks](https://code.visualstudio.com/docs/editor/tasks) documentation for more details.
 
 There are occasionally issues with auto generation. Check out the documentation for getting things to work properly.
 
-#### Run tasks from the Terminal menu
+## Run tasks from the Terminal menu
+
 Select **Terminal** from the top-level menu, run the command **Run Task**, and select the task you want to run. Terminate the running task by running the command **Terminate Task**
 
-#### Define keyboard shortcuts for tasks
+## Define keyboard shortcuts for tasks
+
 You can define a keyboard shortcut for any task. From the **Command Palette** (```Ctrl+Shift+P```), select **Preferences: Open Keyboard Shortcuts File**, bind the desired shortcut to the ```workbench.action.tasks.runTask``` command, and define the Task as ```args```.
 
 For example, to bind  ```Ctrl+H``` to the ```Run tests``` task, add the following:
@@ -273,7 +280,7 @@ For example, to bind  ```Ctrl+H``` to the ```Run tests``` task, add the followin
 }
 ```
 
-#### Run npm scripts as tasks from the explorer
+## Run npm scripts as tasks from the explorer
 
 From the explorer you can open a script in the editor, run it as a task, and launch it with the node debugger (when the script defines a debug option like `--inspect-brk`). The default action on click is to open the script. To run a script on a single click, set `npm.scriptExplorerAction` to "run". Use the setting `npm.exclude` to exclude scripts in `package.json` files contained in particular folders.
 
@@ -281,9 +288,10 @@ With the setting `npm.enableRunFromFolder`, you can enable to run npm scripts fr
 
 
 
-## User Interface
+# User Interface
 
-### Side by side editing
+## Side by side editing
+
 You can open as many editors as you like side by side vertically and horizontally. If you already have one editor open, there are multiple ways of opening another editor to the side of the existing one:
 
 - ```alt``` click on a file in the Explorer.
@@ -309,11 +317,11 @@ There are many keyboard commands for adjusting the editor layout with the keyboa
 
 > Pro Tip: If you press and hold the Alt key while hovering over the **toolbar action** to split an editor, it will offer to split to the other orientation. This is a fast way to split either to the right or to the bottom(按住```alt```的同时点右上角的标识)
 
-### Minimap
+## Minimap
 
 You can click or drag the shaded area to quickly jump to different sections of your file. You can move the minimap to the left hand side or disable it completely by respectively setting ```"editor.minimap.side": "left"``` or ```"editor.minimap.enabled": false``` in your user or workspace settings.
 
-### Breadcrumbs
+## Breadcrumbs
 
 The editor has a navigation bar above its contents called Breadcrumbs. It shows the current location and allows you to quickly navigate between folders, files, and symbols.
 
@@ -321,7 +329,7 @@ Breadcrumbs always show the file path and if the current file type has language 
 
 在tab和代码之间的那一小行，似乎还挺有参考性的
 
-### Explorer
+## Explorer
 
 You can drag and drop files into the Explorer from outside VS Code to copy them (if the explorer is empty VS Code will open them instead)
 
@@ -335,7 +343,8 @@ By default, VS Code excludes some folders from the Explorer (for example. ```.gi
 
 > Tip: This is really useful to hide derived resources files, like ```\*.meta``` in Unity, or ```\*.js``` in a TypeScript project. For Unity to exclude the ```\*.cs.meta``` files, the pattern to choose would be: ```"**/*.cs.meta": true```. For TypeScript, you can exclude generated JavaScript for TypeScript files with: ```"**/*.js": {"when": "$(basename).ts"}```.
 
-### Filtering the document tree
+## Filtering the document tree
+
 The Outline view is a separate section in the bottom of the File Explorer. When expanded, it will show the symbol tree of the currently active editor.
 
 The Outline view has different **Sort By** modes, optional cursor tracking, and supports the usual open gestures. It also includes an input box which finds or filters symbols as you type. Errors and warnings are also shown in the Outline view, letting you see at a glance a problem's location.
@@ -349,13 +358,13 @@ There are several Outline view [settings](https://code.visualstudio.com/docs/get
 - `outline.problems.badges` - Toggle using badges for errors and warnings.
 - `outline.problems.colors` - Toggle using colors for errors and warnings.
 
-### Window management
+## Window management
 
 The `window.restoreWindows` setting tells VS Code how to restore the opened windows of your previous session. By default, VS Code will restore all windows you worked on during your previous session (setting: `all`). Change this setting to `none` to never reopen any windows and always start with an empty VS Code instance. Change it to `one` to reopen the last opened window you worked on or `folders` to only restore windows that had folders opened.
 
 
 
-## User and Workspace Settings
+# User and Workspace Settings
 
 VS Code provides two different scopes for settings:
 
@@ -368,7 +377,7 @@ Workspace settings override user settings. Workspace settings are specific to a 
 
 **Note**: VS Code extensions can also add their own custom settings and they will be visible under an **Extensions** section.
 
-### Settings file location
+## Settings file location
 
 By default VS Code shows the Settings editor, but you can still edit the underlying `settings.json` file by using the **Open Settings (JSON)** command or by changing your default settings editor with the `workbench.settings.editor` setting.
 
@@ -384,7 +393,7 @@ The workspace settings file is located under the `.vscode` folder in your root f
 
 > **Note:** In case of a [Multi-root Workspace](https://code.visualstudio.com/docs/editor/multi-root-workspaces#_settings), workspace settings are located inside the workspace configuration file.
 
-### Language-specific editor settings
+## Language-specific editor settings
 
 To customize your editor by language, run the global command **Preferences: Configure Language Specific Settings** (command id: `workbench.action.configureLanguageBasedSettings`) from the **Command Palette** (```Ctrl+Shift+P```) which opens the language picker. Select the language you want, which then opens your user `settings.json` with the language entry where you can add applicable settings.
 
@@ -396,7 +405,7 @@ You can scope language-specific settings to the workspace by placing them in the
 
 You can use IntelliSense in `settings.json` to help you find allowed language-based settings. All editor settings and some non-editor settings are supported. Some languages have default language-specific settings already set, which you can review in `defaultSettings.json` opened with the **Preferences: Open Default Settings** command.
 
-### Settings and security
+## Settings and security
 
 Some settings allow you to specify an executable that VS Code will run to perform certain operations. For example, you can choose which shell the Integrated Terminal should use. For enhanced security, such settings can only be defined in user settings and not at workspace scope.
 
@@ -411,9 +420,9 @@ The first time you open a workspace that defines any of these settings, VS Code 
 
 
 
-## Keyboard Shortcut
+# Keyboard Shortcut
 
-### interface
+## interface
 
 ```ctrl+shift+p```/```F1```: Command Palette. Type ```?```  into the input field to get a list of available commands you can execute from here.
 
@@ -439,7 +448,7 @@ The first time you open a workspace that defines any of these settings, VS Code 
 
 ```Ctrl+Shift+V```: Open Markdown preview. Use ``` Ctrl+K V``` for side by side Markdown edit and preview.
 
-### explorer
+## explorer
 
 ```ctrl+Tab```: Navigate entire history. Navigate back: ```Alt+Left```; Navigate forward: ```Alt+Right```
 
@@ -462,7 +471,7 @@ Select a symbol then type ```shift+alt+F12``` to open the References view showin
 
 Select a symbol then type ```F2```: 这个函数（或变量名）出现的地方都会被修改。Alternatively, you can use the context menu.
 
-### coding
+## coding
 
 ```Ctrl+left/right```:在单词之间移动光标
 
@@ -512,7 +521,7 @@ Select a symbol then type ```F2```: 这个函数（或变量名）出现的地�
 
 ```Ctrl+Shift+Space```: trigger parameter hints
 
-### Search and Replace
+## Search and Replace
 
 ```Ctrl+Shift+F```: 全局搜索
 
@@ -522,18 +531,145 @@ Select a symbol then type ```F2```: 这个函数（或变量名）出现的地�
 
 
 
-## Color Themes
+# Color Themes
 
-### Selecting the Color Theme
+## Selecting the Color Theme
 
 1. In VS Code, open the Color Theme picker with **File** > **Preferences** > **Color Theme**. (**Code** > **Preferences** > **Color Theme** on macOS).
 2. You can also use the keyboard shortcut ```Ctrl+K Ctrl+T``` to display the picker.
 3. Use the cursor keys to preview the colors of the theme.
 4. Select the theme you want and press Enter.
 
-$$
-f(x) = \int_{-\infty}^{\infty}\hat f(\xi)\,e^{2 \pi i \xi x} \,d\xi
-$$
 
 
+# recommended plugin
+
+1. bracket highlighter
+
+2. ident-rainbow
+3. sort lines
+4. git graph
+5. better comments
+   1. `!` 代码警告。
+   2. `?`代表存留疑问。
+   3. `TODO` 代码未来将要进行的操作。
+   4. `@param` 参数
+
+6. auto docstring
+
+
+
+# Create custom snippets
+
+**File** > **Preferences** > **User Snippets** (**Code** > **Preferences** > **User Snippets** on macOS), select the language, and create a snippet. See more details in [Creating your own Snippets](https://code.visualstudio.com/docs/editor/userdefinedsnippets).
+
+## python snippet
+
+python.json
+
+```json
+  "main module": {
+    "prefix": "main",
+    "body": ["if __name__ == '__main__':", "\t"],
+    "description": "main entry"
+  },
+  "python file execution info": {
+    "prefix": ["pyheader"],
+    "body": [
+      "#!/usr/bin/env python3",
+      "# -*- coding: utf-8 -*-",
+      "$BLOCK_COMMENT_START",
+      "Created on $CURRENT_YEAR/$CURRENT_MONTH/$CURRENT_DATE $CURRENT_HOUR:$CURRENT_MINUTE:$CURRENT_SECOND",
+      "@author: ytl",
+      "@project: $TM_FILEPATH",
+      "@file: $TM_FILENAME",
+      "applications: $1",
+      "$BLOCK_COMMENT_END",
+    ],
+    "description": "some basic info for executing python file"
+  },
+  "python comment block": {
+    "prefix": ["pycom"],
+    "body": [
+      "# =======================================================",
+      "# $1",
+      "# =======================================================",
+    ],
+    "description": "python script block comment"
+  },
+  "machine learning packages": {
+    "prefix": ["mlimport"],
+    "body": [
+      "import pandas as pd",
+      "import warnings",
+      "warnings.filterwarnings('ignore')",
+      "import numpy as np",
+      "import statsmodels.api as sm",
+      "import statsmodels.formula.api as smf",
+      "import math",
+      "import datetime",
+      "from tqdm import tqdm",
+      "import seaborn as sns",
+      "import matplotlib",
+      "import matplotlib.pyplot as plt",
+      "%matplotlib inline",
+      "plt.rcParams['font.sans-serif']=['SimHei'] # 用来正常显示中文标签",
+      "plt.rcParams['axes.unicode_minus']=False # 用来正常显示负号",
+      "plt.rc('font',family='SimHei') # 修改字体",
+      "matplotlib.rcParams['font.size'] = 15",
+      "plt.rc('figure', figsize=(10, 8))",
+      "pd.set_option('display.width', 100) # pandas设置显示宽度",
+      "# pd.set_option('precision', 2) # 设置显示数值的精度",
+      "pd.set_option('display.max_columns', 20) # 设置显示最大列数",
+      "pd.set_option('display.max_rows', 20) # 设置显示最大行数",
+      "#禁用科学计数法",
+      "np.set_printoptions(suppress=True,   precision=10,  threshold=2000,  linewidth=150)",
+      "pd.set_option('display.float_format',lambda x : '%.2f' % x)",
+      "$1",
+    ],
+    "description": "common machine learning packages"
+  },
+  "pandas ts": {
+    "prefix": ["ts"],
+    "body": [
+      "data[${1:'日期'}] = pd.to_datatime(data[${1:'日期'}], format='%Y%m').dt.to_period('M')",
+    ],
+    "description": "pandas timeseries transfer"
+  },
+```
+
+## shell snippet
+
+shell.json
+
+```json
+  "shell file execution info": {
+    "prefix": ["shheader"],
+    "body": [
+
+      "#!/bin/bash",
+      "#####################################################################################",
+      "### Created on: $CURRENT_YEAR/$CURRENT_MONTH/$CURRENT_DATE $CURRENT_HOUR:$CURRENT_MINUTE:$CURRENT_SECOND",
+      "### @author: ytl",
+      "### @project: $TM_FILEPATH",
+      "### @file: $TM_FILENAME",
+      "### application: $1",
+      "#####################################################################################",
+      ""
+
+
+    ],
+    "description": "some basic info for executing shell script"
+  },
+  "shell comment block": {
+    "prefix": ["shcom"],
+    "body": [
+      "# =======================================================",
+      "# ",
+      "# =======================================================",
+      ""
+    ],
+    "description": "shell script block comment"
+  },
+```
 

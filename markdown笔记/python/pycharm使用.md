@@ -15,34 +15,14 @@
 - `Alt+Enter`智能提示
 - `Ctrl+Alt+V`会自动生成局部变量接受
 - 为了帮助您了解主菜单中每个项目的用途，将鼠标指针放在该项目上时，其简短说明会显示在应用程序框架底部的状态栏中。
+- **view->quick documentation** 可快速查看documentation
+- **view->jump to souce / F4 / ctrl+左键** 跳转查看源码
 
 # 一些常用设置
 
 - 插件介绍：https://www.2bboy.com/archives/153.html
 
 - PyCharm中的设置是可以导入和导出的，**Manage IDE Settings -> Export Settings**可以保存当前PyCharm中的设置
-
-- 在**Editer -> File and Code Templates -> python scripts**输入如下
-
-  ```python
-    #!/usr/bin/env python
-    # `-*- coding: utf-8 -*-`
-    """
-    __title__ = '$Package_name'
-    __author__ = '$USER'
-    __mtime__ = '$DATE'
-    """
-      
-   对于公司的项目，设置是
-  # -*- coding: utf-8 -*-
-  """
-  Created on ${Date} ${Time}
-  @author: ytl
-  @project: ${PROJECT_NAME}
-  @file: ${NAME}.py
-  applications: 
-  """
-  ```
 
 - PyCharm默认是自动保存的，习惯自己按```Ctrl+S```全部保存的可以进行如下设置：
 
@@ -117,3 +97,119 @@
    使程序运行到光标所在的位置，并在该位置停止。这样你可以跳过一些代码而不必一步一步执行。
 
 这些调试命令允许你在调试过程中逐步执行代码，进入或跳过函数调用，并在需要时停止执行。选择合适的命令取决于你想要的精度和详细程度，以及你是否想要进入函数内部调试。
+
+
+
+# live templates
+
+## ml
+
+sklearn ml wrapper
+
+```python
+from sklearn.ensemble import ExtraTreesClassifier
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import mean_squared_error
+from sklearn.linear_model import Ridge, Lasso
+import math
+
+from sklearn.model_selection import KFold
+
+kf = KFold(n_splits=5, shuffle=True, random_state=2018)
+
+
+class SklearnWrapper(object):
+
+    def __init__(self, clf, seed=0, params=None):
+        params['random_state'] = seed
+        self.clf = clf(**params)
+
+    def train(self, x_train, y_train):
+        self.clf.fit(x_train, y_train)
+
+    def predict(self, x):
+        return self.clf.predict(x)
+```
+
+## mlimport
+
+common machine learning packages
+
+```python
+import pandas as pd
+import warnings
+warnings.filterwarnings('ignore')
+import numpy as np
+import statsmodels.api as sm
+import statsmodels.formula.api as smf
+import math
+import datetime
+from tqdm import tqdm
+import seaborn as sns
+import matplotlib
+import matplotlib.pyplot as plt
+%matplotlib inline
+plt.rcParams['font.sans-serif']=['SimHei'] # 用来正常显示中文标签
+plt.rcParams['axes.unicode_minus']=False # 用来正常显示负号
+plt.rc('font',family='SimHei') # 修改字体
+matplotlib.rcParams['font.size'] = 15
+plt.rc('figure', figsize=(10, 8))
+
+pd.set_option('display.width', 100) # pandas设置显示宽度
+# pd.set_option('precision', 2) # 设置显示数值的精度
+pd.set_option('display.max_columns', 20) # 设置显示最大列数
+pd.set_option('display.max_rows', 20) # 设置显示最大行数
+#禁用科学计数法
+np.set_printoptions(suppress=True,   precision=10,  threshold=2000,  linewidth=150)
+pd.set_option('display.float_format',lambda x : '%.2f' % x)
+$END$
+```
+
+## ts
+
+pandas timeseries transfer
+
+```python
+data['$VAR$'] = pd.to_datatime(data['$VAR$'], format='%Y%m').dt.to_period('M')
+```
+
+## pycom
+
+python script block comment
+
+```python
+# =======================================================
+# $END$
+# =======================================================
+```
+
+# file and code templates
+
+Editer -> File and Code Templates -> python scripts
+
+## python scripts
+
+```python
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on ${DATE} ${TIME}
+@author: ytl
+@project: ${PROJECT_NAME}
+@file: ${NAME}.py
+applications: $END$
+"""
+```
+
+## shell scripts
+
+```bash
+#!/bin/bash
+#####################################################################################
+### Created on ${DATE} ${TIME}
+### @author: ytl
+### @project: ${PROJECT_NAME}
+### @file: ${NAME}.py
+### applications: $END$
+#####################################################################################
+```
